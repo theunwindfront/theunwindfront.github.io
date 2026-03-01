@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" x-data="{ dark: true }" x-init="
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') dark = false;
+    $watch('dark', val => {
+        document.documentElement.classList.toggle('dark', val);
+        localStorage.setItem('theme', val ? 'dark' : 'light');
+    });
+    document.documentElement.classList.toggle('dark', dark);
+">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog — Sagar Pansuriya | Coming Soon</title>
+    <meta name="description"
+        content="Sagar Pansuriya's blog — articles on frontend development, React, Vue, Laravel, and building scalable web apps. Coming soon.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: { DEFAULT: '#6366f1', dark: '#4f46e5' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <style>
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(99, 102, 241, 0.12) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(1);
+                opacity: 0.4;
+            }
+
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .pulse-ring::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            animation: pulse-ring 2s ease-out infinite;
+        }
+    </style>
+</head>
+
+<body
+    class="min-h-screen flex items-center justify-center p-6 relative overflow-x-hidden transition-colors duration-400"
+    :class="dark ? 'bg-[#09090b]' : 'bg-[#dfe1e8]'">
+
+    <!-- Ambient glow -->
+    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
+        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
+    <div class="fixed rounded-full pointer-events-none z-0 w-[300px] h-[300px] -bottom-20 -right-20 blur-[100px]"
+        :class="dark ? 'bg-purple-500/8 opacity-50' : 'bg-purple-500/5 opacity-30'"></div>
+
+    <main class="relative z-10 w-full max-w-[520px]">
+
+        <!-- Card -->
+        <div class="rounded-2xl p-10 sm:p-12 relative overflow-hidden transition-all duration-400 border text-center"
+            :class="dark
+                ? 'bg-[#111113] border-[#1e1e24] shadow-[0_0_60px_rgba(99,102,241,0.15)]'
+                : 'bg-white border-gray-300 shadow-xl'">
+
+            <!-- Theme toggle -->
+            <button @click="dark = !dark"
+                class="absolute top-4 right-4 w-9 h-9 rounded-[10px] border flex items-center justify-center cursor-pointer transition-all duration-300 z-[2] hover:border-brand hover:text-brand"
+                :class="dark ? 'border-[#1e1e24] text-zinc-500 hover:bg-brand/15' : 'border-gray-300 text-zinc-400 hover:bg-brand/8'"
+                aria-label="Toggle theme">
+                <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5" />
+                    <path
+                        d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+                <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                </svg>
+            </button>
+
+            <!-- Floating icon -->
+            <div
+                class="float-animation mb-6 inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-brand to-purple-600 shadow-lg shadow-brand/20">
+                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="1.5"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                </svg>
+            </div>
+
+            <!-- Status badge -->
+            <div class="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full border"
+                :class="dark ? 'border-brand/30 bg-brand/5' : 'border-brand/20 bg-brand/5'">
+                <span class="relative flex h-2 w-2 pulse-ring" :class="dark ? 'text-amber-400' : 'text-amber-500'">
+                    <span class="w-2 h-2 rounded-full bg-current"></span>
+                </span>
+                <span class="font-mono text-[11px] font-semibold uppercase tracking-widest"
+                    :class="dark ? 'text-brand' : 'text-brand-dark'">Coming Soon</span>
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3"
+                :class="dark ? 'text-white' : 'text-zinc-900'">
+                Blog is Brewing ☕
+            </h1>
+
+            <p class="text-base leading-relaxed max-w-[400px] mx-auto mb-8"
+                :class="dark ? 'text-zinc-500' : 'text-zinc-500'">
+                I'm working on something special — articles on frontend architecture, dev leadership, and building
+                modern web apps. Stay tuned!
+            </p>
+
+            <!-- Topics preview -->
+            <div class="flex flex-wrap justify-center gap-2 mb-8">
+                <span
+                    class="px-3 py-1 rounded-lg font-mono text-[10px] font-medium uppercase tracking-wider transition-colors"
+                    :class="dark ? 'bg-[#1e1e24] text-zinc-400' : 'bg-gray-100 text-zinc-500'" x-text="topic"
+                    x-for="topic in ['React', 'Vue', 'Laravel', 'Leadership', 'Architecture', 'CSS']">
+                </span>
+            </div>
+
+            <!-- Back button -->
+            <a href="index.html"
+                class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold no-underline transition-all duration-300 hover:-translate-y-0.5 bg-gradient-to-r from-brand to-purple-600 text-white hover:shadow-[0_8px_30px_rgba(99,102,241,0.3)]">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                </svg>
+                Back to Home
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <p class="text-center mt-5 font-mono text-[10px] tracking-wide"
+            :class="dark ? 'text-zinc-600' : 'text-zinc-500'">
+            © 2026 Sagar Pansuriya · built with ☕ & curiosity
+        </p>
+    </main>
+</body>
+
+</html>
