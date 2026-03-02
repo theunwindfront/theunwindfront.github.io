@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern CSS Is Replacing Your JavaScript (And You Didn't Notice)</title>
+    <meta name="description"
+        content="6 modern CSS features that replace JavaScript: :has(), container queries, anchor positioning, clamp(), light-dark(), and the Popover API.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { brand: { DEFAULT: '#6366f1', dark: '#4f46e5' } }
+                }
+            }
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(99, 102, 241, .12) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+
+        pre code {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .tab-btn {
+            transition: all .2s;
+        }
+
+        .tab-btn.active {
+            color: #6366f1;
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, .08);
+        }
+
+        .panel-header-before {
+            background: #fef2f2;
+            color: #b91c1c;
+            border-bottom: 2px solid #fecaca;
+        }
+
+        .panel-header-after {
+            background: #f0fdf4;
+            color: #15803d;
+            border-bottom: 2px solid #bbf7d0;
+        }
+
+        .dark .panel-header-before {
+            background: #2c1616;
+            color: #fca5a5;
+            border-color: #4c2020;
+        }
+
+        .dark .panel-header-after {
+            background: #0f2c1c;
+            color: #86efac;
+            border-color: #1a4a2a;
+        }
+
+        .code-block {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .demo-card {
+            border: 1px solid;
+            border-radius: 10px;
+            padding: 16px;
+            transition: all .3s;
+        }
+
+        .dark .demo-card {
+            border-color: #27272a;
+            background: #18181b;
+        }
+
+        .demo-card:not(.dark .demo-card) {
+            border-color: #e4e4e7;
+            background: #fff;
+        }
+
+        /* has demo */
+        .has-demo-card {
+            border: 2px solid #e4e4e7;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all .3s;
+            background: #fff;
+        }
+
+        .dark .has-demo-card {
+            border-color: #27272a;
+            background: #18181b;
+        }
+
+        .has-demo-card:has(input:checked) {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, .06);
+        }
+
+        /* light-dark demo */
+        .ld-card-light {
+            background: #fff;
+            color: #1a1a1a;
+            border: 1px solid #e0e0e0;
+        }
+
+        .ld-card-dark {
+            background: #1a1a2e;
+            color: #eee;
+            border: 1px solid #333;
+        }
+
+        .ld-badge-light {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .ld-badge-dark {
+            background: #6366f1;
+            color: #fff;
+        }
+
+        /* container query */
+        .resize-handle {
+            resize: horizontal;
+            overflow: hidden;
+            min-width: 200px;
+            max-width: 100%;
+            border: 2px dashed #a1a1aa;
+            padding: 12px;
+            border-radius: 8px;
+            container-type: inline-size;
+        }
+
+        @container (min-width: 400px) {
+            .cq-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* anchor popover */
+        .anchor-btn {
+            anchor-name: --pop-anchor;
+        }
+
+        [popover] {
+            position: fixed;
+            position-anchor: --pop-anchor;
+            top: anchor(bottom);
+            left: anchor(left);
+            margin: 4px 0 0;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
+    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f4f4f5] text-zinc-700'">
+    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
+        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
+
+    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors"
+        :class="dark ? 'bg-[#09090b]/80 border-[#1e1e24]' : 'bg-[#f4f4f5]/80 border-gray-300'">
+        <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
+            <a href="/blog/index.html" class="flex items-center gap-2 text-sm font-medium hover:text-brand"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-500'">
+                &larr; Blog
+            </a>
+            <button @click="toggleTheme()"
+                class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand"
+                :class="dark ? 'border-[#1e1e24] text-zinc-500' : 'border-gray-300 text-zinc-400'">
+                <svg x-show="dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5" />
+                    <path
+                        d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+                <svg x-show="!dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
+        <div class="mb-12 text-left max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
+                :class="dark ? 'text-white' : 'text-zinc-900'">Modern CSS Is Replacing Your JavaScript</h1>
+
+            <!-- Author Info & Meta -->
+            <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <div class="flex items-center gap-4">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya"
+                        class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
+                        :class="dark ? 'border-[#27272a]' : 'border-white'">
+                    <div>
+                        <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
+                            class="block hover:text-brand transition-colors text-base"
+                            :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
+                        <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
+                            Lead & Frontend Architect</span>
+                    </div>
+                </div>
+                <div class="hidden sm:block w-px h-10" :class="dark ? 'bg-[#27272a]' : 'bg-gray-300'"></div>
+                <div class="flex items-center gap-4 text-sm">
+                    <time datetime="2026-03-03" class="text-brand">Mar 3, 2026</time>
+                    <span>·</span>
+                    <span
+                        class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">6
+                        min read</span>
+                </div>
+            </div>
+
+            <p class="text-lg leading-relaxed mb-8" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">For years, we've
+                treated CSS as a pure styling language and JavaScript as the "real" logic layer. If something needed to
+                respond to state, toggle visibility, or calculate positions — we reached for JS. That's outdated. Modern
+                CSS can now handle state, layout intelligence, and UI logic natively. Let's break down 6 features you're
+                probably underusing.</p>
+        </div>
+
+        <div class="sticky top-[53px] z-40 -mx-6 px-6 py-3 backdrop-blur-xl border-b mb-10 overflow-x-auto scrollbar-hide"
+            :class="dark ? 'bg-[#09090b]/90 border-[#1e1e24]' : 'bg-[#f4f4f5]/90 border-gray-300'">
+            <div class="flex gap-2">
+                <template x-for="(tab, i) in tabs" :key="i">
+                    <button @click="activeTab = i"
+                        class="tab-btn px-4 py-2 rounded-lg font-mono text-xs font-semibold whitespace-nowrap border"
+                        :class="activeTab === i ? 'active border-brand/30' : (dark ? 'border-transparent text-zinc-500' : 'border-transparent text-zinc-500 bg-white shadow-sm duration-150')"
+                        x-text="tab.label"></button>
+                </template>
+            </div>
+        </div>
+
+        <!-- :has() -->
+        <section x-show="activeTab === 0" x-transition.opacity>
+            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">1. :has() — The Parent
+                Selector We Waited a Decade For</h2>
+            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>The <code class="px-1.5 py-0.5 rounded text-sm font-mono"
+                        :class="dark ? 'bg-zinc-800 text-brand' : 'bg-brand/10 text-brand-dark'">:has()</code>
+                    pseudo-class is arguably the most powerful CSS feature added in years. It allows you to style a
+                    parent element based on the state or existence of its children. Previously, if you wanted to
+                    highlight a card when a user checked a box inside it, you had to attach event listeners and toggle
+                    classes with JavaScript.</p>
+                <p>Now, it's a single CSS rule. Zero state management needed just to change a border color. <strong
+                        :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Use cases:</strong> Form validation UI,
+                    interactive cards, accordion states, and navigation highlighting.</p>
+            </div>
+
+            <div class="rounded-xl border overflow-hidden"
+                :class="dark ? 'border-[#1e1e24] bg-[#111113]' : 'border-gray-200 bg-white'">
+                <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x"
+                    :class="dark ? 'divide-[#1e1e24]' : 'divide-gray-200'">
+                    <div class="p-6">
+                        <div class="panel-header-before rounded-t-lg px-4 py-2 font-mono text-xs font-bold uppercase">
+                            Before — JavaScript</div>
+                        <div class="p-4 rounded-b-lg border border-t-0"
+                            :class="dark ? 'border-[#27272a] bg-[#18181b]' : 'border-gray-200 bg-gray-50'">
+                            <div class="demo-card mb-4" x-data="{ checked: false }"
+                                :class="checked ? 'border-brand' : ''"
+                                :style="checked ? 'background: rgba(99,102,241,.06)' : ''">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" x-model="checked" class="w-4 h-4 accent-brand">
+                                    <span class="text-sm font-semibold"
+                                        :class="dark ? 'text-white' : 'text-zinc-900'">Select this item</span>
+                                </label>
+                            </div>
+                            <div class="code-block">
+                                <pre><code>// JavaScript required
+checkbox.addEventListener('change', () => {
+  card.classList.toggle('is-selected',
+    checkbox.checked);
+});</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="panel-header-after rounded-t-lg px-4 py-2 font-mono text-xs font-bold uppercase">
+                            After — Pure CSS :has()</div>
+                        <div class="p-4 rounded-b-lg border border-t-0"
+                            :class="dark ? 'border-[#27272a] bg-[#18181b]' : 'border-gray-200 bg-gray-50'">
+                            <div class="has-demo-card mb-4">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" class="w-4 h-4 accent-brand">
+                                    <span class="text-sm font-semibold"
+                                        :class="dark ? 'text-white' : 'text-zinc-900'">Select this item</span>
+                                </label>
+                            </div>
+                            <div class="code-block">
+                                <pre><code>/* No JavaScript! */
+.card:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Container Queries -->
+        <section x-show="activeTab === 1" x-transition.opacity style="display: none;">
+            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">2. Container Queries —
+                True Component Responsiveness</h2>
+            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>Media queries are global. They respond to the viewport. That's fine until your responsive component
+                    lives inside a sidebar, a dashboard widget, or a resizable panel. Then it breaks, because the
+                    viewport is wide, but the component's actual container is narrow.</p>
+                <p>With <code class="px-1.5 py-0.5 rounded text-sm font-mono"
+                        :class="dark ? 'bg-zinc-800 text-brand' : 'bg-brand/10 text-brand-dark'">@container</code>,
+                    components adapt to their parent's width, not the viewport. This is fundamental for building truly
+                    reusable component libraries and design systems. If you're building isolated UI components without
+                    container queries, you're building them rigidly.</p>
+            </div>
+
+            <div class="rounded-xl border overflow-hidden"
+                :class="dark ? 'border-[#1e1e24] bg-[#111113]' : 'border-gray-200 bg-white'">
+                <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x"
+                    :class="dark ? 'divide-[#1e1e24]' : 'divide-gray-200'">
+                    <div class="p-6">
+                        <div class="panel-header-before rounded-t-lg px-4 py-2 font-mono text-xs font-bold uppercase">
+                            Before — Media Queries</div>
+                        <div class="p-4 rounded-b-lg border border-t-0"
+                            :class="dark ? 'border-[#27272a] bg-[#18181b]' : 'border-gray-200 bg-gray-50'">
+                            <div class="grid grid-cols-2 gap-3 mb-4">
+                                <div class="demo-card">
+                                    <p class="text-sm font-semibold" :class="dark ? 'text-white' : 'text-zinc-900'">Card
+                                        A</p>
+                                    <p class="text-xs" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Always same
+                                        layout</p>
+                                </div>
+                                <div class="demo-card">
+                                    <p class="text-sm font-semibold" :class="dark ? 'text-white' : 'text-zinc-900'">Card
+                                        B</p>
+                                    <p class="text-xs" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Regardless of
+                                        parent</p>
+                                </div>
+                            </div>
+                            <div class="code-block">
+                                <pre><code>@media (min-width: 600px) {
+  .grid { grid-template-columns: 1fr 1fr; }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="panel-header-after rounded-t-lg px-4 py-2 font-mono text-xs font-bold uppercase">
+                            After — @container</div>
+                        <div class="p-4 rounded-b-lg border border-t-0"
+                            :class="dark ? 'border-[#27272a] bg-[#18181b]' : 'border-gray-200 bg-gray-50'">
+                            <p class="text-xs mb-2 italic" :class="dark ? 'text-zinc-400' : 'text-zinc-500'">Drag the
+                                edge to resize container &rarr;</p>
+                            <div class="resize-handle mb-4" :class="dark ? 'border-[#3f3f46]' : 'border-gray-300'">
+                                <div class="cq-grid grid gap-3">
+                                    <div class="demo-card">
+                                        <p class="text-sm font-semibold" :class="dark ? 'text-white' : 'text-zinc-900'">
+                                            Card A</p>
+                                    </div>
+                                    <div class="demo-card">
+                                        <p class="text-sm font-semibold" :class="dark ? 'text-white' : 'text-zinc-900'">
+                                            Card B</p>
+                                    </div>
+                                    <div class="demo-card">
+                                        <p class="text-sm font-semibold" :class="dark ? 'text-white' : 'text-zinc-900'">
+                                            Card C</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="code-block">
+                                <pre><code>.wrapper { container-type: inline-size; }
+@container (min-width: 400px) {
+  .grid { grid-template-columns: 1fr 1fr; }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anchor Positioning / Popover API -->
+        <section x-show="activeTab === 2 || activeTab === 5" x-transition.opacity style="display: none;">
+            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">3. Anchor Positioning &
+                Popover API — Tooltips & Menus</h2>
+            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>Positioning tooltips or dropdowns used to require <code
+                        class="px-1.5 py-0.5 rounded text-sm font-mono"
+                        :class="dark ? 'bg-zinc-800 text-brand' : 'bg-brand/10 text-brand-dark'">position: relative</code>
+                    wrappers, manual `top/left` offset calculations, and nasty event listener logic (like outside-click
+                    detection and escape key focus trapping). It was fragile and broke constantly on scroll or resize.
+                </p>
+                <p>Now, the pair of <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Anchor
+                        Positioning</strong> and the <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Popover
+                        API</strong> removes the math entirely. The browser natively handles open/close state, light
+                    dismiss (clicking outside), z-index elevation, and linking an absolutely positioned element to its
+                    origin anchor. If you're building custom dropdown logic in 2026, you're reinventing what the browser
+                    already solved.</p>
+            </div>
+
+            <div class="rounded-xl border overflow-hidden"
+                :class="dark ? 'border-[#1e1e24] bg-[#111113]' : 'border-gray-200 bg-white'">
+                <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x"
+                    :class="dark ? 'divide-[#1e1e24]' : 'divide-gray-200'">
+                    <div class="p-6" x-data="{ open: false }">
+                        <div class="panel-header-before rounded-t-lg px-4 py-2 font-mono text-xs font-bold uppercase">
+                            Before — JS Toggle & Calc()</div>
+                        <div class="p-4 rounded-b-lg border border-t-0 relative h-64"
+                            :class="dark ? 'border-[#27272a] bg-[#18181b]' : 'border-gray-200 bg-gray-50'">
+                            <button @click="open = !open"
+                                class="px-4 py-2 bg-brand text-white rounded-lg text-sm font-semibold">Actions
+                                (JS)</button>
+                            <div x-show="open" @click.outside="open = false"
+                                class="absolute left-4 top-16 w-32 rounded-lg border shadow-xl z-10 py-1"
+                                :class="dark ? 'bg-[#18181b] border-[#27272a]' : 'bg-white border-gray-200'">
+                                <a href="#" class="block px-4 py-1.5 text-sm"
+                                    :class="dark?'hover:bg-zinc-800 text-zinc-300':'hover:bg-gray-100'">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="panel-header-after rounded-t-lg px-4 py-2 font-mono text-xs font-bold uppercase">
+                            After — Popover API & Anchor CSS</div>
+                        <div class="p-4 rounded-b-lg border border-t-0 h-64"
+                            :class="dark ? 'border-[#27272a] bg-[#18181b]' : 'border-gray-200 bg-gray-50'">
+                            <button popovertarget="my-popover"
+                                class="anchor-btn px-4 py-2 bg-brand text-white rounded-lg text-sm font-semibold">Actions
+                                (Native)</button>
+                            <div id="my-popover" popover class="w-32 rounded-lg border shadow-xl p-0"
+                                :class="dark ? 'bg-[#18181b] border-[#27272a]' : 'bg-white border-gray-200'">
+                                <a href="#" class="block px-4 py-1.5 text-sm"
+                                    :class="dark?'hover:bg-zinc-800 text-zinc-300':'hover:bg-gray-100'">Edit</a>
+                            </div>
+                            <div class="code-block mt-8">
+                                <pre><code>.btn { anchor-name: --pop-anchor; }
+[popover] {
+  position-anchor: --pop-anchor;
+  top: anchor(bottom);
+  left: anchor(left);
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- clamp() -->
+        <section x-show="activeTab === 3" x-transition.opacity style="display: none;">
+            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">4. clamp() — Fluid
+                Typography Without Breakpoints</h2>
+            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>Scaling font sizes and spacing used to mean writing multiple stacked <code
+                        class="px-1.5 py-0.5 rounded text-sm font-mono"
+                        :class="dark ? 'bg-zinc-800 text-brand' : 'bg-brand/10 text-brand-dark'">@media</code> queries,
+                    leading to jumpy "snap" transitions on resize and lots of duplicated declarations. The modern
+                    approach is mathematically fluid.</p>
+                <p><code class="px-1.5 py-0.5 rounded text-sm font-mono"
+                        :class="dark ? 'bg-zinc-800 text-brand' : 'bg-brand/10 text-brand-dark'">clamp(min, preferred, max)</code>
+                    scales your value smoothly between a minimum bound and a maximum bound, based on the current
+                    viewport width. One line replaces four block declarations. Fluid design &gt; breakpoint jumps.</p>
+            </div>
+            <div class="rounded-xl border p-6"
+                :class="dark ? 'border-[#1e1e24] bg-[#111113]' : 'border-gray-200 bg-white'">
+                <div class="p-8 text-center bg-brand/10 rounded-xl mb-6">
+                    <p class="font-bold text-brand" style="font-size: clamp(1.2rem, 4vw + 1rem, 3rem);">Responsive text
+                        that fluidly scales</p>
+                </div>
+                <div class="code-block">
+                    <pre><code>h2 { font-size: clamp(1.2rem, 4vw + 1rem, 3rem); }</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- light-dark() -->
+        <section x-show="activeTab === 4" x-transition.opacity style="display: none;" x-data="{ ldMode: 'light' }">
+            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">5. light-dark() Function
+                — Stop Theme Duplication</h2>
+            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>Implementing dark mode usually results in bloated CSS because you have to duplicate almost every
+                    block inside a <code class="px-1.5 py-0.5 rounded text-sm font-mono"
+                        :class="dark ? 'bg-zinc-800 text-brand' : 'bg-brand/10 text-brand-dark'">@media (prefers-color-scheme: dark)</code>
+                    query.</p>
+                <p>The <code class="px-1.5 py-0.5 rounded text-sm font-mono"
+                        :class="dark ? 'bg-zinc-800 text-brand' : 'bg-brand/10 text-brand-dark'">light-dark(light_value, dark_value)</code>
+                    function replaces that pattern. You declare the property once, give it two situational values, and
+                    let CSS handle the switch instantly via the root color-scheme. It cuts CSS duplication in half.</p>
+            </div>
+
+            <div class="rounded-xl border overflow-hidden"
+                :class="dark ? 'border-[#1e1e24] bg-[#111113]' : 'border-gray-200 bg-white'">
+                <div class="p-6 text-center border-b" :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
+                    <button @click="ldMode='light'"
+                        class="px-4 py-1.5 rounded-l-lg text-sm font-semibold border-y border-l"
+                        :class="ldMode==='light' ? 'bg-brand text-white border-brand' : 'bg-gray-100 text-gray-600 border-gray-300'">Light</button><button
+                        @click="ldMode='dark'" class="px-4 py-1.5 rounded-r-lg text-sm font-semibold border"
+                        :class="ldMode==='dark' ? 'bg-zinc-800 text-white border-zinc-800' : 'bg-white text-gray-600 border-gray-300'">Dark</button>
+
+                    <div class="mt-6 p-6 rounded-xl transition-all duration-300 w-64 mx-auto"
+                        :class="ldMode==='light' ? 'ld-card-light' : 'ld-card-dark'">
+                        <p class="font-bold">Card Title</p>
+                    </div>
+                </div>
+                <div class="p-6 bg-[#18181b]">
+                    <div class="code-block border border-[#27272a]">
+                        <pre><code>:root { color-scheme: light dark; }
+.card {
+  background: light-dark(#fff, #1a1a2e);
+  color: light-dark(#1a1a1a, #eee);
+  border: 1px solid light-dark(#e0e0e0, #333);
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Closing -->
+        <div class="mt-16 pt-10 border-t space-y-6 max-w-3xl border-gray-200"
+            :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
+            <h3 class="text-2xl font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">The Bigger Point</h3>
+            <div class="text-base space-y-4 leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>Modern CSS is incredibly capable. Every bit of state, animation, or structural reflow you can offload
+                    from JavaScript to pure CSS means a smaller bundle, better browser optimization, and fewer lifecycle
+                    hook bugs to manage in your JS frameworks.</p>
+                <p>Next time you reflexively start writing JS logic for UI presentation, pause and ask:</p>
+                <blockquote class="border-l-4 border-brand pl-5 py-2 text-lg font-medium italic"
+                    :class="dark ? 'text-zinc-300' : 'text-zinc-800'">"Can CSS already do this?"</blockquote>
+                <p>Because increasingly, the answer is <strong
+                        :class="dark ? 'text-brand' : 'text-brand-dark'">yes</strong>.</p>
+            </div>
+
+            <!-- Inspiration Callout -->
+            <div class="mt-8 px-6 py-5 rounded-2xl border flex gap-4 items-start"
+                :class="dark ? 'border-brand/20 bg-[#111113]' : 'border-brand/10 bg-gray-50'">
+                <div class="mt-1 flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center"
+                    :class="dark ? 'bg-[#18181b] text-brand' : 'bg-white shadow-sm text-brand-dark'">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="font-bold text-base mb-1" :class="dark ? 'text-white' : 'text-zinc-900'">Inspiration &
+                        Credit</h3>
+                    <p class="text-sm leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">The core topics
+                        and examples in this post were directly inspired by an excellent presentation by <a
+                            href="https://x.com/LeahTCodes" target="_blank" rel="noopener"
+                            class="text-brand hover:underline font-semibold">Leah (@LeahTCodes)</a> at the <a
+                            href="https://laracon.eu/" target="_blank" rel="noopener"
+                            class="text-brand hover:underline font-bold">Laracon EU 2026</a> event today. Highly
+                        recommend checking out her work on bridging the gap between design and logic!</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function blogApp() {
+            return {
+                dark: true,
+                activeTab: 0,
+                tabs: [
+                    { label: ':has()' },
+                    { label: 'Container Queries' },
+                    { label: 'Popover & Anchor' },
+                    { label: 'clamp()' },
+                    { label: 'light-dark()' }
+                ],
+                init() {
+                    const saved = localStorage.getItem('theme');
+                    if (saved === 'light') this.dark = false;
+                    this.$watch('dark', val => {
+                        document.documentElement.classList.toggle('dark', val);
+                        localStorage.setItem('theme', val ? 'dark' : 'light');
+                    });
+                    document.documentElement.classList.toggle('dark', this.dark);
+                },
+                toggleTheme() { this.dark = !this.dark; }
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -15,7 +15,7 @@
     <title>Blog — Sagar Pansuriya | Coming Soon</title>
     <meta name="description"
         content="Sagar Pansuriya's blog — articles on frontend development, React, Vue, Laravel, and building scalable web apps. Coming soon.">
-    <link rel="canonical" href="https://sagarpansuriya.in/blog">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/">
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <!-- Fonts -->
@@ -142,39 +142,36 @@
                 </svg>
             </div>
 
-            <!-- Status badge -->
-            <div class="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full border"
-                :class="dark ? 'border-brand/30 bg-brand/5' : 'border-brand/20 bg-brand/5'">
-                <span class="relative flex h-2 w-2 pulse-ring" :class="dark ? 'text-amber-400' : 'text-amber-500'">
-                    <span class="w-2 h-2 rounded-full bg-current"></span>
-                </span>
-                <span class="font-mono text-[11px] font-semibold uppercase tracking-widest"
-                    :class="dark ? 'text-brand' : 'text-brand-dark'">Coming Soon</span>
-            </div>
-
-            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3"
+            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-8"
                 :class="dark ? 'text-white' : 'text-zinc-900'">
-                Blog is Brewing ☕
+                Frontend Blog
             </h1>
 
-            <p class="text-base leading-relaxed max-w-[400px] mx-auto mb-8"
-                :class="dark ? 'text-zinc-500' : 'text-zinc-500'">
-                I'm working on something special — articles on frontend architecture, dev leadership, and building
-                modern web apps. Stay tuned!
-            </p>
-
-            <!-- Topics preview -->
-            <div class="flex flex-wrap justify-center gap-2 mb-8">
-                <span
-                    class="px-3 py-1 rounded-lg font-mono text-[10px] font-medium uppercase tracking-wider transition-colors"
-                    :class="dark ? 'bg-[#1e1e24] text-zinc-400' : 'bg-gray-100 text-zinc-500'" x-text="topic"
-                    x-for="topic in ['React', 'Vue', 'Laravel', 'Leadership', 'Architecture', 'CSS']">
-                </span>
+            <div class="text-left space-y-6 mb-10">
+                <!-- Blog Post Card -->
+                <a href="/blog/modern-css-replacing-javascript/"
+                    class="group block p-5 rounded-xl border transition-all duration-300 hover:shadow-lg"
+                    :class="dark ? 'border-[#27272a] bg-[#18181b] hover:border-brand/40 hover:bg-[#1a1a2e]' : 'border-gray-200 bg-gray-50 hover:border-brand/30 hover:bg-white'">
+                    <div class="flex items-center gap-3 text-xs mb-3 font-mono"
+                        :class="dark ? 'text-zinc-500' : 'text-zinc-500'">
+                        <time datetime="2026-03-03" class="text-brand">Mar 3, 2026</time>
+                        <span>·</span>
+                        <span class="px-2 py-0.5 rounded-full"
+                            :class="dark ? 'bg-brand/10 text-brand' : 'bg-brand/10 text-brand-dark'">CSS</span>
+                    </div>
+                    <h2 class="text-xl font-bold mb-2 group-hover:text-brand transition-colors"
+                        :class="dark ? 'text-white' : 'text-zinc-900'">Modern CSS Is Replacing Your JavaScript (And You
+                        Didn't Notice)</h2>
+                    <p class="text-sm line-clamp-2" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">6 modern CSS
+                        features that make JavaScript optional — :has(), container queries, fluid typography, and the
+                        Popover API. Stop writing so much JS.</p>
+                </a>
             </div>
 
             <!-- Back button -->
-            <a href="/index.html"
-                class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold no-underline transition-all duration-300 hover:-translate-y-0.5 bg-gradient-to-r from-brand to-purple-600 text-white hover:shadow-[0_8px_30px_rgba(99,102,241,0.3)]">
+            <a href="/"
+                class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold no-underline transition-all duration-300 border hover:-translate-y-0.5"
+                :class="dark ? 'border-[#27272a] text-zinc-300 hover:border-brand hover:text-brand bg-[#111113]' : 'border-gray-300 text-zinc-700 hover:border-brand hover:text-brand bg-white'">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                 </svg>
