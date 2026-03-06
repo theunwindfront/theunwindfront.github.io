@@ -1,20 +1,12 @@
-﻿<!DOCTYPE html>
-<html lang="en" class="dark" x-data="{ dark: true }" x-init="
-    const saved = localStorage.getItem('theme');
-    if (saved === 'light') dark = false;
-    $watch('dark', val => {
-        document.documentElement.classList.toggle('dark', val);
-        localStorage.setItem('theme', val ? 'dark' : 'light');
-    });
-    document.documentElement.classList.toggle('dark', dark);
-">
+<!DOCTYPE html>
+<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog — Sagar Pansuriya | Coming Soon</title>
+    <title>Frontend Blog — Sagar Pansuriya</title>
     <meta name="description"
-        content="Sagar Pansuriya's blog — articles on frontend development, React, Vue, Laravel, and building scalable web apps. Coming soon.">
+        content="Dive into the world of frontend development, Laravel, and modern web architectures. Articles by Sagar Pansuriya.">
     <link rel="canonical" href="https://sagarpansuriya.in/blog/">
     <link rel="icon" type="image/png" href="/favicon.png">
 
@@ -22,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
 
     <!-- TailwindCSS -->
@@ -33,11 +25,15 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
                         mono: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
-                        brand: { DEFAULT: '#6366f1', dark: '#4f46e5' }
+                        brand: {
+                            DEFAULT: '#6366f1',
+                            dark: '#4f46e5',
+                            light: '#818cf8'
+                        }
                     }
                 }
             }
@@ -48,164 +44,304 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
+        [x-cloak] { display: none !important; }
+        
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            z-index: 0;
-            background-image: radial-gradient(circle, rgba(99, 102, 241, 0.12) 1px, transparent 1px);
-            background-size: 24px 24px;
+            z-index: -1;
+            background-image: 
+                radial-gradient(circle at 2px 2px, rgba(99, 102, 241, 0.08) 1px, transparent 0);
+            background-size: 32px 32px;
             pointer-events: none;
         }
 
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-12px);
-            }
+        .glass {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
-        .float-animation {
-            animation: float 3s ease-in-out infinite;
+        .blog-card {
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        @keyframes pulse-ring {
-            0% {
-                transform: scale(1);
-                opacity: 0.4;
-            }
-
-            100% {
-                transform: scale(1.5);
-                opacity: 0;
-            }
+        .blog-card:hover {
+            transform: translateY(-8px);
         }
 
-        .pulse-ring::before {
-            content: '';
-            position: absolute;
-            inset: -8px;
-            border-radius: 50%;
-            border: 2px solid currentColor;
-            animation: pulse-ring 2s ease-out infinite;
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes bg-glow {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        .glow-sphere {
+            animation: bg-glow 10s ease-in-out infinite;
         }
     </style>
 </head>
 
-<body
-    class="min-h-screen flex items-center justify-center p-6 relative overflow-x-hidden transition-colors duration-400"
-    :class="dark ? 'bg-[#09090b]' : 'bg-[#dfe1e8]'">
+<body class="min-h-screen transition-colors duration-400 font-sans"
+    :class="dark ? 'bg-[#09090b] text-zinc-400' : 'bg-[#f8fafc] text-zinc-600'">
 
-    <!-- Ambient glow -->
-    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
-        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
-    <div class="fixed rounded-full pointer-events-none z-0 w-[300px] h-[300px] -bottom-20 -right-20 blur-[100px]"
-        :class="dark ? 'bg-purple-500/8 opacity-50' : 'bg-purple-500/5 opacity-30'"></div>
+    <!-- Ambient backgrounds -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
+        <div class="glow-sphere absolute -top-[10%] -left-[10%] w-[50%] h-[50%] rounded-full blur-[120px]"
+            :class="dark ? 'bg-brand/10' : 'bg-brand/5'"></div>
+        <div class="glow-sphere absolute top-[40%] -right-[10%] w-[40%] h-[40%] rounded-full blur-[100px]"
+            :class="dark ? 'bg-purple-500/10' : 'bg-purple-500/5'" style="animation-delay: -5s;"></div>
+    </div>
 
-    <main class="relative z-10 w-full max-w-[520px]">
-
-        <!-- Card -->
-        <div class="rounded-2xl p-10 sm:p-12 relative overflow-hidden transition-all duration-400 border text-center"
-            :class="dark
-                ? 'bg-[#111113] border-[#1e1e24] shadow-[0_0_60px_rgba(99,102,241,0.15)]'
-                : 'bg-white border-gray-300 shadow-xl'">
-
-            <!-- Theme toggle -->
-            <button @click="dark = !dark"
-                class="absolute top-4 right-4 w-9 h-9 rounded-[10px] border flex items-center justify-center cursor-pointer transition-all duration-300 z-[2] hover:border-brand hover:text-brand"
-                :class="dark ? 'border-[#1e1e24] text-zinc-500 hover:bg-brand/15' : 'border-gray-300 text-zinc-400 hover:bg-brand/8'"
-                aria-label="Toggle theme">
-                <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="5" />
-                    <path
-                        d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                </svg>
-                <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24">
-                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-                </svg>
-            </button>
-
-            <!-- Floating icon -->
-            <div
-                class="float-animation mb-6 inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-brand to-purple-600 shadow-lg shadow-brand/20">
-                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="1.5"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                </svg>
-            </div>
-
-            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-8"
-                :class="dark ? 'text-white' : 'text-zinc-900'">
-                Frontend Blog
-            </h1>
-
-            <div class="text-left space-y-6 mb-10">
-                <!-- Blog Post Card -->
-                <a href="/blog/modern-css-replacing-javascript/"
-                    class="group block p-5 rounded-xl border transition-all duration-300 hover:shadow-lg"
-                    :class="dark ? 'border-[#27272a] bg-[#18181b] hover:border-brand/40 hover:bg-[#1a1a2e]' : 'border-gray-200 bg-gray-50 hover:border-brand/30 hover:bg-white'">
-                    <div class="flex items-center gap-3 text-xs mb-3 font-mono"
-                        :class="dark ? 'text-zinc-500' : 'text-zinc-500'">
-                        <time datetime="2026-03-03" class="text-brand">Mar 3, 2026</time>
-                        <span>·</span>
-                        <span class="px-2 py-0.5 rounded-full"
-                            :class="dark ? 'bg-brand/10 text-brand' : 'bg-brand/10 text-brand-dark'">CSS</span>
-                    </div>
-                    <h2 class="text-xl font-bold mb-2 group-hover:text-brand transition-colors"
-                        :class="dark ? 'text-white' : 'text-zinc-900'">Modern CSS Is Replacing Your JavaScript (And You
-                        Didn't Notice)</h2>
-                    <p class="text-sm line-clamp-2" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">6 modern CSS
-                        features that make JavaScript optional — :has(), container queries, fluid typography, and the
-                        Popover API. Stop writing so much JS.</p>
-                </a>
-            </div>
-
-            <!-- Back button -->
-            <a href="/"
-                class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold no-underline transition-all duration-300 border hover:-translate-y-0.5"
-                :class="dark ? 'border-[#27272a] text-zinc-300 hover:border-brand hover:text-brand bg-[#111113]' : 'border-gray-300 text-zinc-700 hover:border-brand hover:text-brand bg-white'">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                </svg>
-                Back to Home
+    <!-- Header / Navigation -->
+    <nav class="sticky top-0 z-50 glass border-b transition-colors duration-300"
+        :class="dark ? 'bg-[#09090b]/70 border-zinc-800/50 text-white' : 'bg-white/70 border-zinc-200/50 text-zinc-900'">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2 group">
+                <div class="w-8 h-8 rounded-lg bg-brand flex items-center justify-center text-white shadow-lg shadow-brand/20">
+                    <span class="font-bold text-lg">S</span>
+                </div>
+                <span class="font-bold tracking-tight hidden sm:block">Sagar Pansuriya</span>
             </a>
+
+            <div class="flex items-center gap-6">
+                <a href="/blog/index.html" class="text-sm font-medium transition-colors hover:text-brand" :class="activePage === 'blog' ? 'text-brand' : ''">Articles</a>
+                <button @click="toggleTheme()"
+                    class="w-9 h-9 rounded-xl border flex items-center justify-center transition-all duration-300"
+                    :class="dark ? 'border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white hover:border-zinc-700' : 'border-zinc-200 bg-white text-zinc-500 hover:text-brand hover:border-brand'">
+                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5" />
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                    </svg>
+                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <header class="relative pt-20 pb-16 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border mb-6 text-xs font-semibold tracking-wider uppercase transform-gpu transition-all"
+                :class="dark ? 'bg-zinc-900/50 border-zinc-800 text-zinc-400' : 'bg-zinc-100 border-zinc-200 text-zinc-500'">
+                <span class="w-2 h-2 rounded-full bg-brand animate-pulse"></span>
+                Fresh Perspectives
+            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight"
+                :class="dark ? 'text-white' : 'text-zinc-900'">
+                Frontend <span class="gradient-text">Blog</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-lg md:text-xl leading-relaxed"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-500'">
+                Exploring the intersection of elegant code and beautiful design. Deep dives into Laravel, CSS architectures, and modern web tech.
+            </p>
+        </div>
+    </header>
+
+    <!-- Search & Filters -->
+    <section class="max-w-7xl mx-auto px-6 mb-12">
+        <div class="glass p-4 rounded-2xl border flex flex-col md:flex-row items-center justify-between gap-6"
+            :class="dark ? 'bg-zinc-900/40 border-zinc-800' : 'bg-white shadow-sm border-zinc-200'">
+            
+            <!-- Category Pills -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide no-scrollbar w-full md:w-auto">
+                <template x-for="category in categories" :key="category">
+                    <button @click="activeCategory = category"
+                        class="px-5 py-2 rounded-xl text-sm font-medium transition-all duration-300 whitespace-nowrap"
+                        :class="activeCategory === category 
+                            ? 'bg-brand text-white shadow-lg shadow-brand/20' 
+                            : (dark ? 'bg-zinc-800/50 text-zinc-400 hover:bg-zinc-800 hover:text-white' : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-900')">
+                        <span x-text="category"></span>
+                    </button>
+                </template>
+            </div>
+
+            <!-- Search Input -->
+            <div class="relative w-full md:max-w-xs group">
+                <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none transition-colors duration-300"
+                    :class="dark ? 'text-zinc-600 group-focus-within:text-brand' : 'text-zinc-400 group-focus-within:text-brand'">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                <input type="text" x-model="searchQuery" placeholder="Search articles..."
+                    class="w-full pl-11 pr-4 py-2.5 rounded-xl border text-sm outline-none transition-all duration-300"
+                    :class="dark 
+                        ? 'bg-zinc-950/50 border-zinc-800 text-white placeholder-zinc-700 focus:border-brand/50 focus:bg-zinc-950' 
+                        : 'bg-zinc-50 border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-brand focus:bg-white'">
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Grid -->
+    <main class="max-w-7xl mx-auto px-6 pb-24">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <template x-for="post in filteredPosts" :key="post.id">
+                <article class="blog-card group flex flex-col h-full rounded-2xl border overflow-hidden p-3 transition-colors duration-300"
+                    :class="dark ? 'bg-zinc-900/40 border-zinc-800 hover:border-brand/40' : 'bg-white border-zinc-200 shadow-sm hover:border-brand/30'">
+                    
+                    <!-- Thumbnail Area -->
+                    <div class="relative aspect-video rounded-2xl overflow-hidden mb-6 group-hover:shadow-2xl transition-all duration-500"
+                        :class="post.category === 'Laravel' ? 'bg-[#FF2D20]/5' : (post.category === 'CSS' ? 'bg-[#38BDF8]/5' : 'bg-brand/5')">
+                        
+                        <!-- Dynamic Background Pattern -->
+                        <div class="absolute inset-0 opacity-10 transition-transform duration-700 group-hover:scale-110"
+                            :class="post.category === 'Laravel' ? 'bg-[radial-gradient(#FF2D20_1.5px,transparent_1.5px)]' : 'bg-[radial-gradient(#38BDF8_1.5px,transparent_1.5px)]'"
+                            style="background-size: 24px 24px;"></div>
+                        
+                        <!-- Category Accent Glow -->
+                        <div class="absolute -bottom-10 -right-10 w-32 h-32 rounded-full blur-[60px] opacity-20 transition-all duration-500 group-hover:scale-150"
+                            :class="post.category === 'Laravel' ? 'bg-[#FF2D20]' : 'bg-[#38BDF8]'"></div>
+
+                        <div class="absolute inset-0 flex items-center justify-center p-12">
+                            <!-- High Quality Brand Logo -->
+                            <div class="w-full h-full flex items-center justify-center transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-2">
+                                <template x-if="post.category === 'Laravel'">
+                                    <svg class="h-16 w-auto" viewBox="0 0 200 206" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M199.887 46.582c.074.275.112.558.113.842v44.198a3.226 3.226 0 0 1-1.619 2.796l-37.093 21.358v42.333a3.231 3.231 0 0 1-1.611 2.796l-77.428 44.576c-.177.101-.37.166-.564.234-.072.024-.14.069-.217.089a3.254 3.254 0 0 1-1.652 0c-.088-.024-.169-.073-.253-.105-.178-.065-.363-.121-.532-.218L1.619 160.905A3.23 3.23 0 0 1 0 158.109V25.514c0-.29.04-.572.113-.845.024-.093.08-.178.113-.27.06-.17.116-.343.205-.5.06-.105.149-.19.222-.286.092-.129.177-.262.285-.374.093-.093.214-.162.319-.242.117-.097.221-.202.354-.278h.004L40.323.43a3.23 3.23 0 0 1 3.222 0l38.708 22.288h.008c.13.08.238.181.355.274.104.08.221.153.314.242.113.116.193.25.29.378.068.097.161.181.217.286.093.161.145.33.21.5.032.092.088.177.113.274.074.274.112.557.112.842v82.817l32.256-18.575V47.42c0-.282.04-.568.112-.838.029-.096.081-.18.113-.274.065-.169.121-.342.21-.5.06-.104.149-.188.217-.285.097-.129.177-.262.29-.375.093-.092.21-.16.314-.241.121-.097.226-.202.355-.278h.004l38.712-22.289a3.224 3.224 0 0 1 3.222 0l38.708 22.289c.137.08.241.18.362.274.101.08.218.153.31.241.113.117.194.25.29.379.073.097.162.181.218.286.093.157.145.33.209.5.037.092.089.177.113.273Zm-6.34 43.175V53.003l-13.545 7.8-18.714 10.775v36.754l32.263-18.575h-.004Zm-38.707 66.487v-36.778l-18.408 10.514-52.564 30.002v37.125l70.972-40.863ZM6.453 31.094v125.15l70.963 40.859v-37.117l-37.073-20.983-.012-.008-.016-.008c-.125-.073-.23-.177-.346-.266-.101-.081-.218-.145-.306-.234l-.009-.012c-.104-.1-.177-.225-.265-.338-.081-.109-.178-.202-.242-.314l-.004-.012c-.073-.121-.117-.266-.17-.403-.052-.121-.12-.234-.152-.363v-.004c-.04-.153-.049-.314-.065-.471-.016-.121-.048-.242-.048-.363V49.668l-18.71-10.78-13.545-7.79v-.004ZM41.938 6.948 9.687 25.515 41.93 44.08l32.247-18.57L41.93 6.948h.008ZM58.71 122.817l18.71-10.771V31.094l-13.546 7.798L45.16 49.668v80.952l13.55-7.803Zm99.356-93.959-32.247 18.566 32.247 18.567 32.243-18.57-32.243-18.563Zm-3.226 42.72-18.714-10.776-13.546-7.799v36.754l18.71 10.772 13.55 7.803V71.578Zm-74.202 82.825 47.299-27.006 23.644-13.494-32.223-18.554-37.1 21.361-33.815 19.469 32.195 18.224Z" fill="#FF2D20"></path>
+                                    </svg>
+                                </template>
+                                <template x-if="post.category === 'CSS'">
+                                    <svg class="h-16 w-auto" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M100 0C73.333 0 56.667 13.333 50 40c10-13.333 21.667-18.333 35-15 7.607 1.9 13.044 7.422 19.063 13.53C113.867 48.48 125.215 60 150 60c26.667 0 43.333-13.333 50-40-10 13.333-21.667 18.333-35 15-7.607-1.9-13.044-7.422-19.063-13.53C136.133 11.52 124.785 0 100 0ZM50 60C23.333 60 6.667 73.333 0 100c10-13.333 21.667-18.333 35-15 7.607 1.904 13.044 7.422 19.063 13.53C63.867 108.48 75.215 120 100 120c26.667 0 43.333-13.333 50-40-10 13.333-21.667 18.333-35 15-7.607-1.9-13.044-7.422-19.063-13.53C86.133 71.52 74.785 60 50 60Z" fill="#38BDF8"></path>
+                                    </svg>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Category Badge (Floating Top Right) -->
+                        <div class="absolute top-4 right-4 px-3 py-1.5 rounded-xl glass border text-[9px] font-bold uppercase tracking-widest"
+                            :class="dark ? 'bg-black/30 border-white/5 text-zinc-300' : 'bg-white/40 border-black/5 text-zinc-600'">
+                            <span x-text="post.category"></span>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="px-3 pb-4 flex flex-col flex-grow">
+                        <div class="flex items-center gap-3 text-xs font-mono mb-3" :class="dark ? 'text-zinc-500' : 'text-zinc-400'">
+                            <time x-text="post.date"></time>
+                            <span>·</span>
+                            <span x-text="post.readTime"></span>
+                        </div>
+                        <h2 class="text-xl font-bold mb-3 leading-tight transition-colors group-hover:text-brand"
+                            :class="dark ? 'text-white' : 'text-zinc-900'" x-text="post.title"></h2>
+                        <p class="text-sm line-clamp-3 mb-6 flex-grow" x-text="post.excerpt"></p>
+                        
+                        <a :href="post.url" class="inline-flex items-center gap-2 text-sm font-bold text-brand group/link">
+                            Read Full Article
+                            <svg class="w-4 h-4 transform transition-transform duration-300 group-hover/link:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+            </template>
         </div>
 
-        <!-- Footer -->
-        <p class="text-center mt-5 font-mono text-[10px] tracking-wide"
-            :class="dark ? 'text-zinc-600' : 'text-zinc-500'">
-            © 2026 Sagar Pansuriya · built with ☕ & curiosity
-        </p>
-        <!-- Visitor Counter -->
-        <a href="https://smallcounter.com" target="_blank" rel="noopener" title="Visitor Counter"
-            class="fixed top-1/2 left-5 transform -translate-x-1/2 -translate-y-1/2 -rotate-90 z-50 flex items-center gap-2 py-2 pl-3 pr-2.5 rounded-xl backdrop-blur-md shadow-lg group"
-            :class="dark
-                ? 'bg-[#111113]/80 border-[#1e1e24] text-zinc-500 hover:text-brand hover:border-brand/40 hover:shadow-[0_4px_24px_rgba(99,102,241,0.18)]'
-                : 'bg-white/80 border-gray-300 text-zinc-400 hover:text-brand-dark hover:border-brand/30 hover:shadow-[0_4px_20px_rgba(99,102,241,0.12)]'">
-            <!-- Eye icon -->
-            <svg class="w-3 h-3 shrink-0 text-brand group-hover:scale-110 transition-transform duration-300" fill="none"
-                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                <circle cx="12" cy="12" r="3" />
-            </svg>
-            <!-- Counter image -->
-            <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="visitor count"
-                class="h-2.5 w-auto transition-all duration-300"
-                :class="dark ? 'opacity-70 group-hover:opacity-100' : 'opacity-60 group-hover:opacity-90 invert'">
-            <!-- Label -->
-            <span class="font-mono text-[9px] font-medium tracking-widest uppercase whitespace-nowrap leading-none">
-                visitors
-            </span>
-        </a>
+        <!-- Empty State -->
+        <div x-show="filteredPosts.length === 0" x-cloak class="text-center py-20">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-zinc-100 dark:bg-zinc-800 mb-6">
+                <svg class="w-8 h-8 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">No articles found</h3>
+            <p class="text-zinc-500">Try adjusting your search or filters to find what you're looking for.</p>
+            <button @click="resetFilters()" class="mt-6 text-brand font-bold hover:underline">Clear all filters</button>
+        </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="border-t transition-colors duration-300" 
+        :class="dark ? 'border-zinc-800 bg-[#09090b]' : 'border-zinc-200 bg-white'">
+        <div class="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+            <p class="text-sm font-medium">
+                © 2026 Sagar Pansuriya · built with ☕ & curiosity
+            </p>
+            <div class="flex items-center gap-8">
+                <a href="https://github.com/theunwindfront" class="hover:text-brand transition-colors">GitHub</a>
+                <a href="https://linkedin.com/in/sagarpansuriya" class="hover:text-brand transition-colors">LinkedIn</a>
+                <a href="https://x.com/theunwindfront" class="hover:text-brand transition-colors">Twitter (X)</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Visitor Counter (Sticky Left) -->
+    <a href="https://smallcounter.com" target="_blank" rel="noopener" title="Visitor Counter"
+        class="fixed top-1/2 left-5 transform -translate-x-1/2 -translate-y-1/2 -rotate-90 z-50 flex items-center gap-2 py-2 pl-3 pr-2.5 rounded-xl glass shadow-lg group transition-all duration-300"
+        :class="dark
+            ? 'bg-zinc-950/80 border-zinc-800 text-zinc-500 hover:text-brand hover:border-brand/40 hover:shadow-brand/10'
+            : 'bg-white/80 border-zinc-200 text-zinc-400 hover:text-brand hover:border-brand/30 hover:shadow-brand/5'">
+        <svg class="w-3 h-3 text-brand group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3" />
+        </svg>
+        <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="visitor count"
+            class="h-2.5 w-auto"
+            :class="dark ? 'opacity-70 group-hover:opacity-100' : 'opacity-60 group-hover:opacity-90 invert'">
+        <span class="font-mono text-[9px] font-bold tracking-widest uppercase">visitors</span>
+    </a>
+
+    <script>
+        function blogApp() {
+            return {
+                dark: true,
+                activePage: 'blog',
+                activeCategory: 'All',
+                searchQuery: '',
+                categories: ['All', 'Laravel', 'CSS', 'React', 'Design'],
+                posts: [
+                    {
+                        id: 1,
+                        title: 'Simple TALL Stack Explanation for Modern Laravel Apps',
+                        excerpt: 'A clean explanation of the TALL stack (Tailwind, Alpine.js, Laravel, Livewire) and how it helps build modern Laravel applications with minimal JavaScript complexity.',
+                        date: 'Mar 6, 2026',
+                        readTime: '5 min read',
+                        category: 'Laravel',
+                        url: '/blog/tall-stack-laravel/',
+                    },
+                    {
+                        id: 2,
+                        title: "Modern CSS Is Replacing Your JavaScript (And You Didn't Notice)",
+                        excerpt: '6 modern CSS features that make JavaScript optional — :has(), container queries, fluid typography, and the Popover API. Stop writing so much JS.',
+                        date: 'Mar 3, 2026',
+                        readTime: '8 min read',
+                        category: 'CSS',
+                        url: '/blog/modern-css-replacing-javascript/',
+                    }
+                ],
+                get filteredPosts() {
+                    return this.posts.filter(post => {
+                        const matchesCategory = this.activeCategory === 'All' || post.category === this.activeCategory;
+                        const matchesSearch = post.title.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
+                                             post.excerpt.toLowerCase().includes(this.searchQuery.toLowerCase());
+                        return matchesCategory && matchesSearch;
+                    });
+                },
+                init() {
+                    const saved = localStorage.getItem('theme');
+                    if (saved === 'light') this.dark = false;
+                    this.$watch('dark', val => {
+                        document.documentElement.classList.toggle('dark', val);
+                        localStorage.setItem('theme', val ? 'dark' : 'light');
+                    });
+                    document.documentElement.classList.toggle('dark', this.dark);
+                },
+                toggleTheme() { this.dark = !this.dark; },
+                resetFilters() {
+                    this.activeCategory = 'All';
+                    this.searchQuery = '';
+                }
+            }
+        }
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TALL Stack: Simple Explanation for Modern Laravel Applications</title>
+    <meta name="description"
+        content="A clean explanation of the TALL stack (Tailwind, Alpine.js, Laravel, Livewire) and how it helps build modern Laravel applications with minimal JavaScript complexity.">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { brand: { DEFAULT: '#6366f1', dark: '#4f46e5' } }
+                }
+            }
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(99, 102, 241, .12) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+
+        pre code {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .code-block {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stack-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stack-card:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
+    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f4f4f5] text-zinc-700'">
+    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
+        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
+
+    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors"
+        :class="dark ? 'bg-[#09090b]/80 border-[#1e1e24]' : 'bg-[#f4f4f5]/80 border-gray-300'">
+        <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
+            <a href="/blog/index.html" class="flex items-center gap-2 text-sm font-medium hover:text-brand"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-500'">
+                &larr; Blog
+            </a>
+            <button @click="toggleTheme()"
+                class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand"
+                :class="dark ? 'border-[#1e1e24] text-zinc-500' : 'border-gray-300 text-zinc-400'">
+                <svg x-show="dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5" />
+                    <path
+                        d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+                <svg x-show="!dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
+        <article class="max-w-3xl mx-auto">
+            <header class="mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
+                    :class="dark ? 'text-white' : 'text-zinc-900'">Simple Explanation of TALL Stack for Modern Laravel Apps</h1>
+
+                <!-- Author Info & Meta -->
+                <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
+                    :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                    <div class="flex items-center gap-4">
+                        <img src="/profile.jpg" alt="Sagar Pansuriya"
+                            class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
+                            :class="dark ? 'border-[#27272a]' : 'border-white'">
+                        <div>
+                            <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
+                                class="block hover:text-brand transition-colors text-base"
+                                :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
+                            <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
+                                Lead & Frontend Architect</span>
+                        </div>
+                    </div>
+                    <div class="hidden sm:block w-px h-10" :class="dark ? 'bg-[#27272a]' : 'bg-gray-300'"></div>
+                    <div class="flex items-center gap-4 text-sm">
+                        <time datetime="2026-03-06" class="text-brand">Mar 6, 2026</time>
+                        <span>·</span>
+                        <span
+                            class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">5
+                            min read</span>
+                    </div>
+                </div>
+
+                <p class="text-lg leading-relaxed mb-8 font-medium" :class="dark ? 'text-zinc-300' : 'text-zinc-700'">
+                    Building modern, interactive web applications doesn't always require the heavy overhead of SPA frameworks like React or Vue. Enter the TALL stack — the PHP developer's answer to the modern web.
+                </p>
+            </header>
+
+            <div class="space-y-12 text-base leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                
+                <section>
+                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">What is the TALL Stack?</h2>
+                    <p class="mb-6">
+                        The <strong>TALL stack</strong> is a modern ecosystem for building web applications using Laravel with minimal JavaScript complexity. It allows you to create fast, interactive, and modern web applications while staying within the comfortable world of PHP and Blade.
+                    </p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        <a href="https://tailwindcss.com" target="_blank" rel="noopener" class="stack-card p-4 rounded-xl border text-center" :class="dark ? 'bg-[#111113] border-[#1e1e24]' : 'bg-white border-gray-200 shadow-sm'">
+                            <svg class="h-8 w-auto mx-auto mb-3" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M100 0C73.333 0 56.667 13.333 50 40c10-13.333 21.667-18.333 35-15 7.607 1.9 13.044 7.422 19.063 13.53C113.867 48.48 125.215 60 150 60c26.667 0 43.333-13.333 50-40-10 13.333-21.667 18.333-35 15-7.607-1.9-13.044-7.422-19.063-13.53C136.133 11.52 124.785 0 100 0ZM50 60C23.333 60 6.667 73.333 0 100c10-13.333 21.667-18.333 35-15 7.607 1.904 13.044 7.422 19.063 13.53C63.867 108.48 75.215 120 100 120c26.667 0 43.333-13.333 50-40-10 13.333-21.667 18.333-35 15-7.607-1.9-13.044-7.422-19.063-13.53C86.133 71.52 74.785 60 50 60Z" fill="#38BDF8"></path>
+                            </svg>
+                            <span class="text-xs font-mono uppercase tracking-widest block" :class="dark ? 'text-zinc-500' : 'text-zinc-400'">Tailwind</span>
+                        </a>
+                        <a href="https://alpinejs.dev" target="_blank" rel="noopener" class="stack-card p-4 rounded-xl border text-center" :class="dark ? 'bg-[#111113] border-[#1e1e24]' : 'bg-white border-gray-200 shadow-sm'">
+                            <svg class="h-8 w-auto mx-auto mb-3" viewBox="0 0 200 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M155.556 0 200 44.25l-44.444 44.249-44.445-44.25L155.556 0Z" fill="#77C1D2"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="m44.444 0 92.139 91.735H47.694L0 44.249 44.444 0Z" fill="#2D3441"></path>
+                            </svg>
+                            <span class="text-xs font-mono uppercase tracking-widest block" :class="dark ? 'text-zinc-500' : 'text-zinc-400'">Alpine.js</span>
+                        </a>
+                        <a href="https://laravel.com" target="_blank" rel="noopener" class="stack-card p-4 rounded-xl border text-center" :class="dark ? 'bg-[#111113] border-[#1e1e24]' : 'bg-white border-gray-200 shadow-sm'">
+                            <svg class="h-8 w-auto mx-auto mb-3" viewBox="0 0 200 206" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M199.887 46.582c.074.275.112.558.113.842v44.198a3.226 3.226 0 0 1-1.619 2.796l-37.093 21.358v42.333a3.231 3.231 0 0 1-1.611 2.796l-77.428 44.576c-.177.101-.37.166-.564.234-.072.024-.14.069-.217.089a3.254 3.254 0 0 1-1.652 0c-.088-.024-.169-.073-.253-.105-.178-.065-.363-.121-.532-.218L1.619 160.905A3.23 3.23 0 0 1 0 158.109V25.514c0-.29.04-.572.113-.845.024-.093.08-.178.113-.27.06-.17.116-.343.205-.5.06-.105.149-.19.222-.286.092-.129.177-.262.285-.374.093-.093.214-.162.319-.242.117-.097.221-.202.354-.278h.004L40.323.43a3.23 3.23 0 0 1 3.222 0l38.708 22.288h.008c.13.08.238.181.355.274.104.08.221.153.314.242.113.116.193.25.29.378.068.097.161.181.217.286.093.161.145.33.21.5.032.092.088.177.113.274.074.274.112.557.112.842v82.817l32.256-18.575V47.42c0-.282.04-.568.112-.838.029-.096.081-.18.113-.274.065-.169.121-.342.21-.5.06-.104.149-.188.217-.285.097-.129.177-.262.29-.375.093-.092.21-.16.314-.241.121-.097.226-.202.355-.278h.004l38.712-22.289a3.224 3.224 0 0 1 3.222 0l38.708 22.289c.137.08.241.18.362.274.101.08.218.153.31.241.113.117.194.25.29.379.073.097.162.181.218.286.093.157.145.33.209.5.037.092.089.177.113.273Zm-6.34 43.175V53.003l-13.545 7.8-18.714 10.775v36.754l32.263-18.575h-.004Zm-38.707 66.487v-36.778l-18.408 10.514-52.564 30.002v37.125l70.972-40.863ZM6.453 31.094v125.15l70.963 40.859v-37.117l-37.073-20.983-.012-.008-.016-.008c-.125-.073-.23-.177-.346-.266-.101-.081-.218-.145-.306-.234l-.009-.012c-.104-.1-.177-.225-.265-.338-.081-.109-.178-.202-.242-.314l-.004-.012c-.073-.121-.117-.266-.17-.403-.052-.121-.12-.234-.152-.363v-.004c-.04-.153-.049-.314-.065-.471-.016-.121-.048-.242-.048-.363V49.668l-18.71-10.78-13.545-7.79v-.004ZM41.938 6.948 9.687 25.515 41.93 44.08l32.247-18.57L41.93 6.948h.008ZM58.71 122.817l18.71-10.771V31.094l-13.546 7.798L45.16 49.668v80.952l13.55-7.803Zm99.356-93.959-32.247 18.566 32.247 18.567 32.243-18.57-32.243-18.563Zm-3.226 42.72-18.714-10.776-13.546-7.799v36.754l18.71 10.772 13.55 7.803V71.578Zm-74.202 82.825 47.299-27.006 23.644-13.494-32.223-18.554-37.1 21.361-33.815 19.469 32.195 18.224Z" fill="#FF2D20"></path>
+                            </svg>
+                            <span class="text-xs font-mono uppercase tracking-widest block" :class="dark ? 'text-zinc-500' : 'text-zinc-400'">Laravel</span>
+                        </a>
+                        <a href="https://livewire.laravel.com" target="_blank" rel="noopener" class="stack-card p-4 rounded-xl border text-center" :class="dark ? 'bg-[#111113] border-[#1e1e24]' : 'bg-white border-gray-200 shadow-sm'">
+                            <svg class="h-8 w-auto mx-auto mb-3" viewBox="0 0 200 228" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M189.821 151.122c-3.708 5.607-6.525 12.514-14.065 12.514-12.688 0-13.374-19.565-26.069-19.565-12.695 0-12.009 19.565-24.698 19.565-12.688 0-13.374-19.565-26.07-19.565-12.695 0-12.009 19.565-24.697 19.565-12.688 0-13.374-19.565-26.07-19.565-12.695 0-12.009 19.565-24.697 19.565-3.988 0-6.79-1.932-9.152-4.582C5.223 143.253 0 124.737 0 104.941 0 46.984 44.772 0 100 0s100 46.984 100 104.941c0 16.571-3.66 32.246-10.179 46.181Z" fill="#FB70A9"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M168.182 161.546c26.205-38.985 26.883-82.227 2.031-129.728C188.634 50.69 200 76.587 200 105.162c0 16.509-3.794 32.124-10.55 46.007-3.844 5.586-6.764 12.467-14.579 12.467-2.674 0-4.834-.806-6.689-2.09Z" fill="#E24CA6"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M94.639 131.119c34.775 0 49.417-20.174 49.417-48.824s-22.125-55.022-49.417-55.022c-27.293 0-49.417 26.372-49.417 55.022s14.642 48.824 49.417 48.824Z" fill="#fff"></path>
+                                <path d="M81.352 83.916c10.234 0 18.531-9.158 18.531-20.454 0-11.297-8.296-20.455-18.531-20.455S62.82 52.165 62.82 63.462c0 11.296 8.297 20.454 18.532 20.454Z" fill="#030776"></path>
+                                <path d="M78.263 68.182c5.118 0 9.266-4.227 9.266-9.44 0-5.215-4.148-9.441-9.266-9.441-5.117 0-9.266 4.226-9.266 9.44 0 5.214 4.149 9.44 9.266 9.44Z" fill="#fff"></path>
+                            </svg>
+                            <span class="text-xs font-mono uppercase tracking-widest block" :class="dark ? 'text-zinc-500' : 'text-zinc-400'">Livewire</span>
+                        </a>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">Why the TALL Stack Exists</h2>
+                    <p class="mb-4">
+                        Traditionally, building a modern "reactive" app required managing two separate systems: a complex JavaScript frontend (React/Vue/Angular) and a backend API (Laravel/Rails/Node). This meant double the logic, complex build systems, and constant API maintenance.
+                    </p>
+                    <p class="mb-4">
+                        The TALL stack simplifies this by letting Laravel handle <strong>both frontend behavior and backend logic together</strong>. Result? Faster development, less JavaScript to manage, and a significantly simpler codebase.
+                    </p>
+                </section>
+
+                <section class="space-y-8">
+                    <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">The 4 Pillars</h2>
+
+                    <div class="p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
+                        <h3 class="text-xl font-bold mb-3 flex items-center gap-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">
+                            <span class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-500 flex items-center justify-center text-sm font-black">1</span>
+                            <a href="https://tailwindcss.com" target="_blank" rel="noopener" class="hover:text-brand transition-colors">Tailwind CSS (Design)</a>
+                        </h3>
+                        <p class="mb-4 text-sm">A utility-first CSS framework that lets you build custom designs without ever leaving your HTML.</p>
+                        <div class="code-block mb-4">
+                            <pre><code>&lt;!-- Styled directly in HTML --&gt;
+&lt;button class="px-4 py-2 bg-indigo-500 text-white rounded-lg shadow-md hover:bg-indigo-600 transition"&gt;
+    Click Me
+&lt;/button&gt;</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
+                        <h3 class="text-xl font-bold mb-3 flex items-center gap-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">
+                            <span class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-sm font-black">2</span>
+                            <a href="https://alpinejs.dev" target="_blank" rel="noopener" class="hover:text-brand transition-colors">Alpine.js (Interactivity)</a>
+                        </h3>
+                        <p class="mb-4 text-sm">A rugged, minimal framework for composing JavaScript behavior in your markup. Think of it as "Tailwind for JavaScript".</p>
+                        <div class="code-block mb-4">
+                            <pre><code>&lt;div x-data="{ open: false }"&gt;
+    &lt;button @click="open = !open"&gt;Toggle Menu&lt;/button&gt;
+
+    &lt;div x-show="open" x-transition&gt;
+        Hello from Alpine!
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
+                        <h3 class="text-xl font-bold mb-3 flex items-center gap-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">
+                            <span class="w-8 h-8 rounded-lg bg-red-500/10 text-red-500 flex items-center justify-center text-sm font-black">3</span>
+                            <a href="https://laravel.com" target="_blank" rel="noopener" class="hover:text-brand transition-colors">Laravel (The Engine)</a>
+                        </h3>
+                        <p class="mb-4 text-sm">The PHP framework for Web Artisans. It handles the heavy lifting: routing, database management with <strong>Eloquent ORM</strong>, authentication, queues, and robust business logic.</p>
+                        <p class="mb-4 text-sm">In the TALL stack, Laravel acts as the "Source of Truth". Every piece of data your frontend displays or updates is securely processed by Laravel's middleware and controllers. It also provides <strong>Blade</strong>, the templating engine that serves as the home for your Livewire and Alpine.js code.</p>
+                        <p class="text-sm italic opacity-80">Laravel is the core foundation that ties everything together with a focus on developer happiness and clean code.</p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
+                        <h3 class="text-xl font-bold mb-3 flex items-center gap-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">
+                            <span class="w-8 h-8 rounded-lg bg-pink-500/10 text-pink-500 flex items-center justify-center text-sm font-black">4</span>
+                            <a href="https://livewire.laravel.com" target="_blank" rel="noopener" class="hover:text-brand transition-colors">Livewire (The Magic)</a>
+                        </h3>
+                        <p class="mb-4 text-sm">A full-stack framework for Laravel that makes building dynamic interfaces simple, without leaving the comfort of Laravel.</p>
+                        <div class="code-block mb-4">
+                            <pre><code>// PHP Component
+public $count = 0;
+public function increment() { $this->count++; }
+
+&lt;!-- Blade View --&gt;
+&lt;button wire:click="increment"&gt;+&lt;/button&gt;
+&lt;span&gt;{{ $count }}&lt;/span&gt;</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">How All 4 Work Together</h2>
+                    <div class="relative py-8 pl-8 border-l-2 border-brand/20 ml-4 space-y-8">
+                        <div class="relative">
+                            <span class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-brand"></span>
+                            <h4 class="font-bold text-brand uppercase text-xs tracking-widest mb-1">Step 1: Laravel</h4>
+                            <p class="text-sm">Handles the database, authentication, and core business routes.</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-brand/60"></span>
+                            <h4 class="font-bold text-brand uppercase text-xs tracking-widest mb-1">Step 2: Livewire</h4>
+                            <p class="text-sm">Connects your UI events directly to PHP methods on the server.</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-brand/30"></span>
+                            <h4 class="font-bold text-brand uppercase text-xs tracking-widest mb-1">Step 3: Alpine.js</h4>
+                            <p class="text-sm">Manages local UI state (modals, dropdowns) without hitting the server.</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-brand/10"></span>
+                            <h4 class="font-bold text-brand uppercase text-xs tracking-widest mb-1">Step 4: Tailwind</h4>
+                            <p class="text-sm">Wraps everything in a beautiful, responsive, and consistent design.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="p-8 rounded-2xl bg-brand/5 border border-brand/10">
+                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">Benefits Summary</h2>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-brand mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span><strong>Faster Development:</strong> Build full-stack features in hours, not days. No more context switching between JS and PHP files.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-brand mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span><strong>Less JS:</strong> Keep your logic in PHP where it belongs. This makes debugging much simpler as most errors are caught by PHP's robust error handling.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-brand mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span><strong>Reactive UI:</strong> Feels like a SPA (Single Page Application), but you write standard Laravel Blade views.</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">The "Filament" Connection</h2>
+                    <p class="mb-4">
+                        You can't talk about the TALL stack without mentioning <strong>Filament</strong>. Filament is the most popular open-source TALL stack admin panel and form builder. It leverages the TALL stack to provide a beautiful, pre-built UI that you can customize entirely using PHP.
+                    </p>
+                    <p class="mb-4">
+                        If you're learning TALL, checking out Filament is the fastest way to see the stack's true potential in a production-ready environment.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">When to Choose TALL over VILT?</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="p-5 rounded-xl border" :class="dark ? 'border-[#1e1e24] bg-[#111113]' : 'bg-white border-gray-200'">
+                            <h4 class="font-bold mb-2 text-brand">Choose TALL if:</h4>
+                            <ul class="text-sm space-y-2 list-disc pl-4">
+                                <li>You want to stay 100% in PHP/Blade.</li>
+                                <li>You need fast initial load times (SEO friendly).</li>
+                                <li>You are building an admin panel or internal tool (Filament).</li>
+                                <li>You prefer a "multi-page app" feel with SPA responsiveness.</li>
+                            </ul>
+                        </div>
+                        <div class="p-5 rounded-xl border" :class="dark ? 'border-[#1e1e24] bg-[#111113]' : 'bg-white border-gray-200'">
+                            <h4 class="font-bold mb-2 text-zinc-500">Choose VILT if:</h4>
+                            <ul class="text-sm space-y-2 list-disc pl-4">
+                                <li>You already have a strong React/Vue background.</li>
+                                <li>You need highly complex client-side state management.</li>
+                                <li>You want a true "persistent layout" SPA experience.</li>
+                                <li>You have a dedicated frontend team.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="mt-12 bg-zinc-900 text-zinc-100 p-8 rounded-2xl border border-zinc-800">
+                    <h2 class="text-2xl font-bold mb-4 text-white">Getting Started</h2>
+                    <p class="mb-6 opacity-80 text-sm">The best way to start is with the official Laravel installer or by using a starter kit like Jetstream.</p>
+                    <div class="code-block bg-black/50 border border-zinc-700">
+                        <pre><code># Install Laravel with TALL stack options
+laravel new my-app --pest --tall
+
+# Or install Livewire into an existing project
+composer require livewire/livewire</code></pre>
+                    </div>
+                </section>
+
+                <footer class="mt-16 pt-10 border-t border-gray-200" :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
+                    <p class="text-sm text-center italic" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">
+                        "The TALL stack lets you build modern, interactive web apps using Laravel without needing complex JavaScript frameworks."
+                    </p>
+                </footer>
+            </div>
+        </article>
+
+        <!-- Visitor Counter (Sticky Left) -->
+        <a href="https://smallcounter.com" target="_blank" rel="noopener" title="Visitor Counter"
+            class="fixed top-1/2 left-5 transform -translate-x-1/2 -translate-y-1/2 -rotate-90 z-50 flex items-center gap-2 py-2 pl-3 pr-2.5 rounded-xl backdrop-blur-md shadow-lg group"
+            :class="dark
+                ? 'bg-[#111113]/80 border-[#1e1e24] text-zinc-500 hover:text-brand hover:border-brand/40 hover:shadow-[0_4px_24px_rgba(99,102,241,0.18)]'
+                : 'bg-white/80 border-gray-300 text-zinc-400 hover:text-brand-dark hover:border-brand/30 hover:shadow-[0_4px_20px_rgba(99,102,241,0.12)]'">
+            <svg class="w-3 h-3 shrink-0 text-brand group-hover:scale-110 transition-transform duration-300" fill="none"
+                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+            </svg>
+            <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="visitor count"
+                class="h-2.5 w-auto transition-all duration-300"
+                :class="dark ? 'opacity-70 group-hover:opacity-100' : 'opacity-60 group-hover:opacity-90 invert'">
+            <span class="font-mono text-[9px] font-medium tracking-widest uppercase whitespace-nowrap leading-none">
+                visitors
+            </span>
+        </a>
+    </main>
+
+    <script>
+        function blogApp() {
+            return {
+                dark: true,
+                init() {
+                    const saved = localStorage.getItem('theme');
+                    if (saved === 'light') this.dark = false;
+                    this.$watch('dark', val => {
+                        document.documentElement.classList.toggle('dark', val);
+                        localStorage.setItem('theme', val ? 'dark' : 'light');
+                    });
+                    document.documentElement.classList.toggle('dark', this.dark);
+                },
+                toggleTheme() { this.dark = !this.dark; }
+            }
+        }
+    </script>
+</body>
+
+</html>
