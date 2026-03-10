@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frontend Blog — Sagar Pansuriya</title>
+    <title>The Unwind Method — Sagar Pansuriya</title>
     <meta name="description"
         content="Dive into the world of frontend development, Laravel, and modern web architectures. Articles by Sagar Pansuriya.">
     <link rel="canonical" href="https://sagarpansuriya.in/blog/">
@@ -44,14 +44,16 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
-        [x-cloak] { display: none !important; }
-        
+        [x-cloak] {
+            display: none !important;
+        }
+
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             z-index: -1;
-            background-image: 
+            background-image:
                 radial-gradient(circle at 2px 2px, rgba(99, 102, 241, 0.08) 1px, transparent 0);
             background-size: 32px 32px;
             pointer-events: none;
@@ -77,12 +79,118 @@
         }
 
         @keyframes bg-glow {
-            0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.1); }
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
         }
 
         .glow-sphere {
             animation: bg-glow 10s ease-in-out infinite;
+        }
+
+        /* VisionOS Liquid Glass Core */
+        .vision-glass {
+            position: relative;
+            overflow: hidden !important;
+            background: transparent !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            z-index: 1;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .dark .vision-glass {
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        /* Glass Backdrop Layer */
+        .vision-glass::before,
+        .blog-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            filter: url(#vision-glass-distortion);
+            transition: all 0.4s ease;
+        }
+
+        .dark .vision-glass::before,
+        .dark .blog-card::before {
+            background: rgba(20, 20, 22, 0.6);
+            backdrop-filter: blur(25px) saturate(140%);
+        }
+
+        /* Shine & Reflection Layer (Caustics) */
+        .vision-glass::after,
+        .blog-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.3) 0%,
+                    rgba(255, 255, 255, 0) 50%,
+                    rgba(255, 255, 255, 0.05) 100%);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
+        }
+
+        .dark .vision-glass::after,
+        .dark .blog-card::after {
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.1) 0%,
+                    rgba(255, 255, 255, 0) 50%,
+                    rgba(0, 0, 0, 0.2) 100%);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Blog Card Specific Glass */
+        .blog-card {
+            position: relative;
+            background: transparent !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 10;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px) scale(1.01);
+            border-color: rgba(255, 255, 255, 0.4) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Mouse Following Shine */
+        .blog-card-shine {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                    rgba(255, 255, 255, 0.12) 0%,
+                    transparent 65%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .blog-card:hover .blog-card-shine {
+            opacity: 1;
+        }
+
+        .blog-card article {
+            position: relative;
+            z-index: 2;
         }
     </style>
 </head>
@@ -103,22 +211,25 @@
         :class="dark ? 'bg-[#09090b]/70 border-zinc-800/50 text-white' : 'bg-white/70 border-zinc-200/50 text-zinc-900'">
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
             <a href="/" class="flex items-center gap-2 group">
-                <div class="w-8 h-8 rounded-lg bg-brand flex items-center justify-center text-white shadow-lg shadow-brand/20">
+                <div
+                    class="w-8 h-8 rounded-lg bg-brand flex items-center justify-center text-white shadow-lg shadow-brand/20">
                     <span class="font-bold text-lg">S</span>
                 </div>
                 <span class="font-bold tracking-tight hidden sm:block">Sagar Pansuriya</span>
             </a>
 
             <div class="flex items-center gap-6">
-                <a href="/blog/index.html" class="text-sm font-medium transition-colors hover:text-brand" :class="activePage === 'blog' ? 'text-brand' : ''">Articles</a>
                 <button @click="toggleTheme()"
                     class="w-9 h-9 rounded-xl border flex items-center justify-center transition-all duration-300"
                     :class="dark ? 'border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white hover:border-zinc-700' : 'border-zinc-200 bg-white text-zinc-500 hover:text-brand hover:border-brand'">
-                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="5" />
-                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                        <path
+                            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
                     </svg>
-                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
                     </svg>
                 </button>
@@ -136,22 +247,24 @@
             </div>
             <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight"
                 :class="dark ? 'text-white' : 'text-zinc-900'">
-                Frontend <span class="gradient-text">Blog</span>
+                The Unwind <span class="gradient-text">Method</span>
             </h1>
             <p class="max-w-2xl mx-auto text-lg md:text-xl leading-relaxed"
                 :class="dark ? 'text-zinc-400' : 'text-zinc-500'">
-                Exploring the intersection of elegant code and beautiful design. Deep dives into Laravel, CSS architectures, and modern web tech.
+                Exploring the intersection of elegant code and beautiful design. Deep dives into Laravel, CSS
+                architectures, and modern web tech.
             </p>
         </div>
     </header>
 
     <!-- Search & Filters -->
     <section class="max-w-7xl mx-auto px-6 mb-12">
-        <div class="glass p-4 rounded-2xl border flex flex-col md:flex-row items-center justify-between gap-6"
-            :class="dark ? 'bg-zinc-900/40 border-zinc-800' : 'bg-white shadow-sm border-zinc-200'">
-            
+        <div class="vision-glass p-4 rounded-2xl border flex flex-col md:flex-row items-center justify-between gap-6"
+            :class="dark ? 'border-zinc-800' : 'bg-white shadow-sm border-zinc-200'">
+
             <!-- Category Pills -->
-            <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide no-scrollbar w-full md:w-auto">
+            <div
+                class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide no-scrollbar w-full md:w-auto">
                 <template x-for="category in categories" :key="category">
                     <button @click="activeCategory = category"
                         class="px-5 py-2 rounded-xl text-sm font-medium transition-all duration-300 whitespace-nowrap"
@@ -184,71 +297,88 @@
     <main class="max-w-7xl mx-auto px-6 pb-24">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <template x-for="post in filteredPosts" :key="post.id">
-                <article class="blog-card group flex flex-col h-full rounded-2xl border overflow-hidden p-3 transition-colors duration-300"
-                    :class="dark ? 'bg-zinc-900/40 border-zinc-800 hover:border-brand/40' : 'bg-white border-zinc-200 shadow-sm hover:border-brand/30'">
-                    
-                    <!-- Thumbnail Area -->
-                    <div class="relative aspect-video rounded-2xl overflow-hidden mb-6 group-hover:shadow-2xl transition-all duration-500"
-                        :class="post.category === 'Laravel' ? 'bg-[#FF2D20]/5' : (post.category === 'CSS' ? 'bg-[#38BDF8]/5' : 'bg-brand/5')">
-                        
-                        <!-- Dynamic Background Pattern -->
-                        <div class="absolute inset-0 opacity-10 transition-transform duration-700 group-hover:scale-110"
-                            :class="post.category === 'Laravel' ? 'bg-[radial-gradient(#FF2D20_1.5px,transparent_1.5px)]' : 'bg-[radial-gradient(#38BDF8_1.5px,transparent_1.5px)]'"
-                            style="background-size: 24px 24px;"></div>
-                        
-                        <!-- Category Accent Glow -->
-                        <div class="absolute -bottom-10 -right-10 w-32 h-32 rounded-full blur-[60px] opacity-20 transition-all duration-500 group-hover:scale-150"
-                            :class="post.category === 'Laravel' ? 'bg-[#FF2D20]' : 'bg-[#38BDF8]'"></div>
+                <div class="blog-card group flex flex-col h-full rounded-2xl overflow-hidden p-3"
+                    @mousemove="updateShine($event)">
 
-                        <div class="absolute inset-0 flex items-center justify-center p-12">
-                            <!-- High Quality Brand Logo -->
-                            <div class="w-full h-full flex items-center justify-center transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-2">
-                                <template x-if="post.category === 'Laravel'">
-                                    <svg class="h-16 w-auto" viewBox="0 0 200 206" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M199.887 46.582c.074.275.112.558.113.842v44.198a3.226 3.226 0 0 1-1.619 2.796l-37.093 21.358v42.333a3.231 3.231 0 0 1-1.611 2.796l-77.428 44.576c-.177.101-.37.166-.564.234-.072.024-.14.069-.217.089a3.254 3.254 0 0 1-1.652 0c-.088-.024-.169-.073-.253-.105-.178-.065-.363-.121-.532-.218L1.619 160.905A3.23 3.23 0 0 1 0 158.109V25.514c0-.29.04-.572.113-.845.024-.093.08-.178.113-.27.06-.17.116-.343.205-.5.06-.105.149-.19.222-.286.092-.129.177-.262.285-.374.093-.093.214-.162.319-.242.117-.097.221-.202.354-.278h.004L40.323.43a3.23 3.23 0 0 1 3.222 0l38.708 22.288h.008c.13.08.238.181.355.274.104.08.221.153.314.242.113.116.193.25.29.378.068.097.161.181.217.286.093.161.145.33.21.5.032.092.088.177.113.274.074.274.112.557.112.842v82.817l32.256-18.575V47.42c0-.282.04-.568.112-.838.029-.096.081-.18.113-.274.065-.169.121-.342.21-.5.06-.104.149-.188.217-.285.097-.129.177-.262.29-.375.093-.092.21-.16.314-.241.121-.097.226-.202.355-.278h.004l38.712-22.289a3.224 3.224 0 0 1 3.222 0l38.708 22.289c.137.08.241.18.362.274.101.08.218.153.31.241.113.117.194.25.29.379.073.097.162.181.218.286.093.157.145.33.209.5.037.092.089.177.113.273Zm-6.34 43.175V53.003l-13.545 7.8-18.714 10.775v36.754l32.263-18.575h-.004Zm-38.707 66.487v-36.778l-18.408 10.514-52.564 30.002v37.125l70.972-40.863ZM6.453 31.094v125.15l70.963 40.859v-37.117l-37.073-20.983-.012-.008-.016-.008c-.125-.073-.23-.177-.346-.266-.101-.081-.218-.145-.306-.234l-.009-.012c-.104-.1-.177-.225-.265-.338-.081-.109-.178-.202-.242-.314l-.004-.012c-.073-.121-.117-.266-.17-.403-.052-.121-.12-.234-.152-.363v-.004c-.04-.153-.049-.314-.065-.471-.016-.121-.048-.242-.048-.363V49.668l-18.71-10.78-13.545-7.79v-.004ZM41.938 6.948 9.687 25.515 41.93 44.08l32.247-18.57L41.93 6.948h.008ZM58.71 122.817l18.71-10.771V31.094l-13.546 7.798L45.16 49.668v80.952l13.55-7.803Zm99.356-93.959-32.247 18.566 32.247 18.567 32.243-18.57-32.243-18.563Zm-3.226 42.72-18.714-10.776-13.546-7.799v36.754l18.71 10.772 13.55 7.803V71.578Zm-74.202 82.825 47.299-27.006 23.644-13.494-32.223-18.554-37.1 21.361-33.815 19.469 32.195 18.224Z" fill="#FF2D20"></path>
-                                    </svg>
-                                </template>
-                                <template x-if="post.category === 'CSS'">
-                                    <svg class="h-16 w-auto" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M100 0C73.333 0 56.667 13.333 50 40c10-13.333 21.667-18.333 35-15 7.607 1.9 13.044 7.422 19.063 13.53C113.867 48.48 125.215 60 150 60c26.667 0 43.333-13.333 50-40-10 13.333-21.667 18.333-35 15-7.607-1.9-13.044-7.422-19.063-13.53C136.133 11.52 124.785 0 100 0ZM50 60C23.333 60 6.667 73.333 0 100c10-13.333 21.667-18.333 35-15 7.607 1.904 13.044 7.422 19.063 13.53C63.867 108.48 75.215 120 100 120c26.667 0 43.333-13.333 50-40-10 13.333-21.667 18.333-35 15-7.607-1.9-13.044-7.422-19.063-13.53C86.133 71.52 74.785 60 50 60Z" fill="#38BDF8"></path>
-                                    </svg>
-                                </template>
+                    <div class="blog-card-shine"></div>
+
+                    <article class="flex flex-col h-full">
+
+                        <!-- Thumbnail Area -->
+                        <div class="relative aspect-video rounded-2xl overflow-hidden mb-6 group-hover:shadow-2xl transition-all duration-500"
+                            :class="post.category === 'Laravel' ? 'bg-[#FF2D20]/5' : (post.category === 'CSS' ? 'bg-[#38BDF8]/5' : 'bg-brand/5')">
+
+                            <!-- Dynamic Background Pattern -->
+                            <div class="absolute inset-0 opacity-10 transition-transform duration-700 group-hover:scale-110"
+                                :class="post.category === 'Laravel' ? 'bg-[radial-gradient(#FF2D20_1.5px,transparent_1.5px)]' : 'bg-[radial-gradient(#38BDF8_1.5px,transparent_1.5px)]'"
+                                style="background-size: 24px 24px;"></div>
+
+                            <!-- Category Accent Glow -->
+                            <div class="absolute -bottom-10 -right-10 w-32 h-32 rounded-full blur-[60px] opacity-20 transition-all duration-500 group-hover:scale-150"
+                                :class="post.category === 'Laravel' ? 'bg-[#FF2D20]' : 'bg-[#38BDF8]'"></div>
+
+                            <div class="absolute inset-0 flex items-center justify-center p-12">
+                                <!-- High Quality Brand Logo -->
+                                <div
+                                    class="w-full h-full flex items-center justify-center transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-2">
+                                    <template x-if="post.category === 'Laravel'">
+                                        <svg class="h-16 w-auto" viewBox="0 0 200 206" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M199.887 46.582c.074.275.112.558.113.842v44.198a3.226 3.226 0 0 1-1.619 2.796l-37.093 21.358v42.333a3.231 3.231 0 0 1-1.611 2.796l-77.428 44.576c-.177.101-.37.166-.564.234-.072.024-.14.069-.217.089a3.254 3.254 0 0 1-1.652 0c-.088-.024-.169-.073-.253-.105-.178-.065-.363-.121-.532-.218L1.619 160.905A3.23 3.23 0 0 1 0 158.109V25.514c0-.29.04-.572.113-.845.024-.093.08-.178.113-.27.06-.17.116-.343.205-.5.06-.105.149-.19.222-.286.092-.129.177-.262.285-.374.093-.093.214-.162.319-.242.117-.097.221-.202.354-.278h.004L40.323.43a3.23 3.23 0 0 1 3.222 0l38.708 22.288h.008c.13.08.238.181.355.274.104.08.221.153.314.242.113.116.193.25.29.378.068.097.161.181.217.286.093.161.145.33.21.5.032.092.088.177.113.274.074.274.112.557.112.842v82.817l32.256-18.575V47.42c0-.282.04-.568.112-.838.029-.096.081-.18.113-.274.065-.169.121-.342.21-.5.06-.104.149-.188.217-.285.097-.129.177-.262.29-.375.093-.092.21-.16.314-.241.121-.097.226-.202.355-.278h.004l38.712-22.289a3.224 3.224 0 0 1 3.222 0l38.708 22.289c.137.08.241.18.362.274.101.08.218.153.31.241.113.117.194.25.29.379.073.097.162.181.218.286.093.157.145.33.209.5.037.092.089.177.113.273Zm-6.34 43.175V53.003l-13.545 7.8-18.714 10.775v36.754l32.263-18.575h-.004Zm-38.707 66.487v-36.778l-18.408 10.514-52.564 30.002v37.125l70.972-40.863ZM6.453 31.094v125.15l70.963 40.859v-37.117l-37.073-20.983-.012-.008-.016-.008c-.125-.073-.23-.177-.346-.266-.101-.081-.218-.145-.306-.234l-.009-.012c-.104-.1-.177-.225-.265-.338-.081-.109-.178-.202-.242-.314l-.004-.012c-.073-.121-.117-.266-.17-.403-.052-.121-.12-.234-.152-.363v-.004c-.04-.153-.049-.314-.065-.471-.016-.121-.048-.242-.048-.363V49.668l-18.71-10.78-13.545-7.79v-.004ZM41.938 6.948 9.687 25.515 41.93 44.08l32.247-18.57L41.93 6.948h.008ZM58.71 122.817l18.71-10.771V31.094l-13.546 7.798L45.16 49.668v80.952l13.55-7.803Zm99.356-93.959-32.247 18.566 32.247 18.567 32.243-18.57-32.243-18.563Zm-3.226 42.72-18.714-10.776-13.546-7.799v36.754l18.71 10.772 13.55 7.803V71.578Zm-74.202 82.825 47.299-27.006 23.644-13.494-32.223-18.554-37.1 21.361-33.815 19.469 32.195 18.224Z"
+                                                fill="#FF2D20"></path>
+                                        </svg>
+                                    </template>
+                                    <template x-if="post.category === 'CSS'">
+                                        <svg class="h-16 w-auto" viewBox="0 0 200 120" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M100 0C73.333 0 56.667 13.333 50 40c10-13.333 21.667-18.333 35-15 7.607 1.9 13.044 7.422 19.063 13.53C113.867 48.48 125.215 60 150 60c26.667 0 43.333-13.333 50-40-10 13.333-21.667 18.333-35 15-7.607-1.9-13.044-7.422-19.063-13.53C136.133 11.52 124.785 0 100 0ZM50 60C23.333 60 6.667 73.333 0 100c10-13.333 21.667-18.333 35-15 7.607 1.904 13.044 7.422 19.063 13.53C63.867 108.48 75.215 120 100 120c26.667 0 43.333-13.333 50-40-10 13.333-21.667 18.333-35 15-7.607-1.9-13.044-7.422-19.063-13.53C86.133 71.52 74.785 60 50 60Z"
+                                                fill="#38BDF8"></path>
+                                        </svg>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- Category Badge (Floating Top Right) -->
+                            <div class="absolute top-4 right-4 px-3 py-1.5 rounded-xl glass border text-[9px] font-bold uppercase tracking-widest"
+                                :class="dark ? 'bg-black/30 border-white/5 text-zinc-300' : 'bg-white/40 border-black/5 text-zinc-600'">
+                                <span x-text="post.category"></span>
                             </div>
                         </div>
 
-                        <!-- Category Badge (Floating Top Right) -->
-                        <div class="absolute top-4 right-4 px-3 py-1.5 rounded-xl glass border text-[9px] font-bold uppercase tracking-widest"
-                            :class="dark ? 'bg-black/30 border-white/5 text-zinc-300' : 'bg-white/40 border-black/5 text-zinc-600'">
-                            <span x-text="post.category"></span>
-                        </div>
-                    </div>
+                        <!-- Content -->
+                        <div class="px-3 pb-4 flex flex-col flex-grow">
+                            <div class="flex items-center gap-3 text-xs font-mono mb-3"
+                                :class="dark ? 'text-zinc-500' : 'text-zinc-400'">
+                                <time x-text="post.date"></time>
+                                <span>·</span>
+                                <span x-text="post.readTime"></span>
+                            </div>
+                            <h2 class="text-xl font-bold mb-3 leading-tight transition-colors group-hover:text-brand"
+                                :class="dark ? 'text-white' : 'text-zinc-900'" x-text="post.title"></h2>
+                            <p class="text-sm line-clamp-3 mb-6 flex-grow" x-text="post.excerpt"></p>
 
-                    <!-- Content -->
-                    <div class="px-3 pb-4 flex flex-col flex-grow">
-                        <div class="flex items-center gap-3 text-xs font-mono mb-3" :class="dark ? 'text-zinc-500' : 'text-zinc-400'">
-                            <time x-text="post.date"></time>
-                            <span>·</span>
-                            <span x-text="post.readTime"></span>
+                            <a :href="post.url"
+                                class="inline-flex items-center gap-2 text-sm font-bold text-brand group/link">
+                                Read Full Article
+                                <svg class="w-4 h-4 transform transition-transform duration-300 group-hover/link:translate-x-1"
+                                    fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                </svg>
+                            </a>
                         </div>
-                        <h2 class="text-xl font-bold mb-3 leading-tight transition-colors group-hover:text-brand"
-                            :class="dark ? 'text-white' : 'text-zinc-900'" x-text="post.title"></h2>
-                        <p class="text-sm line-clamp-3 mb-6 flex-grow" x-text="post.excerpt"></p>
-                        
-                        <a :href="post.url" class="inline-flex items-center gap-2 text-sm font-bold text-brand group/link">
-                            Read Full Article
-                            <svg class="w-4 h-4 transform transition-transform duration-300 group-hover/link:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                <path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                            </svg>
-                        </a>
-                    </div>
-                </article>
+                    </article>
+                </div>
             </template>
         </div>
 
         <!-- Empty State -->
         <div x-show="filteredPosts.length === 0" x-cloak class="text-center py-20">
-            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-zinc-100 dark:bg-zinc-800 mb-6">
-                <svg class="w-8 h-8 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <div
+                class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-zinc-100 dark:bg-zinc-800 mb-6">
+                <svg class="w-8 h-8 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
                     <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
             </div>
@@ -259,16 +389,40 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t transition-colors duration-300" 
-        :class="dark ? 'border-zinc-800 bg-[#09090b]' : 'border-zinc-200 bg-white'">
-        <div class="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
-            <p class="text-sm font-medium">
-                © 2026 Sagar Pansuriya · built with ☕ & curiosity
+    <footer class="border-t transition-colors duration-300"
+        :class="dark ? 'border-zinc-800/50 bg-[#09090b]' : 'border-zinc-200 bg-white'">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between gap-4">
+            <p class="font-mono text-[10px] tracking-wider uppercase" :class="dark ? 'text-zinc-500' : 'text-zinc-400'">
+                © 2026 Sagar Pansuriya · built with ☕
             </p>
-            <div class="flex items-center gap-8">
-                <a href="https://github.com/theunwindfront" class="hover:text-brand transition-colors">GitHub</a>
-                <a href="https://linkedin.com/in/sagarpansuriya" class="hover:text-brand transition-colors">LinkedIn</a>
-                <a href="https://x.com/theunwindfront" class="hover:text-brand transition-colors">Twitter (X)</a>
+            <div class="flex items-center gap-2">
+                <a href="https://github.com/theunwindfront" target="_blank" rel="noopener"
+                    class="p-2 transition-all duration-300 hover:text-brand"
+                    :class="dark ? 'text-zinc-600 hover:bg-white/5' : 'text-zinc-400 hover:bg-black/5'"
+                    style="border-radius: 8px;" aria-label="GitHub">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
+                    </svg>
+                </a>
+                <a href="https://linkedin.com/in/sagarpansuriya" target="_blank" rel="noopener"
+                    class="p-2 transition-all duration-300 hover:text-brand"
+                    :class="dark ? 'text-zinc-600 hover:bg-white/5' : 'text-zinc-400 hover:bg-black/5'"
+                    style="border-radius: 8px;" aria-label="LinkedIn">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                    </svg>
+                </a>
+                <a href="https://x.com/theunwindfront" target="_blank" rel="noopener"
+                    class="p-2 transition-all duration-300 hover:text-brand"
+                    :class="dark ? 'text-zinc-600 hover:bg-white/5' : 'text-zinc-400 hover:bg-black/5'"
+                    style="border-radius: 8px;" aria-label="Twitter (X)">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                    </svg>
+                </a>
             </div>
         </div>
     </footer>
@@ -279,12 +433,12 @@
         :class="dark
             ? 'bg-zinc-950/80 border-zinc-800 text-zinc-500 hover:text-brand hover:border-brand/40 hover:shadow-brand/10'
             : 'bg-white/80 border-zinc-200 text-zinc-400 hover:text-brand hover:border-brand/30 hover:shadow-brand/5'">
-        <svg class="w-3 h-3 text-brand group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg class="w-3 h-3 text-brand group-hover:scale-110 transition-transform" fill="none" stroke="currentColor"
+            stroke-width="2" viewBox="0 0 24 24">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
             <circle cx="12" cy="12" r="3" />
         </svg>
-        <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="visitor count"
-            class="h-2.5 w-auto"
+        <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="visitor count" class="h-2.5 w-auto"
             :class="dark ? 'opacity-70 group-hover:opacity-100' : 'opacity-60 group-hover:opacity-90 invert'">
         <span class="font-mono text-[9px] font-bold tracking-widest uppercase">visitors</span>
     </a>
@@ -320,8 +474,8 @@
                 get filteredPosts() {
                     return this.posts.filter(post => {
                         const matchesCategory = this.activeCategory === 'All' || post.category === this.activeCategory;
-                        const matchesSearch = post.title.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
-                                             post.excerpt.toLowerCase().includes(this.searchQuery.toLowerCase());
+                        const matchesSearch = post.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                            post.excerpt.toLowerCase().includes(this.searchQuery.toLowerCase());
                         return matchesCategory && matchesSearch;
                     });
                 },
@@ -338,10 +492,36 @@
                 resetFilters() {
                     this.activeCategory = 'All';
                     this.searchQuery = '';
+                },
+                updateShine(e) {
+                    const card = e.currentTarget;
+                    const rect = card.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    card.style.setProperty('--mouse-x', `${x}%`);
+                    card.style.setProperty('--mouse-y', `${y}%`);
                 }
             }
         }
+
+        // Initialize Liquid Scroll (Lenis)
+        document.addEventListener('DOMContentLoaded', () => {
+            const lenis = new Lenis();
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+        });
     </script>
+    <!-- VisionOS Glass Distortion Filter -->
+    <svg style="display: none">
+        <filter id="vision-glass-distortion" x="0%" y="0%" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.015 0.015" numOctaves="1" seed="5" result="turbulence" />
+            <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="8" xChannelSelector="R"
+                yChannelSelector="G" />
+        </filter>
+    </svg>
 </body>
 
 </html>
