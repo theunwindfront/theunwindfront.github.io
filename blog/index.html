@@ -91,6 +91,7 @@
         .gradient-text {
             background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -322,16 +323,16 @@
 
                         <!-- Thumbnail Area -->
                         <div class="relative aspect-video rounded-2xl overflow-hidden mb-6 group-hover:shadow-2xl transition-all duration-500"
-                            :class="post.category === 'Laravel' ? 'bg-[#FF2D20]/5' : (post.category === 'CSS' ? 'bg-[#38BDF8]/5' : (post.category === 'React' ? 'bg-[#61DAFB]/5' : 'bg-brand/5'))">
+                            :class="post.category === 'Laravel' ? 'bg-[#FF2D20]/5' : (post.category === 'CSS' ? 'bg-[#38BDF8]/5' : (post.category === 'React' ? 'bg-[#61DAFB]/5' : (post.category === 'NativePHP' ? 'bg-[#505b93]/5' : 'bg-brand/5')))">
 
                             <!-- Dynamic Background Pattern -->
                             <div class="absolute inset-0 opacity-10 transition-transform duration-700 group-hover:scale-110"
-                                :class="post.category === 'Laravel' ? 'bg-[radial-gradient(#FF2D20_1.5px,transparent_1.5px)]' : (post.category === 'React' ? 'bg-[radial-gradient(#61DAFB_1.5px,transparent_1.5px)]' : 'bg-[radial-gradient(#38BDF8_1.5px,transparent_1.5px)]')"
+                                :class="post.category === 'Laravel' ? 'bg-[radial-gradient(#FF2D20_1.5px,transparent_1.5px)]' : (post.category === 'React' ? 'bg-[radial-gradient(#61DAFB_1.5px,transparent_1.5px)]' : (post.category === 'NativePHP' ? 'bg-[radial-gradient(#505b93_1.5px,transparent_1.5px)]' : 'bg-[radial-gradient(#38BDF8_1.5px,transparent_1.5px)]'))"
                                 style="background-size: 24px 24px;"></div>
 
                             <!-- Category Accent Glow -->
                             <div class="absolute -bottom-10 -right-10 w-32 h-32 rounded-full blur-[60px] opacity-20 transition-all duration-500 group-hover:scale-150"
-                                :class="post.category === 'Laravel' ? 'bg-[#FF2D20]' : (post.category === 'React' ? 'bg-[#61DAFB]' : 'bg-[#38BDF8]')"></div>
+                                :class="post.category === 'Laravel' ? 'bg-[#FF2D20]' : (post.category === 'React' ? 'bg-[#61DAFB]' : (post.category === 'NativePHP' ? 'bg-[#00aaa6]' : 'bg-[#38BDF8]'))"></div>
 
                             <div class="absolute inset-0 flex items-center justify-center p-12">
                                 <!-- High Quality Brand Logo -->
@@ -351,6 +352,13 @@
                                             <path fill-rule="evenodd" clip-rule="evenodd"
                                                 d="M100 0C73.333 0 56.667 13.333 50 40c10-13.333 21.667-18.333 35-15 7.607 1.9 13.044 7.422 19.063 13.53C113.867 48.48 125.215 60 150 60c26.667 0 43.333-13.333 50-40-10 13.333-21.667 18.333-35 15-7.607-1.9-13.044-7.422-19.063-13.53C136.133 11.52 124.785 0 100 0ZM50 60C23.333 60 6.667 73.333 0 100c10-13.333 21.667-18.333 35-15 7.607 1.904 13.044 7.422 19.063 13.53C63.867 108.48 75.215 120 100 120c26.667 0 43.333-13.333 50-40-10 13.333-21.667 18.333-35 15-7.607-1.9-13.044-7.422-19.063-13.53C86.133 71.52 74.785 60 50 60Z"
                                                 fill="#38BDF8"></path>
+                                        </svg>
+                                    </template>
+                                    <template x-if="post.category === 'NativePHP'">
+                                        <svg class="h-16 w-auto" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path class="text-[#505b93] dark:text-[#8696ed]" fill="currentColor" d="M29.5,98.4H0V1.2h29.5V98.4z"></path>
+                                            <path class="text-[#00aaa6] dark:text-[#3edad7]" fill="currentColor" d="M96.7,98.4H67.2V1.2h29.5V98.4z"></path>
+                                            <path class="text-[#272d48] dark:text-white/80" fill="currentColor" d="M96.7,98.4H29.5V1.2L96.7,98.4z"></path>
                                         </svg>
                                     </template>
                                     <template x-if="post.category === 'React'">
@@ -475,8 +483,17 @@
                 activePage: 'blog',
                 activeCategory: 'All',
                 searchQuery: '',
-                categories: ['All', 'Laravel', 'CSS', 'React', 'Design', 'Tools'],
+                categories: ['All', 'NativePHP', 'Laravel', 'CSS', 'React', 'Design', 'Tools'],
                 posts: [
+                    {
+                        id: 4,
+                        title: 'NativePHP on Android: Research, Deep Dives, and Critical Fixes',
+                        excerpt: 'A comprehensive guide on running NativePHP on Android, including fixing bridge errors, manual binary installation, and Gradle environment setup.',
+                        date: 'Mar 12, 2026',
+                        readTime: '12 min read',
+                        category: 'NativePHP',
+                        url: '/blog/nativephp-android-research-fixes/',
+                    },
                     {
                         id: 3,
                         title: 'Shoogle: The Search Engine for shadcn/ui Blocks You Didn\'t Know You Needed',

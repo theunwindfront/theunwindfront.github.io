@@ -2,25 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://sagarpansuriya.in/</loc>
-        <lastmod>2026-03-06</lastmod>
+        <lastmod>2026-03-12</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
         <loc>https://sagarpansuriya.in/blog/</loc>
-        <lastmod>2026-03-06</lastmod>
+        <lastmod>2026-03-12</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://sagarpansuriya.in/blog/nativephp-android-research-fixes/</loc>
+        <lastmod>2026-03-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://sagarpansuriya.in/blog/shoogle-shadcn-search-engine/</loc>
+        <lastmod>2026-03-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://sagarpansuriya.in/blog/tall-stack-laravel/</loc>
-        <lastmod>2026-03-06</lastmod>
+        <lastmod>2026-03-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://sagarpansuriya.in/blog/modern-css-replacing-javascript/</loc>
-        <lastmod>2026-03-06</lastmod>
+        <lastmod>2026-03-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
