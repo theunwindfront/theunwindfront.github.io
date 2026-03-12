@@ -189,7 +189,7 @@
 
             <p class="text-lg leading-relaxed mb-8" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">Running NativePHP
                 on Android is an exciting frontier, but the bridge between a Laravel app and a native APK is paved with
-                technical landmines. After days of deep research, we've documented every critical fix—from environment
+                technical landmines. After days of deep research, i've documented every critical fix—from environment
                 pathing on Windows to mastering the Kotlin bridge architecture. Let's dive into the details.</p>
         </div>
 
@@ -222,7 +222,7 @@
                     <strong>Java Bytecode Runtime (JBR)</strong> optimized for its own build tools.
                 </p>
                 <p><strong :class="dark ? 'text-zinc-200' : 'text-zinc-900'">The Fix: Persistence via Wrapper.</strong>
-                    We discovered that manually setting the <code class="font-mono text-sm">JAVA_HOME</code> to the
+                    I discovered that manually setting the <code class="font-mono text-sm">JAVA_HOME</code> to the
                     Android Studio JBR and explicitly prepending the <code
                         class="font-mono text-sm">platform-tools</code> to the path within a dedicated batch session
                     ensures that every subprocess (Artisan, Node, Gradle) shares the exact same binary context.</p>
@@ -280,7 +280,7 @@ php artisan native:run android</code></pre>
                     etc.). This binary is wrapped in a Java Native Interface (JNI) library called <code
                         class="text-brand font-mono">libphp_wrapper.so</code>. Without this file, the Java-side PHP
                     bridge cannot initialize.</p>
-                <p>On Windows, we identified that the automated extraction script often fails silently if 7-Zip isn't
+                <p>On Windows, I identified that the automated extraction script often fails silently if 7-Zip isn't
                     correctly configured in the <code class="font-mono text-sm">.env</code>, or if the Windows file
                     system prevents the creation of <strong>symlinks</strong> (common in `.so` library bundles). This
                     leaves the <code class="font-mono text-sm">jniLibs</code> directory empty, causing an instant <code
