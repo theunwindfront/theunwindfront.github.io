@@ -331,7 +331,7 @@ php artisan native:run android</code></pre>
             <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
                 :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
                 <p>NativePHP Mobile employs a <strong>Reflection-based Bridge</strong>. When your PHP code calls <code
-                        class="text-brand font-mono">Audio::play()</code>, it sends a payload to the Java layer. The
+                        class="text-brand font-mono">Haptics::vibrate()</code>, it sends a payload to the Java layer. The
                     Java layer then looks for a registered function descriptor to execute. This is where most developers
                     fail: they try to manually register bridges in a <code
                         class="font-mono text-sm">BridgeRegistration.kt</code> file.</p>
@@ -363,7 +363,7 @@ php artisan native:run android</code></pre>
                             <div class="code-block">
                                 <pre><code>// WRONG: Adding this manual file
 // nativephp/android/.../BridgeRegistration.kt
-register("audio", ::play)</code></pre>
+register("haptics", ::vibrate)</code></pre>
                             </div>
                         </div>
                     </div>
@@ -376,11 +376,11 @@ register("audio", ::play)</code></pre>
                                 implementation using explicit return type and @JvmStatic.</p>
                             <div class="code-block">
                                 <pre><code>@JvmStatic
-fun play(ctx: Context): BridgeFunction = 
+fun vibrate(ctx: Context): BridgeFunction = 
 object : BridgeFunction {
   override fun execute(params: Map<String, Any>): Map<String, Any> {
-    val url = params["url"] as String
-    // Native JVM Playback logic
+    val duration = params["duration"] as Int
+    // Native JVM Haptic logic
     return mapOf("success" to true)
   }
 }</code></pre>
@@ -430,11 +430,11 @@ adb logcat *:E | grep "NativePHP"</code></pre>
 
         <!-- Section 5: Conclusion & Summary -->
         <section x-show="activeTab === 4" x-transition.opacity style="display: none;">
-            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">5. Stabilizing the Audio
+            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">5. Stabilizing the Haptic
                 Plugin</h2>
             <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
                 :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>My research culminated in the development of a production-ready Audio Player for NativePHP Mobile.
+                <p>My research culminated in the development of a production-ready Haptic Feedback Plugin for NativePHP Mobile.
                     The final fix involved removing all manual receivers and relying purely on the <code
                         class="px-1.5 py-0.5 rounded text-sm font-mono"
                         :class="dark ? 'bg-zinc-800 text-brand' : 'bg-brand/10 text-brand-dark'">BridgeFunction</code>
