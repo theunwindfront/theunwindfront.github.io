@@ -377,6 +377,39 @@ composer require livewire/livewire</code></pre>
                 visitors
             </span>
         </a>
+        <!-- Comments Section -->
+        <div class="mt-20 pt-10 border-t border-gray-200 dark:border-[#1e1e24] max-w-3xl mx-auto">
+            <h3 class="text-2xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">Discussion</h3>
+            <div id="comments-container"></div>
+            <script>
+                // Initialize utterances and listen for theme changes
+                const initComments = () => {
+                    if (document.querySelector('.utterances-frame')) return;
+                    const theme = document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
+                    let script = document.createElement('script');
+                    script.src = 'https://utteranc.es/client.js';
+                    script.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                    script.setAttribute('issue-term', 'pathname');
+                    script.setAttribute('label', 'comment');
+                    script.setAttribute('theme', theme);
+                    script.setAttribute('crossorigin', 'anonymous');
+                    script.async = true;
+                    document.getElementById('comments-container').appendChild(script);
+                };
+                setTimeout(initComments, 300);
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.attributeName === 'class') {
+                            const isDark = document.documentElement.classList.contains('dark');
+                            const message = { type: 'set-theme', theme: isDark ? 'github-dark' : 'github-light' };
+                            const iframe = document.querySelector('.utterances-frame');
+                            if (iframe) iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+                        }
+                    });
+                });
+                observer.observe(document.documentElement, { attributes: true });
+            </script>
+        </div>
     </main>
 
     <script>
