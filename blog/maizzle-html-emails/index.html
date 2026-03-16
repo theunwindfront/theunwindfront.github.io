@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finally a good solution for building HTML emails 😮💨</title>
+    <meta name="description"
+        content="Maizzle is a framework for building responsive HTML emails using modern tools instead of writing messy email-safe HTML by hand.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Finally a good solution for building HTML emails 😮💨">
+    <meta property="og:description" content="Maizzle is a framework for building responsive HTML emails using modern tools instead of writing messy email-safe HTML by hand.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/maizzle-html-emails/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/maizzle-html-emails/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Finally a good solution for building HTML emails 😮💨">
+    <meta name="twitter:description" content="Maizzle is a framework for building responsive HTML emails using modern tools instead of writing messy email-safe HTML by hand.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/maizzle-html-emails/cover.png">
+    <meta name="twitter:creator" content="@theunwindfront">
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { brand: { DEFAULT: '#6366f1', dark: '#4f46e5' } }
+                }
+            }
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(99, 102, 241, .12) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+
+        pre code {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .tab-btn {
+            transition: all .2s;
+        }
+
+        .tab-btn.active {
+            color: #6366f1;
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, .08);
+        }
+
+        .panel-header-before {
+            background: #fef2f2;
+            color: #b91c1c;
+            border-bottom: 2px solid #fecaca;
+        }
+
+        .panel-header-after {
+            background: #f0fdf4;
+            color: #15803d;
+            border-bottom: 2px solid #bbf7d0;
+        }
+
+        .dark .panel-header-before {
+            background: #2c1616;
+            color: #fca5a5;
+            border-color: #4c2020;
+        }
+
+        .dark .panel-header-after {
+            background: #0f2c1c;
+            color: #86efac;
+            border-color: #1a4a2a;
+        }
+
+        .code-block {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .demo-card {
+            border: 1px solid;
+            border-radius: 10px;
+            padding: 16px;
+            transition: all .3s;
+        }
+
+        .dark .demo-card {
+            border-color: #27272a;
+            background: #18181b;
+        }
+
+        .demo-card:not(.dark .demo-card) {
+            border-color: #e4e4e7;
+            background: #fff;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
+    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f4f4f5] text-zinc-700'">
+    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
+        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
+
+    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors"
+        :class="dark ? 'bg-[#09090b]/80 border-[#1e1e24]' : 'bg-[#f4f4f5]/80 border-gray-300'">
+        <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
+            <a href="/blog/index.html" class="flex items-center gap-2 text-sm font-medium hover:text-brand"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-500'">
+                &larr; Blog
+            </a>
+            <button @click="toggleTheme()"
+                class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand"
+                :class="dark ? 'border-[#1e1e24] text-zinc-500' : 'border-gray-300 text-zinc-400'">
+                <svg x-show="dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5" />
+                    <path
+                        d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+                <svg x-show="!dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
+        <div class="mb-12 text-left max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
+                :class="dark ? 'text-white' : 'text-zinc-900'">Finally a good solution for the headache of building HTML emails 😮💨</h1>
+
+            <!-- Author Info & Meta -->
+            <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <div class="flex items-center gap-4">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya"
+                        class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
+                        :class="dark ? 'border-[#27272a]' : 'border-white'">
+                    <div>
+                        <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
+                            class="block hover:text-brand transition-colors text-base"
+                            :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
+                        <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
+                            Lead & Frontend Architect</span>
+                    </div>
+                </div>
+                <div class="hidden sm:block w-px h-10" :class="dark ? 'bg-[#27272a]' : 'bg-gray-300'"></div>
+                <div class="flex items-center gap-4 text-sm">
+                    <time datetime="2026-03-16" class="text-brand">Mar 16, 2026</time>
+                    <span>·</span>
+                    <span
+                        class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">5
+                        min read</span>
+                </div>
+            </div>
+
+            <!-- Cover Image -->
+            <div class="rounded-2xl overflow-hidden mb-10 shadow-2xl border border-white/5">
+                <img src="cover.png" alt="Maizzle Cover" class="w-full h-auto aspect-video object-cover">
+            </div>
+
+            <p class="text-lg leading-relaxed mb-8" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                Raise your hand if you despise writing HTML emails natively. The archaic <code class="px-1 py-0.5 rounded text-sm bg-brand/10 text-brand-dark">&lt;table&gt;</code> nesting, writing the same inline CSS repeatedly, and guessing what works in Outlook versus Apple Mail... It is a true developer nightmare.
+            </p>
+            <p class="text-lg leading-relaxed mb-8 font-medium" :class="dark ? 'text-zinc-300' : 'text-zinc-800'">
+                Enter <strong>Maizzle</strong>. Maizzle is a framework for building responsive HTML emails using modern tools instead of writing messy email-safe HTML by hand.
+            </p>
+        </div>
+
+        <div class="sticky top-[53px] z-40 -mx-6 px-6 py-3 backdrop-blur-xl border-b mb-10 overflow-x-auto scrollbar-hide"
+            :class="dark ? 'bg-[#09090b]/90 border-[#1e1e24]' : 'bg-[#f4f4f5]/90 border-gray-300'">
+            <div class="flex gap-2">
+                <template x-for="(tab, i) in tabs" :key="i">
+                    <button @click="activeTab = i"
+                        class="tab-btn px-4 py-2 rounded-lg font-mono text-xs font-semibold whitespace-nowrap border"
+                        :class="activeTab === i ? 'active border-brand/30' : (dark ? 'border-transparent text-zinc-500' : 'border-transparent text-zinc-500 bg-white shadow-sm duration-150')"
+                        x-text="tab.label"></button>
+                </template>
+            </div>
+        </div>
+
+        <!-- Tailwind CSS -->
+        <section x-show="activeTab === 0" x-transition.opacity>
+            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">→ build emails with Tailwind CSS</h2>
+            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>Who said CSS frameworks are just for websites? Maizzle uses Tailwind CSS directly in your template code, so you can rapidly design beautiful HTML emails. You code entirely utility-first using standard HTML elements.</p>
+                <p>Modifiers like hover states (<code class="px-1.5 py-0.5 rounded text-sm font-mono border" :class="dark? 'border-zinc-700 bg-zinc-800' : 'border-gray-200 bg-gray-100'">hover:bg-blue-500</code>) and responsive queries (<code class="px-1.5 py-0.5 rounded text-sm font-mono border" :class="dark? 'border-zinc-700 bg-zinc-800' : 'border-gray-200 bg-gray-100'">sm:w-full</code>) work perfectly out of the box, drastically reducing context switching between styles and markup.</p>
+            </div>
+
+            <div class="rounded-xl border overflow-hidden mb-8"
+                :class="dark ? 'border-[#1e1e24] bg-[#111113]' : 'border-gray-200 bg-white'">
+                <div class="p-6 flex justify-center">
+                    <div class="demo-card w-full max-w-2xl">
+                        <img src="tailwind.png" alt="Tailwind CSS with Maizzle" class="w-full h-auto rounded-lg shadow-sm">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="code-block max-w-3xl">
+                <pre><code>&lt;x-main&gt;
+  &lt;table class="w-full font-sans bg-slate-50"&gt;
+    &lt;tr&gt;
+      &lt;td class="p-8 text-center"&gt;
+        &lt;h1 class="text-2xl font-bold text-slate-800 mb-4"&gt;BYOHTML™&lt;/h1&gt;
+        &lt;x-button class="bg-indigo-600 hover:bg-indigo-700 text-white"&gt;
+          Click Here
+        &lt;/x-button&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/x-main&gt;</code></pre>
+            </div>
+        </section>
+
+        <!-- Automatic CSS Inlining -->
+        <section x-show="activeTab === 1" x-transition.opacity style="display: none;">
+            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">→ automatic CSS inlining</h2>
+            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>Writing inline CSS manually is miserable. Trying to debug missing semi-colons and keeping styles consistent across all your <code class="px-1.5 py-0.5 rounded text-sm font-mono border" :class="dark? 'border-zinc-700 bg-zinc-800' : 'border-gray-200 bg-gray-100'">&lt;td&gt;</code> tags is what turns developers away from emails.</p>
+                <p>Maizzle acts as your engine that automatically processes Tailwind utility classes and inlines them straight into your HTML tags during the build step. It evaluates what can be safely inlined and leaves complex things (like media queries or hover states) neatly packed in the <code class="px-1.5 py-0.5 rounded text-sm font-mono border" :class="dark? 'border-zinc-700 bg-zinc-800' : 'border-gray-200 bg-gray-100'">&lt;style&gt;</code> tag.</p>
+            </div>
+
+            <div class="rounded-xl border overflow-hidden"
+                :class="dark ? 'border-[#1e1e24] bg-[#111113]' : 'border-gray-200 bg-white'">
+                <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x"
+                    :class="dark ? 'divide-[#1e1e24]' : 'divide-gray-200'">
+                    <div class="p-6">
+                        <div class="panel-header-before rounded-t-lg px-4 py-2 font-mono text-xs font-bold uppercase">
+                            What You Write: Tailwind UI</div>
+                        <div class="p-4 rounded-b-lg border border-t-0"
+                            :class="dark ? 'border-[#27272a] bg-[#18181b]' : 'border-gray-200 bg-gray-50'">
+                            <div class="code-block">
+                                <pre><code>&lt;!-- Beautiful readable source code --&gt;
+&lt;p class="text-sm font-semibold text-gray-800"&gt;
+    Hello World
+&lt;/p&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="panel-header-after rounded-t-lg px-4 py-2 font-mono text-xs font-bold uppercase">
+                            What Maizzle Builds: Inlined HTML</div>
+                        <div class="p-4 rounded-b-lg border border-t-0"
+                            :class="dark ? 'border-[#27272a] bg-[#18181b]' : 'border-gray-200 bg-gray-50'">
+                            <div class="code-block">
+                                <pre><code>&lt;!-- Painful syntax generated automatically --&gt;
+&lt;p style="font-size: 14px; font-weight: 600; color: #1f2937;"&gt;
+    Hello World
+&lt;/p&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Optimized for Email -->
+        <section x-show="activeTab === 2" x-transition.opacity style="display: none;">
+            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">→ optimized for email clients</h2>
+            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>Email client compatibility is notoriously bad. Outlook rendering engines strip code while Gmail has strict strict clipping size limits. Maizzle runs your code through PostHTML Transformers tailored precisely for email safety.</p>
+                <p>It handles zero-width spaces, strips unnecessary white-spaces and minifies your HTML so you easily bypass Gmail's 102kb clipping limit. It handles all the defensive code and dark mode caveats automatically.</p>
+            </div>
+        </section>
+
+        <!-- CLI System -->
+        <section x-show="activeTab === 3" x-transition.opacity style="display: none;">
+            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">→ CLI-based build system</h2>
+            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>It comes with a fully-fledged CLI, allowing you to easily spin up a dev environment with Hot Module Reloading for live previews right in your browser. Just scaffold a starter using the CLI, build your template configs, and run it.</p>
+                <p>You can even define custom build environments. One build for local viewing with mock data, and another completely minified production build parameterized to merge variables in SendGrid or Mailchimp. You have full CI/CD deployment power directly integrated using JavaScript.</p>
+            </div>
+            
+            <div class="code-block max-w-3xl">
+                <pre><code>// terminal
+npx make-maizzle
+
+// Start dev server with Live Preview
+maizzle serve
+
+// Build an optimized production payload
+maizzle build production</code></pre>
+            </div>
+        </section>
+
+        <!-- Any Service-->
+        <section x-show="activeTab === 4" x-transition.opacity style="display: none;">
+            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">→ works with any email service after build :)</h2>
+            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>One of the best elements of Maizzle is that it outputs pure, client-agnostic HTML files. You are not locked into any proprietary SaaS service, drag-and-drop builder platform, or recurring monthly fee service.</p>
+                <p>Take the generated build output from your `build_production` folder, copy the HTML, and paste it into SendGrid, Mailgun, Amazon SES, Postmark, Mailchimp, or any custom API sending emails. It's completely transferable and yours to own.</p>
+            </div>
+
+            <div class="rounded-xl border overflow-hidden mb-8"
+                :class="dark ? 'border-[#1e1e24] bg-[#111113]' : 'border-gray-200 bg-white'">
+                <div class="p-6">
+                    <div class="demo-card">
+                        <img src="inbox.png" alt="Email Delivery" class="w-full h-auto rounded-lg shadow-sm">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Closing -->
+        <div class="mt-16 pt-10 border-t space-y-6 max-w-3xl border-gray-200"
+            :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
+            <h3 class="text-2xl font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">Stop Hand Coding Nested Tables</h3>
+            <div class="text-base space-y-4 leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>The time savings from using Tailwind CSS inside your email templates and letting a build engine like Maizzle do the post-processing natively are astronomically high.</p>
+                <p>Take back your time, eliminate the headache of Outlook 2013 compatibility, and deliver emails faster. Go check out <a href="https://maizzle.com" target="_blank" class="text-brand font-semibold hover:underline">maizzle.com</a> and happy building!</p>
+            </div>
+            
+        </div>
+    </main>
+
+    <script>
+        function blogApp() {
+            return {
+                dark: true,
+                activeTab: 0,
+                tabs: [
+                    { label: 'Tailwind CSS' },
+                    { label: 'Auto Inlining' },
+                    { label: 'Email Optimized' },
+                    { label: 'CLI Build' },
+                    { label: 'Any Service' }
+                ],
+                init() {
+                    const saved = localStorage.getItem('theme');
+                    if (saved === 'light') this.dark = false;
+                    this.$watch('dark', val => {
+                        document.documentElement.classList.toggle('dark', val);
+                        localStorage.setItem('theme', val ? 'dark' : 'light');
+                    });
+                    document.documentElement.classList.toggle('dark', this.dark);
+                },
+                toggleTheme() { this.dark = !this.dark; }
+            }
+        }
+    </script>
+</body>
+
+</html>
