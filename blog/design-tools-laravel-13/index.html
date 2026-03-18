@@ -137,7 +137,7 @@
                         <time datetime="2026-03-18" class="text-brand">Mar 18, 2026</time>
                         <span>·</span>
                         <span
-                            class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">6
+                            class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">12
                             min read</span>
                     </div>
                 </div>
@@ -190,26 +190,28 @@
                     Developing robust applications in Laravel 13 requires more than just clean backend logic. To deliver an exceptional user experience on both web and mobile, developers must pair Laravel's powerful ecosystem with solid design principles and modern UI/UX tools. Let's explore the core principles and free tools that will elevate your next Laravel 13 project.
                 </p>
             </header>
-
             <div class="space-y-12 text-base leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
                 
                 <section>
                     <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">1. Core UI/UX Design Principles</h2>
                     <p class="mb-4">
-                        Before touching a single tool, understanding fundamental design principles is essential:
+                        Before touching a single tool, understanding fundamental design principles is essential. These aren't abstract art-school theories — they directly influence how users perceive your Laravel application's quality.
                     </p>
                     <ul class="space-y-4 mb-6 list-disc pl-5">
                         <li>
-                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Consistency:</strong> Elements like buttons, typography, and spacing should remain uniform across the platform. This reduces the cognitive load for the user.
+                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Consistency:</strong> Elements like buttons, typography, and spacing should remain uniform across the platform. This reduces cognitive load for the user. In Laravel, this maps directly to <strong>reusable Blade components</strong> — design once, use everywhere.
                         </li>
                         <li>
-                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Visual Hierarchy:</strong> Use size, color, and contrast to guide the user's eye to the most critical information first (e.g., primary calls to action vs. secondary links).
+                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Visual Hierarchy:</strong> Use size, color, and contrast to guide the user's eye to the most critical information first (e.g., primary calls to action vs. secondary links). Laravel's layout system and component slots make implementing this hierarchy in code trivial.
                         </li>
                         <li>
-                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Accessibility (a11y):</strong> Ensure your application is usable by everyone. This means proper ARIA labels, semantic HTML, and adhering to WCAG contrast ratios.
+                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Accessibility (a11y):</strong> Ensure your application is usable by everyone. This means proper ARIA labels, semantic HTML, and adhering to WCAG contrast ratios. Laravel 13's new starter kits ship with accessibility best practices baked in.
                         </li>
                         <li>
-                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Mobile-First Approach:</strong> Start designing for the smallest screen and progressively enhance the layout for tablets and desktops.
+                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Mobile-First Approach:</strong> Start designing for the smallest screen and progressively enhance the layout. With Laravel 13 embracing Tailwind CSS 4, responsive design is a first-class citizen from day one.
+                        </li>
+                        <li>
+                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Feedback & Micro-interactions:</strong> Users need instant visual feedback. Button hover states, loading spinners, toast notifications — these micro-interactions are what make an app feel polished. Livewire and Alpine.js handle these effortlessly in the Laravel stack.
                         </li>
                     </ul>
                 </section>
@@ -217,7 +219,7 @@
                 <section>
                     <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">2. Free Tools to Manage Web & Mobile Design</h2>
                     <p class="mb-6">
-                        You don't need expensive licenses to create premium designs. The open-source and free-tier ecosystems are incredibly robust right now.
+                        You don't need expensive licenses to create premium designs. The open-source and free-tier ecosystems are incredibly robust right now. Here are five essential tools every Laravel developer should know:
                     </p>
 
                     <div class="grid md:grid-cols-2 gap-6">
@@ -226,7 +228,7 @@
                                 <span class="w-8 h-8 shrink-0 rounded bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-bold">1</span>
                                 Penpot / Figma
                             </h3>
-                            <p class="text-sm">While <strong>Figma</strong> is the industry standard with a generous free tier, <strong>Penpot</strong> is an excellent open-source alternative. Both allow for vector-based UI design, interactive prototyping, and seamless handoff to developers.</p>
+                            <p class="text-sm">While <strong>Figma</strong> is the industry standard with a generous free tier, <strong>Penpot</strong> is an excellent open-source alternative. Both allow for vector-based UI design, interactive prototyping, and seamless handoff to developers. Export your design tokens (colors, spacing, typography) and feed them directly into your Laravel project's Tailwind config.</p>
                         </div>
 
                         <div class="tool-card p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
@@ -234,15 +236,15 @@
                                 <span class="w-8 h-8 shrink-0 rounded bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-bold">2</span>
                                 Coolors.co
                             </h3>
-                            <p class="text-sm">A highly intuitive, free color palette generator. It helps you quickly discover visually pleasing color schemes, export them as CSS variables, and verify their contrast ratios for accessibility.</p>
+                            <p class="text-sm">A highly intuitive, free color palette generator. It helps you quickly discover visually pleasing color schemes, export them as CSS variables or Tailwind config values, and verify their contrast ratios for WCAG accessibility compliance — critical for enterprise Laravel apps.</p>
                         </div>
 
                         <div class="tool-card p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
                             <h3 class="text-lg font-bold mb-2 flex flex-col md:flex-row md:items-center gap-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">
                                 <span class="w-8 h-8 shrink-0 rounded bg-pink-500/10 text-pink-500 flex items-center justify-center font-bold">3</span>
-                                Phosphor Icons
+                                Phosphor Icons / Heroicons
                             </h3>
-                            <p class="text-sm">An essential open-source icon family for modern interfaces. Phosphor provides thousands of consistent SVG icons in multiple weights (Regular, Thin, Bold, Fill), perfect for both web and mobile.</p>
+                            <p class="text-sm">Open-source icon families for modern interfaces. <strong>Heroicons</strong> (by the Tailwind team) integrates perfectly with Laravel's Blade ecosystem via <code class="px-1.5 py-0.5 rounded text-sm font-mono border" :class="dark ? 'border-zinc-700 bg-zinc-800' : 'border-gray-200 bg-gray-100'">blade-heroicons</code> package. Phosphor provides thousands of consistent SVG icons in multiple weights.</p>
                         </div>
 
                         <div class="tool-card p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
@@ -250,60 +252,247 @@
                                 <span class="w-8 h-8 shrink-0 rounded bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold">4</span>
                                 Google Fonts & Fontsource
                             </h3>
-                            <p class="text-sm">Typography sets the tone. Instead of relying on CDN links, tools like <strong>Fontsource</strong> let you easily install Google Fonts via npm, ensuring optimal loading performance in your Laravel applications.</p>
+                            <p class="text-sm">Typography sets the tone. <strong>Fontsource</strong> lets you install Google Fonts via npm for self-hosting, ensuring optimal loading performance. Laravel 13's Vite 6 integration handles font bundling seamlessly with zero extra configuration.</p>
+                        </div>
+
+                        <div class="tool-card p-6 rounded-2xl border md:col-span-2" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
+                            <h3 class="text-lg font-bold mb-2 flex flex-col md:flex-row md:items-center gap-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">
+                                <span class="w-8 h-8 shrink-0 rounded bg-cyan-500/10 text-cyan-500 flex items-center justify-center font-bold">5</span>
+                                Storybook / Histoire
+                            </h3>
+                            <p class="text-sm">Component documentation tools that let you develop and test UI components in isolation. <strong>Histoire</strong> is particularly great for Vue-based Laravel projects. Build your component library visually, share it with designers for sign-off, and then deploy the exact same components in your Laravel views. This bridges the gap between "what was designed" and "what was built."</p>
                         </div>
                     </div>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">3. How This Integrates with Laravel 13</h2>
-                    <p class="mb-4">
-                        Laravel 13 seamlessly bridges the gap between design and implementation. Here’s how these modern design tools pipeline directly into a Laravel architecture:
+                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">3. What's New in Laravel 13 for Design-Driven Development</h2>
+                    <p class="mb-6">
+                        Laravel 13 introduces several features that make the connection between design and development tighter than ever. Here's a breakdown of the key features and how they impact your design workflow:
                     </p>
 
-                    <div class="mt-8 space-y-8">
-                        <div>
-                            <h3 class="text-xl font-bold mb-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Translating Designs to Blade Components</h3>
+                    <div class="space-y-8">
+                        <!-- Feature: New Starter Kits -->
+                        <div class="p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
+                            <h3 class="text-xl font-bold mb-3" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">🚀 Redesigned Starter Kits</h3>
                             <p class="mb-4">
-                                The UI/UX artifacts exported from Figma or Penpot map perfectly to <strong>Laravel anonymous Blade components</strong>. If your design system defines a primary button, a card, and an input field, you create matching `<x-button>`, `<x-card>`, and `<x-input>` components.
+                                Laravel 13 ships with completely overhauled starter kits. The new <strong>React, Vue, and Livewire starter kits</strong> provide a beautifully designed authentication scaffold out of the box — login, registration, password reset, email verification, and profile management pages that actually look production-ready from day one.
+                            </p>
+                            <p class="mb-4">
+                                Unlike previous versions where Breeze/Jetstream gave you functional but bland starter pages, Laravel 13's starters are built with <strong>Tailwind CSS v4</strong> and include polished dark mode support, responsive layouts, and smooth transitions. You get a design system, not just a boilerplate.
                             </p>
                             <div class="code-block border" :class="dark ? 'border-[#27272a]' : 'border-gray-200'">
-                                <pre><code class="language-html">&lt;!-- resources/views/components/button.blade.php --&gt;
-&lt;button {{ $attributes-&gt;merge(['class' =&gt; 'px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand-dark transition-all']) }}&gt;
-    {{ $slot }}
-&lt;/button&gt;</code></pre>
+                                <pre><code># Scaffold a new Laravel 13 project with the Livewire starter
+laravel new my-app --using=livewire
+
+# Or with React + Inertia
+laravel new my-app --using=react</code></pre>
                             </div>
                         </div>
 
-                        <div>
-                            <h3 class="text-xl font-bold mb-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Utilizing Tailwind CSS</h3>
+                        <!-- Feature: Tailwind CSS 4 -->
+                        <div class="p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
+                            <h3 class="text-xl font-bold mb-3" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">🎨 Tailwind CSS v4 Integration</h3>
                             <p class="mb-4">
-                                Laravel's default frontend scaffolding embraces Tailwind CSS. The design tokens you extract from Coolors (e.g., brand colors, neutral palettes) are directly injected into your `tailwind.config.js`. This guarantees that your application visually matches your wireframes perfectly.
+                                Laravel 13 ships with <strong>Tailwind CSS v4</strong> as the default styling framework. This is a massive upgrade for design-to-code workflows. Key changes include:
                             </p>
+                            <ul class="list-disc pl-5 space-y-2 mb-4">
+                                <li><strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">CSS-first configuration:</strong> No more <code class="px-1.5 py-0.5 rounded text-sm font-mono border" :class="dark ? 'border-zinc-700 bg-zinc-800' : 'border-gray-200 bg-gray-100'">tailwind.config.js</code>. Design tokens are defined directly in CSS using <code class="px-1.5 py-0.5 rounded text-sm font-mono border" :class="dark ? 'border-zinc-700 bg-zinc-800' : 'border-gray-200 bg-gray-100'">@theme</code> directive.</li>
+                                <li><strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Lightning-fast builds:</strong> The new Oxide engine written in Rust compiles CSS 10x faster.</li>
+                                <li><strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Container queries:</strong> Native support for component-level responsive design — design components that adapt to their container, not just the viewport.</li>
+                            </ul>
+                            <div class="code-block border" :class="dark ? 'border-[#27272a]' : 'border-gray-200'">
+                                <pre><code>/* app.css — Tailwind v4 CSS-first config */
+@import "tailwindcss";
+
+@theme {
+    --color-brand: #6366f1;
+    --color-brand-dark: #4f46e5;
+    --font-sans: 'Inter', sans-serif;
+    --breakpoint-xs: 475px;
+}</code></pre>
+                            </div>
                         </div>
 
-                        <div>
-                            <h3 class="text-xl font-bold mb-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Mobile App Integration via API</h3>
+                        <!-- Feature: Livewire Flux -->
+                        <div class="p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
+                            <h3 class="text-xl font-bold mb-3" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">⚡ Livewire Flux UI Components</h3>
                             <p class="mb-4">
-                                If you are developing a mobile app (using Flutter, React Native, or NativePHP) alongside your web app, Laravel 13 acts as the ultimate centralized backend.
+                                The Laravel ecosystem now includes <strong>Flux</strong>, a beautifully designed UI component library built specifically for Livewire. It provides pre-built, design-ready components like modals, dropdowns, tables, forms, and navigation — all following modern design patterns.
                             </p>
-                            <p>
-                                With Laravel 13, you can build out a robust API using <strong>Laravel Sanctum</strong> for authentication and <strong>API Resources</strong> to ensure the response schemas match exactly what your mobile developers need to populate their native UI components. The design language (colors, icons, spacing) remains consistent since both web and mobile clients consume data logically from the same structure, while relying on their shared Figma design system rules.
+                            <p class="mb-4">
+                                This is where design principles meet code directly. Instead of writing custom CSS for every dropdown or modal, you use Flux components that are already designed with proper accessibility, keyboard navigation, focus traps, and smooth animations.
                             </p>
+                            <div class="code-block border" :class="dark ? 'border-[#27272a]' : 'border-gray-200'">
+                                <pre><code>&lt;!-- A polished, accessible modal with zero custom CSS --&gt;
+&lt;flux:modal name="confirm-delete" class="max-w-sm"&gt;
+    &lt;div class="space-y-6"&gt;
+        &lt;flux:heading size="lg"&gt;Delete project?&lt;/flux:heading&gt;
+        &lt;flux:text&gt;This action cannot be undone.&lt;/flux:text&gt;
+        &lt;div class="flex gap-2"&gt;
+            &lt;flux:modal.close&gt;
+                &lt;flux:button variant="ghost"&gt;Cancel&lt;/flux:button&gt;
+            &lt;/flux:modal.close&gt;
+            &lt;flux:button variant="danger" wire:click="delete"&gt;Delete&lt;/flux:button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/flux:modal&gt;</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Feature: Volt -->
+                        <div class="p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
+                            <h3 class="text-xl font-bold mb-3" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">📦 Single-File Components with Volt</h3>
+                            <p class="mb-4">
+                                <strong>Volt</strong> introduces single-file Livewire components — your PHP logic and Blade template live in the same file. This is a game-changer for design-driven development because designers and developers can see the complete picture in one place.
+                            </p>
+                            <p class="mb-4">
+                                When iterating on a component's design, there's no switching between a PHP class file and a Blade template. The component is self-contained, making it easy to prototype, review, and refine rapidly.
+                            </p>
+                            <div class="code-block border" :class="dark ? 'border-[#27272a]' : 'border-gray-200'">
+                                <pre><code>&lt;?php
+use function Livewire\Volt\{state, computed};
+
+state(['search' => '']);
+
+$filteredUsers = computed(function () {
+    return User::where('name', 'like', "%{$this->search}%")->get();
+});
+?&gt;
+
+&lt;div&gt;
+    &lt;flux:input wire:model.live="search" placeholder="Search users..." /&gt;
+
+    &lt;div class="mt-4 divide-y divide-gray-100 dark:divide-gray-800"&gt;
+        @foreach($this->filteredUsers as $user)
+            &lt;div class="flex items-center gap-3 py-3"&gt;
+                &lt;img src="{{ $user-&gt;avatar }}" class="w-10 h-10 rounded-full" /&gt;
+                &lt;span class="font-medium"&gt;{{ $user-&gt;name }}&lt;/span&gt;
+            &lt;/div&gt;
+        @endforeach
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Feature: Vite 6 -->
+                        <div class="p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
+                            <h3 class="text-xl font-bold mb-3" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">🔧 Vite 6 & Asset Pipeline</h3>
+                            <p class="mb-4">
+                                Laravel 13 upgrades to <strong>Vite 6</strong> with the Environment API for faster dev server startup and hot module replacement (HMR). For design workflows this means:
+                            </p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Instant CSS updates:</strong> Change a color variable in your CSS and see it reflected in the browser in milliseconds — no page reload.</li>
+                                <li><strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Optimized font loading:</strong> Self-hosted fonts via Fontsource are automatically tree-shaken and bundled.</li>
+                                <li><strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Image optimization:</strong> Vite plugins for automatic WebP/AVIF conversion keep your design assets lightweight without manual compression.</li>
+                            </ul>
                         </div>
                     </div>
                 </section>
 
+                <section>
+                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">4. The Design → Development Pipeline</h2>
+                    <p class="mb-6">
+                        Here's how a modern design-to-development workflow looks with Laravel 13:
+                    </p>
+
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-xl font-bold mb-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Step 1: Design Tokens → Tailwind Config</h3>
+                            <p class="mb-4">
+                                Extract your design tokens from Figma (colors, spacing, border-radius, shadows, typography) and map them directly into your Tailwind v4 <code class="px-1.5 py-0.5 rounded text-sm font-mono border" :class="dark ? 'border-zinc-700 bg-zinc-800' : 'border-gray-200 bg-gray-100'">@theme</code> block. This is your single source of truth. When a designer updates the primary color in Figma, you update one CSS variable and the entire Laravel app reflects it.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-bold mb-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Step 2: Wireframes → Blade Components</h3>
+                            <p class="mb-4">
+                                Every UI element in your wireframe should map to a reusable Blade component. Laravel 13's anonymous components with attribute forwarding make this incredibly clean:
+                            </p>
+                            <div class="code-block border" :class="dark ? 'border-[#27272a]' : 'border-gray-200'">
+                                <pre><code>&lt;!-- resources/views/components/card.blade.php --&gt;
+@props(['variant' => 'default', 'padding' => 'md'])
+
+&lt;div {{ $attributes->class([
+    'rounded-2xl border transition-all',
+    'p-4' => $padding === 'sm',
+    'p-6' => $padding === 'md',
+    'p-8' => $padding === 'lg',
+    'bg-white border-gray-200 dark:bg-zinc-900 dark:border-zinc-800' => $variant === 'default',
+    'bg-brand/5 border-brand/20' => $variant === 'highlight',
+]) }}&gt;
+    {{ $slot }}
+&lt;/div&gt;
+
+&lt;!-- Usage in your views --&gt;
+&lt;x-card variant="highlight" padding="lg"&gt;
+    &lt;h3 class="text-xl font-bold"&gt;Premium Feature&lt;/h3&gt;
+    &lt;p&gt;This card matches your Figma design exactly.&lt;/p&gt;
+&lt;/x-card&gt;</code></pre>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-bold mb-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Step 3: API-First for Mobile Consistency</h3>
+                            <p class="mb-4">
+                                If you're building a mobile app alongside your web app (Flutter, React Native, or NativePHP), Laravel 13 acts as the centralized backend. Use <strong>Laravel Sanctum</strong> for authentication and <strong>API Resources</strong> to ensure response schemas match your mobile UI components. The design language (colors, icons, spacing) stays consistent because both web and mobile clients consume the same data structure while following your shared Figma design system.
+                            </p>
+                            <div class="code-block border" :class="dark ? 'border-[#27272a]' : 'border-gray-200'">
+                                <pre><code>// app/Http/Resources/ProjectResource.php
+class ProjectResource extends JsonResource
+{
+    public function toArray(Request $request): array
+    {
+        return [
+            'id'          => $this->id,
+            'title'       => $this->title,
+            'description' => $this->description,
+            'color'       => $this->color,     // Design token from your system
+            'icon'        => $this->icon,      // Phosphor icon name
+            'created_at'  => $this->created_at->format('M d, Y'),
+            'members'     => UserResource::collection($this->members),
+        ];
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">5. Bridging the Culture Gap</h2>
+                    <p class="mb-4">
+                        The real challenge isn't tools or frameworks — it's communication between designers and developers. Here are practical ways to bridge the gap in your Laravel team:
+                    </p>
+                    <ul class="space-y-4 mb-6 list-disc pl-5">
+                        <li>
+                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Shared vocabulary:</strong> When your designer says "8px spacing," your developer should know that's <code class="px-1.5 py-0.5 rounded text-sm font-mono border" :class="dark ? 'border-zinc-700 bg-zinc-800' : 'border-gray-200 bg-gray-100'">space-2</code> in Tailwind. Document this translation in your project wiki.
+                        </li>
+                        <li>
+                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Design reviews in code:</strong> Deploy preview environments (Laravel Forge, Vercel, Coolify) for every pull request. Designers review running code, not static screenshots.
+                        </li>
+                        <li>
+                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Component inventory:</strong> Maintain a living component library. Use Laravel's Blade component system as the source of truth — if a component doesn't exist in your <code class="px-1.5 py-0.5 rounded text-sm font-mono border" :class="dark ? 'border-zinc-700 bg-zinc-800' : 'border-gray-200 bg-gray-100'">resources/views/components/</code> directory, it shouldn't exist in the Figma file either.
+                        </li>
+                        <li>
+                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Pixel-perfect isn't the goal:</strong> The goal is design <em>intent</em>. A button that's 2px different in padding is fine; a button that doesn't communicate urgency through color and hierarchy is a failure.
+                        </li>
+                    </ul>
+                </section>
+
                 <section class="mt-12 bg-zinc-900 text-zinc-100 p-8 rounded-2xl border border-zinc-800">
                     <h2 class="text-2xl font-bold mb-4 text-white">Summary</h2>
+                    <p class="text-sm opacity-80 leading-relaxed text-zinc-300 mb-4">
+                        Laravel 13 is the most design-aware version of Laravel yet. With Tailwind CSS v4 as the default, Flux UI components for Livewire, single-file Volt components, redesigned starter kits, and Vite 6 for instant feedback loops — the framework is purpose-built for teams that care about both beautiful design <em>and</em> powerful backend logic.
+                    </p>
                     <p class="text-sm opacity-80 leading-relaxed text-zinc-300">
-                        A solid Laravel 13 application involves more than just writing beautiful PHP. It requires planning with scalable design principles, utilizing modern tools like Figma and Coolors, and executing tightly through Blade components and clean APIs. By unifying your design process with Laravel's modern workflows, you can rapidly ship web and mobile experiences that look as good as they function.
+                        Pair these framework capabilities with free tools like Figma, Coolors, and Heroicons, and you have a complete design-to-deployment pipeline that costs nothing but delivers enterprise-grade quality. The gap between "what the designer envisioned" and "what the developer shipped" has never been smaller.
                     </p>
                 </section>
 
                 <footer class="mt-16 pt-10 border-t border-gray-200" :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
                     <p class="text-sm text-center italic" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">
-                        "Great applications aren't just coded; they are designed. Bridge the gap seamlessly with Laravel 13."
+                        "Great applications aren't just coded; they are designed. Laravel 13 makes bridging that gap seamless."
                     </p>
                 </footer>
             </div>
