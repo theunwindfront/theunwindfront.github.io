@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+
+<head>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Principles & Free Tools for Web and Mobile App Development in Laravel 13</title>
+    <meta name="description"
+        content="Discover essential design principles, free tools for UI/UX, and how they seamlessly integrate with building modern Laravel 13 web and mobile applications.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Design Principles & Free Tools for Web and Mobile App Development in Laravel 13">
+    <meta property="og:description" content="Discover essential design principles, free tools for UI/UX, and how they seamlessly integrate with building modern Laravel 13 web and mobile applications.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/design-tools-laravel-13/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/design-tools-laravel-13/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Design Principles & Free Tools for Web and Mobile App Development in Laravel 13">
+    <meta name="twitter:description" content="Discover essential design principles, free tools for UI/UX, and how they seamlessly integrate with building modern Laravel 13 web and mobile applications.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/design-tools-laravel-13/cover.png">
+    <meta name="twitter:creator" content="@theunwindfront">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <meta name="msapplication-TileColor" content="#6366f1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { brand: { DEFAULT: '#6366f1', dark: '#4f46e5' } }
+                }
+            }
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(99, 102, 241, .12) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+
+        pre code {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .code-block {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .tool-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
+    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f4f4f5] text-zinc-700'">
+    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
+        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
+
+    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors"
+        :class="dark ? 'bg-[#09090b]/80 border-[#1e1e24]' : 'bg-[#f4f4f5]/80 border-gray-300'">
+        <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
+            <a href="/blog/index.html" class="flex items-center gap-2 text-sm font-medium hover:text-brand"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-500'">
+                &larr; Blog
+            </a>
+            <button @click="toggleTheme()"
+                class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand"
+                :class="dark ? 'border-[#1e1e24] text-zinc-500' : 'border-gray-300 text-zinc-400'">
+                <svg x-show="dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5" />
+                    <path
+                        d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+                <svg x-show="!dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
+        <article class="max-w-3xl mx-auto">
+            <header class="mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
+                    :class="dark ? 'text-white' : 'text-zinc-900'">Design Principles & Free Tools for Laravel 13 Development</h1>
+
+                <!-- Author Info & Meta -->
+                <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
+                    :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                    <div class="flex items-center gap-4">
+                        <img src="/profile.jpg" alt="Sagar Pansuriya"
+                            class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
+                            :class="dark ? 'border-[#27272a]' : 'border-white'">
+                        <div>
+                            <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
+                                class="block hover:text-brand transition-colors text-base"
+                                :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
+                            <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
+                                Lead & Frontend Architect</span>
+                        </div>
+                    </div>
+                    <div class="hidden sm:block w-px h-10" :class="dark ? 'bg-[#27272a]' : 'bg-gray-300'"></div>
+                    <div class="flex items-center gap-4 text-sm">
+                        <time datetime="2026-03-18" class="text-brand">Mar 18, 2026</time>
+                        <span>·</span>
+                        <span
+                            class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">6
+                            min read</span>
+                    </div>
+                </div>
+
+                <!-- Explore Post -->
+                <div class="flex items-center gap-4 py-4 mb-8 border-y border-gray-200 transition-colors" :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
+                    <span class="text-lg font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">Explore this post with:</span>
+                    <div class="flex items-center gap-2.5">
+                        <button data-ai="chatgpt" class="ai-launch flex items-center justify-center w-[46px] h-[34px] rounded-lg transition-transform hover:scale-105" style="background-color: #10a37f;" aria-label="Explore with ChatGPT"><svg xmlns="http://www.w3.org/2000/svg" class="w-[20px] h-[20px] fill-white" viewBox="0 0 24 24"><path fill="currentColor" d="M22.282 9.821a6 6 0 0 0-.516-4.91a6.05 6.05 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a6 6 0 0 0-3.998 2.9a6.05 6.05 0 0 0 .743 7.097a5.98 5.98 0 0 0 .51 4.911a6.05 6.05 0 0 0 6.515 2.9A6 6 0 0 0 13.26 24a6.06 6.06 0 0 0 5.772-4.206a6 6 0 0 0 3.997-2.9a6.06 6.06 0 0 0-.747-7.073M13.26 22.43a4.48 4.48 0 0 1-2.876-1.04l.141-.081l4.779-2.758a.8.8 0 0 0 .392-.681v-6.737l2.02 1.168a.07.07 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494M3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085l4.783 2.759a.77.77 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646M2.34 7.896a4.5 4.5 0 0 1 2.366-1.973V11.6a.77.77 0 0 0 .388.677l5.815 3.354l-2.02 1.168a.08.08 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.08.08 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667m2.01-3.023l-.141-.085l-4.774-2.782a.78.78 0 0 0-.785 0L9.409 9.23V6.897a.07.07 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.8.8 0 0 0-.393.681zm1.097-2.365l2.602-1.5l2.607 1.5v2.999l-2.597 1.5l-2.607-1.5Z"/></svg></button>
+                        <button data-ai="gemini" class="ai-launch flex items-center justify-center w-[46px] h-[34px] rounded-lg transition-transform hover:scale-105" style="background-color: #1a73e8;" aria-label="Explore with Google Gemini"><svg xmlns="http://www.w3.org/2000/svg" class="w-[20px] h-[20px] fill-white" viewBox="0 0 24 24"><path fill="white" d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68q.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58a12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68q-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96q2.19.93 3.81 2.55t2.55 3.81"/></svg></button>
+                        <button data-ai="claude" class="ai-launch flex items-center justify-center w-[46px] h-[34px] rounded-lg transition-transform hover:scale-105" style="background-color: #7b61ff;" aria-label="Explore with Claude"><svg xmlns="http://www.w3.org/2000/svg" class="w-[20px] h-[20px] fill-white" viewBox="0 0 24 24"><path fill="white" d="M17.304 3.541h-3.672l6.696 16.918H24Zm-10.608 0L0 20.459h3.744l1.37-3.553h7.005l1.369 3.553h3.744L10.536 3.541Zm-.371 10.223L8.616 7.82l2.291 5.945Z"/></svg></button>
+                        <button data-ai="perplexity" class="ai-launch flex items-center justify-center w-[46px] h-[34px] rounded-lg transition-transform hover:scale-105" style="background-color: #17181c;" aria-label="Explore with Perplexity"><svg xmlns="http://www.w3.org/2000/svg" class="w-[20px] h-[20px] fill-white" viewBox="0 0 24 24"><path fill="white" d="M22.398 7.09h-2.31V.068l-7.51 6.354V.158h-1.156v6.196L4.49 0v7.09H1.602v10.397H4.49V24l6.933-6.36v6.201h1.155v-6.047l6.932 6.181v-6.488h2.888zm-3.466-4.531v4.53h-5.355zm-13.286.067l4.869 4.464h-4.87zM2.758 16.332V8.245h7.847L4.49 14.36v1.972zm2.888 5.04v-6.534l5.776-5.776v7.011zm12.708.025l-5.776-5.15V9.061l5.776 5.776zm2.889-5.065H19.51V14.36l-6.115-6.115h7.848z"/></svg></button>
+                    </div>
+                </div>
+
+                <script>
+                    document.querySelectorAll('.ai-launch').forEach(btn => {
+                        btn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const pageUrl = window.location.href;
+                            const pageTitle = document.querySelector('h1')?.innerText || document.title;
+                            const prompt = `Summarize this post: ${pageTitle} - ${pageUrl}`;
+                            let target = '';
+
+                            switch (btn.dataset.ai) {
+                                case 'chatgpt':
+                                    target = `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
+                                    break;
+                                case 'gemini':
+                                    target = `https://gemini.google.com/app?q=${encodeURIComponent(prompt)}`;
+                                    break;
+                                case 'claude':
+                                    target = `https://claude.ai/new?q=${encodeURIComponent(prompt)}`;
+                                    break;
+                                case 'perplexity':
+                                    target = `https://www.perplexity.ai/search?q=${encodeURIComponent(prompt)}`;
+                                    break;
+                            }
+                            if (target) window.open(target, '_blank');
+                        });
+                    });
+                </script>
+
+                <!-- Cover Image -->
+                <div class="rounded-2xl overflow-hidden mb-10 shadow-2xl border border-white/5">
+                    <img src="cover.png" alt="Laravel 13 Web and Mobile App Design Tools" class="w-full h-auto aspect-video object-cover">
+                </div>
+
+                <p class="text-lg leading-relaxed mb-8 font-medium" :class="dark ? 'text-zinc-300' : 'text-zinc-700'">
+                    Developing robust applications in Laravel 13 requires more than just clean backend logic. To deliver an exceptional user experience on both web and mobile, developers must pair Laravel's powerful ecosystem with solid design principles and modern UI/UX tools. Let's explore the core principles and free tools that will elevate your next Laravel 13 project.
+                </p>
+            </header>
+
+            <div class="space-y-12 text-base leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                
+                <section>
+                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">1. Core UI/UX Design Principles</h2>
+                    <p class="mb-4">
+                        Before touching a single tool, understanding fundamental design principles is essential:
+                    </p>
+                    <ul class="space-y-4 mb-6 list-disc pl-5">
+                        <li>
+                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Consistency:</strong> Elements like buttons, typography, and spacing should remain uniform across the platform. This reduces the cognitive load for the user.
+                        </li>
+                        <li>
+                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Visual Hierarchy:</strong> Use size, color, and contrast to guide the user's eye to the most critical information first (e.g., primary calls to action vs. secondary links).
+                        </li>
+                        <li>
+                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Accessibility (a11y):</strong> Ensure your application is usable by everyone. This means proper ARIA labels, semantic HTML, and adhering to WCAG contrast ratios.
+                        </li>
+                        <li>
+                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Mobile-First Approach:</strong> Start designing for the smallest screen and progressively enhance the layout for tablets and desktops.
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">2. Free Tools to Manage Web & Mobile Design</h2>
+                    <p class="mb-6">
+                        You don't need expensive licenses to create premium designs. The open-source and free-tier ecosystems are incredibly robust right now.
+                    </p>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="tool-card p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
+                            <h3 class="text-lg font-bold mb-2 flex flex-col md:flex-row md:items-center gap-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">
+                                <span class="w-8 h-8 shrink-0 rounded bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-bold">1</span>
+                                Penpot / Figma
+                            </h3>
+                            <p class="text-sm">While <strong>Figma</strong> is the industry standard with a generous free tier, <strong>Penpot</strong> is an excellent open-source alternative. Both allow for vector-based UI design, interactive prototyping, and seamless handoff to developers.</p>
+                        </div>
+
+                        <div class="tool-card p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
+                            <h3 class="text-lg font-bold mb-2 flex flex-col md:flex-row md:items-center gap-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">
+                                <span class="w-8 h-8 shrink-0 rounded bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-bold">2</span>
+                                Coolors.co
+                            </h3>
+                            <p class="text-sm">A highly intuitive, free color palette generator. It helps you quickly discover visually pleasing color schemes, export them as CSS variables, and verify their contrast ratios for accessibility.</p>
+                        </div>
+
+                        <div class="tool-card p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
+                            <h3 class="text-lg font-bold mb-2 flex flex-col md:flex-row md:items-center gap-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">
+                                <span class="w-8 h-8 shrink-0 rounded bg-pink-500/10 text-pink-500 flex items-center justify-center font-bold">3</span>
+                                Phosphor Icons
+                            </h3>
+                            <p class="text-sm">An essential open-source icon family for modern interfaces. Phosphor provides thousands of consistent SVG icons in multiple weights (Regular, Thin, Bold, Fill), perfect for both web and mobile.</p>
+                        </div>
+
+                        <div class="tool-card p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
+                            <h3 class="text-lg font-bold mb-2 flex flex-col md:flex-row md:items-center gap-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">
+                                <span class="w-8 h-8 shrink-0 rounded bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold">4</span>
+                                Google Fonts & Fontsource
+                            </h3>
+                            <p class="text-sm">Typography sets the tone. Instead of relying on CDN links, tools like <strong>Fontsource</strong> let you easily install Google Fonts via npm, ensuring optimal loading performance in your Laravel applications.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">3. How This Integrates with Laravel 13</h2>
+                    <p class="mb-4">
+                        Laravel 13 seamlessly bridges the gap between design and implementation. Here’s how these modern design tools pipeline directly into a Laravel architecture:
+                    </p>
+
+                    <div class="mt-8 space-y-8">
+                        <div>
+                            <h3 class="text-xl font-bold mb-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Translating Designs to Blade Components</h3>
+                            <p class="mb-4">
+                                The UI/UX artifacts exported from Figma or Penpot map perfectly to <strong>Laravel anonymous Blade components</strong>. If your design system defines a primary button, a card, and an input field, you create matching `<x-button>`, `<x-card>`, and `<x-input>` components.
+                            </p>
+                            <div class="code-block border" :class="dark ? 'border-[#27272a]' : 'border-gray-200'">
+                                <pre><code class="language-html">&lt;!-- resources/views/components/button.blade.php --&gt;
+&lt;button {{ $attributes-&gt;merge(['class' =&gt; 'px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand-dark transition-all']) }}&gt;
+    {{ $slot }}
+&lt;/button&gt;</code></pre>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-bold mb-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Utilizing Tailwind CSS</h3>
+                            <p class="mb-4">
+                                Laravel's default frontend scaffolding embraces Tailwind CSS. The design tokens you extract from Coolors (e.g., brand colors, neutral palettes) are directly injected into your `tailwind.config.js`. This guarantees that your application visually matches your wireframes perfectly.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-bold mb-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Mobile App Integration via API</h3>
+                            <p class="mb-4">
+                                If you are developing a mobile app (using Flutter, React Native, or NativePHP) alongside your web app, Laravel 13 acts as the ultimate centralized backend.
+                            </p>
+                            <p>
+                                With Laravel 13, you can build out a robust API using <strong>Laravel Sanctum</strong> for authentication and <strong>API Resources</strong> to ensure the response schemas match exactly what your mobile developers need to populate their native UI components. The design language (colors, icons, spacing) remains consistent since both web and mobile clients consume data logically from the same structure, while relying on their shared Figma design system rules.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="mt-12 bg-zinc-900 text-zinc-100 p-8 rounded-2xl border border-zinc-800">
+                    <h2 class="text-2xl font-bold mb-4 text-white">Summary</h2>
+                    <p class="text-sm opacity-80 leading-relaxed text-zinc-300">
+                        A solid Laravel 13 application involves more than just writing beautiful PHP. It requires planning with scalable design principles, utilizing modern tools like Figma and Coolors, and executing tightly through Blade components and clean APIs. By unifying your design process with Laravel's modern workflows, you can rapidly ship web and mobile experiences that look as good as they function.
+                    </p>
+                </section>
+
+                <footer class="mt-16 pt-10 border-t border-gray-200" :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
+                    <p class="text-sm text-center italic" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">
+                        "Great applications aren't just coded; they are designed. Bridge the gap seamlessly with Laravel 13."
+                    </p>
+                </footer>
+            </div>
+        </article>
+
+        <!-- Visitor Counter (Sticky Left) -->
+        <a href="https://smallcounter.com" target="_blank" rel="noopener" title="Visitor Counter"
+            class="fixed top-1/2 left-5 transform -translate-x-1/2 -translate-y-1/2 -rotate-90 z-50 flex items-center gap-2 py-2 pl-3 pr-2.5 rounded-xl backdrop-blur-md shadow-lg group"
+            :class="dark
+                ? 'bg-[#111113]/80 border-[#1e1e24] text-zinc-500 hover:text-brand hover:border-brand/40 hover:shadow-[0_4px_24px_rgba(99,102,241,0.18)]'
+                : 'bg-white/80 border-gray-300 text-zinc-400 hover:text-brand-dark hover:border-brand/30 hover:shadow-[0_4px_20px_rgba(99,102,241,0.12)]'">
+            <svg class="w-3 h-3 shrink-0 text-brand group-hover:scale-110 transition-transform duration-300" fill="none"
+                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+            </svg>
+            <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="visitor count"
+                class="h-2.5 w-auto transition-all duration-300"
+                :class="dark ? 'opacity-70 group-hover:opacity-100' : 'opacity-60 group-hover:opacity-90 invert'">
+            <span class="font-mono text-[9px] font-medium tracking-widest uppercase whitespace-nowrap leading-none">
+                visitors
+            </span>
+        </a>
+        
+        <!-- Comments Section -->
+        <div class="mt-20 pt-10 border-t border-gray-200 dark:border-[#1e1e24] max-w-3xl mx-auto">
+            <h3 class="text-2xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">Discussion</h3>
+            <div id="comments-container"></div>
+            <script>
+                // Initialize utterances and listen for theme changes
+                const initComments = () => {
+                    if (document.querySelector('.utterances-frame')) return;
+                    const theme = document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
+                    let script = document.createElement('script');
+                    script.src = 'https://utteranc.es/client.js';
+                    script.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                    script.setAttribute('issue-term', 'pathname');
+                    script.setAttribute('label', 'comment');
+                    script.setAttribute('theme', theme);
+                    script.setAttribute('crossorigin', 'anonymous');
+                    script.async = true;
+                    document.getElementById('comments-container').appendChild(script);
+                };
+                setTimeout(initComments, 300);
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.attributeName === 'class') {
+                            const isDark = document.documentElement.classList.contains('dark');
+                            const message = { type: 'set-theme', theme: isDark ? 'github-dark' : 'github-light' };
+                            const iframe = document.querySelector('.utterances-frame');
+                            if (iframe) iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+                        }
+                    });
+                });
+                observer.observe(document.documentElement, { attributes: true });
+            </script>
+        </div>
+    </main>
+
+    <script>
+        function blogApp() {
+            return {
+                dark: true,
+                init() {
+                    const saved = localStorage.getItem('theme');
+                    if (saved === 'light') this.dark = false;
+                    this.$watch('dark', val => {
+                        document.documentElement.classList.toggle('dark', val);
+                        localStorage.setItem('theme', val ? 'dark' : 'light');
+                    });
+                    document.documentElement.classList.toggle('dark', this.dark);
+                },
+                toggleTheme() { this.dark = !this.dark; }
+            }
+        }
+    </script>
+</body>
+
+</html>
