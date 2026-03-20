@@ -12,8 +12,8 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Monaco Editor Loader -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
-  <script type="module" crossorigin src="./assets/index-DiovApoy.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-DsKssO6J.css">
+  <script type="module" crossorigin src="./assets/index-B3ReCpWu.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-j5GOhShI.css">
 </head>
 <body>
     <div id="app">
@@ -96,29 +96,25 @@
                     <span>Projects / </span>
                     <span id="project-title">Untitled Lab</span>
                 </div>
+                <div class="device-toggle-group">
+                    <button id="desktop-view" class="btn-toggle disabled" title="Desktop View (Coming Soon)">
+                        <i data-lucide="monitor"></i>
+                    </button>
+                    <button id="mobile-view" class="btn-toggle active" title="Mobile View">
+                        <i data-lucide="smartphone"></i>
+                    </button>
+                </div>
+                
                 <div class="actions">
-                    <div class="device-toggle-group">
-                        <button id="desktop-view" class="btn-toggle disabled" title="Desktop View (Coming Soon)">
-                            <i data-lucide="monitor"></i>
-                            <span class="badge">Soon</span>
-                        </button>
-                        <button id="mobile-view" class="btn-toggle active" title="Mobile View">
-                            <i data-lucide="smartphone"></i>
-                        </button>
-                    </div>
-                    <button class="btn btn-secondary mobile-only-flex" id="mobile-plugins-btn" onclick="document.getElementById('plugin-menu').classList.add('active')" style="padding: 0 16px; height: 38px; gap: 8px;">
-                        <i data-lucide="layers" style="width: 16px;"></i>
+                    <button class="btn btn-secondary mobile-only-flex" id="mobile-plugins-btn" onclick="document.getElementById('plugin-menu').classList.add('active')">
+                        <i data-lucide="layers"></i>
                         <span>Plugins</span>
                     </button>
                     <button class="btn btn-primary" id="run-btn">
                         <i data-lucide="play"></i>
-                        Run Lab
+                        <span>Run Lab</span>
                     </button>
-                    <button class="btn btn-secondary">
-                        <i data-lucide="share-2"></i>
-                        Share
-                    </button>
-                    <button class="btn btn-icon">
+                    <button class="btn btn-icon" id="settings-btn" onclick="window.NativePHP.Dialog.alert('Settings simulation: Theme and API configuration options.')">
                         <i data-lucide="settings"></i>
                     </button>
                 </div>
@@ -189,6 +185,10 @@
             <div class="menu-item" data-type="haptics">
                 <i data-lucide="vibrate"></i>
                 <span>Haptics</span>
+            </div>
+            <div class="menu-item" data-type="geolocation">
+                <i data-lucide="map-pin"></i>
+                <span>GPS / Location</span>
             </div>
         </div>
     </div>
