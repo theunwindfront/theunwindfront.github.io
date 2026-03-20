@@ -343,37 +343,30 @@
                                     d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
                                 </path>
                             </svg></span>
-                        Dynamic Manifest
+                        ZTS & Background Workers
                     </h3>
-                    <p class="text-sm" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">All binaries are now served
-                        through <code>bin.nativephp.com</code>, allowing for instant patch updates without requiring new
-                        package releases.</p>
+                    <p class="text-sm" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">v3.1 ships with <strong>Thread-Safe (ZTS) PHP</strong>, enabling dedicated background queue workers for non-blocking UI operations.</p>
                 </div>
                 <div class="demo-card">
                     <h3 class="font-bold mb-2 flex items-center gap-2" :class="dark ? 'text-white' : 'text-zinc-900'">
                         <span class="p-1.5 rounded-md bg-brand/10 text-brand"><svg class="w-4 h-4" fill="none"
                                 stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
                             </svg></span>
-                        PHP 8.3 & 8.4 Support
+                        Android 8+ Support
                     </h3>
-                    <p class="text-sm" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">The build tool now auto-matches
-                        the Android PHP binary to your project's local PHP version, including full support for 8.3 and
-                        8.4.</p>
+                    <p class="text-sm" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Static linking improvements have dropped the minimum support from Android 13 (API 33) down to <strong>Android 8 (API 26)</strong>.</p>
                 </div>
                 <div class="demo-card">
                     <h3 class="font-bold mb-2 flex items-center gap-2" :class="dark ? 'text-white' : 'text-zinc-900'">
                         <span class="p-1.5 rounded-md bg-brand/10 text-brand"><svg class="w-4 h-4" fill="none"
                                 stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg></span>
-                        Project Caching
+                        Persistent Runtime
                     </h3>
-                    <p class="text-sm" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Extracted binaries are now
-                        managed within <code>nativephp/binaries</code>, ensuring a persistent and reliable build cache
-                        across sessions.</p>
+                    <p class="text-sm" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Boot Laravel once and reuse the kernel. Response times drop from ~200ms to <strong>5-30ms</strong> — a 10x performance leap.</p>
                 </div>
                 <div class="demo-card">
                     <h3 class="font-bold mb-2 flex items-center gap-2" :class="dark ? 'text-white' : 'text-zinc-900'">
@@ -383,10 +376,9 @@
                                     d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
                                 </path>
                             </svg></span>
-                        ICU Binary Variants
+                        Slim ICU Support
                     </h3>
-                    <p class="text-sm" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Pull a full-featured ICU binary
-                        for internationalization support using the new <code>--with-icu</code> build flag.</p>
+                    <p class="text-sm" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Optional ICU support now only adds <strong>10-15MB</strong> to the app size, making Filament integration viable on both iOS and Android.</p>
                 </div>
             </div>
 
@@ -447,9 +439,13 @@
                 <div class="code-block">
                     <pre><code>// config/nativephp.php
 return [
-    'mobile' => [
-        'runtime' => 'persistent', // New v3.1 default
-        'php_version' => '8.3',    // Explicit override
+    'runtime' => [
+        'mode' => 'persistent', // v3.1 default leap
+        'reset_instances' => true,
+        'gc_between_dispatches' => false,
+    ],
+    'android' => [
+        'min_sdk' => 26, // Android 8+ support
     ]
 ];</code></pre>
                 </div>
