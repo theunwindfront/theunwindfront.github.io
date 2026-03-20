@@ -178,10 +178,10 @@
                 </div>
                 <div class="hidden sm:block w-px h-10" :class="dark ? 'bg-[#27272a]' : 'bg-gray-300'"></div>
                 <div class="flex items-center gap-4 text-sm">
-                    <time datetime="2026-03-12" class="text-brand">Mar 12, 2026</time>
+                    <time datetime="2026-03-20" class="text-brand">Mar 20, 2026</time>
                     <span>·</span>
                     <span
-                        class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">12
+                        class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">15
                         min read</span>
                 </div>
             </div>
@@ -262,11 +262,30 @@
             <p class="text-lg leading-relaxed mb-8" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">Running <a
                     href="https://nativephp.com" target="_blank" class="text-brand hover:underline">NativePHP</a>
                 on Android is an exciting frontier, but the bridge between a Laravel app and a native APK is paved with
-                technical landmines. After days of deep research, I've documented every critical fix—from mastering the <strong>v3.1.0 Binary Revolution</strong> to engineering the Kotlin bridge architecture. Let's dive into the details.</p>
+                technical landmines. After days of deep research, I've documented every critical fix—from environment
+                pathing on Windows to mastering the Kotlin bridge architecture. Let's dive into the details.</p>
         </div>
 
-        <!-- Section 1: v3.1 Binaries -->
-        <section class="mt-8">
+        <div class="sticky top-[53px] z-40 -mx-6 px-6 py-3 backdrop-blur-xl border-b mb-10 overflow-x-auto scrollbar-hide"
+            :class="dark ? 'bg-[#09090b]/90 border-[#1e1e24]' : 'bg-[#f4f4f5]/90 border-gray-300'">
+            <div class="flex gap-2">
+                <template x-for="(tab, i) in tabs" :key="i">
+                    <button @click="activeTab = i"
+                        class="tab-btn px-4 py-2 rounded-lg font-mono text-xs font-semibold whitespace-nowrap border relative"
+                        :class="activeTab === i ? 'active border-brand/30' : (dark ? 'border-transparent text-zinc-500' : 'border-transparent text-zinc-500 bg-white shadow-sm duration-150')">
+                        <span x-text="tab.label"></span>
+                        <span x-show="tab.new" class="absolute -top-1.5 -right-1 flex h-2.5 w-2.5">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand"></span>
+                        </span>
+                    </button>
+                </template>
+            </div>
+        </div>
+
+        <!-- Section 0: v3.1 Binaries -->
+        <section x-show="activeTab === 0" x-transition.opacity>
             <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">What's New in v3.1: The
                 Binary Revolution</h2>
             <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
@@ -276,13 +295,17 @@
                     reducing build friction and future-proofing the platform.</p>
             </div>
 
-            <div class="overflow-x-auto mb-10 rounded-xl border transition-colors" :class="dark ? 'border-[#1e1e24] bg-[#0d0d0f]' : 'border-gray-200 bg-white'">
+            <div class="overflow-x-auto mb-10 rounded-xl border transition-colors"
+                :class="dark ? 'border-[#1e1e24] bg-[#0d0d0f]' : 'border-gray-200 bg-white'">
                 <table class="w-full text-left text-sm border-collapse">
-                    <thead :class="dark ? 'bg-[#111113] border-[#1e1e24]' : 'bg-gray-50 border-gray-200'" class="border-b">
+                    <thead :class="dark ? 'bg-[#111113] border-[#1e1e24]' : 'bg-gray-50 border-gray-200'"
+                        class="border-b">
                         <tr>
                             <th class="px-6 py-3 font-bold uppercase tracking-wider text-brand">FEATURE</th>
-                            <th class="px-6 py-3 font-bold uppercase tracking-wider" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">v3.0 (PREVIOUS)</th>
-                            <th class="px-6 py-3 font-bold uppercase tracking-wider" :class="dark ? 'text-white' : 'text-zinc-900'">v3.1 (LATEST)</th>
+                            <th class="px-6 py-3 font-bold uppercase tracking-wider"
+                                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">v3.0 (PREVIOUS)</th>
+                            <th class="px-6 py-3 font-bold uppercase tracking-wider"
+                                :class="dark ? 'text-white' : 'text-zinc-900'">v3.1 (LATEST)</th>
                         </tr>
                     </thead>
                     <tbody :class="dark ? 'divide-[#1e1e24]' : 'divide-gray-200'" class="divide-y font-medium">
@@ -307,9 +330,11 @@
                             <td class="px-6 py-4 text-brand">One-Flag ICU Variants</td>
                         </tr>
                         <tr>
-                            <td class="px-6 py-4 font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">Performance</td>
+                            <td class="px-6 py-4 font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">Performance
+                            </td>
                             <td class="px-6 py-4 text-zinc-500">~300ms Overhead</td>
-                            <td class="px-6 py-4 text-green-500 font-extrabold underline italic">~5ms (Persistent Runtime)</td>
+                            <td class="px-6 py-4 text-green-500 font-extrabold underline italic">~5ms (Persistent
+                                Runtime)</td>
                         </tr>
                     </tbody>
                 </table>
@@ -326,28 +351,35 @@
                             </svg></span>
                         ZTS & Background Workers
                     </h3>
-                    <p class="text-sm" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">v3.1 ships with <strong>Thread-Safe (ZTS) PHP</strong>, enabling dedicated background queue workers for non-blocking UI operations.</p>
+                    <p class="text-sm" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">v3.1 ships with
+                        <strong>Thread-Safe (ZTS) PHP</strong>, enabling dedicated background queue workers for
+                        non-blocking UI operations.</p>
                 </div>
                 <div class="demo-card">
                     <h3 class="font-bold mb-2 flex items-center gap-2" :class="dark ? 'text-white' : 'text-zinc-900'">
                         <span class="p-1.5 rounded-md bg-brand/10 text-brand"><svg class="w-4 h-4" fill="none"
                                 stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z">
+                                </path>
                             </svg></span>
                         Android 8+ Support
                     </h3>
-                    <p class="text-sm" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Static linking improvements have dropped the minimum support from Android 13 (API 33) down to <strong>Android 8 (API 26)</strong>.</p>
+                    <p class="text-sm" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Static linking improvements
+                        have dropped the minimum support from Android 13 (API 33) down to <strong>Android 8 (API
+                            26)</strong>.</p>
                 </div>
                 <div class="demo-card">
                     <h3 class="font-bold mb-2 flex items-center gap-2" :class="dark ? 'text-white' : 'text-zinc-900'">
                         <span class="p-1.5 rounded-md bg-brand/10 text-brand"><svg class="w-4 h-4" fill="none"
                                 stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg></span>
                         Persistent Runtime
                     </h3>
-                    <p class="text-sm" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Boot Laravel once and reuse the kernel. Response times drop from ~200ms to <strong>5-30ms</strong> — a 10x performance leap.</p>
+                    <p class="text-sm" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Boot Laravel once and reuse the
+                        kernel. Response times drop from ~200ms to <strong>5-30ms</strong> — a 10x performance leap.</p>
                 </div>
                 <div class="demo-card">
                     <h3 class="font-bold mb-2 flex items-center gap-2" :class="dark ? 'text-white' : 'text-zinc-900'">
@@ -359,36 +391,66 @@
                             </svg></span>
                         Slim ICU Support
                     </h3>
-                    <p class="text-sm" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Optional ICU support now only adds <strong>10-15MB</strong> to the app size, making Filament integration viable on both iOS and Android.</p>
+                    <p class="text-sm" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Optional ICU support now only
+                        adds <strong>10-15MB</strong> to the app size, making Filament integration viable on both iOS
+                        and Android.</p>
                 </div>
             </div>
 
-            <h3 class="text-xl font-bold mt-10 mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">The Binary Lifecycle: How It Works</h3>
-            <div class="relative pl-8 space-y-10 before:absolute before:inset-0 before:left-3 before:w-0.5 before:bg-brand/20">
+            <h3 class="text-xl font-bold mt-10 mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">The Binary
+                Lifecycle: How It Works</h3>
+            <div
+                class="relative pl-8 space-y-10 before:absolute before:inset-0 before:left-3 before:w-0.5 before:bg-brand/20">
                 <div class="relative">
-                    <div class="absolute -left-[26px] top-1 w-4 h-4 rounded-full bg-brand border-4 border-white dark:border-[#09090b]"></div>
-                    <p class="font-bold text-sm mb-1" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">1. The Artisan Trigger</p>
-                    <p class="text-sm" :class="dark ? 'text-zinc-400' : 'text-zinc-500'">When you run <code>native:run android</code>, the <code>BinaryProvider</code> service kicks in. It captures your local PHP version (e.g., 8.3) and selects the corresponding Android architecture target.</p>
+                    <div
+                        class="absolute -left-[26px] top-1 w-4 h-4 rounded-full bg-brand border-4 border-white dark:border-[#09090b]">
+                    </div>
+                    <p class="font-bold text-sm mb-1" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">1. The Artisan
+                        Trigger</p>
+                    <p class="text-sm" :class="dark ? 'text-zinc-400' : 'text-zinc-500'">When you run
+                        <code>native:run android</code>, the <code>BinaryProvider</code> service kicks in. It captures
+                        your local PHP version (e.g., 8.3) and selects the corresponding Android architecture target.
+                    </p>
                 </div>
                 <div class="relative">
-                    <div class="absolute -left-[26px] top-1 w-4 h-4 rounded-full bg-brand border-4 border-white dark:border-[#09090b]"></div>
-                    <p class="font-bold text-sm mb-1" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">2. Manifest Resolution</p>
-                    <p class="text-sm" :class="dark ? 'text-zinc-400' : 'text-zinc-500'">The tool fetches the encrypted <code>versions.json</code> from <code>bin.nativephp.com</code>. It verifies hashes and resolves the direct download link for the optimized PHP binary bundle.</p>
+                    <div
+                        class="absolute -left-[26px] top-1 w-4 h-4 rounded-full bg-brand border-4 border-white dark:border-[#09090b]">
+                    </div>
+                    <p class="font-bold text-sm mb-1" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">2. Manifest
+                        Resolution</p>
+                    <p class="text-sm" :class="dark ? 'text-zinc-400' : 'text-zinc-500'">The tool fetches the encrypted
+                        <code>versions.json</code> from <code>bin.nativephp.com</code>. It verifies hashes and resolves
+                        the direct download link for the optimized PHP binary bundle.</p>
                 </div>
                 <div class="relative">
-                    <div class="absolute -left-[26px] top-1 w-4 h-4 rounded-full bg-brand border-4 border-white dark:border-[#09090b]"></div>
-                    <p class="font-bold text-sm mb-1" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">3. Local Extraction</p>
-                    <p class="text-sm" :class="dark ? 'text-zinc-400' : 'text-zinc-500'">The binary bundle (containing <code>libphp.a</code> and <code>libphp_wrapper.so</code>) is downloaded and unpacked into the <code>nativephp/binaries</code> directory, acting as a local source of truth.</p>
+                    <div
+                        class="absolute -left-[26px] top-1 w-4 h-4 rounded-full bg-brand border-4 border-white dark:border-[#09090b]">
+                    </div>
+                    <p class="font-bold text-sm mb-1" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">3. Local
+                        Extraction</p>
+                    <p class="text-sm" :class="dark ? 'text-zinc-400' : 'text-zinc-500'">The binary bundle (containing
+                        <code>libphp.a</code> and <code>libphp_wrapper.so</code>) is downloaded and unpacked into the
+                        <code>nativephp/binaries</code> directory, acting as a local source of truth.</p>
                 </div>
                 <div class="relative">
-                    <div class="absolute -left-[26px] top-1 w-4 h-4 rounded-full bg-brand border-4 border-white dark:border-[#09090b]"></div>
-                    <p class="font-bold text-sm mb-1" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">4. Gradle Linking</p>
-                    <p class="text-sm" :class="dark ? 'text-zinc-400' : 'text-zinc-500'">During the Kotlin compilation phase, Gradle maps the project's <code>jniLibs</code> to the binaries folder. This bundles the native PHP engine directly into the ultimate APK.</p>
+                    <div
+                        class="absolute -left-[26px] top-1 w-4 h-4 rounded-full bg-brand border-4 border-white dark:border-[#09090b]">
+                    </div>
+                    <p class="font-bold text-sm mb-1" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">4. Gradle
+                        Linking</p>
+                    <p class="text-sm" :class="dark ? 'text-zinc-400' : 'text-zinc-500'">During the Kotlin compilation
+                        phase, Gradle maps the project's <code>jniLibs</code> to the binaries folder. This bundles the
+                        native PHP engine directly into the ultimate APK.</p>
                 </div>
                 <div class="relative">
-                    <div class="absolute -left-[26px] top-1 w-4 h-4 rounded-full bg-brand border-4 border-white dark:border-[#09090b]"></div>
-                    <p class="font-bold text-sm mb-1" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">5. Runtime Execution</p>
-                    <p class="text-sm" :class="dark ? 'text-zinc-400' : 'text-zinc-500'">On app launch, the Android JVM loads the JNI wrapper. This initiates the PHP process, bootstraps your Laravel kernel in the background, and prepares the WebView bridge.</p>
+                    <div
+                        class="absolute -left-[26px] top-1 w-4 h-4 rounded-full bg-brand border-4 border-white dark:border-[#09090b]">
+                    </div>
+                    <p class="font-bold text-sm mb-1" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">5. Runtime
+                        Execution</p>
+                    <p class="text-sm" :class="dark ? 'text-zinc-400' : 'text-zinc-500'">On app launch, the Android JVM
+                        loads the JNI wrapper. This initiates the PHP process, bootstraps your Laravel kernel in the
+                        background, and prepares the WebView bridge.</p>
                 </div>
             </div>
 
@@ -481,21 +543,30 @@ return [
                     </div>
                 </div>
 
-                <h3 class="text-xl font-bold mt-10 mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">Pro Tips & Optimization</h3>
+                <h3 class="text-xl font-bold mt-10 mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">Pro Tips &
+                    Optimization</h3>
                 <div class="prose-content space-y-4">
                     <p>To get the most out of the v3.1 binary system, consider these advanced strategies:</p>
                     <ul class="list-disc pl-5 space-y-2 text-sm italic">
-                        <li><strong>Reduce APK Size:</strong> By default, development builds may bundle multiple architectures. In production, ensure you target only <code>arm64-v8a</code> to trim down the final bundle weight.</li>
-                        <li><strong>Forcing a Re-sync:</strong> If your local binary cache becomes corrupted, use <code>php artisan native:run android --force</code> to bypass the cache and force a fresh manifest download.</li>
-                        <li><strong>Version Pinning:</strong> In team environments, explicitly set your <code>php_version</code> in <code>config/nativephp.php</code> to ensure every developer and CI runner uses the exact same binary hash.</li>
-                        <li><strong>Extension Limits:</strong> The v3.1 binaries come pre-compiled with core PHP extensions (PDO, MBString, OpenSSL). If you need specialized headers, ensure you've selected the <code>--with-icu</code> variant.</li>
+                        <li><strong>Reduce APK Size:</strong> By default, development builds may bundle multiple
+                            architectures. In production, ensure you target only <code>arm64-v8a</code> to trim down the
+                            final bundle weight.</li>
+                        <li><strong>Forcing a Re-sync:</strong> If your local binary cache becomes corrupted, use
+                            <code>php artisan native:run android --force</code> to bypass the cache and force a fresh
+                            manifest download.</li>
+                        <li><strong>Version Pinning:</strong> In team environments, explicitly set your
+                            <code>php_version</code> in <code>config/nativephp.php</code> to ensure every developer and
+                            CI runner uses the exact same binary hash.</li>
+                        <li><strong>Extension Limits:</strong> The v3.1 binaries come pre-compiled with core PHP
+                            extensions (PDO, MBString, OpenSSL). If you need specialized headers, ensure you've selected
+                            the <code>--with-icu</code> variant.</li>
                     </ul>
                 </div>
             </div>
         </section>
 
-        <!-- Section 2: Environment Setup -->
-        <section class="mt-20 pt-10 border-t" :class="dark ? 'border-zinc-800/50' : 'border-gray-200'">
+        <!-- Section 1: Environment Setup -->
+        <section x-show="activeTab === 1" x-transition.opacity>
             <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">1. The Windows
                 Environment & Context Loss</h2>
             <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
@@ -558,8 +629,8 @@ php artisan native:run android</code></pre>
             </div>
         </section>
 
-        <!-- Section 3: Binary Research -->
-        <section class="mt-20 pt-10 border-t" :class="dark ? 'border-zinc-800/50' : 'border-gray-200'">
+        <!-- Section 2: Binary Research -->
+        <section x-show="activeTab === 2" x-transition.opacity style="display: none;">
             <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">2. The JNI Binary Mystery
                 & Extraction Fix</h2>
             <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
@@ -613,8 +684,8 @@ php artisan native:run android</code></pre>
             </div>
         </section>
 
-        <!-- Section 4: Plugin Bridge -->
-        <section class="mt-20 pt-10 border-t" :class="dark ? 'border-zinc-800/50' : 'border-gray-200'">
+        <!-- Section 3: Plugin Bridge -->
+        <section x-show="activeTab === 3" x-transition.opacity style="display: none;">
             <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">3. Understanding the JNI
                 Bridge Architecture</h2>
             <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
@@ -681,8 +752,8 @@ object : BridgeFunction {
             </div>
         </section>
 
-        <!-- Section 5: Build Debugging -->
-        <section class="mt-20 pt-10 border-t" :class="dark ? 'border-zinc-800/50' : 'border-gray-200'">
+        <!-- Section 4: Build Debugging -->
+        <section x-show="activeTab === 4" x-transition.opacity style="display: none;">
             <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">4. Bypassing the
                 NativePHP Cleanup Cycle</h2>
             <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
@@ -718,8 +789,8 @@ adb logcat *:E | grep "NativePHP"</code></pre>
             </div>
         </section>
 
-        <!-- Section 6: Conclusion & Summary -->
-        <section class="mt-20 pt-10 border-t" :class="dark ? 'border-zinc-800/50' : 'border-gray-200'">
+        <!-- Section 5: Conclusion & Summary -->
+        <section x-show="activeTab === 5" x-transition.opacity style="display: none;">
             <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">5. Stabilizing the Haptic
                 Plugin</h2>
             <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
@@ -819,6 +890,15 @@ adb logcat *:E | grep "NativePHP"</code></pre>
         function blogApp() {
             return {
                 dark: true,
+                activeTab: 0,
+                tabs: [
+                    { label: 'v3.1 Binaries', new: true },
+                    { label: 'Environment' },
+                    { label: 'Binaries Tech' },
+                    { label: 'Kotlin Bridge' },
+                    { label: 'Debug Cycle' },
+                    { label: 'Verdict' }
+                ],
                 init() {
                     const saved = localStorage.getItem('theme');
                     if (saved === 'light') this.dark = false;
