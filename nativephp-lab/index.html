@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NativePHP Lab — Revolutionary Playground</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Monaco Editor Loader -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+  <script type="module" crossorigin src="./assets/index-Bp6r6dla.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DsKssO6J.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Sidebar -->
+        <aside class="sidebar glass">
+            <div class="sidebar-header">
+                <div class="logo-wrapper">
+                    <!-- Inline SVG for absolute reliability -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="logo-icon-svg"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                    <span class="logo-text">NativePHP Lab</span>
+                </div>
+            </div>
+
+            <div class="sidebar-scroll">
+                <div class="sidebar-section">
+                    <h3 class="section-title">Core Plugins</h3>
+                    <ul class="component-list">
+                        <li class="component-item active" data-type="window">
+                            <i data-lucide="layout"></i>
+                            <span>Window Manager</span>
+                        </li>
+                        <li class="component-item" data-type="dialog">
+                            <i data-lucide="message-square"></i>
+                            <span>Dialogs</span>
+                        </li>
+                        <li class="component-item" data-type="notification">
+                            <i data-lucide="bell"></i>
+                            <span>Notifications</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section mt-4">
+                    <h3 class="section-title">Mobile Plugins (Air)</h3>
+                    <ul class="component-list">
+                        <li class="component-item" data-type="camera">
+                            <i data-lucide="camera"></i>
+                            <span>Camera & Media</span>
+                        </li>
+                        <li class="component-item" data-type="biometrics">
+                            <i data-lucide="fingerprint"></i>
+                            <span>Biometrics</span>
+                        </li>
+                        <li class="component-item" data-type="geolocation">
+                            <i data-lucide="map-pin"></i>
+                            <span>Geolocation</span>
+                        </li>
+                        <li class="component-item" data-type="haptics">
+                            <i data-lucide="vibrate"></i>
+                            <span>Haptics & Device</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="sync-phone-box glass">
+                    <div id="qr-container">
+                        <!-- Use Image API for 100% reliability -->
+                        <img id="qr-image" src="" alt="QR Code" style="display:none; width: 100%; height: 100%; border-radius: 4px;" />
+                        <div id="qr-loader" style="color: #0f172a; font-size: 10px; font-weight: 700;">Loading...</div>
+                    </div>
+                    <p>SCAN TO TEST ON PHONE</p>
+                    <span class="sync-hint">Syncs Lab to Mobile Device</span>
+                </div>
+                <div class="user-profile glass">
+                    <div class="avatar">SP</div>
+                    <div class="user-info">
+                        <span class="name">Sagar Pansuriya</span>
+                        <span class="status">Pro Account</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+            <header class="workspace-header glass">
+                <div class="breadcrumb">
+                    <span>Projects / </span>
+                    <span id="project-title">Untitled Lab</span>
+                </div>
+                <div class="actions">
+                    <div class="device-toggle-group">
+                        <button id="desktop-view" class="btn-toggle disabled" title="Desktop View (Coming Soon)">
+                            <i data-lucide="monitor"></i>
+                            <span class="badge">Soon</span>
+                        </button>
+                        <button id="mobile-view" class="btn-toggle active" title="Mobile View">
+                            <i data-lucide="smartphone"></i>
+                        </button>
+                    </div>
+                    <button class="btn btn-secondary mobile-only-flex" id="mobile-plugins-btn" onclick="document.getElementById('plugin-menu').classList.add('active')" style="padding: 0 16px; height: 38px; gap: 8px;">
+                        <i data-lucide="layers" style="width: 16px;"></i>
+                        <span>Plugins</span>
+                    </button>
+                    <button class="btn btn-primary" id="run-btn">
+                        <i data-lucide="play"></i>
+                        Run Lab
+                    </button>
+                    <button class="btn btn-secondary">
+                        <i data-lucide="share-2"></i>
+                        Share
+                    </button>
+                    <button class="btn btn-icon">
+                        <i data-lucide="settings"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div id="split-screen" class="split-screen">
+                <!-- Code Editor Pane -->
+                <div class="editor-pane glass">
+                    <div class="pane-header">
+                        <i data-lucide="code-2"></i>
+                        <span>App.php</span>
+                    </div>
+                    <div id="monaco-editor" class="monaco-container"></div>
+                </div>
+
+                <!-- Resizer Handle -->
+                <div id="resizer" class="resizer"></div>
+
+                <!-- Preview Pane -->
+                <div class="desktop-pane glass">
+                    <div class="pane-header">
+                        <i data-lucide="monitor"></i>
+                        <span>Virtual Desktop</span>
+                        <div class="status-badge">
+                            <span class="dot pulse"></span>
+                            Live
+                        </div>
+                    </div>
+                    <div class="desktop-container">
+                        <div class="desktop-wallpaper"></div>
+                        <div class="mock-canvas mobile-mode"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <button class="mobile-code-toggle" id="mobile-code-toggle" title="Edit Code">
+        <i data-lucide="code-2"></i>
+    </button>
+
+    <div class="mobile-plugin-menu" id="plugin-menu">
+        <div class="menu-header">
+            <h3>Quick Plugins</h3>
+            <button class="btn-close" onclick="document.getElementById('plugin-menu').classList.remove('active')">&times;</button>
+        </div>
+        <div class="menu-grid">
+            <div class="menu-item" data-type="window">
+                <i data-lucide="layout"></i>
+                <span>Window</span>
+            </div>
+            <div class="menu-item" data-type="dialog">
+                <i data-lucide="message-square"></i>
+                <span>Dialog</span>
+            </div>
+            <div class="menu-item" data-type="notification">
+                <i data-lucide="bell"></i>
+                <span>Alerts</span>
+            </div>
+            <div class="menu-item" data-type="camera">
+                <i data-lucide="camera"></i>
+                <span>Camera</span>
+            </div>
+            <div class="menu-item" data-type="biometrics">
+                <i data-lucide="fingerprint"></i>
+                <span>Bio Auth</span>
+            </div>
+            <div class="menu-item" data-type="haptics">
+                <i data-lucide="vibrate"></i>
+                <span>Haptics</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- No-import main logic -->
+</body>
+</html>
