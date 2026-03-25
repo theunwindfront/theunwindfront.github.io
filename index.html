@@ -644,7 +644,7 @@
                         const token = await new Promise((resolve, reject) => {
                             grecaptcha.ready(async () => {
                                 try {
-                                    const t = await grecaptcha.execute('YOUR_RECAPTCHA_SITE_KEY', {action: 'submit'});
+                                    const t = await grecaptcha.execute('6Lc4KZcsAAAAANzxVFJn6PbjBEaTvF2aJHiIv73J', {action: 'submit'});
                                     resolve(t);
                                 } catch (e) { reject(e); }
                             });
