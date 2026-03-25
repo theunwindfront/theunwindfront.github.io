@@ -487,12 +487,15 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100 scale-100"
          x-transition:leave-end="opacity-0 scale-95"
-         class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-md">
+         class="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-md"
+         :class="dark ? 'bg-black/70' : 'bg-zinc-900/30'">
         
         <div @click.away="closeModal()" 
              @keydown.escape.window="closeModal()"
-             class="relative w-full max-w-lg glass rounded-3xl overflow-hidden shadow-2xl border-white/10"
-             :class="!dark && 'bg-white/90 border-indigo-100'">
+             class="relative w-full max-w-lg glass rounded-[2.5rem] overflow-hidden shadow-2xl transition-all duration-500"
+             :class="dark ? 'border-white/10' : 'bg-white/95 border-indigo-100 shadow-[0_20px_60px_-15px_rgba(99,102,241,0.2)]'">
+            
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand to-transparent opacity-50"></div>
             
             <!-- Modal Header -->
             <div class="px-8 pt-8 pb-4 flex justify-between items-start">
@@ -574,16 +577,16 @@
 
                 <template x-if="successMessage">
                     <div class="py-12 text-center animate-float">
-                        <div class="w-20 h-20 rounded-3xl bg-brand/20 flex items-center justify-center text-brand mx-auto mb-6">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <div class="w-24 h-24 rounded-[2rem] bg-brand/10 border border-brand/20 flex items-center justify-center text-brand mx-auto mb-8 shadow-inner shadow-brand/10">
+                            <svg class="w-12 h-12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-bold mb-2">Message Sent!</h3>
-                        <p class="text-zinc-400 mb-8 max-w-[280px] mx-auto" :class="!dark && 'text-zinc-500'">Thank you for reaching out. I'll get back to you shortly.</p>
+                        <h3 class="text-3xl font-black mb-3" :class="dark ? 'text-white' : 'text-zinc-900'">Message Sent!</h3>
+                        <p class="text-zinc-400 mb-10 max-w-[300px] mx-auto leading-relaxed" :class="!dark && 'text-zinc-500'">Thank you for reaching out. I'll get back to you shortly via email.</p>
                         <button @click="closeModal()" 
-                                class="px-8 py-3 rounded-xl border border-white/10 hover:bg-brand/10 hover:border-brand/40 transition-all font-bold">
-                            Close
+                                class="px-10 py-4 rounded-2xl bg-brand text-white font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-brand/25">
+                            Back to Portfolio
                         </button>
                     </div>
                 </template>
