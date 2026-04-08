@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+
+<head>
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work-Life Balance as a Developer: Returning with Renewed Energy</title>
+    <meta name="description"
+        content="Balancing work and personal life as a developer isn’t easy, but taking a step back to support family makes both life and progress stronger.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/work-life-balance-developer/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Work-Life Balance as a Developer: Returning with Renewed Energy">
+    <meta property="og:description" content="Balancing work and personal life as a developer isn’t easy, but taking a step back to support family makes both life and progress stronger.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/work-life-balance-developer/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/work-life-balance-developer/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Work-Life Balance as a Developer: Returning with Renewed Energy">
+    <meta name="twitter:description" content="Balancing work and personal life as a developer isn’t easy, but taking a step back to support family makes both life and progress stronger.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/work-life-balance-developer/cover.png">
+    <meta name="twitter:creator" content="@theunwindfront">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <meta name="msapplication-TileColor" content="#6366f1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { brand: { DEFAULT: '#6366f1', dark: '#4f46e5' } }
+                }
+            }
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(99, 102, 241, .12) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
+    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f4f4f5] text-zinc-700'">
+    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
+        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
+
+    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors"
+        :class="dark ? 'bg-[#09090b]/80 border-[#1e1e24]' : 'bg-[#f4f4f5]/80 border-gray-300'">
+        <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
+            <a href="/blog/" class="flex items-center gap-2 text-sm font-medium hover:text-brand"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-500'">
+                &larr; Blog
+            </a>
+            <button @click="toggleTheme()"
+                class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand"
+                :class="dark ? 'border-[#1e1e24] text-zinc-500' : 'border-gray-300 text-zinc-400'">
+                <svg x-show="dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5" />
+                    <path
+                        d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+                <svg x-show="!dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
+        <div class="mb-12 text-left max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
+                :class="dark ? 'text-white' : 'text-zinc-900'">Work-Life Balance as a Developer: Returning with Renewed Energy</h1>
+
+            <!-- Author Info & Meta -->
+            <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <div class="flex items-center gap-4">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya"
+                        class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
+                        :class="dark ? 'border-[#27272a]' : 'border-white'">
+                    <div>
+                        <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
+                            class="block hover:text-brand transition-colors text-base"
+                            :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
+                        <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
+                            Lead & Frontend Architect</span>
+                    </div>
+                </div>
+                <div class="hidden sm:block w-px h-10" :class="dark ? 'bg-[#27272a]' : 'bg-gray-300'"></div>
+                <div class="flex items-center gap-4 text-sm">
+                    <time datetime="2026-04-08" class="text-brand">Apr 08, 2026</time>
+                    <span>·</span>
+                    <span
+                        class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">4
+                        min read</span>
+                </div>
+            </div>
+
+            <!-- Cover Image -->
+            <div class="rounded-2xl overflow-hidden mb-10 shadow-2xl border border-white/5">
+                <img src="cover.png" alt="Work-Life Balance Illustration" class="w-full h-auto aspect-video object-cover">
+            </div>
+
+            <div class="prose-content space-y-6 text-lg leading-relaxed max-w-3xl"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>For the past two weeks, I haven’t shipped any new features. If you follow my work closely, that might seem unusual. But instead of diving into code, fixing bugs, or launching new capabilities, I made the conscious choice to step back.</p>
+                <p>I focused entirely on supporting my family’s health and helping them through a tough time.</p>
+                
+                <h2 class="text-2xl font-bold mt-10 mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">The Reality of the Grind</h2>
+                <p>As developers, it's incredibly easy to get caught up in the constant cycle of building and shipping. The tech world moves fast, and there's a lingering feeling that if we stop for even a moment, we might fall behind. Our worth often feels tied to our GitHub contributions graph or our latest deployment.</p>
+                <p>Balancing work and personal life as a developer isn't easy. The lines blur when your office is your laptop, and the endless pursuit of learning new frameworks, optimizing code, and chasing deadlines can quickly become all-consuming.</p>
+
+                <h2 class="text-2xl font-bold mt-10 mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">Finding True Balance</h2>
+                <p>However, when family pulls you away, it gives you immediate clarity. Life outside the IDE matters more than any pull request or milestone. Being present for my loved ones during a challenging time was not just necessary; it was a grounding reminder of what truly fuels us.</p>
+                <p>The code will always be there, waiting for us to come back to it. Our families, our health, and our well-being are finite and fragile. Protecting them requires intentional choices.</p>
+
+                <h2 class="text-2xl font-bold mt-10 mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">Returning with Renewed Energy</h2>
+                <p>Things are running more smoothly now. My family is doing better, and with peace of mind restored, I am ready to jump back into my editor.</p>
+                <p>Because I allowed myself the time away without guilt, I'm returning not just refreshed, but with a renewed sense of purpose and energy. I’m excited to deliver something fresh and innovative.</p>
+                <p>Finding harmony between the glowing screen and the real world is challenging, but that balance is exactly what makes both our lives and our progress stronger. Keep building, but don't forget to pause and take care of what really matters.</p>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="mt-20 pt-10 border-t border-gray-200 dark:border-[#1e1e24] max-w-3xl mx-auto">
+            <h3 class="text-2xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">Thoughts?</h3>
+            <div id="comments-container"></div>
+            <script>
+                const initComments = () => {
+                    if (document.querySelector('.utterances-frame')) return;
+                    const theme = document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
+                    let script = document.createElement('script');
+                    script.src = 'https://utteranc.es/client.js';
+                    script.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                    script.setAttribute('issue-term', 'pathname');
+                    script.setAttribute('label', 'comment');
+                    script.setAttribute('theme', theme);
+                    script.setAttribute('crossorigin', 'anonymous');
+                    script.async = true;
+                    document.getElementById('comments-container').appendChild(script);
+                };
+                setTimeout(initComments, 300);
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.attributeName === 'class') {
+                            const isDark = document.documentElement.classList.contains('dark');
+                            const message = { type: 'set-theme', theme: isDark ? 'github-dark' : 'github-light' };
+                            const iframe = document.querySelector('.utterances-frame');
+                            if (iframe) iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+                        }
+                    });
+                });
+                observer.observe(document.documentElement, { attributes: true });
+            </script>
+        </div>
+    </main>
+
+    <script>
+        function blogApp() {
+            return {
+                dark: true,
+                init() {
+                    const saved = localStorage.getItem('theme');
+                    if (saved === 'light') this.dark = false;
+                    this.$watch('dark', val => {
+                        document.documentElement.classList.toggle('dark', val);
+                        localStorage.setItem('theme', val ? 'dark' : 'light');
+                    });
+                    document.documentElement.classList.toggle('dark', this.dark);
+                },
+                toggleTheme() { this.dark = !this.dark; }
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -396,6 +396,11 @@
                                             <circle cx="12" cy="10" r="3" fill="white"/>
                                         </svg>
                                     </template>
+                                    <template x-if="post.category === 'Personal'">
+                                        <svg class="h-14 w-auto text-[#10b981]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                        </svg>
+                                    </template>
                                 </div>
                             </div>
 
@@ -509,8 +514,17 @@
                 activePage: 'blog',
                 activeCategory: 'All',
                 searchQuery: '',
-                categories: ['All', 'NativePHP', 'Laravel', 'CSS', 'React', 'Design', 'WordPress', 'Tools'],
+                categories: ['All', 'NativePHP', 'Laravel', 'CSS', 'React', 'Design', 'WordPress', 'Tools', 'Personal'],
                 posts: [
+                    {
+                        id: 9,
+                        title: 'Work-Life Balance as a Developer: Returning with Renewed Energy',
+                        excerpt: 'Balancing work and personal life as a developer isn\'t easy, but taking a step back to support family makes both life and progress stronger.',
+                        date: 'Apr 08, 2026',
+                        readTime: '4 min read',
+                        category: 'Personal',
+                        url: '/blog/work-life-balance-developer/',
+                    },
                     {
                         id: 8,
                         title: 'WordPress Studio: The Fast, Dependency-Free Local Development Revolution',
@@ -629,6 +643,7 @@
     </script>
     <!-- SEO: Static links for crawlers to prevent orphan pages -->
     <div style="display: none;" aria-hidden="true" hidden>
+        <a href="/blog/work-life-balance-developer/">Work-Life Balance as a Developer: Returning with Renewed Energy</a>
         <a href="/blog/wordpress-studio/">WordPress Studio: The Fast, Dependency-Free Local Development Revolution</a>
         <a href="/blog/vite-8-laravel-13/">Vite 8 + Laravel 13: The New Gold Standard for Full-Stack Speed</a>
         <a href="/blog/design-tools-laravel-13/">Design Principles & Free Tools for Laravel 13 Development</a>
