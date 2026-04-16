@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+
+<head>
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ultimate Guide: Building Enterprise-Grade WordPress with the Laravel DNA</title>
+    <meta name="description"
+        content="A comprehensive guide on building scalable WordPress applications using Sage, Bedrock, and Acorn. Includes detailed setup steps, Laravel DNA integration, and a complete command cheat sheet.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/laravel-dna-wordpress-sage-bedrock/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="The Ultimate Guide: Enterprise WordPress with the Laravel DNA">
+    <meta property="og:description" content="Step-by-step masterclass on scaling WordPress using the Roots ecosystem (Sage & Bedrock) and Laravel principles.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/laravel-dna-wordpress-sage-bedrock/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/laravel-dna-wordpress-sage-bedrock/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Ultimate Guide: Enterprise WordPress with the Laravel DNA">
+    <meta name="twitter:description" content="Step-by-step masterclass on scaling WordPress using the Roots ecosystem (Sage & Bedrock) and Laravel principles.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/laravel-dna-wordpress-sage-bedrock/cover.png">
+    <meta name="twitter:creator" content="@theunwindfront">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <meta name="msapplication-TileColor" content="#6366f1">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { 
+                        brand: { DEFAULT: '#6366f1', dark: '#4f46e5' },
+                        laravel: '#FF2D20'
+                    }
+                }
+            }
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] { display: none !important; }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(99, 102, 241, .1) 1px, transparent 1px);
+            background-size: 32px 32px;
+            pointer-events: none;
+        }
+
+        .prose-custom p { margin-bottom: 1.5rem; line-height: 1.8; }
+        .prose-custom h2 { font-size: 2.25rem; font-weight: 900; margin-top: 4rem; margin-bottom: 2rem; color: white; letter-spacing: -0.02em; }
+        .prose-custom h3 { font-size: 1.5rem; font-weight: 800; margin-top: 2.5rem; margin-bottom: 1.25rem; color: #cbd5e1; }
+        .prose-custom strong { color: white; }
+        .prose-custom ul { list-style: none; padding-left: 0; margin-bottom: 2rem; }
+        .prose-custom li { position: relative; padding-left: 1.75rem; margin-bottom: 1rem; }
+        .prose-custom li::before { content: '→'; position: absolute; left: 0; color: #6366f1; font-weight: bold; }
+
+        .code-block {
+            background: #0d0d0f;
+            color: #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            margin: 2rem 0;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            position: relative;
+        }
+        .code-block::after {
+            content: 'TERMINAL';
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 4px 12px;
+            background: rgba(255,255,255,0.05);
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            border-bottom-left-radius: 8px;
+            color: rgba(255,255,255,0.3);
+        }
+
+        .command-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 6px;
+            font-family: inherit;
+            color: #818cf8;
+            font-weight: 600;
+        }
+
+        .step-tag {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 32px;
+            margin: 3rem 0;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
+    :class="dark ? 'bg-[#060608] text-zinc-400' : 'bg-[#f8fafc] text-zinc-600'">
+    
+    <div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10">
+        <div class="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] rounded-full blur-[120px] bg-brand/10 opacity-60"></div>
+        <div class="absolute top-[40%] -right-[10%] w-[40%] h-[40%] rounded-full blur-[100px] bg-laravel/5 opacity-40"></div>
+    </div>
+
+    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors"
+        :class="dark ? 'bg-[#060608]/80 border-white/5' : 'bg-white/80 border-zinc-200'">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="/blog/" class="flex items-center gap-2 text-sm font-bold hover:text-brand transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                Dev Guides
+            </a>
+            <div class="flex items-center gap-4">
+                <button @click="toggleTheme()" class="p-2 rounded-xl border border-white/5 hover:bg-white/5 transition-all text-zinc-400">
+                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
+                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-4xl mx-auto px-6 py-20 pb-40">
+        <!-- Hero Section -->
+        <div class="mb-20">
+            <div class="step-tag">Phase: Ultimate Guidance</div>
+            <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-[1] mb-10" :class="dark ? 'text-white' : 'text-zinc-900'">
+                Building <span class="text-brand">Agency-Grade</span> WordPress with the Laravel DNA
+            </h1>
+            <p class="text-xl md:text-2xl leading-relaxed mb-12 opacity-80 max-w-2xl font-medium">
+                A masterclass in transforming the world's most versatile CMS into a production-ready application framework using Sage, Bedrock, and Acorn.
+            </p>
+            
+            <div class="rounded-[3rem] overflow-hidden border border-white/5 shadow-2xl mb-16 group">
+                <img src="cover.png" alt="Integrated Tech Stack" class="w-full h-auto aspect-[16/9] object-cover transition-transform duration-700 group-hover:scale-105">
+            </div>
+
+            <div class="flex flex-wrap items-center gap-6">
+                <div class="flex items-center gap-3">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya" class="w-12 h-12 rounded-full border-2 border-brand/20">
+                    <div>
+                        <span class="block text-sm font-bold text-white">Sagar Pansuriya</span>
+                        <span class="text-xs uppercase tracking-widest opacity-50">Lead Architect</span>
+                    </div>
+                </div>
+                <div class="h-8 w-px bg-white/10 hidden sm:block"></div>
+                <div class="text-xs font-mono uppercase tracking-widest">
+                    Last Updated: <span class="text-brand">April 16, 2026</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sticky Table of Contents -->
+        <div class="sticky top-[80px] z-40 mb-20 bg-zinc-950/50 backdrop-blur-2xl p-2 rounded-2xl border border-white/5 flex gap-1 overflow-x-auto scrollbar-hide no-scrollbar">
+            <template x-for="item in toc" :key="item.id">
+                <button @click="scrollToSection(item.id)" 
+                        class="px-5 py-2 whitespace-nowrap rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:bg-white/5"
+                        :class="activeSection === item.id ? 'bg-brand text-white shadow-lg' : 'text-zinc-500'">
+                    <span x-text="item.label"></span>
+                </button>
+            </template>
+        </div>
+
+        <div class="prose-custom max-w-3xl">
+            <!-- SECTION 1: INTRODUCTION -->
+            <section id="philosophy" class="scroll-mt-32">
+                <h2 class="text-gradient">I. The Architecture Philosophy</h2>
+                <p>Standard WordPress development often leads to <strong>"Technical Debt"</strong>. Manual plugin updates, business logic inside <code>functions.php</code>, and credentials sitting in the web root make projects fragile. For agencies building for enterprise clients, this isn't enough.</p>
+                <p>The <strong>Roots Ecosystem</strong> (specifically Bedrock and Sage) introduces the 12-factor application methodology to WordPress. We are not just building websites; we are building <strong>scalable digital products</strong>.</p>
+                
+                <div class="glass-panel">
+                    <h3 class="mt-0">Why this stack?</h3>
+                    <ul class="space-y-4">
+                        <li><strong>Dependency Reliability:</strong> Manage plugins and WP core via Composer.</li>
+                        <li><strong>Environment Parity:</strong> Ensure your local, staging, and production environments are identical via <code>.env</code>.</li>
+                        <li><strong>Developer Happiness:</strong> Use modern tools like Blade, Vite, and Tailwind CSS.</li>
+                        <li><strong>Security:</strong> Isolate WordPress from the web root and hide sensitive configurations.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- SECTION 2: ENVIRONMENT -->
+            <section id="environment" class="scroll-mt-32">
+                <h2 class="text-gradient">II. Environment Setup</h2>
+                <p>Before executing code, your local machine needs the professional baseline. We assume a Unix-based system (macOS/Linux) or WSL2.</p>
+                
+                <h3>Prerequisites</h3>
+                <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <li class="p-4 bg-white/5 rounded-xl border border-white/5">
+                        <strong>PHP 8.2+</strong><br>
+                        <span class="text-xs opacity-60">Required for Acorn 4 compatibility.</span>
+                    </li>
+                    <li class="p-4 bg-white/5 rounded-xl border border-white/5">
+                        <strong>Composer</strong><br>
+                        <span class="text-xs opacity-60">Global installation for PHP dependencies.</span>
+                    </li>
+                    <li class="p-4 bg-white/5 rounded-xl border border-white/5">
+                        <strong>Node.js & Yarn</strong><br>
+                        <span class="text-xs opacity-60">Essential for the Vite-powered Sage 10.</span>
+                    </li>
+                    <li class="p-4 bg-white/5 rounded-xl border border-white/5">
+                        <strong>WP-CLI</strong><br>
+                        <span class="text-xs opacity-60">Command-line control of WordPress.</span>
+                    </li>
+                </ul>
+
+                <p><strong>Recommendation:</strong> Use <a href="https://localwp.com" target="_blank" class="text-brand underline">LocalWP</a> for a GUI-driven setup, or <a href="https://laravel.com/docs/valet" target="_blank" class="text-brand underline">Laravel Valet</a> for an ultra-fast terminal workflow.</p>
+            </section>
+
+            <!-- SECTION 3: BEDROCK -->
+            <section id="bedrock" class="scroll-mt-32">
+                <h2 class="text-gradient">III. Implementing Bedrock</h2>
+                <p>Bedrock is our project skeleton. It replaces the traditional WordPress directory structure with one that is professional and secure.</p>
+                
+                <div class="code-block">
+                    # Install Bedrock
+                    composer create-project roots/bedrock my-project-name
+                </div>
+
+                <h3>Key Modifications by Bedrock</h3>
+                <ul>
+                    <li><strong><code>web/wp/</code></strong>: WordPress core is isolated here.</li>
+                    <li><strong><code>web/app/</code></strong>: Equivalent to <code>wp-content</code>.</li>
+                    <li><strong><code>.env</code></strong>: All database and salt configurations live here.</li>
+                    <li><strong><code>config/</code></strong>: Site-wide configuration logic.</li>
+                </ul>
+
+                <p>Once installed, edit your <code>.env</code> file:</p>
+                <div class="code-block">
+                    DB_NAME='database_name'
+                    DB_USER='database_user'
+                    DB_PASSWORD='database_password'
+                    WP_HOME='https://my-site.test'
+                </div>
+            </section>
+
+            <!-- SECTION 4: SAGE & DNA -->
+            <section id="sage" class="scroll-mt-32">
+                <h2 class="text-gradient">IV. The Sage 10 & Laravel DNA</h2>
+                <p>This is where the magic happens. Sage is our starter theme, but with <strong>Acorn</strong> integrated, it becomes a mini-Laravel application. It brings the concepts of modern frontend development right into the WordPress ecosystem.</p>
+                
+                <div class="code-block">
+                    # Navigate to themes and install Sage
+                    cd web/app/themes
+                    composer create-project roots/sage my-theme-name
+                </div>
+
+                <h3>Blade Components: Higher Abstraction</h3>
+                <p>Stop writing loops. Start writing components. Sage allows you to create high-reusable UI elements exactly like in Laravel. This separation of concerns is the hallmark of professional projects.</p>
+                <div class="code-block">
+                    # Example Component (resources/views/components/hero.blade.php)
+                    &lt;section class="bg-brand py-20 text-white"&gt;
+                      &lt;h1&gt;{{ $title }}&lt;/h1&gt;
+                      &lt;div&gt;{{ $slot }}&lt;/div&gt;
+                    &lt;/section&gt;
+                </div>
+            </section>
+
+            <!-- SECTION 5: LARAVEL ECOSYSTEM -->
+            <section id="ecosystem" class="scroll-mt-32">
+                <h2 class="laravel-accent">V. Deep Laravel Ecosystem Integration</h2>
+                <p>The true power of this stack is its adoption of the <strong>Laravel Framework's</strong> core concepts. This isn't just about syntax; it's about the entire architectural ecosystem.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
+                    <div class="p-8 rounded-3xl glass-panel !m-0 border-laravel/10">
+                        <div class="w-12 h-12 rounded-2xl bg-laravel/10 flex items-center justify-center text-laravel font-black text-xl mb-4">SC</div>
+                        <h4 class="font-black text-white mb-2">Service Container</h4>
+                        <p class="text-sm opacity-70">The heart of dependency management. Bind your complex services to the container and resolve them anywhere in your theme via type-hinting.</p>
+                    </div>
+                    <div class="p-8 rounded-3xl glass-panel !m-0 border-brand/10">
+                        <div class="w-12 h-12 rounded-2xl bg-brand/10 flex items-center justify-center text-brand font-black text-xl mb-4">SP</div>
+                        <h4 class="font-black text-white mb-2">Service Providers</h4>
+                        <p class="text-sm opacity-70">Register your custom services, bind interfaces to implementations, and manage your custom configuration logic in a Laravel-standard way.</p>
+                    </div>
+                </div>
+
+                <h3>Acorn: The Laravel Bridge</h3>
+                <p>Acorn is what boots the Laravel ecosystem. It allows you to use <strong>Dependency Injection</strong> in your View Composers, just like you would in a Laravel Controller.</p>
+                <div class="code-block">
+                    # app/View/Composers/Post.php
+                    public function __construct(protected WeatherService $weather) {}
+
+                    public function with() {
+                        return [ 'temp' => $this->weather->current() ];
+                    }
+                </div>
+
+                <h3>CLI Control: WP Acorn</h3>
+                <p>Love <code>php artisan</code>? You get an equivalent with <code>wp acorn</code>. You can publish vendor configs, clear caches, and even generate components or providers directly from your terminal.</p>
+                <div class="code-block">
+                    wp acorn make:provider AppServiceProvider
+                    wp acorn vendor:publish --tag=acorn
+                </div>
+            </section>
+
+            <!-- SECTION 6: COMMANDS -->
+            <section id="commands" class="scroll-mt-32">
+                <h2 class="text-gradient">VI. Complete Command Cheat Sheet</h2>
+                <p>A quick reference for daily development tasks within the Roots ecosystem.</p>
+                
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-xs font-black uppercase text-brand mb-2">Development workflow</h4>
+                        <div class="code-block mt-0">
+                            yarn dev          # Starts the Vite development server
+                            yarn build        # Compiles assets for production
+                            yarn lint         # Checks your JS and CSS for errors
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-black uppercase text-brand mb-2">Dependency management</h4>
+                        <div class="code-block mt-0">
+                            composer install  # Installs PHP dependencies
+                            composer update   # Safely updates all plugins/core
+                            yarn install      # Installs Node dependencies
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-black uppercase text-brand mb-2">Acorn CLI Commands</h4>
+                        <div class="code-block mt-0">
+                            wp acorn vendor:publish    # Publish config files
+                            wp acorn cache:clear        # Clear the internal cache
+                            wp acorn make:component     # Create a new Blade component
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 7: DEPLOYMENT -->
+            <section id="deployment" class="scroll-mt-32">
+                <h2 class="text-gradient">VII. Deployment & Hosting</h2>
+                <p>To truly leverage this stack, your hosting must support <strong>Git/SSH</strong> and <strong>managed WP environments</strong>.</p>
+                <p><strong>Top Picks:</strong></p>
+                <ul>
+                    <li><a href="https://kinsta.com" target="_blank" class="text-brand font-bold">Kinsta</a> (Managed WP with Staging/Dev environments).</li>
+                    <li><a href="https://spinupwp.com" target="_blank" class="text-brand font-bold">SpinupWP</a> (Modern server control for developers).</li>
+                </ul>
+                <p>Your CI/CD pipeline should run <code>composer install --no-dev</code> and <code>yarn build</code> to ensure a clean production artifact every time.</p>
+            </section>
+        </div>
+
+        <!-- Master Vision Footer -->
+        <div class="mt-40">
+            <section class="relative z-10 py-32 overflow-hidden border-y rounded-[4rem]" 
+                    :class="dark ? 'bg-white/[0.02] border-white/5' : 'bg-brand/[0.03] border-indigo-100/50'">
+                <div class="max-w-4xl mx-auto px-6 text-center">
+                    <h3 class="text-4xl md:text-7xl font-black mb-8 tracking-tighter" :class="dark ? 'text-white' : 'text-zinc-900'">
+                        Level Up Your <span class="text-gradient">Projects</span>
+                    </h3>
+                    <p class="text-xl md:text-2xl text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+                        Need an enterprise-grade WordPress environment built for your next big project? Let's discuss your architecture.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button @click="showContactModal = true" 
+                                class="px-12 py-6 rounded-3xl bg-brand text-white text-xl font-black transition-all hover:shadow-[0_0_60px_rgba(99,102,241,0.5)] hover:scale-105 active:scale-95 shadow-xl shadow-brand/20">
+                            Let's Build Together
+                        </button>
+                        <a href="/showcase/" class="px-12 py-6 rounded-3xl border border-white/10 text-white text-xl font-black transition-all hover:bg-white/5">
+                            View Showcase
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Contact Modal (Preserved Interaction) -->
+        <div x-show="showContactModal" x-cloak x-transition class="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-2xl bg-black/80">
+            <div @click.away="closeModal()" class="relative w-full max-w-xl glass-panel p-2">
+                <div class="bg-zinc-950/90 rounded-[3rem] p-10">
+                    <div class="flex justify-between items-start mb-10">
+                        <h2 class="text-4xl font-black tracking-tight text-white leading-tight">Project <span class="text-gradient">Briefing</span></h2>
+                        <button @click="closeModal()" class="p-2 text-zinc-500 hover:text-white transition-colors"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-width="3"/></svg></button>
+                    </div>
+                    <template x-if="!successMessage">
+                        <form @submit.prevent="submitForm()" class="space-y-6">
+                            <input type="text" required x-model="contactForm.name" placeholder="Name" class="w-full px-6 py-5 rounded-2xl bg-white/5 border border-white/10 focus:border-brand outline-none text-white">
+                            <input type="email" required x-model="contactForm.email" placeholder="Email" class="w-full px-6 py-5 rounded-2xl bg-white/5 border border-white/10 focus:border-brand outline-none text-white">
+                            <textarea required x-model="contactForm.message" rows="4" placeholder="How can I help you?" class="w-full px-6 py-5 rounded-2xl bg-white/5 border border-white/10 focus:border-brand outline-none text-white resize-none"></textarea>
+                            <button type="submit" :disabled="isSubmitting" class="w-full py-6 rounded-2xl bg-brand text-white font-black text-xl hover:scale-[1.02] shadow-xl shadow-brand/30">
+                                <span x-show="!isSubmitting">INITIATE REQUEST</span>
+                                <span x-show="isSubmitting">TRANSMITTING...</span>
+                            </button>
+                        </form>
+                    </template>
+                    <template x-if="successMessage">
+                        <div class="text-center py-10">
+                            <div class="w-24 h-24 bg-brand/10 rounded-full flex items-center justify-center text-brand mx-auto mb-8"><svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-width="4"/></svg></div>
+                            <h3 class="text-3xl font-black text-white mb-4">Transmission Received</h3>
+                            <button @click="closeModal()" class="px-10 py-4 bg-zinc-800 rounded-xl text-white font-bold">CLOSE</button>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!-- Discussion -->
+        <div class="mt-24 pt-16 border-t border-white/5 max-w-3xl mx-auto">
+            <h3 class="text-3xl font-black mb-10 text-white italic">Discussion</h3>
+            <div id="comments-container"></div>
+            <script>
+                const initComments = () => {
+                    if (document.querySelector('.utterances-frame')) return;
+                    const theme = document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
+                    let script = document.createElement('script');
+                    script.src = 'https://utteranc.es/client.js';
+                    script.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                    script.setAttribute('issue-term', 'pathname');
+                    script.setAttribute('label', 'comment');
+                    script.setAttribute('theme', theme);
+                    script.setAttribute('crossorigin', 'anonymous');
+                    script.async = true;
+                    document.getElementById('comments-container').appendChild(script);
+                };
+                setTimeout(initComments, 1000);
+            </script>
+        </div>
+    </main>
+
+    <script>
+        function blogApp() {
+            return {
+                dark: true,
+                showContactModal: false,
+                isSubmitting: false,
+                successMessage: false,
+                contactForm: { name: '', email: '', message: '' },
+                activeSection: 'philosophy',
+                toc: [
+                    { id: 'philosophy', label: '1. Philosophy' },
+                    { id: 'environment', label: '2. Setup' },
+                    { id: 'bedrock', label: '3. Bedrock' },
+                    { id: 'sage', label: '4. Sage 10' },
+                    { id: 'ecosystem', label: '5. Ecosystem' },
+                    { id: 'commands', label: '6. Commands' },
+                    { id: 'deployment', label: '7. Hosting' }
+                ],
+                init() {
+                    const saved = localStorage.getItem('theme');
+                    if (saved === 'light') this.dark = false;
+                    this.$watch('dark', val => {
+                        document.documentElement.classList.toggle('dark', val);
+                        localStorage.setItem('theme', val ? 'dark' : 'light');
+                    });
+                    document.documentElement.classList.toggle('dark', this.dark);
+
+                    window.addEventListener('scroll', () => {
+                        const sections = this.toc.map(item => document.getElementById(item.id));
+                        const scrollPosition = window.scrollY + 150;
+                        for (let i = sections.length - 1; i >= 0; i--) {
+                            if (sections[i] && scrollPosition >= sections[i].offsetTop) {
+                                this.activeSection = this.toc[i].id;
+                                break;
+                            }
+                        }
+                    });
+                },
+                scrollToSection(id) {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        window.scrollTo({
+                            top: element.offsetTop - 120,
+                            behavior: 'smooth'
+                        });
+                    }
+                },
+                toggleTheme() { this.dark = !this.dark; },
+                closeModal() {
+                    this.showContactModal = false;
+                    setTimeout(() => {
+                        this.successMessage = false;
+                        this.contactForm = { name: '', email: '', message: '' };
+                    }, 500);
+                },
+                async submitForm() {
+                    this.isSubmitting = true;
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    this.successMessage = true;
+                    this.isSubmitting = false;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
