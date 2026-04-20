@@ -53,20 +53,43 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         [x-cloak] { display: none !important; }
+        
+        :root {
+            --bg-page: #f8fafc;
+            --text-body: #475569;
+            --text-heading: #0f172a;
+            --text-subheading: #334155;
+            --border-ui: rgba(0, 0, 0, 0.08);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --dot-color: rgba(99, 102, 241, 0.1);
+            --card-bg: #ffffff;
+        }
+
+        .dark {
+            --bg-page: #060608;
+            --text-body: #a1a1aa;
+            --text-heading: #ffffff;
+            --text-subheading: #cbd5e1;
+            --border-ui: rgba(255, 255, 255, 0.05);
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --dot-color: rgba(99, 102, 241, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.03);
+        }
+
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             z-index: 0;
-            background-image: radial-gradient(circle, rgba(99, 102, 241, .1) 1px, transparent 1px);
+            background-image: radial-gradient(circle, var(--dot-color) 1px, transparent 1px);
             background-size: 32px 32px;
             pointer-events: none;
         }
 
         .prose-custom p { margin-bottom: 1.5rem; line-height: 1.8; }
-        .prose-custom h2 { font-size: 2.25rem; font-weight: 900; margin-top: 4rem; margin-bottom: 2rem; color: white; letter-spacing: -0.02em; }
-        .prose-custom h3 { font-size: 1.5rem; font-weight: 800; margin-top: 2.5rem; margin-bottom: 1.25rem; color: #cbd5e1; }
-        .prose-custom strong { color: white; }
+        .prose-custom h2 { font-size: 2.25rem; font-weight: 900; margin-top: 4rem; margin-bottom: 2rem; color: var(--text-heading); letter-spacing: -0.02em; }
+        .prose-custom h3 { font-size: 1.5rem; font-weight: 800; margin-top: 2.5rem; margin-bottom: 1.25rem; color: var(--text-subheading); }
+        .prose-custom strong { color: var(--text-heading); }
         .prose-custom ul { list-style: none; padding-left: 0; margin-bottom: 2rem; }
         .prose-custom li { position: relative; padding-left: 1.75rem; margin-bottom: 1rem; }
         .prose-custom li::before { content: '→'; position: absolute; left: 0; color: #6366f1; font-weight: bold; }
@@ -78,7 +101,7 @@
             padding: 24px;
             margin: 2rem 0;
             overflow-x: auto;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-ui);
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.875rem;
             position: relative;
@@ -122,33 +145,43 @@
         }
 
         .glass-panel {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--glass-bg);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-ui);
             border-radius: 24px;
             padding: 32px;
             margin: 3rem 0;
         }
+
+        .text-gradient {
+            background: linear-gradient(to right, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .laravel-accent {
+            background: linear-gradient(to right, #FF2D20, #f05340);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
 </head>
 
-<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
-    :class="dark ? 'bg-[#060608] text-zinc-400' : 'bg-[#f8fafc] text-zinc-600'">
+<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400 bg-[var(--bg-page)] text-[var(--text-body)]">
     
     <div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10">
         <div class="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] rounded-full blur-[120px] bg-brand/10 opacity-60"></div>
         <div class="absolute top-[40%] -right-[10%] w-[40%] h-[40%] rounded-full blur-[100px] bg-laravel/5 opacity-40"></div>
     </div>
 
-    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors"
-        :class="dark ? 'bg-[#060608]/80 border-white/5' : 'bg-white/80 border-zinc-200'">
+    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors bg-[var(--bg-page)]/80 border-[var(--border-ui)]">
         <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
             <a href="/blog/" class="flex items-center gap-2 text-sm font-bold hover:text-brand transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                 Dev Guides
             </a>
             <div class="flex items-center gap-4">
-                <button @click="toggleTheme()" class="p-2 rounded-xl border border-white/5 hover:bg-white/5 transition-all text-zinc-400">
+                <button @click="toggleTheme()" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
                     <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
                     <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
                 </button>
@@ -175,8 +208,8 @@
                 <div class="flex items-center gap-3">
                     <img src="/profile.jpg" alt="Sagar Pansuriya" class="w-12 h-12 rounded-full border-2 border-brand/20">
                     <div>
-                        <span class="block text-sm font-bold text-white">Sagar Pansuriya</span>
-                        <span class="text-xs uppercase tracking-widest opacity-50">Lead Architect</span>
+                        <span class="block text-sm font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">Sagar Pansuriya</span>
+                        <span class="text-xs uppercase tracking-widest opacity-50" :class="dark ? 'text-zinc-400' : 'text-zinc-500'">Lead Architect</span>
                     </div>
                 </div>
                 <div class="h-8 w-px bg-white/10 hidden sm:block"></div>
@@ -187,7 +220,8 @@
         </div>
 
         <!-- Sticky Table of Contents -->
-        <div class="sticky top-[80px] z-40 mb-20 bg-zinc-950/50 backdrop-blur-2xl p-2 rounded-2xl border border-white/5 flex gap-1 overflow-x-auto scrollbar-hide no-scrollbar">
+        <div class="sticky top-[80px] z-40 mb-20 backdrop-blur-2xl p-2 rounded-2xl border flex gap-1 overflow-x-auto scrollbar-hide no-scrollbar transition-colors"
+            :class="dark ? 'bg-zinc-950/50 border-white/5' : 'bg-white/70 border-zinc-200'">
             <template x-for="item in toc" :key="item.id">
                 <button @click="scrollToSection(item.id)" 
                         class="px-5 py-2 whitespace-nowrap rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:bg-white/5"
@@ -222,19 +256,19 @@
                 
                 <h3>Prerequisites</h3>
                 <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <li class="p-4 bg-white/5 rounded-xl border border-white/5">
+                    <li class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--border-ui)] transition-colors">
                         <strong>PHP 8.2+</strong><br>
                         <span class="text-xs opacity-60">Required for Acorn 4 compatibility.</span>
                     </li>
-                    <li class="p-4 bg-white/5 rounded-xl border border-white/5">
+                    <li class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--border-ui)] transition-colors">
                         <strong>Composer</strong><br>
                         <span class="text-xs opacity-60">Global installation for PHP dependencies.</span>
                     </li>
-                    <li class="p-4 bg-white/5 rounded-xl border border-white/5">
+                    <li class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--border-ui)] transition-colors">
                         <strong>Node.js & Yarn</strong><br>
                         <span class="text-xs opacity-60">Essential for the Vite-powered Sage 10.</span>
                     </li>
-                    <li class="p-4 bg-white/5 rounded-xl border border-white/5">
+                    <li class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--border-ui)] transition-colors">
                         <strong>WP-CLI</strong><br>
                         <span class="text-xs opacity-60">Command-line control of WordPress.</span>
                     </li>
@@ -300,12 +334,12 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
                     <div class="p-8 rounded-3xl glass-panel !m-0 border-laravel/10">
                         <div class="w-12 h-12 rounded-2xl bg-laravel/10 flex items-center justify-center text-laravel font-black text-xl mb-4">SC</div>
-                        <h4 class="font-black text-white mb-2">Service Container</h4>
+                        <h4 class="font-black mb-2" :class="dark ? 'text-white' : 'text-zinc-900'">Service Container</h4>
                         <p class="text-sm opacity-70">The heart of dependency management. Bind your complex services to the container and resolve them anywhere in your theme via type-hinting.</p>
                     </div>
                     <div class="p-8 rounded-3xl glass-panel !m-0 border-brand/10">
                         <div class="w-12 h-12 rounded-2xl bg-brand/10 flex items-center justify-center text-brand font-black text-xl mb-4">SP</div>
-                        <h4 class="font-black text-white mb-2">Service Providers</h4>
+                        <h4 class="font-black mb-2" :class="dark ? 'text-white' : 'text-zinc-900'">Service Providers</h4>
                         <p class="text-sm opacity-70">Register your custom services, bind interfaces to implementations, and manage your custom configuration logic in a Laravel-standard way.</p>
                     </div>
                 </div>
@@ -377,8 +411,8 @@
 
         <!-- Master Vision Footer -->
         <div class="mt-40">
-            <section class="relative z-10 py-32 overflow-hidden border-y rounded-[4rem]" 
-                    :class="dark ? 'bg-white/[0.02] border-white/5' : 'bg-brand/[0.03] border-indigo-100/50'">
+            <section class="relative z-10 py-32 overflow-hidden border-y rounded-[4rem] transition-colors" 
+                    :class="dark ? 'bg-white/[0.02] border-white/5' : 'bg-brand/[0.03] border-brand/10'">
                 <div class="max-w-4xl mx-auto px-6 text-center">
                     <h3 class="text-4xl md:text-7xl font-black mb-8 tracking-tighter" :class="dark ? 'text-white' : 'text-zinc-900'">
                         Level Up Your <span class="text-gradient">Projects</span>
@@ -391,7 +425,8 @@
                                 class="px-12 py-6 rounded-3xl bg-brand text-white text-xl font-black transition-all hover:shadow-[0_0_60px_rgba(99,102,241,0.5)] hover:scale-105 active:scale-95 shadow-xl shadow-brand/20">
                             Let's Build Together
                         </button>
-                        <a href="/showcase/" class="px-12 py-6 rounded-3xl border border-white/10 text-white text-xl font-black transition-all hover:bg-white/5">
+                        <a href="/showcase/" class="px-12 py-6 rounded-3xl border text-xl font-black transition-all hover:bg-brand/5"
+                            :class="dark ? 'border-white/10 text-white' : 'border-brand/20 text-brand'">
                             View Showcase
                         </a>
                     </div>
@@ -401,18 +436,19 @@
 
         <!-- Contact Modal (Preserved Interaction) -->
         <div x-show="showContactModal" x-cloak x-transition class="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-2xl bg-black/80">
-            <div @click.away="closeModal()" class="relative w-full max-w-xl glass-panel p-2">
-                <div class="bg-zinc-950/90 rounded-[3rem] p-10">
+            <div @click.away="closeModal()" class="relative w-full max-w-xl glass-panel p-2 transition-colors"
+                :class="dark ? 'bg-white/5 border-white/10' : 'bg-white/80 border-zinc-200'">
+                <div class="rounded-[3rem] p-10" :class="dark ? 'bg-zinc-950/90' : 'bg-white'">
                     <div class="flex justify-between items-start mb-10">
-                        <h2 class="text-4xl font-black tracking-tight text-white leading-tight">Project <span class="text-gradient">Briefing</span></h2>
-                        <button @click="closeModal()" class="p-2 text-zinc-500 hover:text-white transition-colors"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-width="3"/></svg></button>
+                        <h2 class="text-4xl font-black tracking-tight leading-tight" :class="dark ? 'text-white' : 'text-zinc-900'">Project <span class="text-gradient">Briefing</span></h2>
+                        <button @click="closeModal()" class="p-2 text-zinc-400 hover:text-brand transition-colors"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-width="3"/></svg></button>
                     </div>
                     <template x-if="!successMessage">
                         <form @submit.prevent="submitForm()" class="space-y-6">
-                            <input type="text" required x-model="contactForm.name" placeholder="Name" class="w-full px-6 py-5 rounded-2xl bg-white/5 border border-white/10 focus:border-brand outline-none text-white">
-                            <input type="email" required x-model="contactForm.email" placeholder="Email" class="w-full px-6 py-5 rounded-2xl bg-white/5 border border-white/10 focus:border-brand outline-none text-white">
-                            <textarea required x-model="contactForm.message" rows="4" placeholder="How can I help you?" class="w-full px-6 py-5 rounded-2xl bg-white/5 border border-white/10 focus:border-brand outline-none text-white resize-none"></textarea>
-                            <button type="submit" :disabled="isSubmitting" class="w-full py-6 rounded-2xl bg-brand text-white font-black text-xl hover:scale-[1.02] shadow-xl shadow-brand/30">
+                            <input type="text" required x-model="contactForm.name" placeholder="Name" class="w-full px-6 py-5 rounded-2xl bg-brand/5 border border-brand/10 focus:border-brand outline-none transition-colors" :class="dark ? 'text-white' : 'text-zinc-900'">
+                            <input type="email" required x-model="contactForm.email" placeholder="Email" class="w-full px-6 py-5 rounded-2xl bg-brand/5 border border-brand/10 focus:border-brand outline-none transition-colors" :class="dark ? 'text-white' : 'text-zinc-900'">
+                            <textarea required x-model="contactForm.message" rows="4" placeholder="How can I help you?" class="w-full px-6 py-5 rounded-2xl bg-brand/5 border border-brand/10 focus:border-brand outline-none transition-colors resize-none" :class="dark ? 'text-white' : 'text-zinc-900'"></textarea>
+                            <button type="submit" :disabled="isSubmitting" class="w-full py-6 rounded-2xl bg-brand text-white font-black text-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-brand/30">
                                 <span x-show="!isSubmitting">INITIATE REQUEST</span>
                                 <span x-show="isSubmitting">TRANSMITTING...</span>
                             </button>
@@ -421,8 +457,8 @@
                     <template x-if="successMessage">
                         <div class="text-center py-10">
                             <div class="w-24 h-24 bg-brand/10 rounded-full flex items-center justify-center text-brand mx-auto mb-8"><svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-width="4"/></svg></div>
-                            <h3 class="text-3xl font-black text-white mb-4">Transmission Received</h3>
-                            <button @click="closeModal()" class="px-10 py-4 bg-zinc-800 rounded-xl text-white font-bold">CLOSE</button>
+                            <h3 class="text-3xl font-black mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">Transmission Received</h3>
+                            <button @click="closeModal()" class="px-10 py-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl font-bold transition-colors">CLOSE</button>
                         </div>
                     </template>
                 </div>
@@ -430,8 +466,8 @@
         </div>
 
         <!-- Discussion -->
-        <div class="mt-24 pt-16 border-t border-white/5 max-w-3xl mx-auto">
-            <h3 class="text-3xl font-black mb-10 text-white italic">Discussion</h3>
+        <div class="mt-24 pt-16 border-t border-[var(--border-ui)] max-w-3xl mx-auto">
+            <h3 class="text-3xl font-black mb-10 italic" :class="dark ? 'text-white' : 'text-zinc-900'">Discussion</h3>
             <div id="comments-container"></div>
             <script>
                 const initComments = () => {
