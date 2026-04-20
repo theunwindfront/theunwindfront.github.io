@@ -472,9 +472,15 @@
 
         <!-- Footer -->
         <footer class="pt-8 md:pt-5 border-t flex flex-col md:flex-row items-center justify-between gap-6" :class="dark ? 'border-white/5' : 'border-zinc-200'">
-            <p class="font-mono text-[10px] max-md:text-center tracking-widest uppercase text-zinc-500">
-                © 2026 SAGAR PANSURIYA - BUILT WITH Passion & Caffeine
-            </p>
+            <div class="flex flex-col md:flex-row items-center gap-4">
+                <p class="font-mono text-[10px] max-md:text-center tracking-widest uppercase text-zinc-500">
+                    © 2026 SAGAR PANSURIYA - BUILT WITH Passion & Caffeine
+                </p>
+                <span class="hidden md:block text-zinc-800">•</span>
+                <a href="/privacy-policy/snake-reborn/" class="font-mono text-[10px] tracking-widest uppercase text-zinc-500 hover:text-brand transition-colors">
+                    Privacy Policy
+                </a>
+            </div>
             
             <div class="flex items-center gap-2">
                 <a href="https://github.com/sponsors/theunwindfront" target="_blank" 
