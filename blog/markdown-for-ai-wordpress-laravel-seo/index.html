@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+
+<head>
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown for AI and Accept Headers in WordPress SEO Plugins & Laravel</title>
+    <meta name="description"
+        content="How to properly support Markdown for AI using Accept headers in WordPress, Bedrock, Sage, and Laravel.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/markdown-for-ai-wordpress-laravel-seo/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Markdown for AI and Accept Headers in WordPress SEO Plugins & Laravel">
+    <meta property="og:description" content="How to properly support Markdown for AI using Accept headers in WordPress, Bedrock, Sage, and Laravel.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/markdown-for-ai-wordpress-laravel-seo/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/markdown-for-ai-wordpress-laravel-seo/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Markdown for AI and Accept Headers in WordPress SEO Plugins & Laravel">
+    <meta name="twitter:description" content="How to properly support Markdown for AI using Accept headers in WordPress, Bedrock, Sage, and Laravel.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/markdown-for-ai-wordpress-laravel-seo/cover.png">
+    <meta name="twitter:creator" content="@theunwindfront">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <meta name="msapplication-TileColor" content="#6366f1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { brand: { DEFAULT: '#6366f1', dark: '#4f46e5' } }
+                }
+            }
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Add highlight.js for code highlighting if needed, or just style `.code-block` -->
+    <style>
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(99, 102, 241, .12) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+
+        .code-block {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 1.5rem;
+        }
+
+        .prose-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .prose-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .dark .prose-content h2, .dark .prose-content h3 {
+            color: white;
+        }
+
+        .prose-content p {
+            margin-bottom: 1rem;
+        }
+
+        .prose-content ul {
+            list-style-type: disc;
+            padding-left: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .prose-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.875rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid rgba(156, 163, 175, 0.2);
+            padding: 1rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .dark .comparison-table th {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .comparison-table th {
+            background-color: rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+        }
+
+        .dark .comparison-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+        
+        .comparison-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
+    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f4f4f5] text-zinc-700'">
+    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
+        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
+
+    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors"
+        :class="dark ? 'bg-[#09090b]/80 border-[#1e1e24]' : 'bg-[#f4f4f5]/80 border-gray-300'">
+        <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
+            <a href="/blog/" class="flex items-center gap-2 text-sm font-medium hover:text-brand"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-500'">
+                &larr; Blog
+            </a>
+            <button @click="toggleTheme()"
+                class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand"
+                :class="dark ? 'border-[#1e1e24] text-zinc-500' : 'border-gray-300 text-zinc-400'">
+                <svg x-show="dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5" />
+                    <path
+                        d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+                <svg x-show="!dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
+        <div class="mb-12 text-left max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
+                :class="dark ? 'text-white' : 'text-zinc-900'">Markdown for AI and Accept Headers in WordPress SEO Plugins & Laravel</h1>
+
+            <!-- Author Info & Meta -->
+            <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <div class="flex items-center gap-4">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya"
+                        class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
+                        :class="dark ? 'border-[#27272a]' : 'border-white'">
+                    <div>
+                        <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
+                            class="block hover:text-brand transition-colors text-base"
+                            :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
+                        <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
+                            Lead & Frontend Architect</span>
+                    </div>
+                </div>
+                <div class="hidden sm:block w-px h-10" :class="dark ? 'bg-[#27272a]' : 'bg-gray-300'"></div>
+                <div class="flex items-center gap-4 text-sm">
+                    <time datetime="2026-04-24" class="text-brand">Apr 24, 2026</time>
+                    <span>·</span>
+                    <span
+                        class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">5
+                        min read</span>
+                </div>
+            </div>
+
+            <!-- Cover Image -->
+            <div class="rounded-2xl overflow-hidden mb-10 shadow-2xl border border-white/5">
+                <img src="cover.png" alt="Markdown for AI Cover" class="w-full h-auto aspect-video object-cover">
+            </div>
+
+            <div class="prose-content text-base leading-relaxed max-w-3xl" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                
+                <h2>Introduction</h2>
+                <p>SEO plugins in WordPress often claim to support advanced features like Markdown for AI, but many overlook the importance of properly handling HTTP Accept headers. This oversight can lead to compatibility issues, reduced performance, and missed opportunities for optimization in modern frameworks like Bedrock and Sage from Roots — and even in full-stack frameworks like Laravel.</p>
+
+                <h2>What is Markdown for AI?</h2>
+                <p>Markdown for AI refers to structuring content in Markdown format so that AI-driven tools and search engines can better parse, understand, and present information. It enhances readability, improves semantic structure, and supports rich snippets in search results.</p>
+                <p>AI agents (like Claude or ChatGPT) often request Markdown using <code>Accept: text/markdown</code>. Respecting this header is the difference between marketing hype and true standards compliance.</p>
+
+                <h2>The Role of Accept Headers</h2>
+                <p>The HTTP Accept header tells the server what type of content the client can handle (e.g., <code>text/html</code>, <code>application/json</code>, <code>text/markdown</code>). Ignoring this header means plugins may serve the wrong format or fail to deliver optimized content for AI and SEO crawlers.</p>
+
+                <h3>Why Accept Headers Matter</h3>
+                <ul>
+                    <li><strong>Content Negotiation:</strong> Ensures the right format is delivered to the right client.</li>
+                    <li><strong>SEO Optimization:</strong> Search engines benefit from properly structured responses.</li>
+                    <li><strong>AI Integration:</strong> AI tools consume Markdown more efficiently when headers are respected.</li>
+                </ul>
+
+                <h2>Sample Code Snippets</h2>
+                
+                <h3>1. Testing Accept Header with curl</h3>
+                <pre class="code-block"><code># Request Markdown output from a WordPress or Laravel site
+curl -H "Accept: text/markdown" https://example.com/post/hello-world</code></pre>
+
+                <h3>2. WordPress Plugin Hook Example</h3>
+                <pre class="code-block"><code>add_filter('the_content', function($content) {
+    if (strpos($_SERVER['HTTP_ACCEPT'], 'text/markdown') !== false) {
+        // Convert HTML content to Markdown
+        return html_to_markdown($content);
+    }
+    return $content;
+});</code></pre>
+
+                <h3>3. Bedrock/Sage Controller Example (Acorn)</h3>
+                <pre class="code-block"><code>namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class PostController
+{
+    public function show(Request $request, $slug)
+    {
+        $post = get_post_by_slug($slug);
+
+        if ($request->header('Accept') === 'text/markdown') {
+            return response(html_to_markdown($post->post_content))
+                ->header('Content-Type', 'text/markdown');
+        }
+
+        return view('single', ['post' => $post]);
+    }
+}</code></pre>
+
+                <h2>Laravel PHP Support for Markdown Features</h2>
+                
+                <h3>Middleware for Accept Header</h3>
+                <pre class="code-block"><code>namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use League\HTMLToMarkdown\HtmlConverter;
+
+class MarkdownResponse
+{
+    public function handle(Request $request, Closure $next)
+    {
+        $response = $next($request);
+
+        if ($request->header('Accept') === 'text/markdown') {
+            $converter = new HtmlConverter();
+            $markdown = $converter->convert($response->getContent());
+
+            return response($markdown, 200)
+                ->header('Content-Type', 'text/markdown');
+        }
+
+        return $response;
+    }
+}</code></pre>
+
+                <h3>Controller Example</h3>
+                <pre class="code-block"><code>use Illuminate\Http\Request;
+use League\HTMLToMarkdown\HtmlConverter;
+
+class ArticleController extends Controller
+{
+    public function show(Request $request, $slug)
+    {
+        $article = Article::where('slug', $slug)->firstOrFail();
+
+        if ($request->header('Accept') === 'text/markdown') {
+            $converter = new HtmlConverter();
+            return response($converter->convert($article->content))
+                ->header('Content-Type', 'text/markdown');
+        }
+
+        return view('articles.show', compact('article'));
+    }
+}</code></pre>
+
+                <h2>Bedrock/Sage vs. Laravel: Markdown for AI Support</h2>
+                <div class="overflow-x-auto">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Feature / Approach</th>
+                                <th>Bedrock & Sage (WordPress Roots)</th>
+                                <th>Laravel (PHP Framework)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Core Philosophy</strong></td>
+                                <td>Modernized WordPress stack with Composer, clean theming, semantic markup</td>
+                                <td>Full-stack PHP framework with MVC, middleware, and service providers</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Accept Header Handling</strong></td>
+                                <td>Acorn controllers or plugin hooks (<code>$_SERVER['HTTP_ACCEPT']</code>)</td>
+                                <td>Middleware or controller logic (<code>$request->header('Accept')</code>)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Markdown Conversion</strong></td>
+                                <td>Plugins/controllers convert HTML to Markdown</td>
+                                <td>Use <code>league/html-to-markdown</code> in middleware/controllers</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Canonical URL Strategy</strong></td>
+                                <td>Same URL serves HTML or Markdown depending on header</td>
+                                <td>Same route serves HTML or Markdown depending on header</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SEO Benefits</strong></td>
+                                <td>Prevents duplicate content, respects canonical URLs</td>
+                                <td>Same benefits: single canonical route, efficient for AI agents</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Developer Workflow</strong></td>
+                                <td>Hooks/controllers integrated into WordPress ecosystem</td>
+                                <td>Middleware/controllers integrated into Laravel lifecycle</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Example Code</strong></td>
+                                <td><code>add_filter('the_content', ...)</code> or Acorn controller</td>
+                                <td>Middleware intercepts response, converts HTML to Markdown</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2>Best Practices</h2>
+                <ul>
+                    <li><strong>Respect Accept Headers:</strong> Ensure plugins and apps deliver content in the requested format.</li>
+                    <li><strong>Validate Markdown Output:</strong> Confirm that AI tools and crawlers receive proper Markdown.</li>
+                    <li><strong>Test in Bedrock/Sage & Laravel:</strong> Verify behavior in both ecosystems.</li>
+                    <li><strong>Monitor SEO Impact:</strong> Track how structured content affects search rankings.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>For WordPress developers, Laravel engineers, and SEO professionals, true Markdown for AI support requires more than marketing claims. Respecting Accept headers is a technical necessity that ensures compatibility, enhances SEO, and unlocks the full potential of frameworks like Bedrock, Sage, and Laravel.</p>
+                <p>By adopting these practices, plugins and applications can deliver on their promises and empower sites to perform better in both search and AI-driven contexts.</p>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="mt-20 pt-10 border-t border-gray-200 dark:border-[#1e1e24] max-w-3xl mx-auto">
+            <h3 class="text-2xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">Discussion</h3>
+            <div id="comments-container"></div>
+            <script>
+                const initComments = () => {
+                    if (document.querySelector('.utterances-frame')) return;
+                    const theme = document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
+                    let script = document.createElement('script');
+                    script.src = 'https://utteranc.es/client.js';
+                    script.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                    script.setAttribute('issue-term', 'pathname');
+                    script.setAttribute('label', 'comment');
+                    script.setAttribute('theme', theme);
+                    script.setAttribute('crossorigin', 'anonymous');
+                    script.async = true;
+                    document.getElementById('comments-container').appendChild(script);
+                };
+                setTimeout(initComments, 300);
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.attributeName === 'class') {
+                            const isDark = document.documentElement.classList.contains('dark');
+                            const message = { type: 'set-theme', theme: isDark ? 'github-dark' : 'github-light' };
+                            const iframe = document.querySelector('.utterances-frame');
+                            if (iframe) iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+                        }
+                    });
+                });
+                observer.observe(document.documentElement, { attributes: true });
+            </script>
+        </div>
+    </main>
+
+    <script>
+        function blogApp() {
+            return {
+                dark: true,
+                init() {
+                    const saved = localStorage.getItem('theme');
+                    if (saved === 'light') this.dark = false;
+                    this.$watch('dark', val => {
+                        document.documentElement.classList.toggle('dark', val);
+                        localStorage.setItem('theme', val ? 'dark' : 'light');
+                    });
+                    document.documentElement.classList.toggle('dark', this.dark);
+                },
+                toggleTheme() { this.dark = !this.dark; }
+            }
+        }
+    </script>
+</body>
+</html>
