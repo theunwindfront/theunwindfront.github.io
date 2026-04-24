@@ -86,6 +86,7 @@
                     <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
                 </svg>
             </button>
+            <button @click="exploreWithAI('chatgpt')" title="Explore with AI" class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand ml-2" :class="dark ? 'border-[#1e1e24] text-zinc-500' : 'border-gray-300 text-zinc-400'"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" /></svg></button>
         </div>
     </header>
 
@@ -182,6 +183,8 @@
             </div>
         </div>
 
+        <!-- Explore with AI Section -->
+        <div class="mt-16 p-8 rounded-3xl border transition-all duration-500 glass-panel !m-0" :class="dark ? 'border-brand/20 bg-white/[0.02]' : 'border-brand/20 bg-brand/[0.03]'"><div class="flex flex-col md:flex-row items-center justify-between gap-8"><div class="max-w-md text-left"><h3 class="text-2xl font-bold mb-2 flex items-center gap-2 !mt-0" :class="dark ? 'text-white' : 'text-zinc-900'"><svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>Explore with AI</h3><p class="text-sm opacity-70">Want a quick summary or have specific questions about this post? Use your favorite AI agent to dive deeper into the technical details.</p></div><div class="flex flex-wrap justify-center gap-3"><button @click="exploreWithAI('chatgpt')" class="px-5 py-2.5 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-sm font-semibold"><span class="w-5 h-5 flex items-center justify-center bg-[#10a37f] rounded-lg text-white text-[10px]">GPT</span>ChatGPT</button><button @click="exploreWithAI('claude')" class="px-5 py-2.5 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-sm font-semibold"><span class="w-5 h-5 flex items-center justify-center bg-[#d97757] rounded-lg text-white text-[10px]">C</span>Claude</button><button @click="exploreWithAI('perplexity')" class="px-5 py-2.5 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-sm font-semibold"><span class="w-5 h-5 flex items-center justify-center bg-[#20b2aa] rounded-lg text-white text-[10px]">P</span>Perplexity</button></div></div></div>
         <!-- Comments Section -->
         <div class="mt-20 pt-10 border-t border-gray-200 dark:border-[#1e1e24] max-w-3xl mx-auto">
             <h3 class="text-2xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">Thoughts?</h3>
@@ -229,7 +232,7 @@
                     });
                     document.documentElement.classList.toggle('dark', this.dark);
                 },
-                toggleTheme() { this.dark = !this.dark; }
+                toggleTheme() { this.dark = !this.dark; }, exploreWithAI(platform) { const url = window.location.href; const prompt = encodeURIComponent(`Please summarize this technical blog post and highlight the key takeaways: ${url}`); let aiUrl = ''; if (platform === 'chatgpt') aiUrl = `https://chatgpt.com/?q=${prompt}`; if (platform === 'claude') aiUrl = `https://claude.ai/new?q=${prompt}`; if (platform === 'perplexity') aiUrl = `https://www.perplexity.ai/search?q=${prompt}`; window.open(aiUrl, '_blank'); }
             }
         }
     </script>
