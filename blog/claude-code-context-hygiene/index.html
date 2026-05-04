@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+
+<head>
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
+<!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Your Claude Code Sessions Get Dumber Over Time (And How to Fix It)</title>
+    <meta name="description"
+        content="Learn how context hygiene, compaction, and .claudeignore can prevent Claude Code from degrading over long coding sessions.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/claude-code-context-hygiene/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Why Your Claude Code Sessions Get Dumber Over Time (And How to Fix It)">
+    <meta property="og:description" content="Learn how context hygiene, compaction, and .claudeignore can prevent Claude Code from degrading over long coding sessions.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/claude-code-context-hygiene/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/claude-code-context-hygiene/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Why Your Claude Code Sessions Get Dumber Over Time (And How to Fix It)">
+    <meta name="twitter:description" content="Learn how context hygiene, compaction, and .claudeignore can prevent Claude Code from degrading over long coding sessions.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/claude-code-context-hygiene/cover.png">
+    <meta name="twitter:creator" content="@theunwindfront">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <meta name="msapplication-TileColor" content="#6366f1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { brand: { DEFAULT: '#6366f1', dark: '#4f46e5' } }
+                }
+            }
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(99, 102, 241, .12) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+
+        .code-block {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 1.5rem;
+        }
+
+        .prose-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .prose-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .dark .prose-content h2, .dark .prose-content h3 {
+            color: white;
+        }
+
+        .prose-content p {
+            margin-bottom: 1rem;
+        }
+
+        .prose-content ul {
+            list-style-type: disc;
+            padding-left: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .prose-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.875rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid rgba(156, 163, 175, 0.2);
+            padding: 1rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .dark .comparison-table th {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .comparison-table th {
+            background-color: rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+        }
+
+        .dark .comparison-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+        
+        .comparison-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
+    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f4f4f5] text-zinc-700'">
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
+        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
+
+    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors"
+        :class="dark ? 'bg-[#09090b]/80 border-[#1e1e24]' : 'bg-[#f4f4f5]/80 border-gray-300'">
+        <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
+            <a href="/blog/" class="flex items-center gap-2 text-sm font-medium hover:text-brand"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-500'">
+                &larr; Blog
+            </a>
+            <button @click="toggleTheme()"
+                class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand"
+                :class="dark ? 'border-[#1e1e24] text-zinc-500' : 'border-gray-300 text-zinc-400'">
+                <svg x-show="dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5" />
+                    <path
+                        d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+                <svg x-show="!dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                </svg>
+            </button>
+            <button @click="exploreWithAI('chatgpt')" title="Explore with AI"
+                class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand ml-2"
+                :class="dark ? 'border-[#1e1e24] text-zinc-500' : 'border-gray-300 text-zinc-400'">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
+        <div class="mb-12 text-left max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
+                :class="dark ? 'text-white' : 'text-zinc-900'">Why Your Claude Code Sessions Get Dumber Over Time (And How to Fix It)</h1>
+
+            <!-- Author Info & Meta -->
+            <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <div class="flex items-center gap-4">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya"
+                        class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
+                        :class="dark ? 'border-[#27272a]' : 'border-white'">
+                    <div>
+                        <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
+                            class="block hover:text-brand transition-colors text-base"
+                            :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
+                        <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
+                            Lead & Frontend Architect</span>
+                    </div>
+                </div>
+                <div class="hidden sm:block w-px h-10" :class="dark ? 'bg-[#27272a]' : 'bg-gray-300'"></div>
+                <div class="flex items-center gap-4 text-sm">
+                    <time datetime="2026-05-04" class="text-brand">May 04, 2026</time>
+                    <span>·</span>
+                    <span
+                        class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">6
+                        min read</span>
+                </div>
+            </div>
+
+            <!-- Explore with AI Section -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 py-6 mb-10 border-y transition-colors"
+                :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
+                <div class="max-w-md text-left">
+                    <h3 class="text-lg font-bold mb-1 flex items-center gap-2 !mt-0" :class="dark ? 'text-white' : 'text-zinc-900'">
+                        <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        Explore with AI
+                    </h3>
+                    <p class="text-xs opacity-70">
+                        Want a quick summary or have specific questions about this post? Use your favorite AI agent.
+                    </p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button @click="exploreWithAI('chatgpt')" 
+                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
+                        <span class="w-4 h-4 flex items-center justify-center bg-[#10a37f] rounded text-white text-[8px]">GPT</span>
+                        ChatGPT
+                    </button>
+                    <button @click="exploreWithAI('claude')" 
+                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-sm font-semibold">
+                        <span class="w-4 h-4 flex items-center justify-center bg-[#d97757] rounded text-white text-[8px]">C</span>
+                        Claude
+                    </button>
+                    <button @click="exploreWithAI('perplexity')" 
+                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
+                        <span class="w-4 h-4 flex items-center justify-center bg-[#20b2aa] rounded text-white text-[8px]">P</span>
+                        Perplexity
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cover Image -->
+            <div class="rounded-2xl overflow-hidden mb-10 shadow-2xl border border-white/5">
+                <img src="cover.png" alt="Claude Code Context Hygiene Cover" class="w-full h-auto aspect-video object-cover">
+            </div>
+
+            <div class="prose-content text-base leading-relaxed max-w-3xl" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                
+                <h2>The Context Window Trap</h2>
+                <p>We've all been there: you start a fresh session with Claude Code, and it feels like pairing with a 10x engineer. It perfectly understands your architecture, writes idiomatic code, and catches edge cases before they happen.</p>
+                <p>But two hours later, something changes. It starts forgetting the interface you defined earlier. It hallucinates imports. It proposes changes to files it shouldn't even be touching. The genius pairing session has devolved into micromanaging a confused junior dev.</p>
+                <p>This isn't a bug in the model—it's a problem with <strong>context hygiene</strong>.</p>
+
+                <h2>Why Does Claude Get "Dumber"?</h2>
+                <p>Claude Code operates within a finite "context window." Every prompt you send, every file it reads, every diff it generates, and every error log it parses gets appended to this window. As the session continues, the signal-to-noise ratio drops drastically.</p>
+                <p>When the context window gets too full, Claude is forced to <strong>compact</strong> its memory. Compaction is essentially the model summarizing the past conversation to save space. During this process, crucial nuances—like the fact that you're using a specific fork of a library, or a subtle business rule you mentioned an hour ago—are often lost in compression.</p>
+
+                <h2>Mastering Context Hygiene</h2>
+                <p>To keep Claude Code sharp, you need to proactively manage what goes into its memory. Here are the four essential practices for maintaining a high-performance session.</p>
+
+                <h3>1. The Proactive <code>/compact</code></h3>
+                <p>Don't wait for Claude to hit its context limit and panic-compact. When you've finished a major logical chunk of work (e.g., "We just finished the database schema, now we're moving to the API routes"), run the <code>/compact</code> command yourself.</p>
+                <p>This tells Claude to summarize the current state of the world while the context is still relatively coherent, rather than waiting until the window is overflowing with error stack traces and dead-end experiments.</p>
+
+                <h3>2. The Hard Reset: <code>/clear</code></h3>
+                <p>If you're completely switching gears—say, moving from backend database migrations to frontend CSS styling—don't carry the backend context with you. It's just dead weight that dilutes Claude's attention.</p>
+                <p>Use <code>/clear</code> (or <code>/reset</code>) to wipe the slate clean. This guarantees that your next prompt has 100% of the model's attention focused exactly on the new task.</p>
+
+                <h3>3. Use <code>.claudeignore</code> Relentlessly</h3>
+                <p>By default, Claude might scan unnecessary files when trying to understand your project. Reading compiled assets, massive lockfiles, or irrelevant directories wastes massive amounts of tokens.</p>
+                <p>Create a <code>.claudeignore</code> file in your project root. Treat it like a <code>.gitignore</code> on steroids. Exclude everything the AI doesn't need to read to do its job:</p>
+                
+                <pre class="code-block"><code># .claudeignore
+node_modules/
+vendor/
+public/build/
+*.lock
+dist/
+coverage/</code></pre>
+                
+                <p>This simple file can save you 50-70% in token waste, keeping your context window pristine for actual logic.</p>
+
+                <h3>4. Precision Injection with <code>@</code> and <code>!</code></h3>
+                <p>Instead of asking Claude, "Can you find the file that handles user authentication and update it?", which forces the agent to use its search tools (consuming context with tool-use metadata), inject the file directly.</p>
+                <p>Use the <code>@</code> shortcut to pull files directly into the prompt:</p>
+                <pre class="code-block"><code>Update the validation logic in @app/Http/Controllers/AuthController.php</code></pre>
+                
+                <p>Similarly, use the <code>!</code> shortcut to pipe shell command output directly into the prompt without the conversational overhead:</p>
+                <pre class="code-block"><code>!git diff HEAD~1
+Review these recent changes for security vulnerabilities.</code></pre>
+
+                <h2>The "Retro Routine"</h2>
+                <p>The best developers using AI in 2026 don't just close their terminal when they're done. They run a "Retro Routine."</p>
+                <p>Before closing a successful session, run a prompt like this:</p>
+                <blockquote class="border-l-4 border-brand pl-4 italic opacity-90 my-6">
+                    "We're ending this session. Please summarize the architectural decisions we just made, update our <code>CLAUDE.md</code> file with any new project rules we established, and generate a commit message for these changes."
+                </blockquote>
+                <p>This ensures that the valuable context you built up during the session is permanently written down in <code>CLAUDE.md</code> (the project's persistent memory), guaranteeing that your <em>next</em> session starts off just as smart as this one ended.</p>
+
+                <h2>Conclusion</h2>
+                <p>Claude Code is a massive productivity multiplier, but it's not magic. It's a tool that requires management. By treating context like a precious resource—using <code>/compact</code>, <code>/clear</code>, and <code>.claudeignore</code>—you stop fighting the tool and start truly collaborating with it.</p>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="mt-20 pt-10 border-t border-gray-200 dark:border-[#1e1e24] max-w-3xl mx-auto">
+            <h3 class="text-2xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">Discussion</h3>
+            <div id="comments-container"></div>
+            <script>
+                const initComments = () => {
+                    if (document.querySelector('.utterances-frame')) return;
+                    const theme = document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
+                    let script = document.createElement('script');
+                    script.src = 'https://utteranc.es/client.js';
+                    script.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                    script.setAttribute('issue-term', 'pathname');
+                    script.setAttribute('label', 'comment');
+                    script.setAttribute('theme', theme);
+                    script.setAttribute('crossorigin', 'anonymous');
+                    script.async = true;
+                    document.getElementById('comments-container').appendChild(script);
+                };
+                setTimeout(initComments, 300);
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.attributeName === 'class') {
+                            const isDark = document.documentElement.classList.contains('dark');
+                            const message = { type: 'set-theme', theme: isDark ? 'github-dark' : 'github-light' };
+                            const iframe = document.querySelector('.utterances-frame');
+                            if (iframe) iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+                        }
+                    });
+                });
+                observer.observe(document.documentElement, { attributes: true });
+            </script>
+        </div>
+    </main>
+
+    <script>
+        function blogApp() {
+            return {
+                dark: true,
+                init() {
+                    const saved = localStorage.getItem('theme');
+                    if (saved === 'light') this.dark = false;
+                    this.$watch('dark', val => {
+                        document.documentElement.classList.toggle('dark', val);
+                        localStorage.setItem('theme', val ? 'dark' : 'light');
+                    });
+                    document.documentElement.classList.toggle('dark', this.dark);
+                },
+                toggleTheme() { this.dark = !this.dark; },
+                exploreWithAI(platform) {
+                    const url = window.location.href;
+                    const prompt = encodeURIComponent(`Please summarize this technical blog post and highlight the key takeaways: ${url}`);
+                    let aiUrl = '';
+                    if (platform === 'chatgpt') aiUrl = `https://chatgpt.com/?q=${prompt}`;
+                    if (platform === 'claude') aiUrl = `https://claude.ai/new?q=${prompt}`;
+                    if (platform === 'perplexity') aiUrl = `https://www.perplexity.ai/search?q=${prompt}`;
+                    window.open(aiUrl, '_blank');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
