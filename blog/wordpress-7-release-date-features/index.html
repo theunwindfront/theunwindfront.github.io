@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPress 7.0 Guide: Release Date, AI API, and Collaboration Features</title>
+    <meta name="description"
+        content="Explore the massive WordPress 7.0 update. Discover the new native AI API, real-time collaboration, modernized UI, and the highly anticipated release date.">
+    <link rel="canonical" href="https://theunwindfront.github.io/blog/wordpress-7-release-date-features/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="WordPress 7.0: The AI and Collaboration Revolution">
+    <meta property="og:description" content="Discover the future of WordPress with version 7.0. Native AI integration, real-time collaboration, and a fresh modern interface.">
+    <meta property="og:image" content="https://theunwindfront.github.io/blog/wordpress-7-release-date-features/cover.png">
+    <meta property="og:url" content="https://theunwindfront.github.io/blog/wordpress-7-release-date-features/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WordPress 7.0: The AI and Collaboration Revolution">
+    <meta name="twitter:description" content="Native AI API, real-time collaboration, and more. Here is everything you need to know about WordPress 7.0.">
+    <meta name="twitter:image" content="https://theunwindfront.github.io/blog/wordpress-7-release-date-features/cover.png">
+    <meta name="twitter:creator" content="@theunwindfront">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <meta name="msapplication-TileColor" content="#6366f1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { brand: { DEFAULT: '#6366f1', dark: '#4f46e5' } }
+                }
+            }
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(99, 102, 241, .12) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+
+        .code-block {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .tab-btn {
+            transition: all .2s;
+        }
+
+        .tab-btn.active {
+            color: #6366f1;
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, .08);
+        }
+
+        .feature-card {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.02);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.4);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
+    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f4f4f5] text-zinc-700'">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
+        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
+
+    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors"
+        :class="dark ? 'bg-[#09090b]/80 border-[#1e1e24]' : 'bg-[#f4f4f5]/80 border-gray-300'">
+        <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
+            <a href="/blog/" class="flex items-center gap-2 text-sm font-medium hover:text-brand"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-500'">
+                &larr; Blog
+            </a>
+            <div class="flex items-center gap-2">
+                <button @click="toggleTheme()"
+                    class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand"
+                    :class="dark ? 'border-[#1e1e24] text-zinc-500' : 'border-gray-300 text-zinc-400'">
+                    <svg x-show="dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5" />
+                        <path
+                            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                    </svg>
+                    <svg x-show="!dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                    </svg>
+                </button>
+                <button @click="exploreWithAI('chatgpt')" title="Explore with AI" class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand" :class="dark ? 'border-[#1e1e24] text-zinc-500' : 'border-gray-300 text-zinc-400'"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" /></svg></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
+        <div class="mb-12 text-left max-w-3xl mx-auto">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 text-brand text-xs font-bold mb-6 tracking-wide uppercase">
+                Major Update
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
+                :class="dark ? 'text-white' : 'text-zinc-900'">WordPress 7.0: AI, Real-Time Collaboration, and the Future of the Web</h1>
+
+            <!-- Author Info & Meta -->
+            <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <div class="flex items-center gap-4">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya"
+                        class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
+                        :class="dark ? 'border-[#27272a]' : 'border-white'">
+                    <div>
+                        <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
+                            class="block hover:text-brand transition-colors text-base"
+                            :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
+                        <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
+                            Lead & WordPress Architect</span>
+                    </div>
+                </div>
+                <div class="hidden sm:block w-px h-10" :class="dark ? 'bg-[#27272a]' : 'bg-gray-300'"></div>
+                <div class="flex items-center gap-4 text-sm">
+                    <time datetime="2026-05-13" class="text-brand">May 13, 2026</time>
+                    <span>·</span>
+                    <span
+                        class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">12
+                        min read</span>
+                </div>
+            </div>
+
+            <!-- Cover Image -->
+            <div class="rounded-2xl overflow-hidden border mb-12 shadow-2xl transition-colors" :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
+                <img src="cover.png" alt="WordPress 7.0 Cover" class="w-full h-auto aspect-video object-cover">
+            </div>
+
+            <p class="text-xl leading-relaxed mb-8 font-medium" :class="dark ? 'text-zinc-300' : 'text-zinc-800'">
+                WordPress 7.0 isn't just an update; it's a paradigm shift. With native AI integration and real-time collaboration, the world's most popular CMS is evolving into a more connected and intelligent platform.
+            </p>
+        </div>
+
+        <!-- Sticky Navigation Tabs -->
+        <div class="sticky top-[53px] z-40 -mx-6 px-6 py-3 backdrop-blur-xl border-b mb-10 overflow-x-auto scrollbar-hide"
+            :class="dark ? 'bg-[#09090b]/90 border-[#1e1e24]' : 'bg-[#f4f4f5]/90 border-gray-300'">
+            <div class="flex gap-2">
+                <template x-for="(tab, i) in tabs" :key="i">
+                    <button @click="activeTab = i"
+                        class="tab-btn px-4 py-2 rounded-lg font-mono text-xs font-semibold whitespace-nowrap border"
+                        :class="activeTab === i ? 'active border-brand/30' : (dark ? 'border-transparent text-zinc-500' : 'border-transparent text-zinc-500 bg-white shadow-sm duration-150')"
+                        x-text="tab.label"></button>
+                </template>
+            </div>
+        </div>
+
+        <!-- Overview Section -->
+        <section x-show="activeTab === 0" x-transition.opacity>
+            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">1. Release Date & Context</h2>
+            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>Initially scheduled for early April, <strong>WordPress 7.0</strong> was released in <strong>May 2026</strong>. This delay allowed the core team to stabilize the groundbreaking real-time collaboration features that make this version a "Phase 3" milestone of the Gutenberg project.</p>
+                <p>As the first major version of 2026, it sets the stage for a roadmap that includes version 7.1 in August and 7.2 in December. This version includes updates from Gutenberg versions 22.0 to 22.6, bringing a massive amount of refinement to the site editor.</p>
+            </div>
+
+            <div class="feature-card p-8 mb-12">
+                <h3 class="text-xl font-bold mb-4 text-brand">Modernized Admin Interface</h3>
+                <p class="mb-6">The first thing you'll notice is the visual refresh. WordPress 7.0 introduces a more current color palette, improved typography for readability, and enhanced contrasts across the entire dashboard.</p>
+                <img src="modern-ui.png" alt="WordPress 7.0 Modern UI" class="rounded-xl shadow-lg border border-white/5">
+            </div>
+        </section>
+
+        <!-- Core Features Section -->
+        <section x-show="activeTab === 1" x-transition.opacity style="display: none;">
+            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">2. AI & Real-Time Collaboration</h2>
+            
+            <!-- AI API -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-bold mb-4" :class="dark ? 'text-zinc-200' : 'text-zinc-800'">The Native AI Connector API</h3>
+                <div class="prose-content mb-6 text-lg leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                    <p>WordPress 7.0 introduces a standardized framework for connecting AI models directly to the CMS. Instead of relying on fragmented plugin implementations, developers can now use a native layer to connect providers like OpenAI, Anthropic, and Google.</p>
+                </div>
+                <div class="feature-card p-6 mb-6">
+                    <img src="ai-api.png" alt="WordPress 7.0 AI API Settings" class="rounded-xl shadow-lg mb-4">
+                    <p class="text-sm font-medium text-center">Settings > Connectors: Manage your AI providers in one place.</p>
+                </div>
+            </div>
+
+            <!-- Collaboration -->
+            <div>
+                <h3 class="text-2xl font-bold mb-4" :class="dark ? 'text-zinc-200' : 'text-zinc-800'">Google Docs-style Collaboration</h3>
+                <div class="prose-content mb-6 text-lg leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                    <p>Real-time collaboration is finally here. Multiple users can edit the same content simultaneously, see each other's cursors, and identify which blocks are currently being modified. This is a game-changer for editorial teams and agencies.</p>
+                </div>
+                <div class="feature-card p-6">
+                    <img src="collaboration.png" alt="WordPress 7.0 Collaboration" class="rounded-xl shadow-lg mb-4">
+                    <p class="text-sm font-medium text-center">Live avatars and cursors in the Gutenberg editor.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visual Overhaul Section -->
+        <section x-show="activeTab === 2" x-transition.opacity style="display: none;">
+            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">3. Redesigned Revisions & Design</h2>
+            
+            <div class="mb-12">
+                <p class="text-lg leading-relaxed mb-6" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                    Comparing changes used to be a headache, often requiring you to look at raw HTML code. WordPress 7.0 introduces a beautiful, block-based visual revision interface.
+                </p>
+                <div class="feature-card p-6">
+                    <img src="revisions.png" alt="WordPress 7.0 Visual Revisions" class="rounded-xl shadow-lg mb-4">
+                    <p class="text-sm font-medium text-center">Visual side-by-side comparison of blocks with color-coded changes.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="feature-card p-6">
+                    <h4 class="font-bold mb-2 text-brand">Font Management for All</h4>
+                    <p class="text-sm">The Font Library is now available for <strong>all themes</strong>, including classic themes. No more third-party plugins needed to host your own fonts.</p>
+                </div>
+                <div class="feature-card p-6">
+                    <h4 class="font-bold mb-2 text-brand">Command Palette Everywhere</h4>
+                    <p class="text-sm">Accessible via <kbd class="px-1.5 py-0.5 rounded border border-zinc-500 text-[10px]">Cmd+K</kbd>, the command palette is now available throughout the entire admin area.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Block Enhancements Section -->
+        <section x-show="activeTab === 3" x-transition.opacity style="display: none;">
+            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">4. New Blocks & Customization</h2>
+            
+            <div class="mb-12">
+                <p class="text-lg leading-relaxed mb-8" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                    WordPress 7.0 ships with two highly requested native blocks, reducing the need for heavy SEO or UI plugins.
+                </p>
+                <div class="feature-card p-6 mb-8">
+                    <img src="new-blocks.png" alt="WordPress 7.0 New Blocks" class="rounded-xl shadow-lg mb-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
+                        <div>
+                            <h4 class="font-bold text-brand mb-1">Breadcrumbs Block</h4>
+                            <p class="text-xs opacity-70">Native breadcrumbs to improve SEO and navigation structure without extra code.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-brand mb-1">Icon Block</h4>
+                            <p class="text-xs opacity-70">A sleek SVG icon picker with full customization options for size, color, and background.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">Advanced Customization</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="feature-card p-6">
+                    <h4 class="font-bold mb-2">Block-Level CSS</h4>
+                    <p class="text-sm opacity-70">Add custom CSS directly to a specific block in the "Advanced" tab without affecting other elements.</p>
+                </div>
+                <div class="feature-card p-6">
+                    <h4 class="font-bold mb-2">Device-Based Visibility</h4>
+                    <p class="text-sm opacity-70">Hide blocks on mobile, tablet, or desktop with a simple toggle in the block settings.</p>
+                </div>
+                <div class="feature-card p-6">
+                    <h4 class="font-bold mb-2">Enhanced HTML Block</h4>
+                    <p class="text-sm opacity-70">The Custom HTML block now features dedicated tabs for CSS and JavaScript.</p>
+                </div>
+                <div class="feature-card p-6">
+                    <h4 class="font-bold mb-2">Responsive Grids</h4>
+                    <p class="text-sm opacity-70">The Grid block is smarter, reorganizing columns intelligently for mobile devices.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section x-show="activeTab === 4" x-transition.opacity style="display: none;">
+            <h2 class="text-3xl font-bold mb-8" :class="dark ? 'text-white' : 'text-zinc-900'">Frequently Asked Questions</h2>
+            <div class="space-y-6 max-w-3xl">
+                <div class="feature-card p-6">
+                    <h4 class="font-bold text-brand mb-2">Which PHP version is required?</h4>
+                    <p class="text-sm opacity-80">While it works with PHP 7.4+, the <strong>recommended version is PHP 8.3</strong> for optimal performance and security.</p>
+                </div>
+                <div class="feature-card p-6">
+                    <h4 class="font-bold text-brand mb-2">Is my site compatible?</h4>
+                    <p class="text-sm opacity-80">Yes, WordPress maintains high backward compatibility. However, check that your plugins are maintained and your theme doesn't use obsolete features.</p>
+                </div>
+                <div class="feature-card p-6">
+                    <h4 class="font-bold text-brand mb-2">Can I disable real-time collaboration?</h4>
+                    <p class="text-sm opacity-80">Yes, it is optional and can be toggled in <strong>Settings > Writing</strong> if you prefer the classic editing experience.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Closing -->
+        <div class="mt-20 pt-10 border-t space-y-6 max-w-3xl border-gray-200"
+            :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
+            <h3 class="text-2xl font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">Final Thoughts</h3>
+            <div class="text-lg space-y-4 leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>WordPress 7.0 marks a significant milestone in the evolution of CMS technology. By embracing AI and collaboration as core primitives, WordPress is ensuring its relevance in a rapidly changing digital landscape.</p>
+                <p>Ready to update? As always, make a full backup of your site before making the jump. Happy publishing! 🚀</p>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="mt-20 pt-10 border-t border-gray-200 dark:border-[#1e1e24] max-w-3xl mx-auto">
+            <h3 class="text-2xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">Discussion</h3>
+            <div id="comments-container"></div>
+            <script>
+                const initComments = () => {
+                    if (document.querySelector('.utterances-frame')) return;
+                    const theme = document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
+                    let script = document.createElement('script');
+                    script.src = 'https://utteranc.es/client.js';
+                    script.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                    script.setAttribute('issue-term', 'pathname');
+                    script.setAttribute('label', 'comment');
+                    script.setAttribute('theme', theme);
+                    script.setAttribute('crossorigin', 'anonymous');
+                    script.async = true;
+                    document.getElementById('comments-container').appendChild(script);
+                };
+                setTimeout(initComments, 300);
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.attributeName === 'class') {
+                            const isDark = document.documentElement.classList.contains('dark');
+                            const message = { type: 'set-theme', theme: isDark ? 'github-dark' : 'github-light' };
+                            const iframe = document.querySelector('.utterances-frame');
+                            if (iframe) iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+                        }
+                    });
+                });
+                observer.observe(document.documentElement, { attributes: true });
+            </script>
+        </div>
+    </main>
+
+    <script>
+        function blogApp() {
+            return {
+                dark: true,
+                activeTab: 0,
+                tabs: [
+                    { label: 'Overview' },
+                    { label: 'AI & Collab' },
+                    { label: 'Design & UI' },
+                    { label: 'Blocks' },
+                    { label: 'FAQ' }
+                ],
+                init() {
+                    const saved = localStorage.getItem('theme');
+                    if (saved === 'light') this.dark = false;
+                    this.$watch('dark', val => {
+                        document.documentElement.classList.toggle('dark', val);
+                        localStorage.setItem('theme', val ? 'dark' : 'light');
+                    });
+                    document.documentElement.classList.toggle('dark', this.dark);
+                },
+                toggleTheme() { this.dark = !this.dark; },
+                exploreWithAI(platform) { 
+                    const url = window.location.href; 
+                    const prompt = encodeURIComponent(`Please summarize this technical blog post about WordPress 7.0 and highlight the key features: ${url}`); 
+                    let aiUrl = ''; 
+                    if (platform === 'chatgpt') aiUrl = `https://chatgpt.com/?q=${prompt}`; 
+                    if (platform === 'claude') aiUrl = `https://claude.ai/new?q=${prompt}`; 
+                    if (platform === 'perplexity') aiUrl = `https://www.perplexity.ai/search?q=${prompt}`; 
+                    window.open(aiUrl, '_blank'); 
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
