@@ -146,10 +146,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors"
         :class="dark ? 'bg-[#09090b]/80 border-[#1e1e24]' : 'bg-[#f4f4f5]/80 border-gray-300'">
         <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
             <a href="/blog/" class="flex items-center gap-2 text-sm font-medium hover:text-brand"
                 :class="dark ? 'text-zinc-400' : 'text-zinc-500'">
                 &larr; Blog
             </a>
+            <span class="text-zinc-400 dark:text-zinc-700">/</span>
+            <a href="/blog/?category=NativePHP" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all">
+                NativePHP
+            </a>
+        </div>
             <button @click="toggleTheme()"
                 class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand"
                 :class="dark ? 'border-[#1e1e24] text-zinc-500' : 'border-gray-300 text-zinc-400'">

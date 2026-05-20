@@ -41,6 +41,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - **AI Strategy:** Implementing "Markdown for AI" site-wide to improve agent indexing.
 
 ### Key Guides
+- Gemini 3.5 Flash: https://sagarpansuriya.in/blog/gemini-3-5-flash-capabilities-workings/
 - Markdown for AI: https://sagarpansuriya.in/blog/markdown-for-ai-wordpress-laravel-seo/
 - Laravel DNA in WordPress: https://sagarpansuriya.in/blog/laravel-dna-wordpress-sage-bedrock/
 - NativePHP Android Fixes: https://sagarpansuriya.in/blog/nativephp-android-research-fixes/

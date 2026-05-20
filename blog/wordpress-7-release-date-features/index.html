@@ -121,10 +121,14 @@
     <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors"
         :class="dark ? 'bg-[#09090b]/80 border-[#1e1e24]' : 'bg-[#f4f4f5]/80 border-gray-300'">
         <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
             <a href="/blog/" class="flex items-center gap-2 text-sm font-medium hover:text-brand"
                 :class="dark ? 'text-zinc-400' : 'text-zinc-500'">
                 &larr; Blog
             </a>
+            <span class="text-zinc-400 dark:text-zinc-700">/</span>
+            <a href="/blog/?category=WordPress" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all">WordPress</a>
+        </div>
             <div class="flex items-center gap-2">
                 <button @click="toggleTheme()"
                     class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand"
@@ -147,9 +151,7 @@
 
     <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
         <div class="mb-12 text-left max-w-3xl mx-auto">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 text-brand text-xs font-bold mb-6 tracking-wide uppercase">
-                Major Update
-            </div>
+            <a href="/blog/?category=WordPress" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 text-brand text-xs font-bold mb-6 tracking-wide uppercase hover:bg-brand/20 transition-all">WordPress</a>
             <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
                 :class="dark ? 'text-white' : 'text-zinc-900'">WordPress 7.0: AI, Real-Time Collaboration, and the Future of the Web</h1>
 

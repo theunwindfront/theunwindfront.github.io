@@ -187,10 +187,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors bg-[var(--bg-page)]/80 border-[var(--border-ui)]">
         <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
             <a href="/blog/" class="flex items-center gap-2 text-sm font-bold hover:text-brand transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                 Dev Guides
             </a>
+            <span class="text-zinc-400 dark:text-zinc-700">/</span>
+            <a href="/blog/?category=WordPress" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all">WordPress</a>
+        </div>
             <div class="flex items-center gap-4">
                 <button @click="toggleTheme()" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
                     <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
