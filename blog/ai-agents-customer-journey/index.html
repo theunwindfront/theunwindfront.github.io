@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+
+<head>
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
+<!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How AI Agents Are Changing the Customer Journey</title>
+    <meta name="description"
+        content="How AI agents are changing the way people interact, decide, and buy—and what that means for your customer journey.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/ai-agents-customer-journey/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How AI Agents Are Changing the Customer Journey">
+    <meta property="og:description" content="How AI agents are changing the way people interact, decide, and buy—and what that means for your customer journey.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/ai-agents-customer-journey/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/ai-agents-customer-journey/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How AI Agents Are Changing the Customer Journey">
+    <meta name="twitter:description" content="How AI agents are changing the way people interact, decide, and buy—and what that means for your customer journey.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/ai-agents-customer-journey/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <meta name="msapplication-TileColor" content="#6366f1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { brand: { DEFAULT: '#6366f1', dark: '#4f46e5' } }
+                }
+            }
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(99, 102, 241, .12) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+
+        .code-block {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 1.5rem;
+        }
+
+        .prose-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .prose-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .dark .prose-content h2, .dark .prose-content h3 {
+            color: white;
+        }
+
+        .prose-content p {
+            margin-bottom: 1rem;
+        }
+
+        .prose-content ul {
+            list-style-type: disc;
+            padding-left: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .prose-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.875rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid rgba(156, 163, 175, 0.2);
+            padding: 1rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .dark .comparison-table th {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .comparison-table th {
+            background-color: rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+        }
+
+        .dark .comparison-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+        
+        .comparison-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
+    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f4f4f5] text-zinc-700'">
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
+        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
+
+    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors"
+        :class="dark ? 'bg-[#09090b]/80 border-[#1e1e24]' : 'bg-[#f4f4f5]/80 border-gray-300'">
+        <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+            <a href="/blog/" class="flex items-center gap-2 text-sm font-medium hover:text-brand"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-500'">
+                &larr; Blog
+            </a>
+            <span class="text-zinc-400 dark:text-zinc-700">/</span>
+            <a href="/blog/?category=Artificial%20Intelligence" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all">
+                Artificial Intelligence
+            </a>
+        </div>
+            <button @click="toggleTheme()"
+                class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand"
+                :class="dark ? 'border-[#1e1e24] text-zinc-500' : 'border-gray-300 text-zinc-400'">
+                <svg x-show="dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5" />
+                    <path
+                        d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+                <svg x-show="!dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                </svg>
+            </button>
+            <button @click="exploreWithAI('chatgpt')" title="Explore with AI"
+                class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand ml-2"
+                :class="dark ? 'border-[#1e1e24] text-zinc-500' : 'border-gray-300 text-zinc-400'">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
+        <div class="mb-12 text-left max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
+                :class="dark ? 'text-white' : 'text-zinc-900'">How AI Agents Are Changing the Way People Interact, Decide, and Buy</h1>
+
+            <!-- Author Info & Meta -->
+            <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <div class="flex items-center gap-4">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya"
+                        class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
+                        :class="dark ? 'border-[#27272a]' : 'border-white'">
+                    <div>
+                        <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
+                            class="block hover:text-brand transition-colors text-base"
+                            :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
+                        <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
+                            Lead & Frontend Architect</span>
+                    </div>
+                </div>
+                <div class="hidden sm:block w-px h-10" :class="dark ? 'bg-[#27272a]' : 'bg-gray-300'"></div>
+                <div class="flex items-center gap-4 text-sm">
+                    <time datetime="2026-05-28" class="text-brand">May 28, 2026</time>
+                    <span>·</span>
+                    <span
+                        class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">5
+                        min read</span>
+                </div>
+            </div>
+
+            <!-- Explore with AI Section -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 py-6 mb-10 border-y transition-colors"
+                :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
+                <div class="max-w-md text-left">
+                    <h3 class="text-lg font-bold mb-1 flex items-center gap-2 !mt-0" :class="dark ? 'text-white' : 'text-zinc-900'">
+                        <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        Explore with AI
+                    </h3>
+                    <p class="text-xs opacity-70">
+                        Want a quick summary or have specific questions about this post? Use your favorite AI agent.
+                    </p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button @click="exploreWithAI('chatgpt')" 
+                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
+                        <span class="w-4 h-4 flex items-center justify-center bg-[#10a37f] rounded text-white text-[8px]">GPT</span>
+                        ChatGPT
+                    </button>
+                    <button @click="exploreWithAI('claude')" 
+                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-sm font-semibold">
+                        <span class="w-4 h-4 flex items-center justify-center bg-[#d97757] rounded text-white text-[8px]">C</span>
+                        Claude
+                    </button>
+                    <button @click="exploreWithAI('perplexity')" 
+                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
+                        <span class="w-4 h-4 flex items-center justify-center bg-[#20b2aa] rounded text-white text-[8px]">P</span>
+                        Perplexity
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cover Image -->
+            <div class="rounded-2xl overflow-hidden mb-10 shadow-2xl border border-white/5">
+                <img src="cover.png" alt="AI Agents Customer Journey Cover" class="w-full h-auto aspect-video object-cover">
+            </div>
+
+            <div class="prose-content text-base leading-relaxed max-w-3xl" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                
+                <h2>The Shift from Active Search to Passive Delivery</h2>
+                <p>For the past twenty years, the customer journey was essentially a pull mechanism. If a consumer wanted a product, they searched for it. They typed queries into Google, browsed through Amazon, read reviews on Reddit, and eventually made a decision. This required <strong>active effort</strong>.</p>
+                <p>With the rise of AI agents, this dynamic is fundamentally flipping. We are moving from a world where humans search for products to a world where AI agents <em>curate and present solutions</em> before the human even realizes they need to search. The customer journey is becoming a push mechanism driven by hyper-personalized, context-aware AI.</p>
+
+                <h2>How AI Agents Alter the Decision-Making Funnel</h2>
+                <p>Traditionally, the marketing funnel looked like this: Awareness &rarr; Consideration &rarr; Conversion &rarr; Loyalty.</p>
+                <p>AI agents are compressing this funnel. Let's look at how:</p>
+                <ul>
+                    <li><strong>Awareness:</strong> Agents already know user preferences, previous purchases, and context (like upcoming calendar events or current location). Awareness is no longer about mass advertising, but about an agent saying, <em>"I noticed your flight is tomorrow, and the weather at your destination just dropped. Should I order a jacket?"</em></li>
+                    <li><strong>Consideration:</strong> The agent handles the heavy lifting of comparison shopping. It analyzes thousands of reviews, cross-references specs, and filters out the noise. It doesn't present ten options; it presents the <strong>best three</strong>, optimized for the user's specific priorities (e.g., price vs. shipping speed).</li>
+                    <li><strong>Conversion:</strong> The checkout process is completely abstracted. The user simply says "Yes," and the agent handles payment and shipping via pre-authorized credentials.</li>
+                </ul>
+
+                <h2>What This Means for Brands</h2>
+                <p>If AI agents are making decisions on behalf of consumers, how do brands adapt?</p>
+                
+                <h3>1. Marketing to Machines</h3>
+                <p>SEO (Search Engine Optimization) is evolving into AIO (Artificial Intelligence Optimization). It's no longer just about ranking on page one of Google for human eyes. It's about ensuring your product data is structured, factual, and easily ingestible by LLMs (Large Language Models) and autonomous agents. If an AI agent can't parse your product specs definitively, it won't recommend you.</p>
+
+                <h3>2. The Premium on Authenticity</h3>
+                <p>Because agents are incredibly good at filtering out marketing fluff and spotting fake reviews, <em>true</em> quality and authentic customer sentiment become paramount. Agents analyze sentiment across the entire web. You can't hack an AI agent with keyword stuffing; you have to have a genuinely good product.</p>
+
+                <h3>3. Zero-Click Commerce</h3>
+                <p>Brands need to prepare for "zero-click" transactions, where the purchase happens without the user ever visiting the brand's website. This requires robust APIs, excellent supply chain integration, and a shift in how success is measured (moving away from purely web traffic metrics to API transaction volume).</p>
+
+                <h2>The New Customer Journey</h2>
+                <p>The customer journey of the future isn't a straight line; it's a constant, ambient conversation between the user and their AI agent. The brands that win will be the ones that seamlessly integrate into that conversation, providing structured data and undeniable value to the algorithmic gatekeepers.</p>
+
+                <p>Are you ready for your customers to stop shopping for themselves?</p>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="mt-20 pt-10 border-t border-gray-200 dark:border-[#1e1e24] max-w-3xl mx-auto">
+            <h3 class="text-2xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">Discussion</h3>
+            <div id="comments-container"></div>
+            <script>
+                const initComments = () => {
+                    if (document.querySelector('.utterances-frame')) return;
+                    const theme = document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
+                    let script = document.createElement('script');
+                    script.src = 'https://utteranc.es/client.js';
+                    script.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                    script.setAttribute('issue-term', 'pathname');
+                    script.setAttribute('label', 'comment');
+                    script.setAttribute('theme', theme);
+                    script.setAttribute('crossorigin', 'anonymous');
+                    script.async = true;
+                    document.getElementById('comments-container').appendChild(script);
+                };
+                setTimeout(initComments, 300);
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.attributeName === 'class') {
+                            const isDark = document.documentElement.classList.contains('dark');
+                            const message = { type: 'set-theme', theme: isDark ? 'github-dark' : 'github-light' };
+                            const iframe = document.querySelector('.utterances-frame');
+                            if (iframe) iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+                        }
+                    });
+                });
+                observer.observe(document.documentElement, { attributes: true });
+            </script>
+        </div>
+    </main>
+
+    <script>
+        function blogApp() {
+            return {
+                dark: true,
+                init() {
+                    const saved = localStorage.getItem('theme');
+                    if (saved === 'light') this.dark = false;
+                    this.$watch('dark', val => {
+                        document.documentElement.classList.toggle('dark', val);
+                        localStorage.setItem('theme', val ? 'dark' : 'light');
+                    });
+                    document.documentElement.classList.toggle('dark', this.dark);
+                },
+                toggleTheme() { this.dark = !this.dark; },
+                exploreWithAI(platform) {
+                    const url = window.location.href;
+                    const prompt = encodeURIComponent(`Please summarize this technical blog post and highlight the key takeaways: ${url}`);
+                    let aiUrl = '';
+                    if (platform === 'chatgpt') aiUrl = `https://chatgpt.com/?q=${prompt}`;
+                    if (platform === 'claude') aiUrl = `https://claude.ai/new?q=${prompt}`;
+                    if (platform === 'perplexity') aiUrl = `https://www.perplexity.ai/search?q=${prompt}`;
+                    window.open(aiUrl, '_blank');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

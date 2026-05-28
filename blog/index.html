@@ -130,7 +130,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         /* VisionOS Liquid Glass Core */
         .vision-glass {
             position: relative;
-            overflow: hidden !important;
             background: transparent !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             z-index: 1;
@@ -147,6 +146,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             content: '';
             position: absolute;
             inset: 0;
+            border-radius: inherit;
             z-index: -2;
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(25px) saturate(180%);
@@ -167,6 +167,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             content: '';
             position: absolute;
             inset: 0;
+            border-radius: inherit;
             z-index: -1;
             background: linear-gradient(135deg,
                     rgba(255, 255, 255, 0.3) 0%,
@@ -601,6 +602,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 searchQuery: '',
                 categories: ['All', 'Artificial Intelligence', 'Laravel', 'NativePHP', 'TailwindCSS', 'WordPress', 'Design Strategy', 'DX Tools'],
                 posts: [
+                    {
+                        id: 15,
+                        title: 'How AI Agents Are Changing the Customer Journey',
+                        excerpt: 'How AI agents are changing the way people interact, decide, and buy—and what that means for your customer journey.',
+                        date: 'May 28, 2026',
+                        readTime: '5 min read',
+                        category: 'Artificial Intelligence',
+                        url: '/blog/ai-agents-customer-journey/',
+                    },
                     {
                         id: 14,
                         title: 'Deep Dive into Gemini 3.5 Flash: Architecture, Capabilities, and Developer Use Cases',
