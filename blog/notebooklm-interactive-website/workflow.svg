@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 250" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bg-glow" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#110d29" stop-opacity="0.6"/>
+      <stop offset="80%" stop-color="#09090b" stop-opacity="1"/>
+    </radialGradient>
+
+    <!-- Magic Color Gradients -->
+    <linearGradient id="purple-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+
+    <linearGradient id="neon-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="neon-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="drop-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="250" fill="url(#bg-glow)"/>
+
+  <!-- Step Connections (Arrows and Lines) -->
+  <g stroke="url(#purple-cyan)" fill="none" opacity="0.6" stroke-width="2">
+    <!-- Line 1 to 2 -->
+    <path d="M 205,125 L 265,125"/>
+    <!-- Line 2 to 3 -->
+    <path d="M 405,125 L 465,125"/>
+    <!-- Line 3 to 4 -->
+    <path d="M 605,125 L 665,125"/>
+  </g>
+
+  <!-- Flow Arrowheads -->
+  <g fill="#0ea5e9" opacity="0.8">
+    <path d="M 262,121 L 267,125 L 262,129 Z"/>
+    <path d="M 462,121 L 467,125 L 462,129 Z"/>
+    <path d="M 662,121 L 667,125 L 662,129 Z"/>
+  </g>
+
+  <!-- Step 1: Knowledge Base (NotebookLM) -->
+  <g transform="translate(45, 65)" filter="url(#drop-shadow)">
+    <rect width="160" height="120" rx="12" fill="#14141a" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.5"/>
+    <rect width="160" height="120" rx="12" fill="url(#neon-blue)" opacity="0.02"/>
+    <rect x="0" y="0" width="160" height="6" rx="3" fill="#0ea5e9"/>
+    
+    <text x="80" y="32" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="12" fill="#ffffff" text-anchor="middle">1. BUILD SOURCE</text>
+    <text x="80" y="52" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="9" fill="#0ea5e9" text-anchor="middle">NotebookLM</text>
+    
+    <!-- Checklist items inside Box -->
+    <g transform="translate(15, 66)" fill="#a1a1aa" font-family="'Plus Jakarta Sans', sans-serif" font-size="8" font-weight="500">
+      <circle cx="6" cy="6" r="2.5" fill="#10b981"/>
+      <text x="16" y="9">Upload PDFs / Docs</text>
+      
+      <circle cx="6" cy="20" r="2.5" fill="#10b981"/>
+      <text x="16" y="23">Domain-Specific Truth</text>
+    </g>
+  </g>
+
+  <!-- Step 2: Connection (Gemini Pro) -->
+  <g transform="translate(245, 65)" filter="url(#drop-shadow)">
+    <rect width="160" height="120" rx="12" fill="#14141a" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.5"/>
+    <rect width="160" height="120" rx="12" fill="url(#purple-cyan)" opacity="0.02"/>
+    <rect x="0" y="0" width="160" height="6" rx="3" fill="#3b82f6"/>
+
+    <text x="80" y="32" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="12" fill="#ffffff" text-anchor="middle">2. CONNECT MODEL</text>
+    <text x="80" y="52" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="9" fill="#3b82f6" text-anchor="middle">Gemini Pro + Canvas</text>
+
+    <g transform="translate(15, 66)" fill="#a1a1aa" font-family="'Plus Jakarta Sans', sans-serif" font-size="8" font-weight="500">
+      <circle cx="6" cy="6" r="2.5" fill="#10b981"/>
+      <text x="16" y="9">Attach Sources / Notebook</text>
+
+      <circle cx="6" cy="20" r="2.5" fill="#10b981"/>
+      <text x="16" y="23">Enable Canvas Workspace</text>
+    </g>
+  </g>
+
+  <!-- Step 3: Generation (Master Prompt) -->
+  <g transform="translate(445, 65)" filter="url(#drop-shadow)">
+    <rect width="160" height="120" rx="12" fill="#14141a" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.5"/>
+    <rect width="160" height="120" rx="12" fill="url(#purple-cyan)" opacity="0.02"/>
+    <rect x="0" y="0" width="160" height="6" rx="3" fill="#a855f7"/>
+
+    <text x="80" y="32" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="12" fill="#ffffff" text-anchor="middle">3. PROMPT &amp; BUILD</text>
+    <text x="80" y="52" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="9" fill="#a855f7" text-anchor="middle">Senior Engineer Prompt</text>
+
+    <g transform="translate(15, 66)" fill="#a1a1aa" font-family="'Plus Jakarta Sans', sans-serif" font-size="8" font-weight="500">
+      <circle cx="6" cy="6" r="2.5" fill="#10b981"/>
+      <text x="16" y="9">Canvas visual code builder</text>
+
+      <circle cx="6" cy="20" r="2.5" fill="#10b981"/>
+      <text x="16" y="23">Strict source-only truth</text>
+    </g>
+  </g>
+
+  <!-- Step 4: Live Website (Deploy) -->
+  <g transform="translate(645, 65)" filter="url(#drop-shadow)">
+    <rect width="160" height="120" rx="12" fill="#14141a" stroke="url(#purple-cyan)" stroke-width="1.5" filter="url(#neon-glow)"/>
+    <rect width="160" height="120" rx="12" fill="url(#purple-cyan)" opacity="0.05"/>
+    <rect x="0" y="0" width="160" height="6" rx="3" fill="#ec4899"/>
+
+    <text x="80" y="32" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="12" fill="#ffffff" text-anchor="middle">4. EXPORT &amp; LIVE</text>
+    <text x="80" y="52" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="9" fill="#ec4899" text-anchor="middle">Instant Share / Deploy</text>
+
+    <g transform="translate(15, 66)" fill="#a1a1aa" font-family="'Plus Jakarta Sans', sans-serif" font-size="8" font-weight="500">
+      <circle cx="6" cy="6" r="2.5" fill="#10b981"/>
+      <text x="16" y="9">Vercel / Netlify / Git Pages</text>
+
+      <circle cx="6" cy="20" r="2.5" fill="#10b981"/>
+      <text x="16" y="23">Premium Interactive Site</text>
+    </g>
+  </g>
+
+  <!-- Small details: Grid / Code tag decorations -->
+  <text x="45" y="230" font-family="'JetBrains Mono', monospace" font-size="8" fill="#71717a" opacity="0.5">SOURCE: RAW_RESEARCH</text>
+  <text x="755" y="230" font-family="'JetBrains Mono', monospace" font-size="8" fill="#ec4899" opacity="0.8" text-anchor="end" filter="url(#neon-glow)">PIPELINE: ACTIVE</text>
+</svg>

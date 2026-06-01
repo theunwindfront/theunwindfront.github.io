@@ -132,6 +132,54 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             background: #fff;
         }
     </style>
+
+    <!-- BlogPosting Structured Data for AI Search -->
+    <script type="application/ld+json">
+{
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://sagarpansuriya.in/blog/nativephp-android-research-fixes/"
+        },
+        "headline": "NativePHP on Android: Mastering JNI & v3.1.0 Binaries",
+        "description": "A comprehensive guide on running NativePHP on Android, updated for v3.1.0. Breakdown of the Binary Revolution, Dynamic Manifest Hub, and ~5ms persistent runtime.",
+        "image": "https://sagarpansuriya.in/blog/nativephp-android-research-fixes/cover.svg",
+        "author": {
+                "@type": "Person",
+                "name": "Sagar Pansuriya",
+                "url": "https://sagarpansuriya.in/",
+                "jobTitle": "Technical Lead & Frontend Architect",
+                "sameAs": [
+                        "https://www.linkedin.com/in/sagarpansuriya/",
+                        "https://github.com/theunwindfront",
+                        "https://x.com/frontendbysagar/"
+                ]
+        },
+        "publisher": {
+                "@type": "Organization",
+                "name": "The Unwind Front",
+                "url": "https://sagarpansuriya.in/",
+                "logo": {
+                        "@type": "ImageObject",
+                        "url": "https://sagarpansuriya.in/favicon.png"
+                }
+        },
+        "datePublished": "2026-03-20",
+        "dateModified": "2026-03-20",
+        "articleSection": "NativePHP",
+        "keywords": [
+                "NativePHP",
+                "PHP",
+                "Desktop",
+                "Mobile",
+                "Android"
+        ],
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "url": "https://sagarpansuriya.in/blog/nativephp-android-research-fixes/"
+}
+    </script>
 </head>
 
 <body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
@@ -143,40 +191,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
         :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
 
-    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors"
-        :class="dark ? 'bg-[#09090b]/80 border-[#1e1e24]' : 'bg-[#f4f4f5]/80 border-gray-300'">
-        <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
+        <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors bg-[#09090b]/80 border-zinc-800/50"
+        :class="dark ? 'bg-[#09090b]/80 border-zinc-800/50' : 'bg-white/80 border-zinc-200/50'">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
-            <a href="/blog/" class="flex items-center gap-2 text-sm font-medium hover:text-brand"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-500'">
-                &larr; Blog
+            <a href="/blog/" class="flex items-center gap-2 text-sm font-bold hover:text-brand transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                Dev Guides
             </a>
             <span class="text-zinc-400 dark:text-zinc-700">/</span>
-            <a href="/blog/?category=NativePHP" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all">
-                NativePHP
-            </a>
+            <a href="/blog/?category=NativePHP" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all"> NativePHP </a>
         </div>
-            <button @click="toggleTheme()"
-                class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand"
-                :class="dark ? 'border-[#1e1e24] text-zinc-500' : 'border-gray-300 text-zinc-400'">
-                <svg x-show="dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="5" />
-                    <path
-                        d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                </svg>
-                <svg x-show="!dark" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24">
-                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-                </svg>
-            </button>
-            <button @click="exploreWithAI('chatgpt')" title="Explore with AI"
-                class="w-8 h-8 rounded-lg border flex items-center justify-center hover:border-brand hover:text-brand ml-2"
-                :class="dark ? 'border-[#1e1e24] text-zinc-500' : 'border-gray-300 text-zinc-400'">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-                </svg>
-            </button>
+            <div class="flex items-center gap-4">
+                <button @click="toggleTheme()" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
+                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
+                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
+                </button>
+                <button @click="exploreWithAI('chatgpt')" title="Explore with AI" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </header>
 

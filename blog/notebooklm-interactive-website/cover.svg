@@ -1,0 +1,238 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bg-glow" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#18103c" stop-opacity="0.7"/>
+      <stop offset="60%" stop-color="#09090b" stop-opacity="1"/>
+    </radialGradient>
+
+    <!-- Magic Color Gradients -->
+    <linearGradient id="primary-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="50%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+
+    <linearGradient id="notebook-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+
+    <linearGradient id="canvas-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ec4899"/>
+      <stop offset="50%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+
+    <linearGradient id="grid-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#09090b" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <!-- Filters for Glow and Shadow -->
+    <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="15" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="soft-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="40" result="blur" />
+    </filter>
+
+    <filter id="drop-shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Background Layer -->
+  <rect width="800" height="450" fill="url(#bg-glow)"/>
+
+  <!-- Ambient Light Sources -->
+  <circle cx="150" cy="180" r="160" fill="#0ea5e9" opacity="0.12" filter="url(#soft-glow)"/>
+  <circle cx="650" cy="270" r="180" fill="#a855f7" opacity="0.15" filter="url(#soft-glow)"/>
+  <circle cx="400" cy="200" r="100" fill="#6366f1" opacity="0.1" filter="url(#soft-glow)"/>
+
+  <!-- Technical Grid Pattern -->
+  <path d="M 0,40 L 800,40 M 0,80 L 800,80 M 0,120 L 800,120 M 0,160 L 800,160 M 0,200 L 800,200 M 0,240 L 800,240 M 0,280 L 800,280 M 0,320 L 800,320 M 0,360 L 800,360 M 0,400 L 800,400 M 40,0 L 40,450 M 80,0 L 80,450 M 120,0 L 120,450 M 160,0 L 160,450 M 200,0 L 200,450 M 240,0 L 240,450 M 280,0 L 280,450 M 320,0 L 320,450 M 360,0 L 360,450 M 400,0 L 400,450 M 440,0 L 440,450 M 480,0 L 480,450 M 520,0 L 520,450 M 560,0 L 560,450 M 600,0 L 600,450 M 640,0 L 640,450 M 680,0 L 680,450 M 720,0 L 720,450 M 760,0 L 760,450" fill="none" stroke="url(#grid-grad)" stroke-width="0.75"/>
+
+  <!-- Decorative Orbit Lines -->
+  <g stroke="#ffffff" stroke-opacity="0.05" fill="none">
+    <circle cx="400" cy="225" r="320"/>
+    <circle cx="400" cy="225" r="240" stroke-dasharray="6 8"/>
+    <circle cx="400" cy="225" r="150"/>
+  </g>
+
+  <!-- Connection / Flow Lines between Left (Sources) and Right (Website Canvas) -->
+  <g stroke="url(#primary-grad)" fill="none" opacity="0.6">
+    <!-- Curved Path 1 -->
+    <path d="M 230,160 C 320,160 320,110 400,110 C 480,110 480,180 570,180" stroke-width="1.5" stroke-dasharray="4 6"/>
+    <!-- Curved Path 2 -->
+    <path d="M 230,225 C 330,225 330,225 400,225 C 470,225 470,225 570,225" stroke-width="2.5"/>
+    <!-- Curved Path 3 -->
+    <path d="M 230,290 C 320,290 320,340 400,340 C 480,340 480,270 570,270" stroke-width="1.5" stroke-dasharray="4 6"/>
+  </g>
+
+  <!-- Sparkles/Data Nodes along the path -->
+  <circle cx="340" cy="180" r="3" fill="#0ea5e9" opacity="0.7"/>
+  <circle cx="400" cy="225" r="4" fill="#a855f7" filter="url(#neon-glow)"/>
+  <circle cx="460" cy="270" r="3" fill="#ec4899" opacity="0.7"/>
+
+  <!-- Left: NotebookLM Knowledge Base Source Stack -->
+  <g transform="translate(110, 115)" filter="url(#drop-shadow)">
+    <!-- Main Card/Container -->
+    <rect width="130" height="220" rx="16" fill="#111115" stroke="url(#notebook-grad)" stroke-width="1.5"/>
+    <rect width="130" height="220" rx="16" fill="url(#notebook-grad)" opacity="0.04"/>
+    
+    <!-- Title -->
+    <text x="18" y="32" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="12" fill="#ffffff" letter-spacing="0.5">NotebookLM</text>
+    <text x="18" y="46" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" fill="#0ea5e9" font-weight="600" letter-spacing="0.5">KNOWLEDGE BASE</text>
+    <line x1="18" y1="58" x2="112" y2="58" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1"/>
+
+    <!-- Document Items -->
+    <!-- Doc 1 (PDF) -->
+    <g transform="translate(18, 70)">
+      <rect width="94" height="28" rx="6" fill="#1e1e24" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+      <rect x="8" y="7" width="14" height="14" rx="3" fill="#ef4444" opacity="0.2"/>
+      <text x="12" y="17" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="700" fill="#ef4444">P</text>
+      <text x="28" y="17" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" fill="#e4e4e7" font-weight="500">Research.pdf</text>
+    </g>
+
+    <!-- Doc 2 (Doc) -->
+    <g transform="translate(18, 106)">
+      <rect width="94" height="28" rx="6" fill="#1e1e24" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+      <rect x="8" y="7" width="14" height="14" rx="3" fill="#3b82f6" opacity="0.2"/>
+      <text x="12" y="17" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="700" fill="#3b82f6">D</text>
+      <text x="28" y="17" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" fill="#e4e4e7" font-weight="500">Notes.docx</text>
+    </g>
+
+    <!-- Doc 3 (URL) -->
+    <g transform="translate(18, 142)">
+      <rect width="94" height="28" rx="6" fill="#1e1e24" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+      <rect x="8" y="7" width="14" height="14" rx="3" fill="#10b981" opacity="0.2"/>
+      <text x="12" y="17" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="700" fill="#10b981">W</text>
+      <text x="28" y="17" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" fill="#e4e4e7" font-weight="500">Source_URL</text>
+    </g>
+
+    <!-- Doc 4 (YouTube Transcript) -->
+    <g transform="translate(18, 178)">
+      <rect width="94" height="28" rx="6" fill="#1e1e24" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+      <rect x="8" y="7" width="14" height="14" rx="3" fill="#f59e0b" opacity="0.2"/>
+      <text x="12" y="17" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="700" fill="#f59e0b">Y</text>
+      <text x="28" y="17" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" fill="#e4e4e7" font-weight="500">Video_Trans</text>
+    </g>
+  </g>
+
+  <!-- Right: Gemini Canvas Rendering Web App Mockup -->
+  <g transform="translate(560, 95)" filter="url(#drop-shadow)">
+    <!-- Browser Mockup Window -->
+    <rect width="180" height="260" rx="16" fill="#111115" stroke="url(#canvas-grad)" stroke-width="1.5"/>
+    <rect width="180" height="260" rx="16" fill="url(#canvas-grad)" opacity="0.04"/>
+
+    <!-- Browser Header Bar -->
+    <path d="M 1,16 A 15,15 0 0 1 16,1 L 164,1 A 15,15 0 0 1 179,16 L 179,28 L 1,28 Z" fill="#1b1b22"/>
+    <circle cx="15" cy="14" r="3.5" fill="#ef4444"/>
+    <circle cx="27" cy="14" r="3.5" fill="#f59e0b"/>
+    <circle cx="39" cy="14" r="3.5" fill="#10b981"/>
+    <rect x="58" y="8" width="80" height="12" rx="4" fill="#09090b" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+    <text x="98" y="17" font-family="'JetBrains Mono', monospace" font-size="6" fill="#71717a" text-anchor="middle">mysite.vercel.app</text>
+
+    <!-- Gemini Badge on Web App -->
+    <g transform="translate(138, 36)">
+      <rect width="32" height="12" rx="4" fill="#a855f7" opacity="0.2"/>
+      <text x="16" y="9" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="7" fill="#a855f7" text-anchor="middle">Canvas</text>
+    </g>
+
+    <!-- Interactive Search / FAQ block -->
+    <g transform="translate(12, 54)">
+      <rect width="156" height="22" rx="6" fill="#181820" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+      <circle cx="12" cy="11" r="3" stroke="#6366f1" stroke-width="1.2" fill="none"/>
+      <line x1="14.5" y1="13.5" x2="18.5" y2="17.5" stroke="#6366f1" stroke-width="1.2"/>
+      <text x="24" y="14" font-family="'Plus Jakarta Sans', sans-serif" font-size="7" fill="#71717a">Search knowledge base...</text>
+    </g>
+
+    <!-- Dynamic Hero Area -->
+    <g transform="translate(12, 84)">
+      <rect width="156" height="52" rx="8" fill="url(#primary-grad)" opacity="0.08"/>
+      <rect width="156" height="52" rx="8" fill="none" stroke="url(#primary-grad)" stroke-opacity="0.15" stroke-width="1"/>
+      
+      <text x="12" y="18" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="9" fill="#ffffff">AI-Powered Hub</text>
+      <text x="12" y="28" font-family="'Plus Jakarta Sans', sans-serif" font-size="6" fill="#a1a1aa">Interactive knowledge base</text>
+      
+      <!-- Sub-cards -->
+      <rect x="12" y="34" width="40" height="12" rx="3" fill="#ffffff" opacity="0.1"/>
+      <rect x="58" y="34" width="40" height="12" rx="3" fill="#ffffff" opacity="0.1"/>
+    </g>
+
+    <!-- Rendered Code / Layout Widgets -->
+    <g transform="translate(12, 144)">
+      <!-- Card 1 -->
+      <rect width="74" height="42" rx="6" fill="#181820" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+      <rect x="8" y="8" width="10" height="10" rx="2" fill="#0ea5e9"/>
+      <rect x="22" y="8" width="44" height="4" rx="2" fill="#e4e4e7"/>
+      <rect x="22" y="16" width="34" height="3" rx="1.5" fill="#71717a"/>
+      <rect x="8" y="26" width="58" height="2" rx="1" fill="#27272a"/>
+      <rect x="8" y="31" width="42" height="2" rx="1" fill="#27272a"/>
+      
+      <!-- Card 2 -->
+      <rect x="82" width="74" height="42" rx="6" fill="#181820" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+      <rect x="90" y="8" width="10" height="10" rx="2" fill="#a855f7"/>
+      <rect x="104" y="8" width="44" height="4" rx="2" fill="#e4e4e7"/>
+      <rect x="104" y="16" width="34" height="3" rx="1.5" fill="#71717a"/>
+      <rect x="90" y="26" width="58" height="2" rx="1" fill="#27272a"/>
+      <rect x="90" y="31" width="42" height="2" rx="1" fill="#27272a"/>
+    </g>
+
+    <!-- Bottom Action Button -->
+    <g transform="translate(12, 194)">
+      <rect width="156" height="20" rx="6" fill="#6366f1"/>
+      <text x="78" y="12" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="7" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">EXPLORE THE RESOURCES</text>
+    </g>
+
+    <!-- Source References -->
+    <g transform="translate(12, 222)">
+      <text x="0" y="10" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="7" fill="#71717a">Sources Referenced:</text>
+      <!-- Checked bubbles -->
+      <rect x="0" y="16" width="42" height="10" rx="4" fill="#0ea5e9" opacity="0.1"/>
+      <text x="21" y="23" font-family="'Plus Jakarta Sans', sans-serif" font-size="5" font-weight="700" fill="#0ea5e9" text-anchor="middle">Research.pdf</text>
+      <rect x="46" y="16" width="42" height="10" rx="4" fill="#3b82f6" opacity="0.1"/>
+      <text x="67" y="23" font-family="'Plus Jakarta Sans', sans-serif" font-size="5" font-weight="700" fill="#3b82f6" text-anchor="middle">Notes.docx</text>
+    </g>
+  </g>
+
+  <!-- Center Piece: Gemini AI Transformer Spark & Glow -->
+  <g transform="translate(400, 225)" filter="url(#neon-glow)">
+    <!-- Gemini Spark Path -->
+    <path d="M 0,-30 C 0.6,-10 10,-0.6 30,0 C 10,0.6 0.6,10 0,30 C -0.6,10 -10,0.6 -30,0 C -10,-0.6 -0.6,-10 0,-30 Z" fill="url(#primary-grad)"/>
+    <!-- Outer Glow Dot -->
+    <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+  </g>
+
+  <!-- Sparkle details -->
+  <g transform="translate(450, 150)" filter="url(#neon-glow)">
+    <path d="M 0,-12 C 0.3,-4 4,-0.3 12,0 C 4,0.3 0.3,4 0,12 C -0.3,4 -4,0.3 -12,0 C -4,-0.3 -0.3,-4 0,-12 Z" fill="#38bdf8"/>
+  </g>
+  <g transform="translate(340, 290)" filter="url(#neon-glow)">
+    <path d="M 0,-10 C 0.3,-3 3,-0.3 10,0 C 3,0.3 0.3,3 0,10 C -0.3,3 -3,0.3 -10,0 C -3,-0.3 -0.3,-3 0,-10 Z" fill="#a855f7"/>
+  </g>
+
+  <!-- Connective Arrows / HUD ticks -->
+  <g stroke="#ffffff" stroke-opacity="0.3" stroke-width="1.5" fill="none">
+    <path d="M 320,225 L 360,225 M 350,220 L 360,225 L 350,230"/>
+    <path d="M 480,225 L 440,225 M 450,220 L 440,225 L 450,230"/>
+  </g>
+
+  <!-- Title Text Card (Floating top center) -->
+  <g transform="translate(230, 20)" filter="url(#drop-shadow)">
+    <rect width="340" height="42" rx="10" fill="#09090b" opacity="0.9" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+    <text x="170" y="25" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="14" fill="#ffffff" text-anchor="middle" letter-spacing="1">NOTEBOOKLM &rarr; GEMINI CANVAS</text>
+  </g>
+
+  <!-- Subtitle Text Card (Floating bottom center) -->
+  <g transform="translate(260, 395)" filter="url(#drop-shadow)">
+    <rect width="280" height="30" rx="8" fill="#09090b" opacity="0.9" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+    <text x="140" y="19" font-family="'JetBrains Mono', monospace" font-size="9" fill="#a855f7" text-anchor="middle" letter-spacing="2">ZERO-CODE INTERACTIVE WEBSITES</text>
+  </g>
+</svg>

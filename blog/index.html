@@ -37,6 +37,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="apple-touch-icon" href="/favicon.png">
     <meta name="msapplication-TileColor" content="#6366f1">
 
+    <!-- Blog Collection Structured Data for AI Search -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "Architecture Journal | The Unwind Method",
+            "description": "Engineering-led insights on scaling digital systems. Deep dives into Laravel DNA, performance engineering, and modern frontend architecture by Sagar Pansuriya.",
+            "url": "https://sagarpansuriya.in/blog/",
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "Sagar Pansuriya",
+                "url": "https://sagarpansuriya.in/"
+            },
+            "author": {
+                "@type": "Person",
+                "name": "Sagar Pansuriya",
+                "url": "https://sagarpansuriya.in/",
+                "jobTitle": "Technical Lead & Frontend Architect"
+            },
+            "about": [
+                "Laravel", "WordPress", "NativePHP", "Frontend Architecture",
+                "AI Strategy", "TailwindCSS", "Web Performance", "Developer Experience"
+            ],
+            "inLanguage": "en"
+        }
+    </script>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -603,6 +630,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 categories: ['All', 'Artificial Intelligence', 'Laravel', 'NativePHP', 'TailwindCSS', 'WordPress', 'Design Strategy', 'DX Tools'],
                 posts: [
                     {
+                        id: 16,
+                        title: 'Turn NotebookLM Sources into Interactive Websites in Minutes (Zero Code)',
+                        excerpt: 'Learn the exact 5-step process to transform your NotebookLM research notes, PDFs, and documents into a live, interactive web application using Gemini Pro and Canvas.',
+                        date: 'June 01, 2026',
+                        readTime: '7 min read',
+                        category: 'Artificial Intelligence',
+                        url: '/blog/notebooklm-interactive-website/',
+                    },
+                    {
                         id: 15,
                         title: 'How AI Agents Are Changing the Customer Journey',
                         excerpt: 'How AI agents are changing the way people interact, decide, and buy—and what that means for your customer journey.',
@@ -762,6 +798,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         this.activeCategory = categoryParam;
                     }
 
+                    // Parse search query parameter from URL (supports SearchAction schema)
+                    const searchParam = urlParams.get('q');
+                    if (searchParam) {
+                        this.searchQuery = decodeURIComponent(searchParam);
+                    }
+
                     // Watch for activeCategory changes and sync to URL
                     this.$watch('activeCategory', val => {
                         const url = new URL(window.location.href);
@@ -821,6 +863,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </script>
     <!-- SEO: Static links for crawlers to prevent orphan pages -->
     <div style="display: none;" aria-hidden="true" hidden>
+        <a href="/blog/notebooklm-interactive-website/">Turn NotebookLM Sources into Interactive Websites in Minutes (Zero Code)</a>
         <a href="/blog/gemini-3-5-flash-capabilities-workings/">Deep Dive into Gemini 3.5 Flash: Architecture, Capabilities, and Developer Use Cases</a>
         <a href="/blog/wordpress-7-release-date-features/">WordPress 7.0: AI, Real-Time Collaboration, and the Future of the Web</a>
         <a href="/blog/claude-code-context-hygiene/">Why Your Claude Code Sessions Get Dumber Over Time (And How to Fix It)</a>

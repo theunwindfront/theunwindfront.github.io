@@ -2,3 +2,7 @@ User-agent: *
 Allow: /
 
 Sitemap: https://sagarpansuriya.in/sitemap.xml
+
+# AI Agent Context
+# llms.txt provides structured context for AI models
+# See: https://sagarpansuriya.in/llms.txt

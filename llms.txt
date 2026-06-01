@@ -41,8 +41,20 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - **AI Strategy:** Implementing "Markdown for AI" site-wide to improve agent indexing.
 
 ### Key Guides
+- NotebookLM to Interactive Website: https://sagarpansuriya.in/blog/notebooklm-interactive-website/
+- AI Agents Customer Journey: https://sagarpansuriya.in/blog/ai-agents-customer-journey/
 - Gemini 3.5 Flash: https://sagarpansuriya.in/blog/gemini-3-5-flash-capabilities-workings/
+- WordPress 7 Release: https://sagarpansuriya.in/blog/wordpress-7-release-date-features/
+- Claude Code Context Hygiene: https://sagarpansuriya.in/blog/claude-code-context-hygiene/
 - Markdown for AI: https://sagarpansuriya.in/blog/markdown-for-ai-wordpress-laravel-seo/
 - Laravel DNA in WordPress: https://sagarpansuriya.in/blog/laravel-dna-wordpress-sage-bedrock/
 - NativePHP Android Fixes: https://sagarpansuriya.in/blog/nativephp-android-research-fixes/
 - Shoogle Search Engine: https://sagarpansuriya.in/blog/shoogle-shadcn-search-engine/
+- Modern CSS Replacing JavaScript: https://sagarpansuriya.in/blog/modern-css-replacing-javascript/
+- TALL Stack Laravel: https://sagarpansuriya.in/blog/tall-stack-laravel/
+- WordPress Studio: https://sagarpansuriya.in/blog/wordpress-studio/
+- Vite 8 Laravel 13: https://sagarpansuriya.in/blog/vite-8-laravel-13/
+- Design Tools Laravel 13: https://sagarpansuriya.in/blog/design-tools-laravel-13/
+- Maizzle HTML Emails: https://sagarpansuriya.in/blog/maizzle-html-emails/
+- Work-Life Balance Developer: https://sagarpansuriya.in/blog/work-life-balance-developer/
+

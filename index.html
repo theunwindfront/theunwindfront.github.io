@@ -164,7 +164,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             "name": "Sagar Pansuriya",
             "alternateName": "Sagar Pansuriya Portfolio",
             "url": "https://sagarpansuriya.in/",
-            "description": "Official website of Sagar Pansuriya - Technical Lead & Frontend Architect"
+            "description": "Official website of Sagar Pansuriya - Technical Lead & Frontend Architect",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://sagarpansuriya.in/blog/?q={search_term_string}"
+                },
+                "query-input": "required name=search_term_string"
+            }
         }
     </script>
 
