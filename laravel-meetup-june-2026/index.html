@@ -1,0 +1,3147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tailwindcss-fluid-scale - Laravel Meetup June 2026</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description"
+    content="An interactive presentation slide deck showcasing tailwindcss-fluid-scale, a Tailwind CSS v4 plugin for mathematically fluid typography and spacing scales.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* 1. DESIGN SYSTEM VARIABLES */
+    :root {
+      --font-display: 'Outfit', sans-serif;
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'Fira Code', monospace;
+
+      /* Premium Cyberpunk/Dark Space Theme Colors */
+      --bg-darkest: #07080c;
+      --bg-dark: #0f1017;
+      --bg-card: rgba(22, 24, 38, 0.45);
+      --bg-card-hover: rgba(30, 33, 53, 0.6);
+      --border-color: rgba(255, 255, 255, 0.07);
+      --border-glow: rgba(139, 92, 246, 0.3);
+
+      --color-primary: #8b5cf6;
+      /* Violet */
+      --color-secondary: #6366f1;
+      /* Indigo */
+      --color-accent: #06b6d4;
+      /* Cyan */
+      --color-success: #10b981;
+      /* Emerald */
+      --color-warning: #fbbf24;
+      /* Amber */
+      --color-danger: #f87171;
+      /* Rose */
+
+      --color-text-main: #f8fafc;
+      /* Slate 50 */
+      --color-text-muted: #94a3b8;
+      /* Slate 400 */
+      --color-text-dark: #64748b;
+      /* Slate 500 */
+
+      --fluid-vw: 1vw;
+      /* Fallback viewport unit, overridden in container sandbox */
+    }
+
+    /* 2. BASE RESET */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-darkest);
+      color: var(--color-text-main);
+      font-family: var(--font-sans);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      position: relative;
+    }
+
+    /* 3. GLOWING AMBIENT BACKGROUNDS */
+    .ambient-glow {
+      position: absolute;
+      top: -20%;
+      left: -20%;
+      width: 140%;
+      height: 140%;
+      background:
+        radial-gradient(circle at 10% 15%, rgba(139, 92, 246, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.1) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.06) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+      animation: drift 25s ease-in-out infinite alternate;
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      100% {
+        transform: translate(3%, 3%) scale(1.05);
+      }
+    }
+
+    /* 4. MAIN DECK SHELL */
+    .deck-shell {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+      z-index: 10;
+    }
+
+    /* 5. TOP NAVBAR */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(7, 8, 12, 0.7);
+      backdrop-filter: blur(16px);
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+    }
+
+    .meetup-badge {
+      background: rgba(139, 92, 246, 0.12);
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      color: #c084fc;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .slide-selector-container {
+      position: relative;
+    }
+
+    .slide-dropdown-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--color-text-main);
+      padding: 0.5rem 1.25rem;
+      border-radius: 8px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .slide-dropdown-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--color-primary);
+    }
+
+    .slide-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      border-radius: 12px;
+      width: 280px;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 200;
+    }
+
+    .slide-dropdown.active {
+      display: flex;
+    }
+
+    .slide-option {
+      width: 100%;
+      padding: 0.8rem 1.25rem;
+      text-align: left;
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      transition: all 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .slide-option:hover,
+    .slide-option.active {
+      background: rgba(139, 92, 246, 0.15);
+      color: var(--color-text-main);
+    }
+
+    .slide-option .num {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    /* 6. PRESENTATION MAIN VIEWPORT */
+    .presentation-viewport {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .slides-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* 7. SLIDE TRANSITIONS (STACKED ABSOLUTE DESIGN) */
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px);
+      transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 4rem 2.5rem;
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .slide-content {
+      width: 100%;
+      max-width: 1120px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* 8. GENERAL STYLING CLASSES */
+    .slide-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #ffffff 40%, var(--color-text-muted) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .slide-subtitle {
+      font-size: 1.05rem;
+      color: var(--color-text-muted);
+      max-width: 850px;
+      line-height: 1.6;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glass-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2rem;
+      backdrop-filter: blur(20px);
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(139, 92, 246, 0.25);
+    }
+
+    /* SLIDE 1: HERO SPECIALS */
+    .hero-split {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3.5rem;
+      align-items: center;
+      width: 100%;
+    }
+
+    @media (max-width: 900px) {
+      .hero-split {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2.5rem;
+      }
+
+      .hero-split-left {
+        align-items: center !important;
+        text-align: center !important;
+      }
+
+      .hero-split-left .slide-subtitle {
+        text-align: center !important;
+      }
+    }
+
+    .speaker-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+      text-align: center;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .speaker-card:hover {
+      border-color: rgba(139, 92, 246, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 20px 50px rgba(139, 92, 246, 0.12);
+    }
+
+    .speaker-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    }
+
+    .speaker-photo-container {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      background: #111;
+      transition: transform 0.5s ease, border-color 0.5s ease;
+    }
+
+    .speaker-card:hover .speaker-photo-container {
+      transform: scale(1.05);
+      border-color: var(--color-primary);
+    }
+
+    .speaker-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .speaker-name {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+      margin-bottom: 0.25rem;
+    }
+
+    .speaker-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-primary);
+    }
+
+    .speaker-bio {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    .speaker-badge {
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      color: var(--color-accent);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2.25rem, 6vw, 4.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      background: linear-gradient(to right, #ffffff, #c084fc, #6366f1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      width: 100%;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      color: #fff;
+      border: none;
+      padding: 0.85rem 1.75rem;
+      border-radius: 10px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(139, 92, 246, 0.45);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      box-shadow: none;
+      color: var(--color-text-main);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--color-primary);
+      transform: translateY(-2px);
+      box-shadow: none;
+    }
+
+    /* SLIDE 2: TAILWIND EVOLUTION */
+    .evolution-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    @media (max-width: 850px) {
+      .evolution-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .evolution-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .evolution-badge {
+      font-size: 0.72rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-v1-v2 {
+      background: rgba(248, 113, 113, 0.12);
+      color: var(--color-danger);
+      border: 1px solid rgba(248, 113, 113, 0.25);
+    }
+
+    .badge-v3 {
+      background: rgba(251, 191, 36, 0.12);
+      color: var(--color-warning);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+    }
+
+    .badge-v4 {
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--color-success);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .evolution-stat {
+      margin-top: auto;
+      border-top: 1px solid var(--border-color);
+      padding-top: 0.75rem;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .evolution-stat-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .evolution-stat-label {
+      color: var(--color-text-dark);
+    }
+
+    .evolution-stat-value {
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+
+    .performance-graph-card {
+      margin-top: 0.5rem;
+      padding: 1.25rem 2rem;
+    }
+
+    .graph-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .graph-row {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .graph-label {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      width: 100px;
+      text-align: right;
+      color: var(--color-text-muted);
+    }
+
+    .graph-bar-outer {
+      flex: 1;
+      height: 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .graph-bar-inner {
+      height: 100%;
+      border-radius: 99px;
+    }
+
+    .graph-val {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      width: 80px;
+    }
+
+    /* SLIDE 3: BREAKPOINT STRUGLLE */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 750px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .comparison-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .comp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .comp-pill {
+      font-size: 0.72rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .comp-pill.bad {
+      background: rgba(248, 113, 113, 0.12);
+      border: 1px solid rgba(248, 113, 113, 0.25);
+      color: var(--color-danger);
+    }
+
+    .comp-pill.good {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: var(--color-success);
+    }
+
+    .comparison-viewport {
+      border: 1px dashed var(--color-text-dark);
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 1.5rem;
+      height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .viewport-size-indicator {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--color-text-dark);
+      background: rgba(0, 0, 0, 0.4);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .demo-text-box {
+      font-family: var(--font-display);
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .slider-control-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: center;
+      padding: 1.5rem;
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 650px;
+    }
+
+    .slider-row label {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .custom-range {
+      flex: 1;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      outline: none;
+    }
+
+    .custom-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.6);
+      transition: transform 0.1s ease;
+    }
+
+    .custom-range::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    .slider-val-display {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      min-width: 80px;
+      text-align: right;
+    }
+
+    /* SLIDE 4: THE MATH */
+    .calculator-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 750px) {
+      .calculator-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .form-input {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-color);
+      color: var(--color-text-main);
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .form-input:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+    }
+
+    .math-results-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1.5rem;
+      background: rgba(14, 16, 26, 0.6);
+    }
+
+    .math-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .math-stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .math-stat-label {
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+    }
+
+    .math-stat-value {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--color-text-main);
+    }
+
+    .code-output-container {
+      position: relative;
+    }
+
+    .code-output-box {
+      background: #05060a;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #a78bfa;
+      word-break: break-all;
+      line-height: 1.5;
+      min-height: 70px;
+      padding-right: 90px;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--color-text-muted);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: var(--bg-card-hover);
+      color: var(--color-text-main);
+      border-color: var(--color-primary);
+    }
+
+    /* SLIDE 5: API REFERENCE */
+    .tabs-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .tab-nav {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.5rem;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      padding: 0.6rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      color: var(--color-text-main);
+    }
+
+    .tab-btn.active {
+      background: rgba(139, 92, 246, 0.12);
+      color: #c084fc;
+    }
+
+    .tab-content-panel {
+      display: none;
+    }
+
+    .tab-content-panel.active {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2rem;
+      animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @media (max-width: 800px) {
+      .tab-content-panel.active {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .tab-desc {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .tab-desc h3 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: var(--color-text-main);
+    }
+
+    .tab-desc p {
+      font-size: 0.95rem;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+    }
+
+    .token-table th,
+    .token-table td {
+      padding: 0.6rem 0.85rem;
+      text-align: left;
+      font-size: 0.85rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .token-table th {
+      color: var(--color-text-dark);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    .token-table td code {
+      font-family: var(--font-mono);
+      color: var(--color-accent);
+      background: rgba(6, 182, 212, 0.06);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    pre.code-block {
+      background: #05060a;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #e2e8f0;
+    }
+
+    .token-comment {
+      color: #5c6784;
+      font-style: italic;
+    }
+
+    .token-tag {
+      color: #f43f5e;
+    }
+
+    .token-attr {
+      color: #38bdf8;
+    }
+
+    .token-val {
+      color: #34d399;
+    }
+
+    .token-keyword {
+      color: #c084fc;
+    }
+
+    /* SLIDE 6: VIEWPORT SANDBOX */
+    .sandbox-layout {
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr;
+      gap: 2rem;
+      height: 480px;
+    }
+
+    @media (max-width: 850px) {
+      .sandbox-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+    }
+
+    .sandbox-canvas-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      height: 100%;
+      min-width: 0;
+    }
+
+    .sandbox-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 0.75rem 1.25rem;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+
+    .sandbox-presets {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .preset-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      color: var(--color-text-muted);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .preset-btn:hover,
+    .preset-btn.active {
+      background: rgba(139, 92, 246, 0.15);
+      color: var(--color-text-main);
+      border-color: var(--color-primary);
+    }
+
+    .sandbox-canvas-wrapper {
+      flex: 1;
+      border: 2px dashed rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+      overflow: auto;
+      min-height: 300px;
+      position: relative;
+    }
+
+    .sandbox-canvas {
+      background: #0b0c10;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      position: relative;
+      container-type: inline-size;
+      /* Root Container Query */
+      flex-shrink: 0;
+      /* Prevent flexbox squeezing */
+    }
+
+    .sandbox-canvas.animate-resize {
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Container Queries Simulator Classes */
+    .sim-fluid-card {
+      /* Card padding: 16px (1rem) to 48px (3rem) fluid */
+      padding: clamp(1rem, calc(0.4737rem + 2.6316cqw), 3rem);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(0.5rem, calc(0.2368rem + 1.3158cqw), 1.5rem);
+    }
+
+    .sim-fluid-tag {
+      font-size: clamp(0.7rem, calc(0.6605rem + 0.1974cqw), 0.85rem);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(6, 182, 212, 0.15);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: #22d3ee;
+      align-self: flex-start;
+      font-weight: 600;
+    }
+
+    .sim-fluid-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      line-height: 1.2;
+      /* Heading size: 18px (1.125rem) to 36px (2.25rem) */
+      font-size: clamp(1.125rem, calc(0.8289rem + 1.4803cqw), 2.25rem);
+      background: linear-gradient(135deg, #fff 40%, var(--color-text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .sim-fluid-body {
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      /* Body size: 14px (0.875rem) to 18px (1.125rem) */
+      font-size: clamp(0.875rem, calc(0.8092rem + 0.3289cqw), 1.125rem);
+    }
+
+    .sim-fluid-items {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(0.5rem, calc(0.2368rem + 1.3158cqw), 1.5rem);
+    }
+
+    .sim-fluid-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      /* Item padding: 8px (0.5rem) to 20px (1.25rem) */
+      padding: clamp(0.5rem, calc(0.3026rem + 0.9868cqw), 1.25rem);
+    }
+
+    .sim-fluid-item-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      font-size: clamp(0.85rem, calc(0.8105rem + 0.1974cqw), 1rem);
+    }
+
+    .sim-fluid-item-desc {
+      font-size: clamp(0.75rem, calc(0.7237rem + 0.1316cqw), 0.85rem);
+      color: var(--color-text-dark);
+    }
+
+    .sandbox-inspector-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      height: 100%;
+      background: rgba(14, 16, 26, 0.7);
+    }
+
+    .inspector-header {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--color-text-main);
+    }
+
+    .inspector-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-success);
+      box-shadow: 0 0 8px var(--color-success);
+      animation: pulse-glow 1.5s infinite alternate;
+    }
+
+    @keyframes pulse-glow {
+      0% {
+        opacity: 0.4;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .inspector-metrics {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .inspector-metric {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .inspector-metric-label {
+      color: var(--color-text-muted);
+    }
+
+    .inspector-metric-val {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      color: var(--color-accent);
+    }
+
+    .inspector-classes {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .class-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .class-name {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    .class-clamp {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--color-text-dark);
+      background: rgba(0, 0, 0, 0.2);
+      padding: 0.35rem 0.5rem;
+      border-radius: 4px;
+      word-break: break-all;
+    }
+
+    /* SLIDE 7: INSTALLATION & GETTING STARTED */
+    .install-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 800px) {
+      .install-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .step-num {
+      width: 28px;
+      height: 28px;
+      background: rgba(139, 92, 246, 0.12);
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      color: #c084fc;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      width: 100%;
+    }
+
+    .step-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .step-desc {
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    .contact-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.06) 0%, rgba(99, 102, 241, 0.03) 100%);
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--color-text-main);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .contact-link:hover {
+      color: var(--color-accent);
+    }
+
+    /* 9. BOTTOM FOOTER CONTROLS */
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2.5rem;
+      border-top: 1px solid var(--border-color);
+      background: rgba(7, 8, 12, 0.7);
+      backdrop-filter: blur(16px);
+      z-index: 100;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-keyboard-hint {
+      font-size: 0.8rem;
+      color: var(--color-text-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .kbd {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 0.15rem 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .navigation-dots {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .nav-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .nav-dot.active {
+      background: var(--color-primary);
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    .nav-arrows {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .nav-arrow-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--color-text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-arrow-btn:hover:not(:disabled) {
+      background: var(--bg-card-hover);
+      border-color: var(--color-primary);
+      color: #fff;
+    }
+
+    .nav-arrow-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .progress-bar-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.03);
+      z-index: 105;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(to right, var(--color-primary), var(--color-accent));
+      width: 0%;
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="ambient-glow"></div>
+
+  <div class="deck-shell">
+
+    <!-- Top Progress indicator -->
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header>
+      <div class="brand">
+        <div class="brand-logo">~</div>
+        <span>tailwindcss-fluid-scale</span>
+        <span class="meetup-badge">Laravel Meetup June 2026</span>
+      </div>
+
+      <div class="slide-selector-container">
+        <button class="slide-dropdown-btn" id="slideDropBtn">
+          <span id="slideIndicatorText">Slide 1 / 11</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </button>
+        <div class="slide-dropdown" id="slideDropdown">
+          <button class="slide-option active" data-index="0">
+            <span class="title">Hero & Speaker Bio</span>
+            <span class="num">01</span>
+          </button>
+          <button class="slide-option" data-index="1">
+            <span class="title">Tailwind Compiler Evolution</span>
+            <span class="num">02</span>
+          </button>
+          <button class="slide-option" data-index="2">
+            <span class="title">CSS clamp() Introduction</span>
+            <span class="num">03</span>
+          </button>
+          <button class="slide-option" data-index="3">
+            <span class="title">The Breakpoint Struggle</span>
+            <span class="num">04</span>
+          </button>
+          <button class="slide-option" data-index="4">
+            <span class="title">How it Works (The Math)</span>
+            <span class="num">05</span>
+          </button>
+          <button class="slide-option" data-index="5">
+            <span class="title">Intuitive API Reference</span>
+            <span class="num">06</span>
+          </button>
+          <button class="slide-option" data-index="6">
+            <span class="title">Viewport Sandbox</span>
+            <span class="num">07</span>
+          </button>
+          <button class="slide-option" data-index="7">
+            <span class="title">Plugin Architecture</span>
+            <span class="num">08</span>
+          </button>
+          <button class="slide-option" data-index="8">
+            <span class="title">Practical Application</span>
+            <span class="num">09</span>
+          </button>
+          <button class="slide-option" data-index="9">
+            <span class="title">Interactive Attention Check</span>
+            <span class="num">10</span>
+          </button>
+          <button class="slide-option" data-index="10">
+            <span class="title">Installation & Setup</span>
+            <span class="num">11</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Slides Viewport -->
+    <main class="presentation-viewport">
+      <div class="slides-container" id="slidesContainer">
+
+        <!-- SLIDE 1: HERO & BIO -->
+        <section class="slide active" id="slide-hero">
+          <div class="slide-content hero-split">
+
+            <!-- Left Side Title block -->
+            <div class="hero-split-left"
+              style="display: flex; flex-direction: column; gap: 1.5rem; text-align: left; align-items: flex-start;">
+              <div class="meetup-badge"
+                style="font-size: 0.7rem; align-self: flex-start; background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.2);">
+                Mathematics Meets Fluid Layouts
+              </div>
+              <h1 class="hero-title">Say Goodbye To<br><span class="gradient-text">Breakpoint Jumping</span></h1>
+              <p class="slide-subtitle" style="max-width: 600px; margin: 0;">
+                Compile mathematically perfect, design-system synchronized typography and spacing scales dynamically
+                using native CSS clamp().
+              </p>
+              <div class="hero-buttons">
+                <button class="btn" onclick="nextSlide()">
+                  <span>Begin Presentation</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </button>
+                <a href="https://github.com/theunwindfront/tailwindcss-fluid-scale" target="_blank"
+                  class="btn btn-secondary">
+                  <span>View on GitHub</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Right Side Speaker Card -->
+            <div class="speaker-card">
+              <div class="speaker-photo-container">
+                <img src="profile.jpg" alt="Sagar Pansuriya" class="speaker-photo">
+              </div>
+              <div>
+                <h2 class="speaker-name">Sagar Pansuriya</h2>
+                <div class="speaker-title">Technical Lead & Frontend Architect</div>
+              </div>
+              <span class="speaker-badge">Creator of NativePHP Lab</span>
+              <p class="speaker-bio">
+                Technical Architect with 10+ years of experience. Specializing in scaling SaaS & Enterprise Content
+                Platforms using Laravel, WordPress & NativePHP. Proven results for products handling millions of users.
+              </p>
+              <div style="display: flex; gap: 1rem; margin-top: 0.25rem;">
+                <a href="https://github.com/theunwindfront" target="_blank"
+                  style="color: var(--color-text-muted); transition: color 0.2s;" aria-label="GitHub">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                      d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                    <path d="M9 18c-4.51 2-5-2-7-2" />
+                  </svg>
+                </a>
+                <a href="https://x.com/frontendbysagar/" target="_blank"
+                  style="color: var(--color-text-muted); transition: color 0.2s;" aria-label="Twitter">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                      d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+                  </svg>
+                </a>
+                <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank"
+                  style="color: var(--color-text-muted); transition: color 0.2s;" aria-label="LinkedIn">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                    <rect width="4" height="12" x="2" y="9" />
+                    <circle cx="4" cy="4" r="2" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- SLIDE 2: TAILWIND COMPILER EVOLUTION -->
+        <section class="slide" id="slide-evolution">
+          <div class="slide-content">
+            <h2 class="slide-title">Tailwind's Compiler Evolution</h2>
+            <p class="slide-subtitle">
+              How does Tailwind CSS compile code, and why did they change compile options to reduce build time and
+              increase performance?
+            </p>
+
+            <div class="evolution-grid">
+
+              <!-- Era 1 -->
+              <div class="glass-card evolution-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                  <span
+                    style="font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--color-danger);">v1
+                    - v2 Era</span>
+                  <span class="evolution-badge badge-v1-v2">PurgeCSS</span>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5;">
+                  <strong>Mechanism</strong>: Pre-generated a massive stylesheet containing millions of combinations of
+                  paddings, margins, sizes, and colors.
+                </p>
+                <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5;">
+                  <strong>Production</strong>: Scanned templates using regex match and deleted unreferenced CSS rules.
+                </p>
+                <div class="evolution-stat">
+                  <div class="evolution-stat-row">
+                    <span class="evolution-stat-label">Build Time:</span>
+                    <span class="evolution-stat-value" style="color: var(--color-danger);">~2.5s - 5s</span>
+                  </div>
+                  <div class="evolution-stat-row">
+                    <span class="evolution-stat-label">CSS Size:</span>
+                    <span class="evolution-stat-value" style="color: var(--color-danger);">~12MB</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Era 2 -->
+              <div class="glass-card evolution-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                  <span
+                    style="font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--color-warning);">v3
+                    Era</span>
+                  <span class="evolution-badge badge-v3">Node JIT</span>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5;">
+                  <strong>Mechanism</strong>: Just-in-Time compilation. Watches file changes and appends classes to
+                  style block dynamically on-the-fly.
+                </p>
+                <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5;">
+                  <strong>Advantage</strong>: Development files are tiny. Removed need for manual clean-ups or massive
+                  pre-compilations.
+                </p>
+                <div class="evolution-stat">
+                  <div class="evolution-stat-row">
+                    <span class="evolution-stat-label">Build Time:</span>
+                    <span class="evolution-stat-value" style="color: var(--color-warning);">~150ms - 300ms</span>
+                  </div>
+                  <div class="evolution-stat-row">
+                    <span class="evolution-stat-label">CSS Size:</span>
+                    <span class="evolution-stat-value" style="color: var(--color-warning);">~45KB</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Era 3 -->
+              <div class="glass-card evolution-card" style="border-color: rgba(16, 185, 129, 0.25);">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                  <span
+                    style="font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--color-success);">v4
+                    Era</span>
+                  <span class="evolution-badge badge-v4">Rust Engine</span>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5;">
+                  <strong>Mechanism</strong>: Fully rewritten engine in Rust. Parses project structures and builds at
+                  native machine speeds using LightningCSS.
+                </p>
+                <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5;">
+                  <strong>Advantage</strong>: Automated scans without setup files. Zero config requirements, with direct
+                  bundler integration (Vite/Rspack).
+                </p>
+                <div class="evolution-stat">
+                  <div class="evolution-stat-row">
+                    <span class="evolution-stat-label">Build Time:</span>
+                    <span class="evolution-stat-value" style="color: var(--color-success);">~5ms - 15ms</span>
+                  </div>
+                  <div class="evolution-stat-row">
+                    <span class="evolution-stat-label">CSS Size:</span>
+                    <span class="evolution-stat-value" style="color: var(--color-success);">~20KB</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Graphical chart -->
+            <div class="glass-card performance-graph-card">
+              <h3
+                style="font-family: var(--font-display); font-size: 0.9rem; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.25rem; text-align: center;">
+                Compilation Build Speed (Lower is Better)</h3>
+              <div class="graph-container">
+
+                <!-- v1-v2 -->
+                <div class="graph-row">
+                  <span class="graph-label">v1 - v2</span>
+                  <div class="graph-bar-outer">
+                    <div class="graph-bar-inner"
+                      style="width: 100%; background: linear-gradient(90deg, #f87171, #ef4444); box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);">
+                    </div>
+                  </div>
+                  <span class="graph-val" style="color: var(--color-danger);">2,500 ms</span>
+                </div>
+
+                <!-- v3 -->
+                <div class="graph-row">
+                  <span class="graph-label">v3 (Node JIT)</span>
+                  <div class="graph-bar-outer">
+                    <div class="graph-bar-inner"
+                      style="width: 6%; background: linear-gradient(90deg, #fbbf24, #f59e0b); box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);">
+                    </div>
+                  </div>
+                  <span class="graph-val" style="color: var(--color-warning);">150 ms</span>
+                </div>
+
+                <!-- v4 -->
+                <div class="graph-row">
+                  <span class="graph-label">v4 (Rust Engine)</span>
+                  <div class="graph-bar-outer">
+                    <div class="graph-bar-inner"
+                      style="width: 0.4%; background: linear-gradient(90deg, #34d399, #10b981); box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);">
+                    </div>
+                  </div>
+                  <span class="graph-val" style="color: var(--color-success);">10 ms</span>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- SLIDE 3: CSS CLAMP INTRODUCTION -->
+        <section class="slide" id="slide-clamp">
+          <div class="slide-content">
+            <h2 class="slide-title">Introduction to CSS <code>clamp()</code></h2>
+            <p class="slide-subtitle">
+              CSS <code>clamp()</code> limits a value between defined minimum and maximum bounds, scaling dynamically
+              using a preferred middle value. It is the modern building block of fluid design.
+            </p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 2rem; margin-top: 0.5rem; width: 100%;">
+
+              <!-- Left side: How it works explanation -->
+              <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                <h3
+                  style="font-family: var(--font-display); font-size: 1.2rem; color: var(--color-primary); font-weight: 600;">
+                  The Anatomy of clamp()</h3>
+                <div
+                  style="font-family: var(--font-mono); font-size: 1.1rem; background: rgba(0,0,0,0.3); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); text-align: center; color: #fff;">
+                  clamp(<span style="color: var(--color-danger); font-weight: 600;">min</span>, <span
+                    style="color: var(--color-warning); font-weight: 600;">preferred</span>, <span
+                    style="color: var(--color-success); font-weight: 600;">max</span>)
+                </div>
+
+                <div
+                  style="display: flex; flex-direction: column; gap: 0.85rem; font-size: 0.88rem; line-height: 1.55;">
+                  <p>
+                    <strong style="color: var(--color-danger);">1. Minimum Value:</strong> The lower bound limit. The
+                    property will never scale below this value, regardless of screen width.
+                  </p>
+                  <p>
+                    <strong style="color: var(--color-warning);">2. Preferred Value:</strong> The dynamic scaling
+                    expression (typically combining viewport units like <code>vw</code> or container query units like
+                    <code>cqw</code>).
+                  </p>
+                  <p>
+                    <strong style="color: var(--color-success);">3. Maximum Value:</strong> The upper bound limit. The
+                    property will never scale above this value.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Right side: Different ways of usage -->
+              <div class="glass-card" style="display: flex; flex-direction: column; gap: 1rem;">
+                <h3
+                  style="font-family: var(--font-display); font-size: 1.2rem; color: var(--color-accent); font-weight: 600;">
+                  Different Ways to Use clamp()</h3>
+
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+
+                  <!-- Typography -->
+                  <div
+                    style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 0.75rem 1rem; border-radius: 8px; display: flex; flex-direction: column; gap: 0.35rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-main);">1. Fluid
+                        Typography</span>
+                      <span
+                        style="font-size: 0.72rem; color: var(--color-text-dark); text-transform: uppercase; font-weight: 600;">font-size</span>
+                    </div>
+                    <code
+                      style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-accent);">font-size: clamp(1rem, 0.5rem + 1.5vw, 2.5rem);</code>
+                  </div>
+
+                  <!-- Spacing -->
+                  <div
+                    style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 0.75rem 1rem; border-radius: 8px; display: flex; flex-direction: column; gap: 0.35rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-main);">2. Responsive
+                        Spacing (Padding/Margin)</span>
+                      <span
+                        style="font-size: 0.72rem; color: var(--color-text-dark); text-transform: uppercase; font-weight: 600;">padding
+                        / margin</span>
+                    </div>
+                    <code
+                      style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-accent);">padding: clamp(1.5rem, 1rem + 2vw, 4rem);</code>
+                  </div>
+
+                  <!-- Container Width Sizing -->
+                  <div
+                    style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 0.75rem 1rem; border-radius: 8px; display: flex; flex-direction: column; gap: 0.35rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-main);">3. Layout
+                        Container Width Bounds</span>
+                      <span
+                        style="font-size: 0.72rem; color: var(--color-text-dark); text-transform: uppercase; font-weight: 600;">width</span>
+                    </div>
+                    <code
+                      style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-accent);">width: clamp(320px, 60%, 1200px);</code>
+                  </div>
+
+                  <!-- Grid/Flex Gaps -->
+                  <div
+                    style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 0.75rem 1rem; border-radius: 8px; display: flex; flex-direction: column; gap: 0.35rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-main);">4. Dynamic
+                        Grid/Flex Gaps</span>
+                      <span
+                        style="font-size: 0.72rem; color: var(--color-text-dark); text-transform: uppercase; font-weight: 600;">gap</span>
+                    </div>
+                    <code
+                      style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-accent);">gap: clamp(0.75rem, 0.25rem + 1vw, 2rem);</code>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 4: THE BREAKPOINT STRUGGLE -->
+        <section class="slide" id="slide-breakpoint">
+          <div class="slide-content">
+            <div style="display: flex; gap: 2rem; align-items: center; width: 100%;">
+              <div style="flex: 1.5; display: flex; flex-direction: column; gap: 1.25rem;">
+                <h2 class="slide-title">The Breakpoint Struggle</h2>
+                <p class="slide-subtitle" style="margin: 0;">
+                  Responsive layouts usually require writing repetitive responsive breakpoint overrides. This causes
+                  layout elements to jump abruptly when screen dimensions cross breakpoint widths.
+                </p>
+              </div>
+              <div style="flex: 0.5; max-width: 150px; display: flex; justify-content: center;">
+                <img src="breakpoint_struggle.png" alt="Breakpoint Struggle illustration"
+                  style="width: 100%; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+              </div>
+            </div>
+
+            <div class="comparison-grid">
+
+              <!-- Standard breakpoints -->
+              <div class="glass-card comparison-card">
+                <div class="comp-header">
+                  <span>Traditional Breakpoint classes</span>
+                  <span class="comp-pill bad">Snaps & Jumps</span>
+                </div>
+                <div class="comparison-viewport">
+                  <div class="viewport-size-indicator" id="bpWidthLeft">Width: 640px</div>
+                  <div class="demo-text-box" id="bpText" style="font-size: 16px;">
+                    Abrupt Snapping Font
+                  </div>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5;">
+                  Utility properties like <code
+                    style="color: var(--color-accent);">text-sm md:text-base lg:text-lg xl:text-3xl</code> update sizes
+                  at specific breakpoints, causing sudden page jumps.
+                </p>
+              </div>
+
+              <!-- Fluid scale -->
+              <div class="glass-card comparison-card">
+                <div class="comp-header">
+                  <span>Mathematically Fluid Scaling</span>
+                  <span class="comp-pill good">100% Smooth</span>
+                </div>
+                <div class="comparison-viewport">
+                  <div class="viewport-size-indicator" id="bpWidthRight">Width: 640px</div>
+                  <div class="demo-text-box" id="fluidText" style="font-size: 20px;">
+                    Smooth Fluid Scaling
+                  </div>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5;">
+                  Dynamic scaling class <code style="color: var(--color-success);">fluid-text-sm-3xl</code> compiles a
+                  linear clamp. Size changes smoothly pixel-by-pixel.
+                </p>
+              </div>
+
+            </div>
+
+            <!-- Breakpoint range slider -->
+            <div class="glass-card slider-control-card">
+              <div class="slider-row">
+                <label for="bpSlider">SIMULATE VIEWPORT:</label>
+                <input type="range" id="bpSlider" min="320" max="1536" value="768" class="custom-range">
+                <span class="slider-val-display" id="bpSliderVal">768 px</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- SLIDE 4: HOW IT WORKS (THE MATH) -->
+        <section class="slide" id="slide-math">
+          <div class="slide-content">
+            <div style="display: flex; gap: 2rem; align-items: center; width: 100%;">
+              <div style="flex: 1.5; display: flex; flex-direction: column; gap: 1.25rem;">
+                <h2 class="slide-title">How It Works: Linear Formula</h2>
+                <p class="slide-subtitle" style="margin: 0;">
+                  Instead of bulky media queries, the compiler determines a linear slope mapping size ranges to width
+                  ranges. It outputs a highly-efficient native CSS <code>clamp()</code> function.
+                </p>
+              </div>
+              <div style="flex: 0.5; max-width: 150px; display: flex; justify-content: center;">
+                <img src="math_wizard.png" alt="Math wizard illustration"
+                  style="width: 100%; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+              </div>
+            </div>
+
+            <div class="calculator-layout">
+
+              <!-- Inputs card -->
+              <div class="glass-card">
+                <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 1.25rem;">Linear Slope
+                  Generator</h3>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="calcMinSize">Min Size</label>
+                    <input type="text" id="calcMinSize" class="form-input" value="16px">
+                  </div>
+                  <div class="form-group">
+                    <label for="calcMaxSize">Max Size</label>
+                    <input type="text" id="calcMaxSize" class="form-input" value="48px">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="calcMinWidth">Min Viewport Width</label>
+                    <input type="text" id="calcMinWidth" class="form-input" value="320px">
+                  </div>
+                  <div class="form-group">
+                    <label for="calcMaxWidth">Max Viewport Width</label>
+                    <input type="text" id="calcMaxWidth" class="form-input" value="1536px">
+                  </div>
+                </div>
+
+                <p style="font-size: 0.8rem; color: var(--color-text-dark); margin-top: 0.25rem; line-height: 1.45;">
+                  Inputs can be raw values in <code style="color: var(--color-accent);">px</code> or <code
+                    style="color: var(--color-accent);">rem</code>, or custom Tailwind theme keys.
+                </p>
+              </div>
+
+              <!-- Output calculations card -->
+              <div class="glass-card math-results-card">
+                <div>
+                  <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 1.25rem;">Generated
+                    Calculations</h3>
+                  <div class="math-stats">
+                    <div class="math-stat-row">
+                      <span class="math-stat-label">Slope Coefficient (m):</span>
+                      <span class="math-stat-value" id="mathSlope">0.0263</span>
+                    </div>
+                    <div class="math-stat-row">
+                      <span class="math-stat-label">Y-Intercept Offset (c):</span>
+                      <span class="math-stat-value" id="mathIntercept">0.4737 rem</span>
+                    </div>
+                    <div class="math-stat-row" style="border-bottom: none;">
+                      <span class="math-stat-label">Linear Equation:</span>
+                      <span class="math-stat-value" style="color: var(--color-accent);">y = mx + c</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="code-output-container">
+                  <span
+                    style="font-size: 0.75rem; color: var(--color-text-muted); display: block; margin-bottom: 0.4rem; font-weight: 600;">Compiled
+                    CSS Output:</span>
+                  <div class="code-output-box" id="calcOutputCode">
+                    clamp(16px, calc(0.4737rem + 2.6316vw), 48px)
+                  </div>
+                  <button class="copy-btn" id="calcCopyBtn">Copy Code</button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+
+        <!-- SLIDE 5: API REFERENCE -->
+        <section class="slide" id="slide-api">
+          <div class="slide-content">
+            <h2 class="slide-title">Simple & Intuitive API</h2>
+            <p class="slide-subtitle">
+              Integrates directly with your configured tailwind theme values, preserving key sub-rules (like typography
+              line-heights) automatically.
+            </p>
+
+            <div class="tabs-container">
+              <div class="tab-nav">
+                <button class="tab-btn active" data-tab="0">Typography</button>
+                <button class="tab-btn" data-tab="1">Spacing</button>
+                <button class="tab-btn" data-tab="2">Arbitrary Values</button>
+              </div>
+
+              <!-- Tab Panel 0: Typography -->
+              <div class="tab-content-panel active" id="tabPanel-0">
+                <div class="tab-desc">
+                  <h3>Fluid Typography Sizing</h3>
+                  <p>
+                    Pass two theme font-sizes. The compiler matches configured scales to calculate values and maps
+                    line-heights dynamically.
+                  </p>
+                  <table class="token-table">
+                    <thead>
+                      <tr>
+                        <th>Utility Class</th>
+                        <th>Resolved Clamp Boundary</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><code>fluid-text-sm-3xl</code></td>
+                        <td>0.875rem (14px) → 1.875rem (30px)</td>
+                      </tr>
+                      <tr>
+                        <td><code>fluid-text-xs-lg</code></td>
+                        <td>0.75rem (12px) → 1.125rem (18px)</td>
+                      </tr>
+                      <tr>
+                        <td><code>fluid-text-base-6xl</code></td>
+                        <td>1rem (16px) → 3.75rem (60px)</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div>
+                  <pre class="code-block"><span class="token-comment">&lt;!-- Locks font-size dynamically, preserving line-height --&gt;</span>
+&lt;<span class="token-tag">h1</span> <span class="token-attr">class</span>=<span class="token-val">"fluid-text-sm-3xl font-bold"</span>&gt;
+  Dynamic Headline
+&lt;/<span class="token-tag">h1</span>&gt;</pre>
+                </div>
+              </div>
+
+              <!-- Tab Panel 1: Spacing -->
+              <div class="tab-content-panel" id="tabPanel-1">
+                <div class="tab-desc">
+                  <h3>Fluid Margins, Paddings, and Gaps</h3>
+                  <p>
+                    Supports fluid margins, paddings, flexbox gaps, grid gaps, and specific dimensions based on your
+                    spacing tokens.
+                  </p>
+                  <table class="token-table">
+                    <thead>
+                      <tr>
+                        <th>Utility prefix</th>
+                        <th>CSS property target</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><code>fluid-p-{min}-{max}</code></td>
+                        <td>padding</td>
+                      </tr>
+                      <tr>
+                        <td><code>fluid-py-{min}-{max}</code></td>
+                        <td>padding-top & padding-bottom</td>
+                      </tr>
+                      <tr>
+                        <td><code>fluid-gap-{min}-{max}</code></td>
+                        <td>gap</td>
+                      </tr>
+                      <tr>
+                        <td><code>fluid-w-{min}-{max}</code></td>
+                        <td>width</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div>
+                  <pre class="code-block"><span class="token-comment">&lt;!-- Padding-y: 16px to 64px | Grid gap: 8px to 32px --&gt;</span>
+&lt;<span class="token-tag">div</span> <span class="token-attr">class</span>=<span class="token-val">"fluid-py-4-16 fluid-gap-2-8 grid grid-cols-2"</span>&gt;
+  &lt;<span class="token-tag">div</span>&gt;Block A&lt;/<span class="token-tag">div</span>&gt;
+  &lt;<span class="token-tag">div</span>&gt;Block B&lt;/<span class="token-tag">div</span>&gt;
+&lt;/<span class="token-tag">div</span>&gt;</pre>
+                </div>
+              </div>
+
+              <!-- Tab Panel 2: Arbitrary -->
+              <div class="tab-content-panel" id="tabPanel-2">
+                <div class="tab-desc">
+                  <h3>Custom Arbitrary Sizes</h3>
+                  <p>
+                    Bypass standard spacing scales entirely by entering custom raw dimensions inside arbitrary brackets.
+                  </p>
+                  <table class="token-table">
+                    <thead>
+                      <tr>
+                        <th>Syntax Options</th>
+                        <th>Output Calculations</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><code>fluid-text-[12px-60px]</code></td>
+                        <td>Scales text size from 12px to 60px</td>
+                      </tr>
+                      <tr>
+                        <td><code>fluid-py-[1rem-80px]</code></td>
+                        <td>Scales padding-y from 16px to 80px</td>
+                      </tr>
+                      <tr>
+                        <td><code>fluid-w-[200px-50vw]</code></td>
+                        <td>Scales element width from 200px to 50vw</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div>
+                  <pre class="code-block"><span class="token-comment">&lt;!-- Custom sizing bound on arbitrary units --&gt;</span>
+&lt;<span class="token-tag">section</span> <span class="token-attr">class</span>=<span class="token-val">"fluid-py-[1.5rem-80px] fluid-px-[20px-10rem]"</span>&gt;
+  &lt;<span class="token-tag">p</span> <span class="token-attr">class</span>=<span class="token-val">"fluid-text-[15px-24px]"</span>&gt;
+    Fluid layout structures
+  &lt;/<span class="token-tag">p</span>&gt;
+&lt;/<span class="token-tag">section</span>&gt;</pre>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+
+        <!-- SLIDE 6: VIEWPORT SANDBOX -->
+        <section class="slide" id="slide-sandbox">
+          <div class="slide-content">
+            <h2 class="slide-title">Interactive Viewport Sandbox</h2>
+            <p class="slide-subtitle">
+              Drag the viewport sandbox width range to watch component paddings, card content gaps, and text font-sizes
+              scale seamlessly using container queries.
+            </p>
+
+            <div class="sandbox-layout">
+
+              <!-- Simulation canvas layout -->
+              <div class="sandbox-canvas-panel">
+                <div class="sandbox-controls">
+                  <div class="sandbox-presets">
+                    <button class="preset-btn" onclick="setSandboxWidth(375)">Mobile (375px)</button>
+                    <button class="preset-btn" onclick="setSandboxWidth(768)">Tablet (768px)</button>
+                    <button class="preset-btn" onclick="setSandboxWidth(1024)">Laptop (1024px)</button>
+                    <button class="preset-btn active" id="sandboxPresetDefault" onclick="setSandboxWidth(1440)">Desktop
+                      (1440px)</button>
+                  </div>
+                  <div
+                    style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600; color: var(--color-accent);"
+                    id="sandboxWidthLabel">
+                    Width: 1440px
+                  </div>
+                </div>
+
+                <!-- Simulation Wrapper container -->
+                <div class="sandbox-canvas-wrapper">
+                  <div class="sandbox-canvas" id="sandboxCanvas" style="width: 1440px;">
+
+                    <div class="sim-fluid-card" id="simCard">
+                      <span class="sim-fluid-tag">Interactive Preview</span>
+                      <h3 class="sim-fluid-title" id="simTitle">Fluid typography & scales in action</h3>
+                      <p class="sim-fluid-body" id="simBody">
+                        This card implements fluid spacing classes. Adjust the viewport range slider, and notice that
+                        the card margins, paddings, and font sizes scale continuously.
+                      </p>
+                      <div class="sim-fluid-items">
+                        <div class="sim-fluid-item">
+                          <h4 class="sim-fluid-item-title">Linear Slope</h4>
+                          <p class="sim-fluid-item-desc">Adjusts to container boundary.</p>
+                        </div>
+                        <div class="sim-fluid-item">
+                          <h4 class="sim-fluid-item-title">Accessible</h4>
+                          <p class="sim-fluid-item-desc">Preserves scales relative to root font.</p>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="slider-row" style="margin: 0 auto; width: 100%;">
+                  <input type="range" id="sandboxSlider" min="320" max="1536" value="1440" class="custom-range">
+                </div>
+              </div>
+
+              <!-- Right Inspect Details Panel -->
+              <div class="glass-card sandbox-inspector-panel">
+                <div class="inspector-header">
+                  <div class="inspector-indicator"></div>
+                  <span>Layout Inspector (Computed px)</span>
+                </div>
+
+                <div class="inspector-metrics">
+                  <div class="inspector-metric">
+                    <span class="inspector-metric-label">Simulated Width:</span>
+                    <span class="inspector-metric-val" id="inspectWidth">1440px</span>
+                  </div>
+                  <div class="inspector-metric">
+                    <span class="inspector-metric-label">Title font-size:</span>
+                    <span class="inspector-metric-val" id="inspectTitleSize">36px</span>
+                  </div>
+                  <div class="inspector-metric">
+                    <span class="inspector-metric-label">Card padding:</span>
+                    <span class="inspector-metric-val" id="inspectCardPadding">48px</span>
+                  </div>
+                  <div class="inspector-metric">
+                    <span class="inspector-metric-label">Grid gap:</span>
+                    <span class="inspector-metric-val" id="inspectGridGap">24px</span>
+                  </div>
+                </div>
+
+                <div class="inspector-classes">
+                  <span
+                    style="font-size: 0.75rem; color: var(--color-text-muted); font-weight: 600; text-transform: uppercase;">Active
+                    Class Mappings</span>
+
+                  <div class="class-item">
+                    <span class="class-name">.fluid-text-lg-4xl</span>
+                    <span class="class-clamp">clamp(1.125rem, calc(0.8289rem + 1.4803vw), 2.25rem)</span>
+                  </div>
+
+                  <div class="class-item">
+                    <span class="class-name">.fluid-p-4-12</span>
+                    <span class="class-clamp">clamp(1rem, calc(0.4737rem + 2.6316vw), 3rem)</span>
+                  </div>
+
+                  <div class="class-item">
+                    <span class="class-name">.fluid-gap-2-6</span>
+                    <span class="class-clamp">clamp(0.5rem, calc(0.2368rem + 1.3158vw), 1.5rem)</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 8: PLUGIN ARCHITECTURE -->
+        <section class="slide" id="slide-architecture">
+          <div class="slide-content">
+            <h2 class="slide-title">Under the Hood: Plugin Architecture</h2>
+            <p class="slide-subtitle">
+              How the plugin itself is built. We extend Tailwind CSS using its JavaScript API to dynamically match
+              utilities and generate native math calculations.
+            </p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 2rem; margin-top: 0.5rem; width: 100%;">
+              <!-- Left side: Architectural highlights -->
+              <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                <h3
+                  style="font-family: var(--font-display); font-size: 1.2rem; color: var(--color-primary); font-weight: 600;">
+                  Tailwind API Integration</h3>
+
+                <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.88rem; line-height: 1.55;">
+                  <p>
+                    <strong>1. plugin.withOptions</strong>: Allows users to configure optional custom viewport overrides
+                    (like <code>minWidth: "375px"</code>) directly during plugin registration.
+                  </p>
+                  <p>
+                    <strong>2. matchUtilities API</strong>: Instead of hardcoding classes, we hook into Tailwind's
+                    matching engine. When the engine encounters a pattern like <code>fluid-text-sm-3xl</code>, it passes
+                    the value <code>"sm-3xl"</code> to our logic.
+                  </p>
+                  <p>
+                    <strong>3. Slope Calculation Engine</strong>: We extract the min/max keys, resolve them against
+                    theme values, convert to relative units, and return a dynamic math formula.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Right side: Source Code Snippet -->
+              <div>
+                <pre class="code-block" style="font-size: 0.78rem; max-height: 380px; overflow-y: auto;"><span class="token-keyword">const</span> plugin = <span class="token-keyword">require</span>(<span class="token-val">'tailwindcss/plugin'</span>);
+
+<span class="token-keyword">module</span>.<span class="token-keyword">exports</span> = plugin.withOptions(
+  <span class="token-keyword">function</span> (options = {}) {
+    <span class="token-keyword">return</span> <span class="token-keyword">function</span> ({ theme, matchUtilities }) {
+      <span class="token-keyword">const</span> minWidth = options.minWidth || <span class="token-val">'320px'</span>;
+      <span class="token-keyword">const</span> maxWidth = options.maxWidth || <span class="token-val">'1536px'</span>;
+
+      <span class="token-comment">// Match fluid utility configurations dynamically</span>
+      matchUtilities(
+        {
+          <span class="token-val">'fluid-text'</span>: (value) => {
+            <span class="token-keyword">const</span> bounds = getMinMaxValues(value);
+            <span class="token-keyword">const</span> clampVal = calculateFluidValue(
+              theme(`fontSize.${bounds.min}`) || bounds.min,
+              theme(`fontSize.${bounds.max}`) || bounds.max,
+              minWidth,
+              maxWidth
+            );
+            <span class="token-keyword">return</span> { <span class="token-val">'font-size'</span>: clampVal };
+          }
+        },
+        { values: fontSizeCombinations } <span class="token-comment">// Pre-generate autocomplete</span>
+      );
+    };
+  }
+);</pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 9: PRACTICAL APPLICATION -->
+        <section class="slide" id="slide-practical">
+          <div class="slide-content">
+            <h2 class="slide-title">Practical Application</h2>
+            <p class="slide-subtitle">
+              A real-world example of how these utilities simplify responsive designs. Build complex responsive
+              containers with zero custom CSS or media queries.
+            </p>
+
+            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; margin-top: 0.5rem; width: 100%;">
+              <!-- Left side: Code container -->
+              <div>
+                <pre class="code-block" style="font-size: 0.78rem; max-height: 380px; overflow-y: auto;"><span class="token-comment">&lt;!-- Beautiful, completely responsive container in single div --&gt;</span>
+&lt;<span class="token-tag">section</span> <span class="token-attr">class</span>=<span class="token-val">"
+  fluid-py-8-24 
+  fluid-px-4-16 
+  fluid-gap-4-12
+  mx-auto max-w-7xl flex flex-col items-center text-center
+"</span>&gt;
+  &lt;<span class="token-tag">span</span> <span class="token-attr">class</span>=<span class="token-val">"fluid-text-xs-sm font-semibold text-cyan-400"</span>&gt;
+    LATEST PLUGIN RELEASE
+  &lt;/<span class="token-tag">span</span>&gt;
+
+  &lt;<span class="token-tag">h1</span> <span class="token-attr">class</span>=<span class="token-val">"
+    fluid-text-2xl-6xl 
+    font-extrabold tracking-tight text-white
+  "</span>&gt;
+    Fluid layout math made simple
+  &lt;/<span class="token-tag">h1</span>&gt;
+
+  &lt;<span class="token-tag">p</span> <span class="token-attr">class</span>=<span class="token-val">"
+    fluid-text-sm-lg 
+    max-w-2xl text-slate-400
+  "</span>&gt;
+    A plugin that compiles mathematically clean CSS clamp expressions.
+  &lt;/<span class="token-tag">p</span>&gt;
+
+  &lt;<span class="token-tag">div</span> <span class="token-attr">class</span>=<span class="token-val">"fluid-mt-4-8 flex gap-4"</span>&gt;
+    &lt;<span class="token-tag">button</span> <span class="token-attr">class</span>=<span class="token-val">"btn"</span>&gt;Get Started&lt;/<span class="token-tag">button</span>&gt;
+  &lt;/<span class="token-tag">div</span>&gt;
+&lt;/<span class="token-tag">section</span>&gt;</pre>
+              </div>
+
+              <!-- Right side: Developer benefits list -->
+              <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                <h3
+                  style="font-family: var(--font-display); font-size: 1.2rem; color: var(--color-accent); font-weight: 600;">
+                  Developer Workflow Benefits</h3>
+
+                <div
+                  style="display: flex; flex-direction: column; gap: 0.95rem; font-size: 0.88rem; line-height: 1.55;">
+                  <p>
+                    <strong style="color: var(--color-accent);">1. Zero breakpoints bloating</strong>: No need for
+                    classes like <code>sm:py-8 md:py-12 lg:py-16 xl:py-24</code>. One utility class handles the entire
+                    gradient curve.
+                  </p>
+                  <p>
+                    <strong style="color: var(--color-accent);">2. Maintainable layouts</strong>: Changing a padding
+                    curve only requires updating a single class (e.g. <code>fluid-py-8-24</code>) rather than matching
+                    multiple breakpoint overrides.
+                  </p>
+                  <p>
+                    <strong style="color: var(--color-accent);">3. Preserves theme configuration</strong>: Reads
+                    directly from your spacing and font size theme configurations, ensuring design consistency.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 10: ATTENTION CHECK QUIZ -->
+        <section class="slide" id="slide-quiz">
+          <div class="slide-content">
+            <div style="display: flex; gap: 2rem; align-items: center; width: 100%;">
+              <div style="flex: 1.5; display: flex; flex-direction: column; gap: 1.25rem;">
+                <h2 class="slide-title">Interactive Attention Check</h2>
+                <p class="slide-subtitle" style="margin: 0;">
+                  Let's test the room! Quick trivia to check what we learned today and see who was paying attention.
+                </p>
+              </div>
+              <div style="flex: 0.5; max-width: 150px; display: flex; justify-content: center;">
+                <img src="attention_alarm.png" alt="Attention check clock illustration"
+                  style="width: 100%; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+              </div>
+            </div>
+
+            <div class="glass-card"
+              style="max-width: 700px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 1.5rem; min-height: 320px; justify-content: space-between;">
+              <div>
+                <!-- Question indicator badge -->
+                <div
+                  style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                  <span class="meetup-badge" id="quizQuestionBadge"
+                    style="background: rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.25); color: var(--color-accent);">Question
+                    1 of 3</span>
+                  <span style="font-size: 0.8rem; color: var(--color-text-dark); font-family: var(--font-mono);"
+                    id="quizScoreText">Score: 0/0</span>
+                </div>
+
+                <!-- Question Text -->
+                <h3 id="quizQuestionText"
+                  style="font-family: var(--font-display); font-size: 1.3rem; line-height: 1.4; color: var(--color-text-main); margin-bottom: 1.5rem;">
+                  What is the primary benefit of CSS clamp() compared to traditional breakpoints?
+                </h3>
+
+                <!-- Options list -->
+                <div id="quizOptionsContainer" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                  <!-- Options will be generated dynamically by JS -->
+                </div>
+              </div>
+
+              <!-- Next Button / Explanation -->
+              <div
+                style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                <span id="quizFeedbackText" style="font-size: 0.88rem; font-weight: 500; min-height: 20px;"></span>
+                <button class="btn" id="quizNextBtn" style="padding: 0.6rem 1.25rem; font-size: 0.85rem; display: none;"
+                  onclick="advanceQuiz()">
+                  <span>Next Question</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 9: SETUP & INSTALLATION -->
+        <section class="slide" id="slide-install">
+          <div class="slide-content">
+            <h2 class="slide-title">Setup In Seconds</h2>
+            <p class="slide-subtitle">
+              Ready to implement? Integration is fully automated, and scales with custom screens configured in your
+              theme.
+            </p>
+
+            <div class="install-layout">
+
+              <!-- Left setup instructions -->
+              <div class="steps-list">
+
+                <div class="step-item">
+                  <div class="step-num">1</div>
+                  <div class="step-content">
+                    <span class="step-title">Install NPM Package</span>
+                    <span class="step-desc">Add the package to your development node project:</span>
+                    <pre class="code-block"
+                      style="padding: 0.8rem 1.25rem; margin-top: 0.25rem;"><span class="token-keyword">npm</span> install @theunwindfront/tailwindcss-fluid-scale</pre>
+                  </div>
+                </div>
+
+                <div class="step-item">
+                  <div class="step-num">2</div>
+                  <div class="step-content">
+                    <span class="step-title">Register Plugin (Tailwind CSS v4)</span>
+                    <span class="step-desc">Import the utility directly in your root app stylesheet:</span>
+                    <pre class="code-block"
+                      style="padding: 0.8rem 1.25rem; margin-top: 0.25rem;"><span class="token-keyword">@import</span> <span class="token-val">"tailwindcss"</span>;
+<span class="token-keyword">@plugin</span> <span class="token-val">"@theunwindfront/tailwindcss-fluid-scale"</span>;</pre>
+                  </div>
+                </div>
+
+                <div class="step-item">
+                  <div class="step-num">3</div>
+                  <div class="step-content">
+                    <span class="step-title">Custom Constraints (Optional)</span>
+                    <span class="step-desc">Configure base scaling viewport bounds within the plugin directive:</span>
+                    <pre class="code-block" style="padding: 0.8rem 1.25rem; margin-top: 0.25rem;"><span class="token-keyword">@plugin</span> <span class="token-val">"@theunwindfront/tailwindcss-fluid-scale"</span> {
+  minWidth: <span class="token-val">"375px"</span>;
+  maxWidth: <span class="token-val">"1440px"</span>;
+}</pre>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Right community & profile details -->
+              <div class="glass-card contact-card">
+                <div>
+                  <h3 style="font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 0.5rem;">Join the
+                    Community</h3>
+                  <p style="font-size: 0.88rem; color: var(--color-text-muted); line-height: 1.55;">
+                    Built by developers, for developers. Submit issues, contribute scaling algorithms, or request new
+                    features.
+                  </p>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 0.95rem; margin-top: 0.5rem;">
+                  <a href="https://github.com/theunwindfront/tailwindcss-fluid-scale" target="_blank"
+                    class="contact-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path
+                        d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                      <path d="M9 18c-4.51 2-5-2-7-2" />
+                    </svg>
+                    <span>GitHub: @theunwindfront</span>
+                  </a>
+                  <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" class="contact-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                      <rect width="4" height="12" x="2" y="9" />
+                      <circle cx="4" cy="4" r="2" />
+                    </svg>
+                    <span>LinkedIn: Sagar Pansuriya</span>
+                  </a>
+                  <a href="https://x.com/frontendbysagar/" target="_blank" class="contact-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path
+                        d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+                    </svg>
+                    <span>Twitter: @frontendbysagar</span>
+                  </a>
+                </div>
+
+                <div
+                  style="margin-top: auto; border-top: 1px solid var(--border-color); padding-top: 1.25rem; text-align: center;">
+                  <span style="font-size: 0.75rem; color: var(--color-text-dark);">Released under the MIT
+                    License.</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Bottom Controls Footer -->
+    <footer>
+      <div class="footer-left">
+        <div class="nav-keyboard-hint">
+          <kbd>←</kbd> <kbd>→</kbd> or <kbd>Space</kbd> / <kbd>Enter</kbd> to navigate slides
+        </div>
+      </div>
+
+      <div class="footer-right">
+        <!-- Pagination dots -->
+        <div class="navigation-dots" id="navDots">
+          <button class="nav-dot active" data-index="0" aria-label="Slide 1"></button>
+          <button class="nav-dot" data-index="1" aria-label="Slide 2"></button>
+          <button class="nav-dot" data-index="2" aria-label="Slide 3"></button>
+          <button class="nav-dot" data-index="3" aria-label="Slide 4"></button>
+          <button class="nav-dot" data-index="4" aria-label="Slide 5"></button>
+          <button class="nav-dot" data-index="5" aria-label="Slide 6"></button>
+          <button class="nav-dot" data-index="6" aria-label="Slide 7"></button>
+          <button class="nav-dot" data-index="7" aria-label="Slide 8"></button>
+          <button class="nav-dot" data-index="8" aria-label="Slide 9"></button>
+          <button class="nav-dot" data-index="9" aria-label="Slide 10"></button>
+          <button class="nav-dot" data-index="10" aria-label="Slide 11"></button>
+        </div>
+
+        <!-- Arrow Buttons -->
+        <div class="nav-arrows">
+          <button class="nav-arrow-btn" id="prevBtn" disabled onclick="prevSlide()" aria-label="Previous Slide">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </button>
+          <button class="nav-arrow-btn" id="nextBtn" onclick="nextSlide()" aria-label="Next Slide">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- PRESENTATION SCRIPT LOGIC -->
+  <script>
+    // 1. STATE & ELEMENTS VARIABLES
+    let currentSlideIndex = 0;
+    const totalSlides = 11;
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const progressBar = document.getElementById('progressBar');
+    const slideIndicatorText = document.getElementById('slideIndicatorText');
+    const slideDropBtn = document.getElementById('slideDropBtn');
+    const slideDropdown = document.getElementById('slideDropdown');
+    const dropdownOptions = document.querySelectorAll('.slide-option');
+    const navDots = document.querySelectorAll('.nav-dot');
+
+    // 2. NAVIGATION TOGGLE ACTION
+    function goToSlide(index) {
+      if (index < 0 || index >= totalSlides) return;
+      currentSlideIndex = index;
+
+      // Toggle Active states on elements
+      slides.forEach((slide, idx) => {
+        if (idx === currentSlideIndex) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      // Update arrow states
+      prevBtn.disabled = currentSlideIndex === 0;
+      nextBtn.disabled = currentSlideIndex === totalSlides - 1;
+
+      // Update progress bar
+      const progressPercent = ((currentSlideIndex + 1) / totalSlides) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+
+      // Update indicator text
+      slideIndicatorText.textContent = `Slide ${currentSlideIndex + 1} / ${totalSlides}`;
+
+      // Update active navigation dots
+      navDots.forEach((dot, idx) => {
+        if (idx === currentSlideIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+
+      // Update active dropdown selector options
+      dropdownOptions.forEach((opt, idx) => {
+        if (idx === currentSlideIndex) {
+          opt.classList.add('active');
+        } else {
+          opt.classList.remove('active');
+        }
+      });
+
+      // Trigger computations on visible change
+      if (currentSlideIndex === 3) {
+        updateBreakpointComparison();
+      } else if (currentSlideIndex === 6) {
+        updateSandboxDimensions();
+      } else if (currentSlideIndex === 9) {
+        initQuizQuestion();
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlideIndex < totalSlides - 1) {
+        goToSlide(currentSlideIndex + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlideIndex > 0) {
+        goToSlide(currentSlideIndex - 1);
+      }
+    }
+
+    // 3. EVENT BINDINGS FOR INTERACTION
+    slideDropBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      slideDropdown.classList.toggle('active');
+    });
+
+    document.addEventListener('click', () => {
+      slideDropdown.classList.remove('active');
+    });
+
+    dropdownOptions.forEach((opt) => {
+      opt.addEventListener('click', () => {
+        const index = parseInt(opt.getAttribute('data-index'), 10);
+        goToSlide(index);
+      });
+    });
+
+    navDots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const index = parseInt(dot.getAttribute('data-index'), 10);
+        goToSlide(index);
+      });
+    });
+
+    // Keyboard bindings listener
+    document.addEventListener('keydown', (e) => {
+      // Bypass key actions when writing to input fields
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+        e.preventDefault();
+        prevSlide();
+      }
+    });
+
+    // 4. SLIDE 3: BREAKPOINT COMPARISON LOGIC
+    const bpSlider = document.getElementById('bpSlider');
+    const bpSliderVal = document.getElementById('bpSliderVal');
+    const bpWidthLeft = document.getElementById('bpWidthLeft');
+    const bpWidthRight = document.getElementById('bpWidthRight');
+    const bpText = document.getElementById('bpText');
+    const fluidText = document.getElementById('fluidText');
+
+    function updateBreakpointComparison() {
+      const width = parseInt(bpSlider.value, 10);
+      bpSliderVal.textContent = `${width} px`;
+      bpWidthLeft.textContent = `Width: ${width}px`;
+      bpWidthRight.textContent = `Width: ${width}px`;
+
+      // Traditional snapping sizes:
+      // sm (<768px): 14px, md (768px-1024px): 16px, lg (1024px-1280px): 18px, xl (>=1280px): 30px
+      let bpSize = 14;
+      if (width >= 1280) {
+        bpSize = 30;
+      } else if (width >= 1024) {
+        bpSize = 18;
+      } else if (width >= 768) {
+        bpSize = 16;
+      }
+      bpText.style.fontSize = `${bpSize}px`;
+      bpText.innerHTML = `Abrupt Snapping Font<br><span style="font-size: 0.75rem; color: var(--color-text-dark); font-weight: normal;">Size: ${bpSize}px</span>`;
+
+      // Fluid Linear Scaling:
+      // min: 14px, max: 30px | minWidth: 320px, maxWidth: 1536px
+      // formula: 14 + (width - 320) * (30 - 14) / (1536 - 320)
+      let fluidSize = 14 + (width - 320) * (16 / 1216);
+      fluidSize = Math.max(14, Math.min(30, fluidSize));
+      fluidText.style.fontSize = `${fluidSize}px`;
+      fluidText.innerHTML = `Smooth Fluid Scaling<br><span style="font-size: 0.75rem; color: var(--color-text-dark); font-weight: normal;">Size: ${fluidSize.toFixed(1)}px</span>`;
+    }
+
+    bpSlider.addEventListener('input', updateBreakpointComparison);
+
+    // 5. SLIDE 4: LINEAR SLOPE FORMULA CALCULATOR
+    const defaultFontSizes = {
+      'xs': '0.75rem',
+      'sm': '0.875rem',
+      'base': '1rem',
+      'lg': '1.125rem',
+      'xl': '1.25rem',
+      '2xl': '1.5rem',
+      '3xl': '1.875rem',
+      '4xl': '2.25rem',
+      '5xl': '3rem',
+      '6xl': '3.75rem',
+      '7xl': '4.5rem',
+      '8xl': '6rem',
+      '9xl': '8rem'
+    };
+
+    const defaultSpacings = {
+      '0': '0rem',
+      '0.5': '0.125rem',
+      '1': '0.25rem',
+      '1.5': '0.375rem',
+      '2': '0.5rem',
+      '2.5': '0.625rem',
+      '3': '0.75rem',
+      '3.5': '0.875rem',
+      '4': '1rem',
+      '5': '1.25rem',
+      '6': '1.5rem',
+      '7': '1.75rem',
+      '8': '2rem',
+      '9': '2.25rem',
+      '10': '2.5rem',
+      '11': '2.75rem',
+      '12': '3rem',
+      '14': '3.5rem',
+      '16': '4rem',
+      '20': '5rem',
+      '24': '6rem',
+      '28': '7rem',
+      '32': '8rem',
+      '36': '9rem',
+      '40': '10rem',
+      '44': '11rem',
+      '48': '12rem',
+      '52': '13rem',
+      '56': '14rem',
+      '60': '15rem',
+      '64': '16rem',
+      '72': '18rem',
+      '80': '20rem',
+      '96': '24rem'
+    };
+
+    function parseLength(value, baseFontSize = 16) {
+      if (typeof value === 'number') {
+        return { value, unit: 'px', px: value, rem: value / baseFontSize };
+      }
+      if (typeof value !== 'string') return null;
+
+      const cleanVal = value.trim();
+      const resolvedToken = defaultFontSizes[cleanVal] || defaultSpacings[cleanVal];
+      const targetStr = resolvedToken || cleanVal;
+
+      const match = targetStr.match(/^([\d.-]+)(px|rem|em|vh|vw|%)?$/);
+      if (!match) return null;
+
+      const num = parseFloat(match[1]);
+      const unit = match[2] || 'px';
+
+      let px = num;
+      let rem = num;
+
+      if (unit === 'px') {
+        rem = num / baseFontSize;
+      } else if (unit === 'rem' || unit === 'em') {
+        px = num * baseFontSize;
+      }
+
+      return { value: num, unit, px, rem };
+    }
+
+    function calculateFormula() {
+      const minValStr = document.getElementById('calcMinSize').value;
+      const maxValStr = document.getElementById('calcMaxSize').value;
+      const minWidthStr = document.getElementById('calcMinWidth').value;
+      const maxWidthStr = document.getElementById('calcMaxWidth').value;
+
+      const minVal = parseLength(minValStr);
+      const maxVal = parseLength(maxValStr);
+      const minWidth = parseLength(minWidthStr);
+      const maxWidth = parseLength(maxWidthStr);
+
+      const mathSlopeEl = document.getElementById('mathSlope');
+      const mathInterceptEl = document.getElementById('mathIntercept');
+      const calcOutputCode = document.getElementById('calcOutputCode');
+
+      if (!minVal || !maxVal || !minWidth || !maxWidth) {
+        calcOutputCode.textContent = "Error: Invalid inputs. Use valid units (px, rem) or theme keys (e.g. base, 3xl, 4, 16).";
+        mathSlopeEl.textContent = "N/A";
+        mathInterceptEl.textContent = "N/A";
+        return;
+      }
+
+      const vMin = minVal.rem;
+      const vMax = maxVal.rem;
+      const wMin = minWidth.rem;
+      const wMax = maxWidth.rem;
+
+      if (wMax === wMin) {
+        calcOutputCode.textContent = "Error: Viewport width range cannot be zero.";
+        mathSlopeEl.textContent = "N/A";
+        mathInterceptEl.textContent = "N/A";
+        return;
+      }
+
+      const slope = (vMax - vMin) / (wMax - wMin);
+      const slopeVw = slope * 100;
+      const yIntercept = vMin - slope * wMin;
+
+      mathSlopeEl.textContent = slope.toFixed(4);
+      mathInterceptEl.textContent = `${yIntercept.toFixed(4)} rem`;
+
+      const minOutputStr = minValStr.includes('px') || minValStr.includes('rem') ? minValStr : `${minVal.rem}rem`;
+      const maxOutputStr = maxValStr.includes('px') || maxValStr.includes('rem') ? maxValStr : `${maxVal.rem}rem`;
+
+      const preferredValue = `calc(${yIntercept.toFixed(4)}rem + ${slopeVw.toFixed(4)}vw)`;
+      const clampVal = `clamp(${minOutputStr}, ${preferredValue}, ${maxOutputStr})`;
+
+      calcOutputCode.textContent = clampVal;
+    }
+
+    // Attach calculators listeners
+    ['calcMinSize', 'calcMaxSize', 'calcMinWidth', 'calcMaxWidth'].forEach(id => {
+      document.getElementById(id).addEventListener('input', calculateFormula);
+    });
+
+    document.getElementById('calcCopyBtn').addEventListener('click', () => {
+      const codeText = document.getElementById('calcOutputCode').textContent;
+      navigator.clipboard.writeText(codeText).then(() => {
+        const copyBtn = document.getElementById('calcCopyBtn');
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => {
+          copyBtn.textContent = "Copy Code";
+        }, 1500);
+      });
+    });
+
+    // 6. SLIDE 5: API REFERENCE TABS SWITCHER
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContentPanels = document.querySelectorAll('.tab-content-panel');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabIndex = parseInt(btn.getAttribute('data-tab'), 10);
+
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContentPanels.forEach(p => p.classList.remove('active'));
+
+        btn.classList.add('active');
+        document.getElementById(`tabPanel-${tabIndex}`).classList.add('active');
+      });
+    });
+
+    // 7. SLIDE 6: VIEWPORT SANDBOX SIMULATOR
+    const sandboxSlider = document.getElementById('sandboxSlider');
+    const sandboxCanvas = document.getElementById('sandboxCanvas');
+    const sandboxWidthLabel = document.getElementById('sandboxWidthLabel');
+    const inspectWidth = document.getElementById('inspectWidth');
+    const inspectTitleSize = document.getElementById('inspectTitleSize');
+    const inspectCardPadding = document.getElementById('inspectCardPadding');
+    const inspectGridGap = document.getElementById('inspectGridGap');
+
+    const simTitle = document.getElementById('simTitle');
+    const simCard = document.getElementById('simCard');
+
+    let sandboxInspectFrameId = null;
+
+    function runSandboxInspectorLoop() {
+      if (sandboxInspectFrameId) {
+        cancelAnimationFrame(sandboxInspectFrameId);
+      }
+      const startTime = performance.now();
+
+      function updateLoop() {
+        const titleStyle = window.getComputedStyle(simTitle);
+        const cardStyle = window.getComputedStyle(simCard);
+
+        inspectTitleSize.textContent = titleStyle.fontSize;
+        inspectCardPadding.textContent = cardStyle.paddingLeft;
+
+        const resolvedGap = cardStyle.rowGap || cardStyle.gap;
+        inspectGridGap.textContent = (resolvedGap && resolvedGap !== 'normal') ? resolvedGap : '16px';
+
+        // Run loop for 450ms to cover the 350ms transition plus safety margin
+        if (performance.now() - startTime < 450) {
+          sandboxInspectFrameId = requestAnimationFrame(updateLoop);
+        }
+      }
+
+      sandboxInspectFrameId = requestAnimationFrame(updateLoop);
+    }
+
+    function updateSandboxDimensions() {
+      const width = parseInt(sandboxSlider.value, 10);
+
+      // Update simulator width and slider info
+      sandboxCanvas.style.width = `${width}px`;
+      sandboxWidthLabel.textContent = `Width: ${width}px`;
+      inspectWidth.textContent = `${width}px`;
+
+      // Read simulated elements inline CSS values dynamically
+      runSandboxInspectorLoop();
+
+      // Update visual active preset buttons
+      const presets = document.querySelectorAll('.sandbox-presets .preset-btn');
+      presets.forEach(btn => btn.classList.remove('active'));
+      if (width === 375 && presets[0]) {
+        presets[0].classList.add('active');
+      } else if (width === 768 && presets[1]) {
+        presets[1].classList.add('active');
+      } else if (width === 1024 && presets[2]) {
+        presets[2].classList.add('active');
+      } else if (width === 1440 && presets[3]) {
+        presets[3].classList.add('active');
+      }
+    }
+
+    sandboxSlider.addEventListener('input', updateSandboxDimensions);
+
+    function setSandboxWidth(width) {
+      sandboxCanvas.classList.add('animate-resize');
+      sandboxSlider.value = width;
+      updateSandboxDimensions();
+
+      setTimeout(() => {
+        sandboxCanvas.classList.remove('animate-resize');
+      }, 360);
+    }
+
+    // 9. QUIZ STATE & LOGIC
+    const quizData = [
+      {
+        question: "What is the primary benefit of using CSS clamp() for layout typography?",
+        options: [
+          { text: "It accelerates JavaScript browser processing speeds", correct: false },
+          { text: "It prevents search engines from indexing large headers", correct: false },
+          { text: "It scales values smoothly between viewport boundaries without sudden breakpoint snaps", correct: true }
+        ],
+        explanation: "Correct! clamp() interpolates values pixel-by-pixel, eliminating abrupt responsive layout jumps."
+      },
+      {
+        question: "What language is the new Tailwind CSS v4 compiler rewritten in?",
+        options: [
+          { text: "Go", correct: false },
+          { text: "Rust", correct: true },
+          { text: "Zig", correct: false }
+        ],
+        explanation: "Correct! The v4 engine is written in Rust for native speed and LightningCSS compilation."
+      },
+      {
+        question: "In the linear slope equation y = mx + c, what does the variable 'c' define?",
+        options: [
+          { text: "The Y-intercept offset", correct: true },
+          { text: "The screen viewport width limit", correct: false },
+          { text: "The slope rate coefficient", correct: false }
+        ],
+        explanation: "Correct! 'c' defines the y-intercept, which serves as the base rem/px size before screen scaling is added."
+      }
+    ];
+
+    let quizCurrentIdx = 0;
+    let quizScore = 0;
+    let quizAnswered = false;
+
+    function initQuizQuestion() {
+      const currentQ = quizData[quizCurrentIdx];
+      quizAnswered = false;
+
+      // Update badge & text
+      document.getElementById('quizQuestionBadge').textContent = `Question ${quizCurrentIdx + 1} of ${quizData.length}`;
+      document.getElementById('quizQuestionText').textContent = currentQ.question;
+      document.getElementById('quizScoreText').textContent = `Score: ${quizScore}/${quizCurrentIdx}`;
+      document.getElementById('quizFeedbackText').textContent = "";
+      document.getElementById('quizFeedbackText').style.color = "inherit";
+      document.getElementById('quizNextBtn').style.display = "none";
+
+      // Render options
+      const container = document.getElementById('quizOptionsContainer');
+      container.innerHTML = "";
+
+      currentQ.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.style.width = "100%";
+        btn.style.textAlign = "left";
+        btn.style.background = "var(--bg-card)";
+        btn.style.border = "1px solid var(--border-color)";
+        btn.style.color = "var(--color-text-main)";
+        btn.style.padding = "0.85rem 1.25rem";
+        btn.style.borderRadius = "8px";
+        btn.style.cursor = "pointer";
+        btn.style.fontFamily = "var(--font-sans)";
+        btn.style.fontSize = "0.88rem";
+        btn.style.transition = "all 0.2s ease";
+        btn.style.display = "flex";
+        btn.style.alignItems = "center";
+        btn.style.justifyContent = "space-between";
+
+        btn.innerHTML = `<span>${opt.text}</span>`;
+
+        btn.addEventListener('click', () => handleQuizSelect(btn, opt));
+        container.appendChild(btn);
+      });
+    }
+
+    function handleQuizSelect(btnElement, option) {
+      if (quizAnswered) return;
+      quizAnswered = true;
+
+      const currentQ = quizData[quizCurrentIdx];
+      const feedbackText = document.getElementById('quizFeedbackText');
+      const nextBtn = document.getElementById('quizNextBtn');
+
+      // Style options based on correctness
+      const container = document.getElementById('quizOptionsContainer');
+      const buttons = container.querySelectorAll('button');
+
+      buttons.forEach((btn, idx) => {
+        btn.style.cursor = "not-allowed";
+        const opt = currentQ.options[idx];
+        if (opt.correct) {
+          btn.style.borderColor = "var(--color-success)";
+          btn.style.background = "rgba(16, 185, 129, 0.12)";
+          btn.innerHTML += `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`;
+        } else if (opt === option) {
+          btn.style.borderColor = "var(--color-danger)";
+          btn.style.background = "rgba(248, 113, 113, 0.12)";
+          btn.innerHTML += `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-danger)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>`;
+        }
+      });
+
+      if (option.correct) {
+        quizScore++;
+        feedbackText.textContent = currentQ.explanation;
+        feedbackText.style.color = "var(--color-success)";
+      } else {
+        feedbackText.textContent = "Incorrect. Let's move to the next question!";
+        feedbackText.style.color = "var(--color-danger)";
+      }
+
+      document.getElementById('quizScoreText').textContent = `Score: ${quizScore}/${quizCurrentIdx + 1}`;
+      nextBtn.style.display = "inline-flex";
+
+      if (quizCurrentIdx === quizData.length - 1) {
+        nextBtn.querySelector('span').textContent = "See Final Slide";
+      }
+    }
+
+    function advanceQuiz() {
+      if (quizCurrentIdx < quizData.length - 1) {
+        quizCurrentIdx++;
+        initQuizQuestion();
+      } else {
+        goToSlide(totalSlides - 1);
+      }
+    }
+
+    // 8. INITIALIZATIONS
+    goToSlide(0);
+    calculateFormula();
+  </script>
+</body>
+
+</html>
