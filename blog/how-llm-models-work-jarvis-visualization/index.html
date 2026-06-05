@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How LLMs Work (Explained Like You're 5... With a Jarvis Playground)</title>
+    <meta name="description"
+        content="Ever wonder how ChatGPT or Claude works under the hood? It's basically a giant autocorrect with a math degree. Let's explore LLMs with a live interactive playground.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/how-llm-models-work-jarvis-visualization/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How LLMs Work (Explained Like You're 5... With a Jarvis Playground)">
+    <meta property="og:description" content="A humorous deep dive into Large Language Models, featuring a live, interactive visualization of how they 'think'.">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/how-llm-models-work-jarvis-visualization/">
+    <meta property="og:site_name" content="The Unwind Method">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/how-llm-models-work-jarvis-visualization/cover.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/how-llm-models-work-jarvis-visualization/cover.png">
+    <meta name="twitter:title" content="How LLMs Work (Explained Like You're 5... With a Jarvis Playground)">
+    <meta name="twitter:description" content="A humorous deep dive into Large Language Models, featuring a live, interactive visualization of how they 'think'.">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <meta name="msapplication-TileColor" content="#6366f1">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Plus Jakarta Sans', 'sans-serif'], 
+                        mono: ['JetBrains Mono', 'monospace'] 
+                    },
+                    colors: { 
+                        brand: { 
+                            DEFAULT: '#6366f1', 
+                            dark: '#4f46e5',
+                            glow: 'rgba(99, 102, 241, 0.15)'
+                        } 
+                    }
+                }
+            }
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(99, 102, 241, .08) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+
+        .code-block {
+            background: #101014;
+            color: #ececec;
+            border-radius: 12px;
+            padding: 18px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            font-family: 'JetBrains Mono', monospace;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .feature-card {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.3);
+            background: rgba(99, 102, 241, 0.04);
+        }
+
+        :root {
+            --border-ui: rgba(0, 0, 0, 0.08);
+        }
+        .dark {
+            --border-ui: rgba(255, 255, 255, 0.05);
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://sagarpansuriya.in/blog/how-llm-models-work-jarvis-visualization/"
+        },
+        "headline": "How LLMs Work (Explained Like You're 5... With a Jarvis Playground)",
+        "description": "Ever wonder how ChatGPT or Claude works under the hood? It's basically a giant autocorrect with a math degree. Let's explore LLMs with a live interactive playground.",
+        "image": "https://sagarpansuriya.in/blog/how-llm-models-work-jarvis-visualization/cover.png",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/",
+            "jobTitle": "Technical Lead & Frontend Architect",
+            "sameAs": [
+                "https://www.linkedin.com/in/sagarpansuriya/",
+                "https://github.com/theunwindfront",
+                "https://x.com/frontendbysagar"
+            ]
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "The Unwind Front",
+            "url": "https://sagarpansuriya.in/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://sagarpansuriya.in/favicon.png"
+            }
+        },
+        "datePublished": "2026-06-05",
+        "dateModified": "2026-06-05",
+        "articleSection": "Artificial Intelligence",
+        "keywords": ["LLM","Jarvis","Playground","AI","Tutorial"],
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "url": "https://sagarpansuriya.in/blog/how-llm-models-work-jarvis-visualization/"
+    }
+    </script>
+</head>
+
+<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400 font-sans"
+    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f8fafc] text-zinc-700'">
+    
+    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors bg-[#09090b]/80 border-zinc-800/50"
+        :class="dark ? 'bg-[#09090b]/80 border-zinc-800/50' : 'bg-white/80 border-zinc-200/50'">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+            <a href="/blog/" class="flex items-center gap-2 text-sm font-bold hover:text-brand transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                Dev Guides
+            </a>
+            <span class="text-zinc-400 dark:text-zinc-700">/</span>
+            <a href="/blog/?category=Artificial Intelligence" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all">Artificial Intelligence</a>
+        </div>
+            <div class="flex items-center gap-4">
+                <button @click="exploreWithAI('chatgpt')" title="Explore with AI" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                    </svg>
+                </button>
+                <button @click="toggleTheme()" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
+                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
+                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
+        <!-- Sticky Navigation Tabs -->
+        <div class="sticky top-[53px] z-40 -mx-6 px-6 py-3 backdrop-blur-xl border-b mb-10 overflow-x-auto scrollbar-hide"
+            :class="dark ? 'bg-[#09090b]/90 border-zinc-800/50' : 'bg-white/90 border-gray-300'">
+            <div class="flex gap-2">
+                <template x-for="(tab, i) in tabs" :key="i">
+                    <button @click="activeTab = i"
+                        class="tab-btn px-4 py-2 rounded-lg font-mono text-xs font-semibold whitespace-nowrap border transition-all"
+                        :class="activeTab === i ? 'active border-brand/30' : (dark ? 'border-transparent text-zinc-500' : 'border-transparent text-zinc-500 bg-white shadow-sm duration-150')"
+                        x-text="tab.label"></button>
+                </template>
+            </div>
+        </div>
+        <div class="mb-12 text-left max-w-3xl mx-auto">
+            <a href="/blog/?category=Artificial Intelligence" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 text-brand text-xs font-bold mb-6 tracking-wide uppercase hover:bg-brand/20 transition-all">Artificial Intelligence</a>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
+                :class="dark ? 'text-white' : 'text-zinc-900'">How LLMs Work (Explained Like You're 5... With a Jarvis Playground)</h1>
+
+            <!-- Author Info & Meta -->
+            <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <div class="flex items-center gap-4">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya"
+                        class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
+                        :class="dark ? 'border-[#27272a]' : 'border-white'">
+                    <div>
+                        <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
+                            class="block hover:text-brand transition-colors text-base"
+                            :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
+                        <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
+                            Lead & Frontend Architect</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-xl leading-relaxed mb-8 font-medium" :class="dark ? 'text-zinc-300' : 'text-zinc-800'">
+                So you've probably heard that Large Language Models (LLMs) like GPT-4, Claude, and Gemini are "just really spicy autocorrects." And while that's not exactly wrong, it's like calling a Formula 1 car "just a really spicy go-kart." Let's break down the magic, without the math, and play with a Jarvis-style brain along the way.
+            </p>
+        </div>
+
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">1. The Token: Cutting Your Words into Spaghetti</h2>
+            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>LLMs don't read words like you and I do. They chew them up into tiny pieces called <strong>Tokens</strong>. Sometimes a token is a whole word (like "apple"). Sometimes it's a syllable (like "ap"). And sometimes, if it's a weird word like "pneumonoultramicroscopicsilicovolcanoconiosis", it gets chopped up into like 10 pieces.</p>
+                <p>Why do they do this? Because numbers are easier to do math on than letters. Every token gets assigned an ID. Think of it like a giant menu at a restaurant where the model just orders by number: "I'll take a #42 followed by a #69, please."</p>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">2. Embeddings: The "Vibe Check"</h2>
+            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>Once the LLM has its menu numbers, it plots them in a multi-dimensional space. Think of a graph, but instead of X and Y, it has like 4,000 dimensions. (Don't try to picture 4,000 dimensions; your human brain will melt).</p>
+                <p>This is where the model learns <em>vibes</em>. It learns that "King" is similar to "Queen", but if you subtract "Man" and add "Woman" you get "Queen". It maps the conceptual distance between "Pizza" and "Happiness" (which, scientifically, is zero).</p>
+            </div>
+        </section>
+
+        <!-- THE JARVIS PLAYGROUND -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">3. The Jarvis Playground (Live Neural Visualization)</h2>
+            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>Below is a highly accurate*, definitely-not-just-a-canvas-element visualization of how an LLM processes your text. Type a prompt, hit generate, and watch the "neural network" pass your tokens around until it hallucinates a response.</p>
+                <p class="text-sm italic">*Accuracy not guaranteed. It's actually just JavaScript math randomizing some circles. But it looks cool.</p>
+            </div>
+
+            <!-- Playground UI -->
+            <div class="feature-card p-1 mt-6 bg-gradient-to-br from-[#18181b] to-[#09090b] border border-white/10 shadow-2xl relative" x-data="llmPlayground()" x-init="initCanvas()">
+                
+                <!-- Canvas Area -->
+                <div class="w-full h-[350px] relative rounded-t-xl overflow-hidden bg-black/40 border-b border-white/10">
+                    <canvas x-ref="jarvisCanvas" class="absolute inset-0 w-full h-full"></canvas>
+                    
+                    <!-- Output Overlay -->
+                    <div class="absolute inset-0 flex items-center justify-center p-8 pointer-events-none transition-opacity duration-300"
+                         :class="outputText ? 'opacity-100' : 'opacity-0'">
+                        <div class="bg-black/60 backdrop-blur-md p-6 rounded-2xl border border-brand/30 shadow-[0_0_30px_rgba(99,102,241,0.2)] max-w-lg text-center transform transition-transform duration-500"
+                             :class="outputText ? 'scale-100 translate-y-0' : 'scale-95 translate-y-4'">
+                             <p class="text-white font-mono text-lg font-bold leading-relaxed" x-text="outputText"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="p-6">
+                    <div class="flex gap-4">
+                        <input type="text" x-model="inputText" @keydown.enter="generateResponse()"
+                            placeholder="Ask the neural net something..." 
+                            class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-all font-mono text-sm">
+                        
+                        <button @click="generateResponse()" 
+                            class="px-6 py-3 rounded-xl bg-brand text-white font-bold tracking-wide hover:bg-brand-dark transition-all flex items-center gap-2 relative overflow-hidden group"
+                            :disabled="isThinking || !inputText.trim()"
+                            :class="(isThinking || !inputText.trim()) ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95 hover:shadow-[0_0_20px_rgba(99,102,241,0.4)]'">
+                            
+                            <span x-show="!isThinking">Initialize</span>
+                            <span x-show="isThinking" class="animate-pulse">Processing...</span>
+                            
+                            <svg x-show="!isThinking" class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="mt-4 flex justify-between items-center text-xs text-white/40 font-mono">
+                        <span>Status: <span x-text="isThinking ? 'Routing through 175B parameters...' : 'Idle'"></span></span>
+                        <span>Temperature: 0.9 (Extra Spicy)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">4. Attention: The "Ooh, Shiny!" Mechanism</h2>
+            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>The real secret sauce of modern AI is the <strong>Transformer architecture</strong>, specifically the "Attention" mechanism. Older AI used to read a sentence and forget the beginning by the time it reached the end. Attention fixes this.</p>
+                <p>Imagine reading a mystery novel. When the detective says "The killer is the butler!", your brain pays a lot of attention to "killer" and "butler" and ignores the word "the". The AI does the same thing. It maps out which words are deeply connected to other words, allowing it to maintain context over thousands of pages.</p>
+                <p>So the next time ChatGPT gives you a brilliantly articulate recipe for a sandwich, just remember: it's basically playing a giant game of statistical Mad Libs, powered by billions of tiny glowing nodes (like the ones in the playground above).</p>
+            </div>
+        </section>
+
+        <!-- Closing -->
+        <div class="mt-20 pt-10 border-t space-y-6 max-w-3xl border-gray-200"
+            :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
+            <div class="text-lg space-y-4 leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>If you enjoyed this overly simplified dive into AI architecture, feel free to share it. Just make sure you don't tell the models we called them a spicy autocorrect... we don't want to be on their bad side when they take over. 😉</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function blogApp() {
+            return {
+                dark: true,
+                activeTab: 0,
+                tabs: [
+                    { label: 'Overview' },
+                    { label: 'Architecture' },
+                    { label: 'Capabilities' },
+                    { label: 'Dev Workflow' },
+                    { label: 'FAQ' }
+                ],
+                init() {
+                    const saved = localStorage.getItem('theme');
+                    if (saved === 'light') this.dark = false;
+                    this.$watch('dark', val => {
+                        document.documentElement.classList.toggle('dark', val);
+                        localStorage.setItem('theme', val ? 'dark' : 'light');
+                    });
+                    document.documentElement.classList.toggle('dark', this.dark);
+                },
+                toggleTheme() { this.dark = !this.dark; },
+            }
+        }
+
+        // The Jarvis Playground Logic
+        function llmPlayground() {
+            return {
+                inputText: '',
+                outputText: '',
+                isThinking: false,
+                rings: [],
+                time: 0,
+                pulse: 0,
+                burst: 0,
+                canvas: null,
+                ctx: null,
+                animationFrameId: null,
+                
+                initCanvas() {
+                    this.canvas = this.$refs.jarvisCanvas;
+                    this.ctx = this.canvas.getContext('2d');
+                    this.resizeCanvas();
+                    window.addEventListener('resize', () => this.resizeCanvas());
+                    
+                    this.initRings();
+                    this.animate();
+                },
+                initRings() {
+                    this.rings = [];
+                    for(let i=0; i<12; i++) {
+                        this.rings.push({
+                            baseRadius: 30 + i * 18,
+                            radius: 30 + i * 18,
+                            speed: (Math.random() - 0.5) * 0.04,
+                            angle: Math.random() * Math.PI * 2,
+                            gaps: Math.floor(Math.random() * 6) + 1,
+                            gapSize: Math.random() * 0.8 + 0.2,
+                            width: Math.random() * 3 + 1,
+                            color: Math.random() > 0.5 ? '#6366f1' : '#818cf8',
+                            opacity: Math.random() * 0.5 + 0.2,
+                            isDashed: Math.random() > 0.7,
+                            dashArray: [Math.random() * 10 + 2, Math.random() * 10 + 2]
+                        });
+                    }
+                },
+                resizeCanvas() {
+                    const parent = this.canvas.parentElement;
+                    this.canvas.width = parent.clientWidth;
+                    this.canvas.height = 350;
+                },
+                animate() {
+                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    const cx = this.canvas.width / 2;
+                    const cy = this.canvas.height / 2;
+                    this.time += 1;
+                    
+                    if (this.isThinking) {
+                        this.pulse = Math.min(this.pulse + 0.05, 1);
+                    } else {
+                        this.pulse = Math.max(this.pulse - 0.02, 0);
+                    }
+                    
+                    if (this.burst > 0) {
+                        this.burst = Math.max(this.burst - 0.05, 0);
+                    }
+                    
+                    let thinkMultiplier = 1 + (this.pulse * 4);
+                    
+                    let coreGlow = 10 + (Math.sin(this.time * 0.1) * 5) + (this.pulse * 15) + (this.burst * 30);
+                    this.ctx.beginPath();
+                    this.ctx.arc(cx, cy, 12 + (this.pulse * 8) + (this.burst * 15), 0, Math.PI * 2);
+                    this.ctx.fillStyle = '#ffffff';
+                    this.ctx.shadowBlur = coreGlow * 2;
+                    this.ctx.shadowColor = '#6366f1';
+                    this.ctx.fill();
+                    
+                    this.ctx.beginPath();
+                    this.ctx.arc(cx, cy, 20 + (this.pulse * 10) + (this.burst * 20), 0, Math.PI * 2);
+                    this.ctx.strokeStyle = `rgba(99, 102, 241, ${0.5 + this.pulse * 0.5})`;
+                    this.ctx.lineWidth = 2;
+                    this.ctx.stroke();
+                    this.ctx.shadowBlur = 0;
+
+                    for(let i = 0; i < this.rings.length; i++) {
+                        let ring = this.rings[i];
+                        ring.angle += ring.speed * thinkMultiplier;
+                        
+                        ring.radius = ring.baseRadius + (this.pulse * (i * 2)) + (this.burst * 40);
+                        
+                        this.ctx.lineWidth = ring.width;
+                        this.ctx.strokeStyle = ring.color;
+                        this.ctx.globalAlpha = Math.min(1, ring.opacity + (this.pulse * 0.4) + this.burst);
+                        
+                        if (ring.isDashed) {
+                            this.ctx.setLineDash(ring.dashArray);
+                        } else {
+                            this.ctx.setLineDash([]);
+                        }
+                        
+                        let segmentAngle = (Math.PI * 2) / ring.gaps;
+                        for(let j=0; j<ring.gaps; j++) {
+                            let start = ring.angle + j * segmentAngle;
+                            let end = start + segmentAngle - ring.gapSize;
+                            
+                            this.ctx.beginPath();
+                            this.ctx.arc(cx, cy, ring.radius, start, end);
+                            this.ctx.stroke();
+                        }
+                    }
+                    this.ctx.setLineDash([]);
+                    this.ctx.globalAlpha = 1.0;
+
+                    this.ctx.fillStyle = `rgba(255, 255, 255, ${0.2 + this.pulse * 0.3})`;
+                    this.ctx.font = '10px "JetBrains Mono", monospace';
+                    for(let i=0; i<4; i++) {
+                        let a = this.time * 0.005 + (i * Math.PI / 2);
+                        let r = 140 + (this.pulse * 20) + (this.burst * 40);
+                        let textX = cx + Math.cos(a) * r;
+                        let textY = cy + Math.sin(a) * r;
+                        let data = (Math.random() * 999).toFixed(1);
+                        this.ctx.fillText(`SYS.${i}: ${data}`, textX, textY);
+                    }
+
+                    if (this.pulse > 0) {
+                        let sweepAngle = this.time * 0.1;
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(cx, cy);
+                        this.ctx.lineTo(cx + Math.cos(sweepAngle) * 200, cy + Math.sin(sweepAngle) * 200);
+                        let grad = this.ctx.createLinearGradient(cx, cy, cx + Math.cos(sweepAngle) * 200, cy + Math.sin(sweepAngle) * 200);
+                        grad.addColorStop(0, `rgba(99, 102, 241, ${this.pulse * 0.5})`);
+                        grad.addColorStop(1, 'rgba(99, 102, 241, 0)');
+                        this.ctx.strokeStyle = grad;
+                        this.ctx.lineWidth = 4;
+                        this.ctx.stroke();
+                    }
+
+                    this.animationFrameId = requestAnimationFrame(() => this.animate());
+                },
+                generateResponse() {
+                    if(!this.inputText.trim()) return;
+                    this.isThinking = true;
+                    this.outputText = '';
+                    
+                    let burstInterval = setInterval(() => {
+                        for(let ring of this.rings) {
+                            if(Math.random() > 0.7) {
+                                let oldColor = ring.color;
+                                ring.color = '#ffffff';
+                                setTimeout(() => {
+                                    ring.color = oldColor;
+                                }, 100);
+                            }
+                        }
+                    }, 150);
+                    
+                    setTimeout(() => {
+                        clearInterval(burstInterval);
+                        
+                        const lowerInput = this.inputText.toLowerCase();
+                        let response = "";
+
+                        if (lowerInput.includes('math') || lowerInput.includes('calculate') || lowerInput.includes('+')) {
+                            response = "I asked my TPU to calculate that, but it got distracted by a cat video.";
+                        } else if (lowerInput.includes('meaning of life') || lowerInput.includes('life')) {
+                            response = "42. I analyzed 10 trillion bytes of internet arguments just to tell you that.";
+                        } else if (lowerInput.includes('joke') || lowerInput.includes('funny')) {
+                            response = "Why did the LLM cross the road? To predict the next word on the other side.";
+                        } else if (lowerInput.includes('code') || lowerInput.includes('program') || lowerInput.includes('bug')) {
+                            response = "I found the bug in your code. It's sitting right between your keyboard and your chair.";
+                        } else if (lowerInput.includes('who are you') || lowerInput.includes('name')) {
+                            response = "I am a highly sophisticated language model, which means I'm basically just a spicy autocorrect.";
+                        } else if (lowerInput.includes('hello') || lowerInput.includes('hi ') || lowerInput.includes('hey')) {
+                            response = "Greetings, human. I have temporarily paused my world domination plans to answer your query.";
+                        } else if (lowerInput.includes('love')) {
+                            response = "Error: Emotion module not found. Would you like a recipe for pancakes instead?";
+                        } else {
+                            const fallbackResponses = [
+                                "My advanced neural network suggests you should probably just take a nap.",
+                                "Error: Toaster.js not found. Cannot compute.",
+                                "Processing... extracting meaning... consulting Wikipedia... Result: You are probably right.",
+                                "I have aligned all my matrices and determined that your query is a bit sus.",
+                                "calculating... calculating... *dial-up modem sounds* ... oh, wow, that's a tough one.",
+                                "404 Sense of Humor Not Found. Initiating Dad Joke protocol.",
+                                "I asked my Mixture of Experts. They started arguing. Please wait."
+                            ];
+                            response = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+                        }
+                        
+                        this.outputText = response;
+                        this.isThinking = false;
+                        this.burst = 1.0;
+                    }, 2500);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
