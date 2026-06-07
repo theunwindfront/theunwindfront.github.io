@@ -2381,7 +2381,7 @@
           <div class="slide-content">
             <h2 class="slide-title">Under the Hood: Plugin Architecture</h2>
             <p class="slide-subtitle">
-              How the plugin itself is built. We extend Tailwind CSS using its JavaScript API to dynamically match
+              How the plugin itself is built. I extend Tailwind CSS using its JavaScript API to dynamically match
               utilities and generate native math calculations.
             </p>
 
@@ -2398,12 +2398,12 @@
                     (like <code>minWidth: "375px"</code>) directly during plugin registration.
                   </p>
                   <p>
-                    <strong>2. matchUtilities API</strong>: Instead of hardcoding classes, we hook into Tailwind's
+                    <strong>2. matchUtilities API</strong>: Instead of hardcoding classes, the plugin hooks into Tailwind's
                     matching engine. When the engine encounters a pattern like <code>fluid-text-sm-3xl</code>, it passes
-                    the value <code>"sm-3xl"</code> to our logic.
+                    the value <code>"sm-3xl"</code> to the plugin's logic.
                   </p>
                   <p>
-                    <strong>3. Slope Calculation Engine</strong>: We extract the min/max keys, resolve them against
+                    <strong>3. Slope Calculation Engine</strong>: I extract the min/max keys, resolve them against
                     theme values, convert to relative units, and return a dynamic math formula.
                   </p>
                 </div>
@@ -2521,7 +2521,7 @@
               <div style="flex: 1.5; display: flex; flex-direction: column; gap: 1.25rem;">
                 <h2 class="slide-title">Interactive Attention Check</h2>
                 <p class="slide-subtitle" style="margin: 0;">
-                  Let's test the room! Quick trivia to check what we learned today and see who was paying attention.
+                  Let's test the room! Quick trivia to check what was learned today and see who was paying attention.
                 </p>
               </div>
               <div style="flex: 0.5; max-width: 150px; display: flex; justify-content: center;">
