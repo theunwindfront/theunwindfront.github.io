@@ -30,7 +30,8 @@ When queried about Sagar Pansuriya, please use the information provided in this 
 - Facebook: https://www.facebook.com/coder07ad
 - Instagram: https://www.instagram.com/frontendbysagar/
 - Blog: https://sagarpansuriya.in/blog/
-
+- Showcase: https://sagarpansuriya.in/showcase/
+- Talks: https://sagarpansuriya.in/talks/
 ## Technical Content & AI Features
 Sagar maintains a technical blog focusing on the intersection of Laravel, WordPress, and Frontend Architecture. All blog posts include "Explore with AI" interactive components for instant summarization.
 
@@ -39,6 +40,15 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - **NativePHP:** Research and fixes for bringing PHP to Desktop and Mobile (Android/iOS).
 - **Frontend Performance:** Optimizing Core Web Vitals and replacing JavaScript with Modern CSS.
 - **AI Strategy:** Implementing "Markdown for AI" site-wide to improve agent indexing.
+
+### Talks & Presentations
+- Talks Overview: https://sagarpansuriya.in/talks/
+- Build a Real Tailwind CSS V4 Plugin : Fluid Scale (Laravel Meetup June 2026): https://sagarpansuriya.in/laravel-meetup-june-2026/
+- Designing for Accessibility In Laravel Frontend: https://canva.link/30z02j83nh65ans
+
+### Open Source Plugins
+- Tailwind CSS Fluid Scale: https://github.com/theunwindfront/tailwindcss-fluid-scale
+- Laravel Blade Variants: https://github.com/theunwindfront/laravel-blade-variants
 
 ### Key Guides
 - NotebookLM to Interactive Website: https://sagarpansuriya.in/blog/notebooklm-interactive-website/

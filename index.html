@@ -3,12 +3,15 @@
 
 <head>
     <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
-<!-- End Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
     <meta charset="UTF-8">
     <link rel="llms" href="/llms.txt">
@@ -67,7 +70,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sagarpansuriya.in/">
-    <meta property="og:title" content="Sagar Pansuriya | Technical Lead & Frontend Architect | Scaling Scalable Systems">
+    <meta property="og:title"
+        content="Sagar Pansuriya | Technical Lead & Frontend Architect | Scaling Scalable Systems">
     <meta property="og:description"
         content="Technical Lead & Frontend Architect with 10+ years of experience. Specializing in high-performance Laravel, WordPress, and NativePHP ecosystems. Architecting for scale.">
     <meta property="og:image" content="https://sagarpansuriya.in/profile.jpg">
@@ -187,7 +191,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
     <!-- Frameworks -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -226,7 +232,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="https://www.google.com/recaptcha/api.js?render=6Lc4KZcsAAAAANzxVFJn6PbjBEaTvF2aJHiIv73J"></script>
 
     <style>
-        [x-cloak] { display: none !important; }
+        [x-cloak] {
+            display: none !important;
+        }
 
         body {
             background-color: #09090b;
@@ -296,41 +304,49 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
 
         @keyframes blink {
-            from, to { opacity: 1; }
-            50% { opacity: 0; }
+
+            from,
+            to {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
         }
     </style>
 </head>
 
-<body class="min-h-screen transition-colors duration-500 overflow-x-hidden" 
-      :class="dark ? 'bg-[#09090b] text-[#ececec]' : 'light-theme bg-[#f8fafc] text-[#334155]'">
+<body class="min-h-screen transition-colors duration-500 overflow-x-hidden"
+    :class="dark ? 'bg-[#09090b] text-[#ececec]' : 'light-theme bg-[#f8fafc] text-[#334155]'">
     <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-    
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <!-- Immersive Background Elements -->
     <div class="fixed inset-0 pointer-events-none z-[-10]">
         <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full blur-[120px] transition-colors duration-1000"
-             :class="dark ? 'bg-brand/15' : 'bg-brand/5'"></div>
+            :class="dark ? 'bg-brand/15' : 'bg-brand/5'"></div>
         <div class="absolute top-[30%] -right-[5%] w-[35%] h-[35%] rounded-full blur-[100px] animate-float transition-colors duration-1000"
-             :class="dark ? 'bg-purple-600/10' : 'bg-purple-600/5'" style="animation-delay: -2s;"></div>
-        
+            :class="dark ? 'bg-purple-600/10' : 'bg-purple-600/5'" style="animation-delay: -2s;"></div>
+
         <!-- Subtle Grid Overlay -->
-        <div class="absolute inset-0 opacity-[0.05]" 
-             style="background-image: radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1px); background-size: 32px 32px;"
-             x-show="dark"></div>
-        <div class="absolute inset-0 opacity-[0.08]" 
-             style="background-image: radial-gradient(#6366f1 1px, transparent 1px); background-size: 32px 32px;"
-             x-show="!dark"></div>
+        <div class="absolute inset-0 opacity-[0.05]"
+            style="background-image: radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1px); background-size: 32px 32px;"
+            x-show="dark"></div>
+        <div class="absolute inset-0 opacity-[0.08]"
+            style="background-image: radial-gradient(#6366f1 1px, transparent 1px); background-size: 32px 32px;"
+            x-show="!dark"></div>
     </div>
 
     <!-- Redesigned Navigation (Pill Style) -->
     <div class="fixed top-6 left-0 w-full z-50 px-6">
         <nav class="max-w-4xl mx-auto glass rounded-2xl h-14 flex items-center justify-between px-5 shadow-2xl transition-all duration-500"
-             :class="dark ? 'border-white/5' : 'border-indigo-100/50 bg-white/70'">
+            :class="dark ? 'border-white/5' : 'border-indigo-100/50 bg-white/70'">
             <a href="/" class="flex items-center gap-2.5 group">
-                <div class="w-8 h-8 rounded-lg bg-brand flex items-center justify-center shadow-lg shadow-brand/20 group-hover:rotate-12 transition-transform">
+                <div
+                    class="w-8 h-8 rounded-lg bg-brand flex items-center justify-center shadow-lg shadow-brand/20 group-hover:rotate-12 transition-transform">
                     <span class="text-white font-black text-sm uppercase">SP</span>
                 </div>
                 <span class="font-bold text-sm tracking-tight hidden sm:block">Sagar Pansuriya</span>
@@ -339,26 +355,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="flex items-center gap-6">
                 <div class="hidden md:flex items-center gap-6 text-[11px] font-bold uppercase tracking-widest">
                     <a href="/blog/" class="nav-item relative py-1 hover:text-brand transition-colors">Insights</a>
-                    <a href="/showcase/" class="nav-item relative py-1 hover:text-brand transition-colors">Case Studies</a>
-                    <a href="https://github.com/theunwindfront" target="_blank" class="nav-item relative py-1 hover:text-brand transition-colors">Archive</a>
+                    <a href="/showcase/" class="nav-item relative py-1 hover:text-brand transition-colors">Showcase</a>
+                    <a href="/talks/" class="nav-item relative py-1 hover:text-brand transition-colors">Talks</a>
+                    <a href="https://github.com/theunwindfront" target="_blank"
+                        class="nav-item relative py-1 hover:text-brand transition-colors">Archive</a>
                 </div>
-                
+
                 <div class="w-px h-6 bg-zinc-200 dark:bg-white/10 hidden md:block"></div>
-                
-                <button @click="toggleTheme()" class="w-8 h-8 rounded-lg border flex items-center justify-center transition-all duration-300 group"
-                        :class="dark ? 'border-white/10 bg-white/5 hover:border-brand/50' : 'border-zinc-200 bg-white hover:border-brand shadow-sm'">
-                    <svg x-show="dark" class="w-4 h-4 text-zinc-400 group-hover:text-brand" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+
+                <button @click="toggleTheme()"
+                    class="w-8 h-8 rounded-lg border flex items-center justify-center transition-all duration-300 group"
+                    :class="dark ? 'border-white/10 bg-white/5 hover:border-brand/50' : 'border-zinc-200 bg-white hover:border-brand shadow-sm'">
+                    <svg x-show="dark" class="w-4 h-4 text-zinc-400 group-hover:text-brand" fill="none"
+                        stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5" />
+                        <path
+                            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
                     </svg>
-                    <svg x-show="!dark" x-cloak class="w-4 h-4 text-zinc-500 group-hover:text-brand" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <svg x-show="!dark" x-cloak class="w-4 h-4 text-zinc-500 group-hover:text-brand" fill="none"
+                        stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
                     </svg>
                 </button>
-                
-                <button @click="exploreWithAI('chatgpt')" title="Explore with AI" class="w-8 h-8 rounded-lg border flex items-center justify-center transition-all duration-300 group"
-                        :class="dark ? 'border-white/10 bg-white/5 hover:border-brand/50' : 'border-zinc-200 bg-white hover:border-brand shadow-sm'">
-                    <svg class="w-4 h-4 text-zinc-400 group-hover:text-brand" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+
+                <button @click="exploreWithAI('chatgpt')" title="Explore with AI"
+                    class="w-8 h-8 rounded-lg border flex items-center justify-center transition-all duration-300 group"
+                    :class="dark ? 'border-white/10 bg-white/5 hover:border-brand/50' : 'border-zinc-200 bg-white hover:border-brand shadow-sm'">
+                    <svg class="w-4 h-4 text-zinc-400 group-hover:text-brand" fill="none" stroke="currentColor"
+                        stroke-width="2" viewBox="0 0 24 24">
+                        <path
+                            d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
                     </svg>
                 </button>
             </div>
@@ -368,50 +394,58 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <main class="relative z-10 pt-32 mb-8 md:pb-5 px-6 max-w-7xl mx-auto">
         <!-- Hero Section -->
         <div class="grid lg:grid-cols-12 gap-12 items-center mb-24">
-            <div class="lg:col-span-7 transition-all duration-1000 delay-300" 
-                 :class="loaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-8 text-[11px] font-bold uppercase tracking-widest text-[#6366f1]">
+            <div class="lg:col-span-7 transition-all duration-1000 delay-300"
+                :class="loaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-8 text-[11px] font-bold uppercase tracking-widest text-[#6366f1]">
                     <span class="w-2 h-2 rounded-full bg-brand animate-pulse"></span>
                     Available for Architecture & Strategy
                 </div>
-                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]" 
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]"
                     :class="dark ? 'text-white' : 'text-zinc-900'">
-                    Architecting <br/><span class="text-gradient" x-text="displayText">SaaS Systems</span><span class="typing-cursor"></span> <br>
+                    Architecting <br /><span class="text-gradient" x-text="displayText">SaaS Systems</span><span
+                        class="typing-cursor"></span> <br>
                     for Enterprise Scale.
                 </h1>
-                <p class="text-lg md:text-xl text-zinc-400 max-w-2xl mb-12 leading-relaxed" :class="!dark && 'text-zinc-500'">
-                    Technical Architect with 10+ years of experience. I specialize in scaling 
-                    <span class="text-brand font-semibold">SaaS & Enterprise Content Platforms</span> using Laravel, WordPress & NativePHP. Proven results for products handling millions of users.
+                <p class="text-lg md:text-xl text-zinc-400 max-w-2xl mb-12 leading-relaxed"
+                    :class="!dark && 'text-zinc-500'">
+                    Technical Architect with 10+ years of experience. I specialize in scaling
+                    <span class="text-brand font-semibold">SaaS & Enterprise Content Platforms</span> using Laravel,
+                    WordPress & NativePHP. Proven results for products handling millions of users.
                 </p>
-                
+
                 <div class="flex flex-wrap gap-4">
                     <button @click="showContactModal = true"
-                            class="px-8 py-4 rounded-2xl bg-brand text-white font-bold transition-all hover:scale-105 hover:shadow-2xl hover:shadow-brand/30 active:scale-95">
+                        class="px-8 py-4 rounded-2xl bg-brand text-white font-bold transition-all hover:scale-105 hover:shadow-2xl hover:shadow-brand/30 active:scale-95">
                         Book a Strategy Call
                     </button>
-                    <a href="/showcase/" class="px-8 py-4 rounded-2xl glass font-bold transition-all hover:bg-brand/10 hover:border-brand/40 active:scale-95">
+                    <a href="/showcase/"
+                        class="px-8 py-4 rounded-2xl glass font-bold transition-all hover:bg-brand/10 hover:border-brand/40 active:scale-95">
                         View Case Studies
                     </a>
                 </div>
             </div>
 
             <div class="lg:col-span-5 relative transition-all duration-1000 delay-500"
-                 :class="loaded ? 'opacity-100 scale-100' : 'opacity-0 scale-90'">
+                :class="loaded ? 'opacity-100 scale-100' : 'opacity-0 scale-90'">
                 <div class="relative w-full aspect-square max-w-[450px] mx-auto group">
                     <!-- Geometric Accent -->
                     <div class="absolute -top-4 -left-4 w-24 h-24 bg-brand/20 blur-2xl rounded-full"></div>
                     <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-purple-500/20 blur-3xl rounded-full"></div>
-                    
+
                     <!-- Profile Container -->
-                    <div class="relative h-full w-full rounded-[40px] overflow-hidden glass p-4 transform transition-transform duration-700 group-hover:rotate-2">
-                        <img src="profile.jpg" alt="Sagar Pansuriya" class="h-full w-full object-cover rounded-[30px] grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105">
+                    <div
+                        class="relative h-full w-full rounded-[40px] overflow-hidden glass p-4 transform transition-transform duration-700 group-hover:rotate-2">
+                        <img src="profile.jpg" alt="Sagar Pansuriya"
+                            class="h-full w-full object-cover rounded-[30px] grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105">
                     </div>
 
                     <!-- Floating Badge -->
                     <div class="absolute -right-8 bottom-12 glass p-4 rounded-2xl animate-float">
                         <div class="flex items-center gap-3">
                             <div class="w-12 h-12 rounded-xl bg-brand/20 flex items-center justify-center text-brand">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
                                     <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
                                 </svg>
                             </div>
@@ -427,8 +461,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <!-- Impact by the Numbers -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-24 py-12 border-y transition-all duration-1000 delay-500"
-             :class="dark ? 'border-white/5 bg-white/[0.01]' : 'border-zinc-200 bg-zinc-50/50'"
-             :class="loaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'">
+            :class="dark ? 'border-white/5 bg-white/[0.01]' : 'border-zinc-200 bg-zinc-50/50'"
+            :class="loaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'">
             <div class="text-center">
                 <p class="text-4xl font-black text-brand mb-2">1M+</p>
                 <p class="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Monthly Requests Handled</p>
@@ -453,76 +487,132 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="h-px w-12 bg-brand/50"></div>
         </div>
         <div class="grid md:grid-cols-4 gap-6 mb-24 transition-all duration-1000 delay-600"
-             :class="loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'">
+            :class="loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'">
             <div class="glass p-8 rounded-[32px] border-b-4 border-b-brand/30">
                 <div class="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center text-brand mb-6">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
                 </div>
                 <h4 class="font-bold text-lg mb-3">SaaS Scalability Audit</h4>
-                <p class="text-xs text-zinc-400 leading-relaxed">Identifying infrastructure bottlenecks and architecting 10x growth paths for SaaS products.</p>
+                <p class="text-xs text-zinc-400 leading-relaxed">Identifying infrastructure bottlenecks and architecting
+                    10x growth paths for SaaS products.</p>
             </div>
             <div class="glass p-8 rounded-[32px] border-b-4 border-b-purple-500/30">
-                <div class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500 mb-6">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                <div
+                    class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500 mb-6">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path
+                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
                 </div>
                 <h4 class="font-bold text-lg mb-3">Enterprise CMS Platforms</h4>
-                <p class="text-xs text-zinc-400 leading-relaxed">Modernizing legacy content architectures into secure, decoupled, and performant ecosystems.</p>
+                <p class="text-xs text-zinc-400 leading-relaxed">Modernizing legacy content architectures into secure,
+                    decoupled, and performant ecosystems.</p>
             </div>
             <div class="glass p-8 rounded-[32px] border-b-4 border-b-emerald-500/30">
-                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500 mb-6">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                <div
+                    class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500 mb-6">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path
+                            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
                 </div>
                 <h4 class="font-bold text-lg mb-3">Custom Ecosystem Tools</h4>
-                <p class="text-xs text-zinc-400 leading-relaxed">Developing developer-first tools and cross-platform desktop bridges to solve business friction.</p>
+                <p class="text-xs text-zinc-400 leading-relaxed">Developing developer-first tools and cross-platform
+                    desktop bridges to solve business friction.</p>
             </div>
             <div class="glass p-8 rounded-[32px] border-b-4 border-b-orange-500/30">
-                <div class="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center text-orange-500 mb-6">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                <div
+                    class="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center text-orange-500 mb-6">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
                 </div>
                 <h4 class="font-bold text-lg mb-3">System Optimization</h4>
-                <p class="text-xs text-zinc-400 leading-relaxed">Quantifiable performance engineering for enterprise-grade digital experiences.</p>
+                <p class="text-xs text-zinc-400 leading-relaxed">Quantifiable performance engineering for
+                    enterprise-grade digital experiences.</p>
             </div>
         </div>
-        
+
         <!-- Strategic Collaborations & Partners -->
         <div class="mb-12 transition-all duration-1000 delay-800" :class="loaded ? 'opacity-100' : 'opacity-0'">
-            <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-zinc-500 mb-2 text-center">Architectural Partnerships</h2>
+            <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-zinc-500 mb-2 text-center">Architectural
+                Partnerships</h2>
             <div class="h-px w-12 bg-brand/50 mx-auto mb-12"></div>
             <div class="flex flex-wrap justify-center items-center gap-12 transition-all duration-500 mb-24">
-                <div class="flex items-center gap-3 font-black text-xl hover:scale-110 transition-transform cursor-default">
-                    <svg class="w-8 h-8 text-[#FF2D20] drop-shadow-[0_0_8px_rgba(255,45,32,0.3)]" viewBox="0 0 200 206" fill="currentColor"><path d="M199.887 46.582c.074.275.112.558.113.842v44.198a3.226 3.226 0 0 1-1.619 2.796l-37.093 21.358v42.333a3.231 3.231 0 0 1-1.611 2.796l-77.428 44.576c-.177.101-.37.166-.564.234-.072.024-.14.069-.217.089a3.254 3.254 0 0 1-1.652 0c-.088-.024-.169-.073-.253-.105-.178-.065-.363-.121-.532-.218L1.619 160.905A3.23 3.23 0 0 1 0 158.109V25.514c0-.29.04-.572.113-.845.024-.093.08-.178.113-.27.06-.17.116-.343.205-.5.06-.105.149-.19.222-.286.092-.129.177-.262.285-.374.093-.093.214-.162.319-.242.117-.097.221-.202.354-.278h.004L40.323.43a3.23 3.23 0 0 1 3.222 0l38.708 22.288h.008c.13.08.238.181.355.274.104.08.221.153.314.242.113.116.193.25.29.378.068.097.161.181.217.286.093.161.145.33.21.5.032.092.088.177.113.274.074.274.112.557.112.842v82.817l32.256-18.575V47.42c0-.282.04-.568.112-.838.029-.096.081-.18.113-.274.065-.169.121-.342.21-.5.06-.104.149-.188.217-.285.097-.129.177-.262.29-.375.093-.092.21-.16.314-.241.121-.097.226-.202.355-.278h.004l38.712-22.289a3.224 3.224 0 0 1 3.222 0l38.708 22.289c.137.08.241.18.362.274.101.08.218.153.31.241.113.117.194.25.29.379.073.097.162.181.218.286.093.157.145.33.209.5.037.092.089.177.113.273Zm-6.34 43.175V53.003l-13.545 7.8-18.714 10.775v36.754l32.263-18.575h-.004Zm-38.707 66.487v-36.778l-18.408 10.514-52.564 30.002v37.125l70.972-40.863ZM6.453 31.094v125.15l70.963 40.859v-37.117l-37.073-20.983-.012-.008-.016-.008c-.125-.073-.23-.177-.346-.266-.101-.081-.218-.145-.306-.234l-.009-.012c-.104-.1-.177-.225-.265-.338-.081-.109-.178-.202-.242-.314l-.004-.012c-.073-.121-.117-.266-.17-.403-.052-.121-.12-.234-.152-.363v-.004c-.04-.153-.049-.314-.065-.471-.016-.121-.048-.242-.048-.363V49.668l-18.71-10.78-13.545-7.79v-.004ZM41.938 6.948 9.687 25.515 41.93 44.08l32.247-18.57L41.93 6.948h.008ZM58.71 122.817l18.71-10.771V31.094l-13.546 7.798L45.16 49.668v80.952l13.55-7.803Zm99.356-93.959-32.247 18.566 32.247 18.567 32.243-18.57-32.243-18.563Zm-3.226 42.72-18.714-10.776-13.546-7.799v36.754l18.71 10.772 13.55 7.803V71.578Zm-74.202 82.825 47.299-27.006 23.644-13.494-32.223-18.554-37.1 21.361-33.815 19.469 32.195 18.224Z"/></svg>
+                <div
+                    class="flex items-center gap-3 font-black text-xl hover:scale-110 transition-transform cursor-default">
+                    <svg class="w-8 h-8 text-[#FF2D20] drop-shadow-[0_0_8px_rgba(255,45,32,0.3)]" viewBox="0 0 200 206"
+                        fill="currentColor">
+                        <path
+                            d="M199.887 46.582c.074.275.112.558.113.842v44.198a3.226 3.226 0 0 1-1.619 2.796l-37.093 21.358v42.333a3.231 3.231 0 0 1-1.611 2.796l-77.428 44.576c-.177.101-.37.166-.564.234-.072.024-.14.069-.217.089a3.254 3.254 0 0 1-1.652 0c-.088-.024-.169-.073-.253-.105-.178-.065-.363-.121-.532-.218L1.619 160.905A3.23 3.23 0 0 1 0 158.109V25.514c0-.29.04-.572.113-.845.024-.093.08-.178.113-.27.06-.17.116-.343.205-.5.06-.105.149-.19.222-.286.092-.129.177-.262.285-.374.093-.093.214-.162.319-.242.117-.097.221-.202.354-.278h.004L40.323.43a3.23 3.23 0 0 1 3.222 0l38.708 22.288h.008c.13.08.238.181.355.274.104.08.221.153.314.242.113.116.193.25.29.378.068.097.161.181.217.286.093.161.145.33.21.5.032.092.088.177.113.274.074.274.112.557.112.842v82.817l32.256-18.575V47.42c0-.282.04-.568.112-.838.029-.096.081-.18.113-.274.065-.169.121-.342.21-.5.06-.104.149-.188.217-.285.097-.129.177-.262.29-.375.093-.092.21-.16.314-.241.121-.097.226-.202.355-.278h.004l38.712-22.289a3.224 3.224 0 0 1 3.222 0l38.708 22.289c.137.08.241.18.362.274.101.08.218.153.31.241.113.117.194.25.29.379.073.097.162.181.218.286.093.157.145.33.209.5.037.092.089.177.113.273Zm-6.34 43.175V53.003l-13.545 7.8-18.714 10.775v36.754l32.263-18.575h-.004Zm-38.707 66.487v-36.778l-18.408 10.514-52.564 30.002v37.125l70.972-40.863ZM6.453 31.094v125.15l70.963 40.859v-37.117l-37.073-20.983-.012-.008-.016-.008c-.125-.073-.23-.177-.346-.266-.101-.081-.218-.145-.306-.234l-.009-.012c-.104-.1-.177-.225-.265-.338-.081-.109-.178-.202-.242-.314l-.004-.012c-.073-.121-.117-.266-.17-.403-.052-.121-.12-.234-.152-.363v-.004c-.04-.153-.049-.314-.065-.471-.016-.121-.048-.242-.048-.363V49.668l-18.71-10.78-13.545-7.79v-.004ZM41.938 6.948 9.687 25.515 41.93 44.08l32.247-18.57L41.93 6.948h.008ZM58.71 122.817l18.71-10.771V31.094l-13.546 7.798L45.16 49.668v80.952l13.55-7.803Zm99.356-93.959-32.247 18.566 32.247 18.567 32.243-18.57-32.243-18.563Zm-3.226 42.72-18.714-10.776-13.546-7.799v36.754l18.71 10.772 13.55 7.803V71.578Zm-74.202 82.825 47.299-27.006 23.644-13.494-32.223-18.554-37.1 21.361-33.815 19.469 32.195 18.224Z" />
+                    </svg>
                     <span :class="dark ? 'text-white' : 'text-zinc-900'">Laravel</span>
                 </div>
-                <div class="flex items-center gap-3 font-black text-xl hover:scale-110 transition-transform cursor-default">
-                    <svg class="w-8 h-8 text-[#21759b] drop-shadow-[0_0_8px_rgba(33,117,155,0.3)]" viewBox="0 0 122.52 122.523" fill="currentColor"><path d="m8.708 61.26c0 20.802 12.089 38.779 29.619 47.298l-25.069-68.686c-2.916 6.536-4.55 13.769-4.55 21.388z"/><path d="m96.74 58.608c0-6.495-2.333-10.993-4.334-14.494-2.664-4.329-5.161-7.995-5.161-12.324 0-4.831 3.664-9.328 8.825-9.328.233 0 .454.029.681.042-9.35-8.566-21.807-13.796-35.489-13.796-18.36 0-34.513 9.42-43.91 23.688 1.233.037 2.395.063 3.382.063 5.497 0 14.006-.667 14.006-.667 2.833-.167 3.167 3.994.337 4.329 0 0-2.847.335-6.015.501l19.138 56.925 11.501-34.493-8.188-22.434c-2.83-.166-5.511-.501-5.511-.501-2.832-.166-2.5-4.496.332-4.329 0 0-8.679.667 13.843.667 5.496 0 14.006-.667 14.006-.667 2.835-.167 3.168 3.994.337 4.329 0 0-2.853.335-6.015.501l18.992 56.494 5.242-17.517c2.272-7.269 4.001-12.49 4.001-16.989z"/><path d="m62.184 65.857-15.768 45.819c4.708 1.384 9.687 2.141 14.846 2.141 6.12 0 11.989-1.058 17.452-2.979-.141-.225-.269-.464-.374-.724z"/><path d="m107.376 36.046c.226 1.674.354 3.471.354 5.404 0 5.333-.996 11.328-3.996 18.824l-16.053 46.413c15.624-9.111 26.133-26.038 26.133-45.426.001-9.137-2.333-17.729-6.438-25.215z"/><path d="m61.262 0c-33.779 0-61.262 27.481-61.262 61.26 0 33.783 27.483 61.263 61.262 61.263 33.778 0 61.265-27.48 61.265-61.263-.001-33.779-27.487-61.26-61.265-61.26zm0 119.715c-32.23 0-58.453-26.223-58.453-58.455 0-32.23 26.222-58.451 58.453-58.451 32.229 0 58.45 26.221 58.45 58.451 0 32.232-26.221 58.455-58.45 58.455z"/></svg>
+                <div
+                    class="flex items-center gap-3 font-black text-xl hover:scale-110 transition-transform cursor-default">
+                    <svg class="w-8 h-8 text-[#21759b] drop-shadow-[0_0_8px_rgba(33,117,155,0.3)]"
+                        viewBox="0 0 122.52 122.523" fill="currentColor">
+                        <path
+                            d="m8.708 61.26c0 20.802 12.089 38.779 29.619 47.298l-25.069-68.686c-2.916 6.536-4.55 13.769-4.55 21.388z" />
+                        <path
+                            d="m96.74 58.608c0-6.495-2.333-10.993-4.334-14.494-2.664-4.329-5.161-7.995-5.161-12.324 0-4.831 3.664-9.328 8.825-9.328.233 0 .454.029.681.042-9.35-8.566-21.807-13.796-35.489-13.796-18.36 0-34.513 9.42-43.91 23.688 1.233.037 2.395.063 3.382.063 5.497 0 14.006-.667 14.006-.667 2.833-.167 3.167 3.994.337 4.329 0 0-2.847.335-6.015.501l19.138 56.925 11.501-34.493-8.188-22.434c-2.83-.166-5.511-.501-5.511-.501-2.832-.166-2.5-4.496.332-4.329 0 0-8.679.667 13.843.667 5.496 0 14.006-.667 14.006-.667 2.835-.167 3.168 3.994.337 4.329 0 0-2.853.335-6.015.501l18.992 56.494 5.242-17.517c2.272-7.269 4.001-12.49 4.001-16.989z" />
+                        <path
+                            d="m62.184 65.857-15.768 45.819c4.708 1.384 9.687 2.141 14.846 2.141 6.12 0 11.989-1.058 17.452-2.979-.141-.225-.269-.464-.374-.724z" />
+                        <path
+                            d="m107.376 36.046c.226 1.674.354 3.471.354 5.404 0 5.333-.996 11.328-3.996 18.824l-16.053 46.413c15.624-9.111 26.133-26.038 26.133-45.426.001-9.137-2.333-17.729-6.438-25.215z" />
+                        <path
+                            d="m61.262 0c-33.779 0-61.262 27.481-61.262 61.26 0 33.783 27.483 61.263 61.262 61.263 33.778 0 61.265-27.48 61.265-61.263-.001-33.779-27.487-61.26-61.265-61.26zm0 119.715c-32.23 0-58.453-26.223-58.453-58.455 0-32.23 26.222-58.451 58.453-58.451 32.229 0 58.45 26.221 58.45 58.451 0 32.232-26.221 58.455-58.45 58.455z" />
+                    </svg>
                     <span :class="dark ? 'text-white' : 'text-zinc-900'">WordPress</span>
                 </div>
-                <div class="flex items-center gap-3 font-black text-xl hover:scale-110 transition-transform cursor-default">
-                    <svg class="w-8 h-8 text-[#505b93] drop-shadow-[0_0_8px_rgba(80,91,147,0.3)]" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0L24 6V18L12 24L0 18V6L12 0Z" opacity="0.1"/>
-                        <path d="M8 17V7H11L13 11V7H16V17H13L11 13V17H8Z"/>
+                <div
+                    class="flex items-center gap-3 font-black text-xl hover:scale-110 transition-transform cursor-default">
+                    <svg class="w-8 h-8 text-[#505b93] drop-shadow-[0_0_8px_rgba(80,91,147,0.3)]" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <path d="M12 0L24 6V18L12 24L0 18V6L12 0Z" opacity="0.1" />
+                        <path d="M8 17V7H11L13 11V7H16V17H13L11 13V17H8Z" />
                     </svg>
                     <span :class="dark ? 'text-white' : 'text-zinc-900'">NativePHP</span>
                 </div>
-                <div class="flex items-center gap-3 font-black text-xl hover:scale-110 transition-transform cursor-default">
-                    <svg class="w-8 h-8 text-[#61DAFB] drop-shadow-[0_0_8px_rgba(97,218,251,0.3)]" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="12" rx="11" ry="4.2" stroke="currentColor" stroke-width="1" fill="none"/><ellipse cx="12" cy="12" rx="11" ry="4.2" stroke="currentColor" stroke-width="1" fill="none" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="11" ry="4.2" stroke="currentColor" stroke-width="1" fill="none" transform="rotate(120 12 12)"/></svg>
+                <div
+                    class="flex items-center gap-3 font-black text-xl hover:scale-110 transition-transform cursor-default">
+                    <svg class="w-8 h-8 text-[#61DAFB] drop-shadow-[0_0_8px_rgba(97,218,251,0.3)]" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <circle cx="12" cy="12" r="2.5" />
+                        <ellipse cx="12" cy="12" rx="11" ry="4.2" stroke="currentColor" stroke-width="1" fill="none" />
+                        <ellipse cx="12" cy="12" rx="11" ry="4.2" stroke="currentColor" stroke-width="1" fill="none"
+                            transform="rotate(60 12 12)" />
+                        <ellipse cx="12" cy="12" rx="11" ry="4.2" stroke="currentColor" stroke-width="1" fill="none"
+                            transform="rotate(120 12 12)" />
+                    </svg>
                     <span :class="dark ? 'text-white' : 'text-zinc-900'">React Ecosystem</span>
                 </div>
             </div>
         </div>
 
         <!-- Industry Endorsements -->
-        <div class="grid md:grid-cols-2 gap-6 mb-24 transition-all duration-1000 delay-900" :class="loaded ? 'opacity-100' : 'opacity-0'">
+        <div class="grid md:grid-cols-2 gap-6 mb-24 transition-all duration-1000 delay-900"
+            :class="loaded ? 'opacity-100' : 'opacity-0'">
             <!-- Chirag Daxini -->
             <div class="glass p-8 rounded-[32px] relative overflow-hidden group">
                 <div class="absolute top-0 right-0 p-6 opacity-5">
-                    <svg class="w-16 h-16 text-brand" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H12.017V21H14.017ZM3.017 21L3.017 18C3.017 16.8954 3.91243 16 5.017 16H8.017C8.56928 16 9.017 15.5523 9.017 15V9C9.017 8.44772 8.56928 8 8.017 8H4.017C3.46472 8 3.017 8.44772 3.017 9V11C3.017 11.5523 2.56928 12 2.017 12H1.017V21H3.017Z" /></svg>
+                    <svg class="w-16 h-16 text-brand" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H12.017V21H14.017ZM3.017 21L3.017 18C3.017 16.8954 3.91243 16 5.017 16H8.017C8.56928 16 9.017 15.5523 9.017 15V9C9.017 8.44772 8.56928 8 8.017 8H4.017C3.46472 8 3.017 8.44772 3.017 9V11C3.017 11.5523 2.56928 12 2.017 12H1.017V21H3.017Z" />
+                    </svg>
                 </div>
-                <p class="text-sm italic mb-6 leading-relaxed font-medium" :class="dark ? 'text-zinc-100' : 'text-zinc-800'">
-                    "Sagar brings a unique blend of creativity, technical expertise, and a deep understanding of user-centered design. His attention to detail ensures that no aspect of a project is overlooked."
+                <p class="text-sm italic mb-6 leading-relaxed font-medium"
+                    :class="dark ? 'text-zinc-100' : 'text-zinc-800'">
+                    "Sagar brings a unique blend of creativity, technical expertise, and a deep understanding of
+                    user-centered design. His attention to detail ensures that no aspect of a project is overlooked."
                 </p>
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-zinc-800 border border-white/10 flex items-center justify-center text-xs font-bold text-brand">CD</div>
+                    <div
+                        class="w-10 h-10 rounded-full bg-zinc-800 border border-white/10 flex items-center justify-center text-xs font-bold text-brand">
+                        CD</div>
                     <div>
                         <p class="font-bold text-xs">Chirag Daxini</p>
                         <p class="text-[9px] uppercase tracking-widest text-zinc-500">Technical Project Manager</p>
@@ -533,16 +623,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <!-- Wama Sompura -->
             <div class="glass p-8 rounded-[32px] relative overflow-hidden group">
                 <div class="absolute top-0 right-0 p-6 opacity-5">
-                    <svg class="w-16 h-16 text-purple-500" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H12.017V21H14.017ZM3.017 21L3.017 18C3.017 16.8954 3.91243 16 5.017 16H8.017C8.56928 16 9.017 15.5523 9.017 15V9C9.017 8.44772 8.56928 8 8.017 8H4.017C3.46472 8 3.017 8.44772 3.017 9V11C3.017 11.5523 2.56928 12 2.017 12H1.017V21H3.017Z" /></svg>
+                    <svg class="w-16 h-16 text-purple-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H12.017V21H14.017ZM3.017 21L3.017 18C3.017 16.8954 3.91243 16 5.017 16H8.017C8.56928 16 9.017 15.5523 9.017 15V9C9.017 8.44772 8.56928 8 8.017 8H4.017C3.46472 8 3.017 8.44772 3.017 9V11C3.017 11.5523 2.56928 12 2.017 12H1.017V21H3.017Z" />
+                    </svg>
                 </div>
-                <p class="text-sm italic mb-6 leading-relaxed font-medium" :class="dark ? 'text-zinc-100' : 'text-zinc-800'">
-                    "Sagar is exceptionally good with Frontend and SAAS CSS. Always ready to accept challenging work and mixes with the team quickly. A reliable professional who takes full responsibility."
+                <p class="text-sm italic mb-6 leading-relaxed font-medium"
+                    :class="dark ? 'text-zinc-100' : 'text-zinc-800'">
+                    "Sagar is exceptionally good with Frontend and SAAS CSS. Always ready to accept challenging work and
+                    mixes with the team quickly. A reliable professional who takes full responsibility."
                 </p>
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-zinc-800 border border-white/10 flex items-center justify-center text-xs font-bold text-purple-500">WS</div>
+                    <div
+                        class="w-10 h-10 rounded-full bg-zinc-800 border border-white/10 flex items-center justify-center text-xs font-bold text-purple-500">
+                        WS</div>
                     <div>
                         <p class="font-bold text-xs">Wama Sompura</p>
-                        <p class="text-[9px] uppercase tracking-widest text-zinc-500">Director at Saawahi IT Solution</p>
+                        <p class="text-[9px] uppercase tracking-widest text-zinc-500">Director at Saawahi IT Solution
+                        </p>
                     </div>
                 </div>
             </div>
@@ -550,13 +648,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <!-- Maulik Sinroja -->
             <div class="glass p-8 rounded-[32px] relative overflow-hidden group">
                 <div class="absolute top-0 right-0 p-6 opacity-5">
-                    <svg class="w-16 h-16 text-emerald-500" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H12.017V21H14.017ZM3.017 21L3.017 18C3.017 16.8954 3.91243 16 5.017 16H8.017C8.56928 16 9.017 15.5523 9.017 15V9C9.017 8.44772 8.56928 8 8.017 8H4.017C3.46472 8 3.017 8.44772 3.017 9V11C3.017 11.5523 2.56928 12 2.017 12H1.017V21H3.017Z" /></svg>
+                    <svg class="w-16 h-16 text-emerald-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H12.017V21H14.017ZM3.017 21L3.017 18C3.017 16.8954 3.91243 16 5.017 16H8.017C8.56928 16 9.017 15.5523 9.017 15V9C9.017 8.44772 8.56928 8 8.017 8H4.017C3.46472 8 3.017 8.44772 3.017 9V11C3.017 11.5523 2.56928 12 2.017 12H1.017V21H3.017Z" />
+                    </svg>
                 </div>
-                <p class="text-sm italic mb-6 leading-relaxed font-medium" :class="dark ? 'text-zinc-100' : 'text-zinc-800'">
-                    "I was amazed by his knowledge of HTML/CSS/JavaScript from our early projects. His growth to the next level has been incredible. I personally recommend working with him."
+                <p class="text-sm italic mb-6 leading-relaxed font-medium"
+                    :class="dark ? 'text-zinc-100' : 'text-zinc-800'">
+                    "I was amazed by his knowledge of HTML/CSS/JavaScript from our early projects. His growth to the
+                    next level has been incredible. I personally recommend working with him."
                 </p>
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-zinc-800 border border-white/10 flex items-center justify-center text-xs font-bold text-emerald-500">MS</div>
+                    <div
+                        class="w-10 h-10 rounded-full bg-zinc-800 border border-white/10 flex items-center justify-center text-xs font-bold text-emerald-500">
+                        MS</div>
                     <div>
                         <p class="font-bold text-xs">Maulik Sinroja</p>
                         <p class="text-[9px] uppercase tracking-widest text-zinc-500">Mobile App Developer</p>
@@ -567,43 +672,55 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <!-- Prof. Dr Sridaran -->
             <div class="glass p-8 rounded-[32px] relative overflow-hidden group">
                 <div class="absolute top-0 right-0 p-6 opacity-5">
-                    <svg class="w-16 h-16 text-orange-500" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 2.56928 12 2.017 12H1.017V21H3.017Z" /></svg>
+                    <svg class="w-16 h-16 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 2.56928 12 2.017 12H1.017V21H3.017Z" />
+                    </svg>
                 </div>
-                <p class="text-sm italic mb-6 leading-relaxed font-medium" :class="dark ? 'text-zinc-100' : 'text-zinc-800'">
-                    "Extremely talented in PHP and frameworks. It was surprising to see him training juniors so early in his career—a testament to his rapid growth and technical leadership."
+                <p class="text-sm italic mb-6 leading-relaxed font-medium"
+                    :class="dark ? 'text-zinc-100' : 'text-zinc-800'">
+                    "Extremely talented in PHP and frameworks. It was surprising to see him training juniors so early in
+                    his career—a testament to his rapid growth and technical leadership."
                 </p>
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-zinc-800 border border-white/10 flex items-center justify-center text-xs font-bold text-orange-500">SR</div>
+                    <div
+                        class="w-10 h-10 rounded-full bg-zinc-800 border border-white/10 flex items-center justify-center text-xs font-bold text-orange-500">
+                        SR</div>
                     <div>
-                <p class="font-bold text-xs">Prof.(Dr)Sridaran Rajagopal</p>
-                        <p class="text-[9px] uppercase tracking-widest text-zinc-500">Executive Dean, Marwadi University</p>
+                        <p class="font-bold text-xs">Prof.(Dr)Sridaran Rajagopal</p>
+                        <p class="text-[9px] uppercase tracking-widest text-zinc-500">Executive Dean, Marwadi University
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Bento Grid Layout -->
-        <div class="grid md:grid-cols-12 gap-6 mb-24 transition-all duration-1000 delay-700" 
-             :class="loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'">
+        <div class="grid md:grid-cols-12 gap-6 mb-24 transition-all duration-1000 delay-700"
+            :class="loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'">
             <!-- Expertise Card -->
             <div class="md:col-span-8 bento-card glass p-10 rounded-[32px] flex flex-col justify-between">
                 <div>
                     <h3 class="text-2xl font-bold mb-6">Expertise Stack</h3>
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                         <template x-for="tech in stack" :key="tech.name">
-                            <div class="p-4 rounded-2xl border transition-colors" 
-                                 :class="dark ? 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-brand/30' : 'bg-zinc-50 border-zinc-200 hover:border-brand'">
-                                <span class="block text-xs font-mono font-bold uppercase tracking-widest text-brand mb-1" x-text="tech.category"></span>
+                            <div class="p-4 rounded-2xl border transition-colors"
+                                :class="dark ? 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-brand/30' : 'bg-zinc-50 border-zinc-200 hover:border-brand'">
+                                <span
+                                    class="block text-xs font-mono font-bold uppercase tracking-widest text-brand mb-1"
+                                    x-text="tech.category"></span>
                                 <span class="font-extrabold text-sm" x-text="tech.name"></span>
                             </div>
                         </template>
                     </div>
                 </div>
-                <div class="mt-12 flex items-center justify-between border-t pt-8" :class="dark ? 'border-white/5' : 'border-zinc-200'">
+                <div class="mt-12 flex items-center justify-between border-t pt-8"
+                    :class="dark ? 'border-white/5' : 'border-zinc-200'">
                     <div class="flex gap-12">
                         <div>
                             <p class="text-3xl font-black">10+</p>
-                            <p class="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Years Experience</p>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Years Experience
+                            </p>
                         </div>
                         <div>
                             <p class="text-3xl font-black">100+</p>
@@ -618,10 +735,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <h3 class="text-2xl font-bold mb-8">Digital Presence</h3>
                 <div class="grid grid-cols-4 gap-3">
                     <template x-for="link in socials" :key="link.name">
-                        <a :href="link.url" target="_blank" 
-                           class="w-full aspect-square rounded-2xl border flex items-center justify-center transition-all"
-                           :class="dark ? 'border-white/5 bg-white/5 hover:bg-brand/20 hover:border-brand/40 text-zinc-400 hover:text-white' : 'border-zinc-200 bg-white hover:border-brand text-zinc-500 hover:text-brand shadow-sm'"
-                           :aria-label="link.name">
+                        <a :href="link.url" target="_blank"
+                            class="w-full aspect-square rounded-2xl border flex items-center justify-center transition-all"
+                            :class="dark ? 'border-white/5 bg-white/5 hover:bg-brand/20 hover:border-brand/40 text-zinc-400 hover:text-white' : 'border-zinc-200 bg-white hover:border-brand text-zinc-500 hover:text-brand shadow-sm'"
+                            :aria-label="link.name">
                             <span class="w-6 h-6" x-html="link.icon"></span>
                         </a>
                     </template>
@@ -632,66 +749,86 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
 
             <!-- Showcase Spotlight -->
-            <a href="/showcase/" class="md:col-span-6 bento-card glass p-10 rounded-[40px] relative overflow-hidden group">
-                <div class="absolute inset-0 bg-gradient-to-br from-brand/20 to-purple-600/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+            <a href="/showcase/"
+                class="md:col-span-6 bento-card glass p-10 rounded-[40px] relative overflow-hidden group">
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-brand/20 to-purple-600/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                </div>
                 <div class="relative z-10">
                     <p class="text-[10px] font-bold uppercase tracking-widest text-brand mb-4">Latest Success</p>
                     <h3 class="text-2xl font-extrabold mb-3">Architectural Case Studies &rarr;</h3>
                     <p class="text-sm text-zinc-400 mb-8 leading-relaxed" :class="!dark && 'text-zinc-500'">
-                        How I architected a <strong>60FPS Mobile Experience</strong> and scaled a <strong>Developer Ecosystem</strong> from 0 to 5,000+ users.
+                        How I architected a <strong>60FPS Mobile Experience</strong> and scaled a <strong>Developer
+                            Ecosystem</strong> from 0 to 5,000+ users.
                     </p>
                     <div class="flex gap-3">
-                        <span class="px-3 py-1.5 rounded-xl bg-brand/10 text-brand text-[9px] font-bold uppercase tracking-widest border border-brand/20">60FPS Canvas</span>
-                        <span class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/5 text-[9px] font-bold uppercase tracking-widest">Scaling DX</span>
+                        <span
+                            class="px-3 py-1.5 rounded-xl bg-brand/10 text-brand text-[9px] font-bold uppercase tracking-widest border border-brand/20">60FPS
+                            Canvas</span>
+                        <span
+                            class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/5 text-[9px] font-bold uppercase tracking-widest">Scaling
+                            DX</span>
                     </div>
                 </div>
             </a>
 
             <!-- Blog Spotlight -->
             <div class="md:col-span-6 bento-card glass p-10 rounded-[40px] relative overflow-hidden group">
-                <div class="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-brand/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"></div>
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-brand/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none">
+                </div>
                 <div class="relative z-10 flex flex-col h-full justify-between">
                     <div>
-                        <p class="text-[10px] font-bold uppercase tracking-widest text-purple-500 mb-4">Strategic Insights</p>
+                        <p class="text-[10px] font-bold uppercase tracking-widest text-purple-500 mb-4">Strategic
+                            Insights</p>
                         <h3 class="text-2xl font-extrabold mb-3">
                             <a href="/blog/" class="hover:text-brand transition-colors">Architecture Journal &rarr;</a>
                         </h3>
                         <p class="text-sm text-zinc-400 mb-8 leading-relaxed" :class="!dark && 'text-zinc-500'">
-                            Deep dives into <strong>Performance Engineering</strong>, <strong>Laravel DNA</strong>, and the economics of scaling enterprise systems.
+                            Deep dives into <strong>Performance Engineering</strong>, <strong>Laravel DNA</strong>, and
+                            the economics of scaling enterprise systems.
                         </p>
                     </div>
                     <div class="flex flex-wrap gap-2.5">
-                        <a href="/blog/?category=Laravel" class="px-3 py-1.5 rounded-xl bg-purple-500/10 text-purple-500 text-[9px] font-bold uppercase tracking-widest border border-purple-500/20 hover:bg-purple-500/20 transition-all">Laravel</a>
-                        <a href="/blog/?category=TailwindCSS" class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/5 text-[9px] font-bold uppercase tracking-widest text-zinc-400 hover:text-white dark:hover:border-white/20 transition-all" :class="!dark && 'text-zinc-500 hover:text-zinc-900 border-zinc-200 hover:border-zinc-400'">TailwindCSS</a>
-                        <a href="/blog/?category=Artificial Intelligence" class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/5 text-[9px] font-bold uppercase tracking-widest text-zinc-400 hover:text-white dark:hover:border-white/20 transition-all" :class="!dark && 'text-zinc-500 hover:text-zinc-900 border-zinc-200 hover:border-zinc-400'">AI</a>
+                        <a href="/blog/?category=Laravel"
+                            class="px-3 py-1.5 rounded-xl bg-purple-500/10 text-purple-500 text-[9px] font-bold uppercase tracking-widest border border-purple-500/20 hover:bg-purple-500/20 transition-all">Laravel</a>
+                        <a href="/blog/?category=TailwindCSS"
+                            class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/5 text-[9px] font-bold uppercase tracking-widest text-zinc-400 hover:text-white dark:hover:border-white/20 transition-all"
+                            :class="!dark && 'text-zinc-500 hover:text-zinc-900 border-zinc-200 hover:border-zinc-400'">TailwindCSS</a>
+                        <a href="/blog/?category=Artificial Intelligence"
+                            class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/5 text-[9px] font-bold uppercase tracking-widest text-zinc-400 hover:text-white dark:hover:border-white/20 transition-all"
+                            :class="!dark && 'text-zinc-500 hover:text-zinc-900 border-zinc-200 hover:border-zinc-400'">AI</a>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
-        <footer class="pt-8 md:pt-5 border-t flex flex-col md:flex-row items-center justify-between gap-6" :class="dark ? 'border-white/5' : 'border-zinc-200'">
+        <footer class="pt-8 md:pt-5 border-t flex flex-col md:flex-row items-center justify-between gap-6"
+            :class="dark ? 'border-white/5' : 'border-zinc-200'">
             <div class="flex flex-col md:flex-row items-center gap-4">
                 <p class="font-mono text-[10px] max-md:text-center tracking-widest uppercase text-zinc-500">
                     © 2026 SAGAR PANSURIYA - BUILT WITH Passion & Caffeine
                 </p>
                 <span class="hidden md:block text-zinc-800">•</span>
-                <a href="/privacy-policy/snake-reborn/" class="font-mono text-[10px] tracking-widest uppercase text-zinc-500 hover:text-brand transition-colors">
+                <a href="/privacy-policy/snake-reborn/"
+                    class="font-mono text-[10px] tracking-widest uppercase text-zinc-500 hover:text-brand transition-colors">
                     Privacy Policy
                 </a>
             </div>
-            
+
             <div class="flex items-center gap-2">
-                <a href="https://github.com/sponsors/theunwindfront" target="_blank" 
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank"
                     class="px-5 py-2 rounded-full border border-dashed border-pink-500/30 text-xs font-bold text-pink-500 transition-all hover:bg-pink-500/5 hover:border-pink-500">
-                        ❤️ Sponsor My Work
+                    ❤️ Sponsor My Work
                 </a>
                 <a href="https://github.com/theunwindfront" target="_blank" rel="noopener"
                     class="p-2 transition-all duration-300 hover:text-brand"
                     :class="dark ? 'text-zinc-600 hover:bg-white/5' : 'text-zinc-400 hover:bg-black/5'"
                     style="border-radius: 8px;" aria-label="GitHub">
                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
+                        <path
+                            d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
                     </svg>
                 </a>
                 <a href="https://linkedin.com/in/sagarpansuriya" target="_blank" rel="noopener"
@@ -699,7 +836,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     :class="dark ? 'text-zinc-600 hover:bg-white/5' : 'text-zinc-400 hover:bg-black/5'"
                     style="border-radius: 8px;" aria-label="LinkedIn">
                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        <path
+                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                     </svg>
                 </a>
                 <a href="https://x.com/frontendbysagar/" target="_blank" rel="noopener"
@@ -707,52 +845,56 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     :class="dark ? 'text-zinc-600 hover:bg-white/5' : 'text-zinc-400 hover:bg-black/5'"
                     style="border-radius: 8px;" aria-label="Twitter (X)">
                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        <path
+                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                     </svg>
                 </a>
             </div>
         </footer>
 
-            <!-- Global Layout Assets (Visitor Counter) -->
-            <a href="https://smallcounter.com" target="_blank" rel="noopener" title="Visitor Counter"
+        <!-- Global Layout Assets (Visitor Counter) -->
+        <a href="https://smallcounter.com" target="_blank" rel="noopener" title="Visitor Counter"
             class="relative md:fixed md:bottom-auto md:right-auto md:top-1/2 md:left-5 transform md:-translate-x-1/2 md:-translate-y-1/2 md:-rotate-90 z-50 flex items-center gap-2 py-2 pl-3 pr-2.5 rounded-xl glass shadow-lg group">
-                <svg class="w-3 h-3 text-brand group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
-                </svg>
-                <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="visitor count" class="h-2.5 w-auto" :class="dark ? 'opacity-70 group-hover:opacity-100' : 'opacity-60 group-hover:opacity-90 invert'">
-                <span class="font-mono text-[9px] font-bold tracking-widest uppercase">visitors</span>
-            </a>
+            <svg class="w-3 h-3 text-brand group-hover:scale-110 transition-transform" fill="none" stroke="currentColor"
+                stroke-width="2" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+            </svg>
+            <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="visitor count"
+                class="h-2.5 w-auto"
+                :class="dark ? 'opacity-70 group-hover:opacity-100' : 'opacity-60 group-hover:opacity-90 invert'">
+            <span class="font-mono text-[9px] font-bold tracking-widest uppercase">visitors</span>
+        </a>
     </main>
 
     <!-- Stunning Contact Modal -->
-    <div x-show="showContactModal"
-         x-cloak
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 scale-95"
-         x-transition:enter-end="opacity-100 scale-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100 scale-100"
-         x-transition:leave-end="opacity-0 scale-95"
-         class="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-md"
-         :class="dark ? 'bg-black/70' : 'bg-zinc-900/30'">
-        
-        <div @click.away="closeModal()" 
-             @keydown.escape.window="closeModal()"
-             class="relative w-full max-w-lg glass rounded-[2.5rem] overflow-hidden shadow-2xl transition-all duration-500"
-             :class="dark ? 'border-white/10' : 'bg-white/95 border-indigo-100 shadow-[0_20px_60px_-15px_rgba(99,102,241,0.2)]'">
-            
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand to-transparent opacity-50"></div>
-            
+    <div x-show="showContactModal" x-cloak x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-95"
+        class="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-md"
+        :class="dark ? 'bg-black/70' : 'bg-zinc-900/30'">
+
+        <div @click.away="closeModal()" @keydown.escape.window="closeModal()"
+            class="relative w-full max-w-lg glass rounded-[2.5rem] overflow-hidden shadow-2xl transition-all duration-500"
+            :class="dark ? 'border-white/10' : 'bg-white/95 border-indigo-100 shadow-[0_20px_60px_-15px_rgba(99,102,241,0.2)]'">
+
+            <div
+                class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand to-transparent opacity-50">
+            </div>
+
             <!-- Modal Header -->
             <div class="px-8 pt-8 pb-4 flex justify-between items-start">
                 <div>
                     <h2 class="text-3xl font-extrabold tracking-tight" :class="dark ? 'text-white' : 'text-zinc-900'">
                         Let's <span class="text-gradient">Collaborate</span>
                     </h2>
-                    <p class="text-sm text-zinc-400 mt-2" :class="!dark && 'text-zinc-500'">Fill out the form below and I'll get back to you soon.</p>
+                    <p class="text-sm text-zinc-400 mt-2" :class="!dark && 'text-zinc-500'">Fill out the form below and
+                        I'll get back to you soon.</p>
                 </div>
                 <button @click="closeModal()" class="p-2 rounded-xl hover:bg-white/5 transition-colors group">
-                    <svg class="w-6 h-6 text-zinc-400 group-hover:text-brand" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 text-zinc-400 group-hover:text-brand" fill="none" stroke="currentColor"
+                        stroke-width="2" viewBox="0 0 24 24">
                         <path d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
@@ -764,55 +906,59 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <form @submit.prevent="submitForm()" class="space-y-4 pt-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="space-y-1.5">
-                                <label class="text-[10px] font-bold uppercase tracking-widest text-[#6366f1] ml-1">Full Name*</label>
-                                <input type="text" required x-model="contactForm.name"
-                                       placeholder="John Doe"
-                                       class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all placeholder:text-zinc-600"
-                                       :class="!dark && 'bg-zinc-50 border-zinc-200 text-zinc-800'">
+                                <label class="text-[10px] font-bold uppercase tracking-widest text-[#6366f1] ml-1">Full
+                                    Name*</label>
+                                <input type="text" required x-model="contactForm.name" placeholder="John Doe"
+                                    class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all placeholder:text-zinc-600"
+                                    :class="!dark && 'bg-zinc-50 border-zinc-200 text-zinc-800'">
                             </div>
                             <div class="space-y-1.5">
-                                <label class="text-[10px] font-bold uppercase tracking-widest text-[#6366f1] ml-1">Mobile Number*</label>
-                                <input type="tel" required x-model="contactForm.mobile"
-                                       placeholder="+1 (555) 000-0000"
-                                       class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all placeholder:text-zinc-600"
-                                       :class="!dark && 'bg-zinc-50 border-zinc-200 text-zinc-800'">
+                                <label
+                                    class="text-[10px] font-bold uppercase tracking-widest text-[#6366f1] ml-1">Mobile
+                                    Number*</label>
+                                <input type="tel" required x-model="contactForm.mobile" placeholder="+1 (555) 000-0000"
+                                    class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all placeholder:text-zinc-600"
+                                    :class="!dark && 'bg-zinc-50 border-zinc-200 text-zinc-800'">
                             </div>
-                        </div>
-                        
-                        <div class="space-y-1.5">
-                            <label class="text-[10px] font-bold uppercase tracking-widest text-[#6366f1] ml-1">Email Address*</label>
-                            <input type="email" required x-model="contactForm.email"
-                                   placeholder="john@example.com"
-                                   class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all placeholder:text-zinc-600"
-                                   :class="!dark && 'bg-zinc-50 border-zinc-200 text-zinc-800'">
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="text-[10px] font-bold uppercase tracking-widest text-[#6366f1] ml-1">Message*</label>
-                            <textarea required x-model="contactForm.message" rows="4"
-                                      placeholder="How can I help you?"
-                                      class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all placeholder:text-zinc-600 resize-none"
-                                      :class="!dark && 'bg-zinc-50 border-zinc-200 text-zinc-800'"></textarea>
+                            <label class="text-[10px] font-bold uppercase tracking-widest text-[#6366f1] ml-1">Email
+                                Address*</label>
+                            <input type="email" required x-model="contactForm.email" placeholder="john@example.com"
+                                class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all placeholder:text-zinc-600"
+                                :class="!dark && 'bg-zinc-50 border-zinc-200 text-zinc-800'">
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label
+                                class="text-[10px] font-bold uppercase tracking-widest text-[#6366f1] ml-1">Message*</label>
+                            <textarea required x-model="contactForm.message" rows="4" placeholder="How can I help you?"
+                                class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all placeholder:text-zinc-600 resize-none"
+                                :class="!dark && 'bg-zinc-50 border-zinc-200 text-zinc-800'"></textarea>
                         </div>
 
                         <!-- Error Message -->
                         <template x-if="errorMessage">
-                            <div class="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-bold text-center">
+                            <div
+                                class="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-bold text-center">
                                 <span x-text="errorMessage"></span>
                             </div>
                         </template>
 
-                        <button type="submit" 
-                                :disabled="isSubmitting"
-                                class="w-full py-4 rounded-xl bg-brand text-white font-bold transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                        <button type="submit" :disabled="isSubmitting"
+                            class="w-full py-4 rounded-xl bg-brand text-white font-bold transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2">
                             <template x-if="!isSubmitting">
                                 <span>Send Message</span>
                             </template>
                             <template x-if="isSubmitting">
                                 <div class="flex items-center gap-2">
                                     <svg class="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                            stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                        </path>
                                     </svg>
                                     <span>Sending...</span>
                                 </div>
@@ -823,15 +969,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                 <template x-if="successMessage">
                     <div class="py-12 text-center animate-float">
-                        <div class="w-24 h-24 rounded-[2rem] bg-brand/10 border border-brand/20 flex items-center justify-center text-brand mx-auto mb-8 shadow-inner shadow-brand/10">
-                            <svg class="w-12 h-12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <div
+                            class="w-24 h-24 rounded-[2rem] bg-brand/10 border border-brand/20 flex items-center justify-center text-brand mx-auto mb-8 shadow-inner shadow-brand/10">
+                            <svg class="w-12 h-12" fill="none" stroke="currentColor" stroke-width="2.5"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                             </svg>
                         </div>
-                        <h3 class="text-3xl font-black mb-3" :class="dark ? 'text-white' : 'text-zinc-900'">Message Sent!</h3>
-                        <p class="text-zinc-400 mb-10 max-w-[300px] mx-auto leading-relaxed" :class="!dark && 'text-zinc-500'">Thank you for reaching out. I'll get back to you shortly via email.</p>
-                        <button @click="closeModal()" 
-                                class="px-10 py-4 rounded-2xl bg-brand text-white font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-brand/25">
+                        <h3 class="text-3xl font-black mb-3" :class="dark ? 'text-white' : 'text-zinc-900'">Message
+                            Sent!</h3>
+                        <p class="text-zinc-400 mb-10 max-w-[300px] mx-auto leading-relaxed"
+                            :class="!dark && 'text-zinc-500'">Thank you for reaching out. I'll get back to you shortly
+                            via email.</p>
+                        <button @click="closeModal()"
+                            class="px-10 py-4 rounded-2xl bg-brand text-white font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-brand/25">
                             Back to Portfolio
                         </button>
                     </div>
@@ -892,7 +1043,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     document.documentElement.classList.toggle('dark', this.dark);
 
                     setTimeout(() => { this.loaded = true; }, 100);
-                    
+
                     // Start typing effect after a delay
                     setTimeout(() => { this.type(); }, 1500);
                 },
@@ -907,12 +1058,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 },
                 async submitForm() {
                     this.isSubmitting = true;
-                    
+
                     try {
                         const token = await new Promise((resolve, reject) => {
                             grecaptcha.ready(async () => {
                                 try {
-                                    const t = await grecaptcha.execute('6Lc4KZcsAAAAANzxVFJn6PbjBEaTvF2aJHiIv73J', {action: 'submit'});
+                                    const t = await grecaptcha.execute('6Lc4KZcsAAAAANzxVFJn6PbjBEaTvF2aJHiIv73J', { action: 'submit' });
                                     resolve(t);
                                 } catch (e) { reject(e); }
                             });
@@ -955,7 +1106,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 },
                 type() {
                     const currentWord = this.typingWords[this.wordIndex];
-                    
+
                     if (this.isDeleting) {
                         this.displayText = currentWord.substring(0, this.charIndex - 1);
                         this.charIndex--;
