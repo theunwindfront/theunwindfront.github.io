@@ -15,13 +15,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Uncovering NativePHP's Hidden Gem: The "JumpBridge" Hybrid Mode</title>
     <meta name="description"
-        content="A technical deep dive into the hidden JumpBridge hybrid mode mechanism found in the NativePHP mobile-air repository.">
+        content="A technical deep dive into the hidden JumpBridge hybrid mode mechanism found in the NativePHP mobile-air codebase.">
     <link rel="canonical" href="https://sagarpansuriya.in/blog/nativephp-jumpbridge-hybrid-mode/" />
     <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="og:title" content="Uncovering NativePHP's Hidden Gem: The &quot;JumpBridge&quot; Hybrid Mode">
     <meta property="og:description"
-        content="A technical deep dive into the hidden JumpBridge hybrid mode mechanism found in the NativePHP mobile-air repository.">
+        content="A technical deep dive into the hidden JumpBridge hybrid mode mechanism found in the NativePHP mobile-air codebase.">
     <meta property="og:image" content="https://sagarpansuriya.in/blog/nativephp-jumpbridge-hybrid-mode/cover.png">
     <meta property="og:url" content="https://sagarpansuriya.in/blog/nativephp-jumpbridge-hybrid-mode/">
     <meta property="og:site_name" content="The Unwind Method">
@@ -30,7 +30,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Uncovering NativePHP's Hidden Gem: The &quot;JumpBridge&quot; Hybrid Mode">
     <meta name="twitter:description"
-        content="A technical deep dive into the hidden JumpBridge hybrid mode mechanism found in the NativePHP mobile-air repository.">
+        content="A technical deep dive into the hidden JumpBridge hybrid mode mechanism found in the NativePHP mobile-air codebase.">
     <meta name="twitter:image" content="https://sagarpansuriya.in/blog/nativephp-jumpbridge-hybrid-mode/cover.png">
     <meta name="twitter:creator" content="@frontendbysagar">
 
@@ -143,7 +143,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 "@id": "https://sagarpansuriya.in/blog/nativephp-jumpbridge-hybrid-mode/"
         },
         "headline": "Uncovering NativePHP's Hidden Gem: The \"JumpBridge\" Hybrid Mode",
-        "description": "A technical deep dive into the hidden JumpBridge hybrid mode mechanism found in the NativePHP mobile-air repository.",
+        "description": "A technical deep dive into the hidden JumpBridge hybrid mode mechanism found in the NativePHP mobile-air codebase.",
         "image": "https://sagarpansuriya.in/blog/nativephp-jumpbridge-hybrid-mode/cover.png",
         "author": {
                 "@type": "Person",
@@ -358,7 +358,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
     <p>If you've ever built a mobile app, you know the pain. Tweak a UI component, recompile the app, wait for the iOS Simulator or Android Emulator to boot, and navigate back to your screen just to see if your padding was correct. It’s agonizing.</p>
     
-    <p>But deep within the <code>nativephp/mobile-air</code> repository lies a hidden gem—a fascinating architectural mechanism designed to solve this exact problem. It's called <strong>Jump Hybrid Mode</strong>, and it completely rethinks how PHP communicates with a mobile device during development.</p>
+    <p>But deep within the <code>nativephp/mobile-air</code> codebase lies a hidden gem—a fascinating architectural mechanism designed to solve this exact problem. It's called <strong>Jump Hybrid Mode</strong>, and it completely rethinks how PHP communicates with a mobile device during development.</p>
 
     <hr class="my-8 border-gray-200 dark:border-[#1e1e24]">
 
@@ -372,7 +372,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <h2 class="text-2xl font-bold mb-4 mt-10" :class="dark ? 'text-white' : 'text-zinc-900'">Enter the JumpBridge</h2>
     
-    <p>If we look inside <code>src/JumpBridge.php</code> and <code>src/jump_bridge_functions.php</code> in the <code>mobile-air</code> repository, we can see exactly how they bypassed the compilation cycle.</p>
+    <p>If I look inside <code>src/JumpBridge.php</code> and <code>src/jump_bridge_functions.php</code> in the <code>mobile-air</code> codebase, I can see exactly how they bypassed the compilation cycle.</p>
     
     <p>In "Jump" mode, <strong>PHP doesn't run on your mobile device at all.</strong> Instead, your Laravel application runs locally on your development machine (just like a normal web app), while the native UI shell runs on the simulator.</p>
     
@@ -395,7 +395,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <h3 class="text-xl font-bold mt-8 mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">The TCP Socket Relay</h3>
     
-    <p>Inside <code>JumpBridge.php</code>, we find that the framework establishes a persistent <strong>TCP socket connection</strong> to a local bridge server (usually running on port 3001 or 3002).</p>
+    <p>Inside <code>JumpBridge.php</code>, I find that the framework establishes a persistent <strong>TCP socket connection</strong> to a local bridge server (usually running on port 3001 or 3002).</p>
 
     <div class="code-block">
 <pre><code class="language-php">// Inside JumpBridge::call()
@@ -457,7 +457,7 @@ return $this->readExact($length);</code></pre>
     
     <p>Because the PHP process stays entirely resident on your local machine, NativePHP achieves an incredibly fast hot-reloading experience.</p>
     
-    <p>If we look at <code>nativephp_element_wait_event()</code> in the bridge file, we can see how NativePHP forces a re-render when you save a file. The device monitors for changes and sends back an event type of <code>15</code> (<code>EVENT_HOT_RELOAD</code>).</p>
+    <p>If I look at <code>nativephp_element_wait_event()</code> in the bridge file, I can see how NativePHP forces a re-render when you save a file. The device monitors for changes and sends back an event type of <code>15</code> (<code>EVENT_HOT_RELOAD</code>).</p>
 
     <div class="code-block">
 <pre><code class="language-php">if (($decoded['type'] ?? -1) === 15) { // EVENT_HOT_RELOAD
