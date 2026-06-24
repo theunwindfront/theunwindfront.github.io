@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en" x-data="app()" x-init="init()" :class="dark ? 'dark' : ''">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind CSS Contrast Checker - Live Demo</title>
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Frameworks -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            DEFAULT: '#6366f1',
+                            dark: '#4f46e5',
+                            light: '#818cf8',
+                            glow: 'rgba(99, 102, 241, 0.15)'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        body {
+            background-color: #09090b;
+            color: #ececec;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .glass {
+            background-color: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .light-theme .glass {
+            background-color: rgba(255, 255, 255, 0.6);
+            border-color: rgba(99, 102, 241, 0.12);
+            box-shadow: 0 8px 32px -4px rgba(99, 102, 241, 0.08);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .light-theme .text-gradient {
+            background: linear-gradient(135deg, #1e293b 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .custom-scroll-container::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        .custom-scroll-container::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.05);
+            border-radius: 3px;
+        }
+
+        .custom-scroll-container::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 3px;
+        }
+
+        .custom-scroll-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.5);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen overflow-x-hidden font-sans" :class="dark ? 'bg-[#09090b] text-[#ececec]' : 'light-theme bg-[#f8fafc] text-[#334155]'">
+
+    <!-- Immersive Background Elements -->
+    <div class="fixed inset-0 pointer-events-none z-[-10]">
+        <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full blur-[120px] transition-colors duration-1000"
+            :class="dark ? 'bg-brand/10' : 'bg-brand/5'"></div>
+        <div class="absolute top-[40%] -right-[5%] w-[35%] h-[35%] rounded-full blur-[100px] animate-float transition-colors duration-1000"
+            :class="dark ? 'bg-purple-600/10' : 'bg-purple-600/5'" style="animation-delay: -2s;"></div>
+
+        <!-- Subtle Grid Overlay -->
+        <div class="absolute inset-0 opacity-[0.05]"
+            style="background-image: radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1px); background-size: 32px 32px;"
+            x-show="dark"></div>
+        <div class="absolute inset-0 opacity-[0.08]"
+            style="background-image: radial-gradient(#6366f1 1px, transparent 1px); background-size: 32px 32px;"
+            x-show="!dark"></div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="fixed top-6 left-0 w-full z-50 px-6">
+        <nav class="max-w-4xl mx-auto glass rounded-2xl h-14 flex items-center justify-between px-5 shadow-2xl transition-all duration-500"
+            :class="dark ? 'border-white/5' : 'border-indigo-100/50 bg-white/70'">
+            <a href="/showcase/" class="flex items-center gap-2 group text-xs font-bold uppercase tracking-wider hover:text-brand transition-colors">
+                &larr; Back to Showcase
+            </a>
+
+            <div class="flex items-center gap-4">
+                <a href="https://github.com/theunwindfront/tailwindcss-contrast-checker" target="_blank"
+                    class="text-xs font-bold uppercase tracking-wider hover:text-brand transition-colors hidden sm:block">
+                    GitHub Repo
+                </a>
+
+                <div class="w-px h-6 bg-zinc-200 dark:bg-white/10 hidden sm:block"></div>
+
+                <button @click="toggleTheme()"
+                    class="w-8 h-8 rounded-lg border flex items-center justify-center transition-all duration-300 group"
+                    :class="dark ? 'border-white/10 bg-white/5 hover:border-brand/50' : 'border-zinc-200 bg-white hover:border-brand shadow-sm'">
+                    <svg x-show="dark" class="w-4 h-4 text-zinc-400 group-hover:text-brand" fill="none"
+                        stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5" />
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                    </svg>
+                    <svg x-show="!dark" x-cloak class="w-4 h-4 text-zinc-500 group-hover:text-brand" fill="none"
+                        stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Container -->
+    <main class="relative z-10 pt-32 pb-24 max-w-7xl mx-auto px-6">
+        
+        <!-- Hero Header -->
+        <div class="text-center mb-16 max-w-3xl mx-auto">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-rose-500/20 bg-rose-500/10 text-rose-400 text-xs font-bold uppercase tracking-wider mb-6">
+                <span class="w-1.5 h-1.5 rounded-full bg-rose-450 animate-pulse"></span>
+                Build-Time Accessibility Validation
+            </div>
+            <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-none mb-6">
+                Contrast <span class="text-gradient">Auditing.</span>
+            </h1>
+            <p class="text-base sm:text-lg text-zinc-400 leading-relaxed max-w-2xl mx-auto" :class="!dark && 'text-zinc-500'">
+                A fast, compile-time CLI tool to catch accessibility (a11y) violations. Automatically verifies combinations of Tailwind CSS text and background utilities for WCAG contrast compliance.
+            </p>
+            <div class="mt-8 flex justify-center gap-4">
+                <a href="https://github.com/theunwindfront/tailwindcss-contrast-checker" target="_blank"
+                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-xs font-bold hover:border-brand/40 text-zinc-300 transition-colors"
+                    :class="!dark && 'bg-white border-zinc-200 text-zinc-700 hover:border-brand'">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" />
+                    </svg>
+                    GitHub Repository &rarr;
+                </a>
+            </div>
+        </div>
+
+        <!-- Sandbox Layout Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-20">
+            
+            <!-- Left Side: Controls & CLI -->
+            <div class="lg:col-span-5 flex flex-col justify-between p-6 sm:p-8 rounded-3xl glass space-y-6">
+                <div class="space-y-5">
+                    <div class="flex items-center justify-between border-b border-white/5 dark:border-white/5 pb-3">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-400" :class="!dark && 'text-zinc-500'">Sandbox Controls</h3>
+                        <div class="flex gap-2">
+                            <button @click="setPreset('safe')" class="px-2.5 py-1 text-[10px] font-bold rounded bg-zinc-800 hover:bg-zinc-700/80 text-emerald-450 border border-white/5 transition-colors" :class="!dark && 'bg-zinc-200 hover:bg-zinc-300 text-emerald-600 border-zinc-300'">
+                                Safe Preset
+                            </button>
+                            <button @click="setPreset('poor')" class="px-2.5 py-1 text-[10px] font-bold rounded bg-zinc-800 hover:bg-zinc-700/80 text-rose-455 border border-white/5 transition-colors" :class="!dark && 'bg-zinc-200 hover:bg-zinc-300 text-rose-600 border-zinc-300'">
+                                Poor Preset
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Background Selection -->
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold text-zinc-400" :class="!dark && 'text-zinc-500'">Background Utility</label>
+                        <div class="flex gap-2">
+                            <select x-model="bgClass" @change="onClassChange('bg')" class="flex-grow rounded-xl border border-white/10 bg-[#0f0f12] text-xs py-2.5 px-3 focus:outline-none focus:border-brand text-zinc-300 transition-colors" :class="!dark && 'bg-white border-zinc-200 text-zinc-800'">
+                                <option value="bg-white">bg-white (#ffffff)</option>
+                                <option value="bg-slate-950">bg-slate-950 (#020617)</option>
+                                <option value="bg-slate-900">bg-slate-900 (#0f172a)</option>
+                                <option value="bg-slate-100">bg-slate-100 (#f1f5f9)</option>
+                                <option value="bg-blue-600">bg-blue-600 (#2563eb)</option>
+                                <option value="bg-red-500">bg-red-500 (#ef4444)</option>
+                                <option value="bg-green-600">bg-green-600 (#16a34a)</option>
+                                <option value="bg-yellow-400">bg-yellow-400 (#facc15)</option>
+                                <option value="custom">Custom Color (#hex)</option>
+                            </select>
+                            <div class="relative w-10 h-10 rounded-xl overflow-hidden border border-white/10 shrink-0" :class="!dark && 'border-zinc-200'">
+                                <input type="color" x-model="bgHex" @input="onPickerInput('bg')" class="absolute inset-0 w-full h-full p-0 border-0 cursor-pointer scale-[2]" />
+                            </div>
+                        </div>
+                        <div x-show="showCustomBg" x-cloak>
+                            <input type="text" x-model="customBgHex" @input="onHexInput('bg')" placeholder="#ffffff" class="w-full rounded-xl border border-white/10 bg-[#0f0f12] text-xs py-2 px-3 focus:outline-none focus:border-brand text-zinc-300 font-mono transition-colors" :class="!dark && 'bg-white border-zinc-200 text-zinc-800'" />
+                        </div>
+                    </div>
+
+                    <!-- Text Selection -->
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold text-zinc-400" :class="!dark && 'text-zinc-500'">Text Utility</label>
+                        <div class="flex gap-2">
+                            <select x-model="textClass" @change="onClassChange('text')" class="flex-grow rounded-xl border border-white/10 bg-[#0f0f12] text-xs py-2.5 px-3 focus:outline-none focus:border-brand text-zinc-300 transition-colors" :class="!dark && 'bg-white border-zinc-200 text-zinc-800'">
+                                <option value="text-black">text-black (#000000)</option>
+                                <option value="text-white">text-white (#ffffff)</option>
+                                <option value="text-slate-500">text-slate-500 (#64748b)</option>
+                                <option value="text-slate-300">text-slate-300 (#cbd5e1)</option>
+                                <option value="text-blue-500">text-blue-500 (#3b82f6)</option>
+                                <option value="text-red-500">text-red-500 (#ef4444)</option>
+                                <option value="text-green-500">text-green-500 (#22c55e)</option>
+                                <option value="text-yellow-400">text-yellow-400 (#facc15)</option>
+                                <option value="custom">Custom Color (#hex)</option>
+                            </select>
+                            <div class="relative w-10 h-10 rounded-xl overflow-hidden border border-white/10 shrink-0" :class="!dark && 'border-zinc-200'">
+                                <input type="color" x-model="textHex" @input="onPickerInput('text')" class="absolute inset-0 w-full h-full p-0 border-0 cursor-pointer scale-[2]" />
+                            </div>
+                        </div>
+                        <div x-show="showCustomText" x-cloak>
+                            <input type="text" x-model="customTextHex" @input="onHexInput('text')" placeholder="#64748b" class="w-full rounded-xl border border-white/10 bg-[#0f0f12] text-xs py-2 px-3 focus:outline-none focus:border-brand text-zinc-300 font-mono transition-colors" :class="!dark && 'bg-white border-zinc-200 text-zinc-800'" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CLI Terminal Mockup -->
+                <div class="pt-6 border-t border-white/5 transition-colors">
+                    <div class="flex items-center justify-between mb-2.5">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-zinc-500">CLI Simulator Output</span>
+                        <button @click="runAudit()" :disabled="isScanning" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand text-white font-bold text-xs shadow-lg shadow-brand/20 transition-all hover:bg-brand-dark disabled:opacity-50 disabled:cursor-not-allowed">
+                            <svg x-show="!isScanning" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <svg x-show="isScanning" class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            Run Project Audit
+                        </button>
+                    </div>
+
+                    <div class="p-4 bg-[#070709] border border-white/5 rounded-2xl font-mono text-[11px] text-zinc-400 min-h-[140px] max-h-[180px] overflow-y-auto custom-scroll-container transition-colors relative leading-relaxed">
+                        <div class="flex items-center justify-between text-zinc-600 border-b border-white/5 pb-1.5 mb-2 text-[10px]">
+                            <span>$ npx tailwind-contrast "**/*.html"</span>
+                            <span class="w-2.5 h-2.5 rounded-full" :class="terminalStatus === 'idle' ? 'bg-zinc-700' : (terminalStatus === 'running' ? 'bg-yellow-500 animate-pulse' : (terminalStatus === 'success' ? 'bg-emerald-500' : 'bg-rose-500'))"></span>
+                        </div>
+                        <div class="space-y-1" x-html="terminalOutput"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Preview Frame Canvas -->
+            <div class="lg:col-span-7 flex flex-col justify-between p-6 sm:p-8 rounded-3xl border border-white/5 bg-zinc-950/20 relative overflow-hidden min-h-[480px]">
+                <!-- decorative background grid -->
+                <div class="absolute inset-0 opacity-[0.05]" style="background-image: radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1px); background-size: 24px 24px;"></div>
+                
+                <!-- Status Top Bar -->
+                <div class="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-white/5 pb-4">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs font-semibold text-zinc-400">Calculated Contrast:</span>
+                        <span class="text-xl font-mono font-black px-3 py-1 rounded bg-[#0f0f12] border border-white/10 text-white" x-text="contrastRatio.toFixed(2) + ':1'"></span>
+                    </div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold border transition-all"
+                        :class="aaNormal ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-450' : (aaLarge ? 'border-amber-500/20 bg-amber-500/10 text-amber-450' : 'border-rose-500/20 bg-rose-500/10 text-rose-455')">
+                        <span x-text="aaNormal ? 'PASS (WCAG AA Compliant)' : (aaLarge ? 'WARNING (Large Text Only)' : 'FAIL (Accessibility Alert)')"></span>
+                    </div>
+                </div>
+
+                <!-- Preview Area Box -->
+                <div class="flex-grow flex items-center justify-center py-6 relative z-10">
+                    <div id="preview-card" class="w-full max-w-md rounded-2xl p-6 sm:p-8 shadow-2xl border border-white/5 transition-all duration-300" :style="'background-color: ' + bgHex + '; color: ' + textHex">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded border border-current/20 opacity-75" x-text="getUtilitiesLabel()"></span>
+                                <span class="text-[10px] font-semibold opacity-60">WCAG Standard</span>
+                            </div>
+
+                            <h4 class="text-2xl font-black tracking-tight leading-tight">Large Text (Header)</h4>
+                            <p class="text-sm font-medium leading-relaxed opacity-90">Normal Body Text. This audits paragraphs, small text labels, input labels, and button text elements.</p>
+                            
+                            <div class="pt-2 flex flex-wrap gap-2">
+                                <span class="px-3.5 py-1.5 rounded-lg border border-current/15 text-xs font-bold bg-current/5">Sample Button</span>
+                                <span class="px-2.5 py-1 rounded text-[10px] font-bold bg-current/10">UI Tag</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WCAG Standards Badges Grid -->
+                <div class="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 pt-4 border-t border-white/5">
+                    
+                    <!-- AA Normal -->
+                    <div class="p-3 rounded-xl border text-center space-y-1 transition-all"
+                        :class="aaNormal ? 'border-emerald-500/20 bg-emerald-950/5 text-emerald-450' : 'border-rose-500/20 bg-rose-955/5 text-rose-455'">
+                        <div class="text-[9px] font-bold text-zinc-500 uppercase tracking-wider">AA Normal</div>
+                        <div class="text-[10px] font-mono opacity-60">&ge; 4.5:1</div>
+                        <div class="text-xs font-black" x-text="aaNormal ? 'PASS' : 'FAIL'"></div>
+                    </div>
+
+                    <!-- AA Large -->
+                    <div class="p-3 rounded-xl border text-center space-y-1 transition-all"
+                        :class="aaLarge ? 'border-emerald-500/20 bg-emerald-950/5 text-emerald-450' : 'border-rose-500/20 bg-rose-955/5 text-rose-455'">
+                        <div class="text-[9px] font-bold text-zinc-500 uppercase tracking-wider">AA Large</div>
+                        <div class="text-[10px] font-mono opacity-60">&ge; 3.0:1</div>
+                        <div class="text-xs font-black" x-text="aaLarge ? 'PASS' : 'FAIL'"></div>
+                    </div>
+
+                    <!-- AAA Normal -->
+                    <div class="p-3 rounded-xl border text-center space-y-1 transition-all"
+                        :class="aaaNormal ? 'border-emerald-500/20 bg-emerald-950/5 text-emerald-450' : 'border-rose-500/20 bg-rose-955/5 text-rose-455'">
+                        <div class="text-[9px] font-bold text-zinc-500 uppercase tracking-wider">AAA Normal</div>
+                        <div class="text-[10px] font-mono opacity-60">&ge; 7.0:1</div>
+                        <div class="text-xs font-black" x-text="aaaNormal ? 'PASS' : 'FAIL'"></div>
+                    </div>
+
+                    <!-- AAA Large -->
+                    <div class="p-3 rounded-xl border text-center space-y-1 transition-all"
+                        :class="aaaLarge ? 'border-emerald-500/20 bg-emerald-950/5 text-emerald-450' : 'border-rose-500/20 bg-rose-955/5 text-rose-455'">
+                        <div class="text-[9px] font-bold text-zinc-500 uppercase tracking-wider">AAA Large</div>
+                        <div class="text-[10px] font-mono opacity-60">&ge; 4.5:1</div>
+                        <div class="text-xs font-black" x-text="aaaLarge ? 'PASS' : 'FAIL'"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Documentation details panel -->
+        <div class="max-w-4xl mx-auto glass p-6 sm:p-8 rounded-[2rem] border border-white/5">
+            <h3 class="text-xl sm:text-2xl font-black mb-4 flex items-center gap-2">
+                <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                Integrating with Your Workflow
+            </h3>
+            
+            <div class="space-y-6 text-sm leading-relaxed text-zinc-400">
+                <p>Ensure your digital interfaces are accessible to all users by catching color contrast violations early in your development pipeline. The plugin parses template files, identifies text and background combinations, and flags failures immediately.</p>
+                
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="font-bold text-white mb-2">1. Installation</h4>
+                        <pre class="p-4 bg-[#070709] border border-white/5 rounded-xl font-mono text-xs text-brand overflow-x-hidden whitespace-pre-wrap break-words">npm install -D @theunwindfront/tailwindcss-contrast-checker</pre>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white mb-2">2. Package Task Hook</h4>
+                        <pre class="p-4 bg-[#070709] border border-white/5 rounded-xl font-mono text-xs text-brand overflow-x-hidden whitespace-pre-wrap break-words">"scripts": {
+  "lint:a11y": "tailwind-contrast \"src/**/*.html\""
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 relative z-10 transition-colors" :class="dark ? 'bg-[#070709]' : 'bg-zinc-100'">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <span class="text-xs text-zinc-550">&copy; 2026 Sagar Pansuriya Showcase.</span>
+            <div class="flex gap-4 text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                <a href="/showcase/" class="hover:text-brand transition-colors">Showcase Archive</a>
+                <span>&middot;</span>
+                <a href="https://github.com/theunwindfront" target="_blank" class="hover:text-brand transition-colors">GitHub Profile</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Alpine.js Page Logic -->
+    <script>
+        const colorClassMap = {
+            'bg-white': '#ffffff',
+            'bg-slate-950': '#020617',
+            'bg-slate-900': '#0f172a',
+            'bg-slate-100': '#f1f5f9',
+            'bg-blue-600': '#2563eb',
+            'bg-red-500': '#ef4444',
+            'bg-green-600': '#16a34a',
+            'bg-yellow-400': '#facc15',
+            'text-black': '#000000',
+            'text-white': '#ffffff',
+            'text-slate-500': '#64748b',
+            'text-slate-300': '#cbd5e1',
+            'text-blue-500': '#3b82f6',
+            'text-red-500': '#ef4444',
+            'text-green-500': '#22c55e',
+            'text-yellow-400': '#facc15'
+        };
+
+        function app() {
+            return {
+                dark: true,
+                loaded: false,
+                bgClass: 'bg-slate-900',
+                textClass: 'text-white',
+                bgHex: '#0f172a',
+                textHex: '#ffffff',
+                customBgHex: '#0f172a',
+                customTextHex: '#ffffff',
+                showCustomBg: false,
+                showCustomText: false,
+                
+                contrastRatio: 21.0,
+                aaNormal: true,
+                aaLarge: true,
+                aaaNormal: true,
+                aaaLarge: true,
+                
+                isScanning: false,
+                terminalOutput: '<div class="text-zinc-600">// Press "Run Project Audit" to run the CLI checker tool simulation.</div>',
+                terminalStatus: 'idle',
+
+                init() {
+                    const savedTheme = localStorage.getItem('theme');
+                    this.dark = savedTheme !== 'light';
+                    this.loaded = true;
+                    this.evaluate();
+                },
+
+                toggleTheme() {
+                    this.dark = !this.dark;
+                    localStorage.setItem('theme', this.dark ? 'dark' : 'light');
+                },
+
+                setPreset(type) {
+                    if (type === 'safe') {
+                        this.bgClass = 'bg-slate-900';
+                        this.textClass = 'text-white';
+                    } else {
+                        this.bgClass = 'bg-white';
+                        this.textClass = 'text-slate-300';
+                    }
+                    this.onClassChange('bg');
+                    this.onClassChange('text');
+                },
+
+                onClassChange(element) {
+                    const classVal = this[element + 'Class'];
+                    if (classVal === 'custom') {
+                        this['showCustom' + element.charAt(0).toUpperCase() + element.slice(1)] = true;
+                        this[element + 'Hex'] = this['custom' + element.charAt(0).toUpperCase() + element.slice(1)];
+                    } else {
+                        this['showCustom' + element.charAt(0).toUpperCase() + element.slice(1)] = false;
+                        this[element + 'Hex'] = colorClassMap[classVal];
+                    }
+                    this.evaluate();
+                },
+
+                onPickerInput(element) {
+                    this[element + 'Class'] = 'custom';
+                    this['showCustom' + element.charAt(0).toUpperCase() + element.slice(1)] = true;
+                    this['custom' + element.charAt(0).toUpperCase() + element.slice(1)] = this[element + 'Hex'];
+                    this.evaluate();
+                },
+
+                onHexInput(element) {
+                    let hex = this['custom' + element.charAt(0).toUpperCase() + element.slice(1)].trim();
+                    if (!hex.startsWith('#')) hex = '#' + hex;
+                    
+                    if (/^#[0-9a-fA-F]{6}$/.test(hex)) {
+                        this[element + 'Hex'] = hex;
+                        this.evaluate();
+                    }
+                },
+
+                getUtilitiesLabel() {
+                    const bgLabel = this.bgClass === 'custom' ? `bg-[${this.bgHex}]` : this.bgClass;
+                    const textLabel = this.textClass === 'custom' ? `text-[${this.textHex}]` : this.textClass;
+                    return `${bgLabel} + ${textLabel}`;
+                },
+
+                evaluate() {
+                    const rgbBg = this.hexToRgb(this.bgHex);
+                    const rgbText = this.hexToRgb(this.textHex);
+                    if (!rgbBg || !rgbText) return;
+
+                    const lBg = this.getLuminance(rgbBg.r, rgbBg.g, rgbBg.b);
+                    const lText = this.getLuminance(rgbText.r, rgbText.g, rgbText.b);
+                    
+                    const brightest = Math.max(lBg, lText);
+                    const darkest = Math.min(lBg, lText);
+                    
+                    this.contrastRatio = (brightest + 0.05) / (darkest + 0.05);
+                    this.contrastRatio = Math.round(this.contrastRatio * 100) / 100;
+
+                    this.aaNormal = this.contrastRatio >= 4.5;
+                    this.aaLarge = this.contrastRatio >= 3.0;
+                    this.aaaNormal = this.contrastRatio >= 7.0;
+                    this.aaaLarge = this.contrastRatio >= 4.5;
+                },
+
+                hexToRgb(hex) {
+                    let shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+                    hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
+                    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                    return result ? {
+                        r: parseInt(result[1], 16),
+                        g: parseInt(result[2], 16),
+                        b: parseInt(result[3], 16)
+                    } : null;
+                },
+
+                getLuminance(r, g, b) {
+                    let a = [r, g, b].map(v => {
+                        v /= 255;
+                        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+                    });
+                    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+                },
+
+                runAudit() {
+                    this.isScanning = true;
+                    this.terminalStatus = 'running';
+                    this.terminalOutput = `
+                        <div class="text-brand font-bold">$ npx tailwind-contrast "**/*.html"</div>
+                        <div class="text-zinc-550 mt-1">Initializing AST compiler scanner engine...</div>
+                    `;
+
+                    setTimeout(() => {
+                        this.terminalOutput += `<div class="text-zinc-500">Scanning 14 files in workspace directories...</div>`;
+                    }, 800);
+
+                    setTimeout(() => {
+                        const bgLabel = this.bgClass === 'custom' ? `bg-[${this.bgHex}]` : this.bgClass;
+                        const textLabel = this.textClass === 'custom' ? `text-[${this.textHex}]` : this.textClass;
+
+                        this.terminalOutput += `<div class="text-zinc-600 mt-1">Analyzing color utilities:</div>`;
+                        
+                        if (this.aaNormal) {
+                            this.terminalOutput += `
+                                <div class="text-emerald-500 mt-1">✔ [PASS] index.html</div>
+                                <div class="text-zinc-500 pl-4">No poor contrast combinations flagged.</div>
+                                <div class="text-emerald-500 font-bold mt-2">✔ Audit SUCCESS: 0 violations found.</div>
+                            `;
+                            this.terminalStatus = 'success';
+                        } else {
+                            this.terminalOutput += `
+                                <div class="text-rose-500 mt-1">✖ [FAIL] showcase/index.html</div>
+                                <div class="text-rose-400 pl-4 font-mono text-[10px]">
+                                    &gt; Line 23: Low-contrast combination: <span class="underline">${textLabel}</span> on <span class="underline">${bgLabel}</span><br>
+                                    &gt; Calculated Ratio: <span class="font-bold">${this.contrastRatio.toFixed(2)}:1</span> (Requires &ge; 4.5:1 for AA Normal Text)
+                                </div>
+                                <div class="text-rose-500 font-bold mt-2">✖ Audit FAILED: 1 accessibility error detected in templates!</div>
+                            `;
+                            this.terminalStatus = 'failed';
+                        }
+                        this.isScanning = false;
+                    }, 2200);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

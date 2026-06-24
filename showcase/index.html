@@ -506,6 +506,43 @@
                     </div>
                 </a>
 
+                <!-- Tailwind CSS Contrast Checker Plugin -->
+                <a href="/showcase/tailwindcss-contrast-checker/"
+                    class="project-card glass p-8 rounded-[32px] flex flex-col group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <svg class="w-32 h-32 text-rose-500" fill="none" stroke="currentColor" stroke-width="1.5"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 text-rose-500 text-[10px] font-bold uppercase tracking-widest mb-6 w-fit">
+                        Tailwind CSS Plugin · Accessibility
+                    </div>
+                    <h3 class="text-3xl font-bold mb-6 group-hover:text-rose-500 transition-colors">Contrast Checker
+                    </h3>
+                    <div class="space-y-4 mb-8 flex-grow">
+                        <div>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-rose-500 mb-1">Challenge
+                            </p>
+                            <p class="text-sm text-zinc-400" :class="!dark && 'text-zinc-500'">Enforce WCAG 2.1 contrast guidelines at build-time to guarantee UI accessibility.</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-rose-500 mb-1">Architecture
+                            </p>
+                            <p class="text-sm text-zinc-400" :class="!dark && 'text-zinc-500'">CLI parser that scans templates, extracts background/text utility combinations, and audits relative luminance.</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-rose-500 mb-1">Impact</p>
+                            <p class="text-sm text-zinc-400 font-bold" :class="!dark && 'text-zinc-600'">Catches contrast errors before deployment, ensuring seamless accessibility compliance.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-rose-500">
+                        Try Interactive Demo &rarr;
+                    </div>
+                </a>
+
             </div>
     </main>
 
