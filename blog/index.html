@@ -432,6 +432,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 'bg-[#21759b]/5': post.category === 'WordPress',
                                 'bg-[#505b93]/5': post.category === 'NativePHP',
                                 'bg-[#a855f7]/5': post.category === 'Artificial Intelligence',
+                                'bg-[#77c1d2]/5': post.category === 'AlpineJS',
                                 'bg-[#6366f1]/5': ['Design Strategy', 'DX Tools'].includes(post.category)
                             }">
 
@@ -443,6 +444,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                     'bg-[radial-gradient(#21759b_1.5px,transparent_1.5px)]': post.category === 'WordPress',
                                     'bg-[radial-gradient(#38BDF8_1.5px,transparent_1.5px)]': post.category === 'TailwindCSS',
                                     'bg-[radial-gradient(#a855f7_1.5px,transparent_1.5px)]': post.category === 'Artificial Intelligence',
+                                    'bg-[radial-gradient(#77c1d2_1.5px,transparent_1.5px)]': post.category === 'AlpineJS',
                                     'bg-[radial-gradient(#6366f1_1.5px,transparent_1.5px)]': ['Design Strategy', 'DX Tools'].includes(post.category)
                                 }"
                                 style="background-size: 24px 24px;"></div>
@@ -455,6 +457,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                     'bg-[#21759b]': post.category === 'WordPress',
                                     'bg-[#38BDF8]': post.category === 'TailwindCSS',
                                     'bg-[#a855f7]': post.category === 'Artificial Intelligence',
+                                    'bg-[#77c1d2]': post.category === 'AlpineJS',
                                     'bg-[#6366f1]': ['Design Strategy', 'DX Tools'].includes(post.category)
                                 }"></div>
 
@@ -474,6 +477,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                             <path fill-rule="evenodd" clip-rule="evenodd"
                                                 d="M100 0C73.333 0 56.667 13.333 50 40c10-13.333 21.667-18.333 35-15 7.607 1.9 13.044 7.422 19.063 13.53C113.867 48.48 125.215 60 150 60c26.667 0 43.333-13.333 50-40-10 13.333-21.667 18.333-35 15-7.607-1.9-13.044-7.422-19.063-13.53C136.133 11.52 124.785 0 100 0ZM50 60C23.333 60 6.667 73.333 0 100c10-13.333 21.667-18.333 35-15 7.607 1.904 13.044 7.422 19.063 13.53C63.867 108.48 75.215 120 100 120c26.667 0 43.333-13.333 50-40-10 13.333-21.667 18.333-35 15-7.607-1.9-13.044-7.422-19.063-13.53C86.133 71.52 74.785 60 50 60Z"
                                                 fill="#38BDF8"></path>
+                                        </svg>
+                                    </template>
+                                    <template x-if="post.category === 'AlpineJS'">
+                                        <svg class="h-16 w-auto" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="#77c1d2" fill-rule="evenodd" d="M98.444 35.562 126 62.997 98.444 90.432 70.889 62.997z" clip-rule="evenodd"/>
+                                            <path fill="#2d3441" fill-rule="evenodd" d="m29.556 35.562 57.126 56.876H31.571L2 62.997z" clip-rule="evenodd"/>
                                         </svg>
                                     </template>
                                     <template x-if="post.category === 'NativePHP'">
@@ -628,8 +637,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 activePage: 'blog',
                 activeCategory: 'All',
                 searchQuery: '',
-                categories: ['All', 'Artificial Intelligence', 'Laravel', 'NativePHP', 'TailwindCSS', 'WordPress', 'Design Strategy', 'DX Tools'],
+                categories: ['All', 'Artificial Intelligence', 'Laravel', 'NativePHP', 'TailwindCSS', 'WordPress', 'Design Strategy', 'DX Tools', 'AlpineJS'],
                 posts: [
+                    {
+                        id: 20,
+                        title: 'Alpine.js Plugins: Extending the Alpine Core',
+                        excerpt: 'Learn how to write custom Alpine.js plugins by building three practical extensions: reactive storage, keyboard shortcuts, and lightweight forms validation.',
+                        date: 'June 30, 2026',
+                        readTime: '7 min read',
+                        category: 'AlpineJS',
+                        url: '/blog/alpinejs-plugin-development/',
+                    },
                     {
                         id: 19,
                         title: 'Tailwind CSS: Rethinking Separation of Concerns',

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">    <url>
+        <loc>https://sagarpansuriya.in/blog/alpinejs-plugin-development/</loc>
+        <lastmod>2026-06-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://sagarpansuriya.in/blog/nativephp-jumpbridge-hybrid-mode/</loc>
         <lastmod>2026-06-15</lastmod>
         <changefreq>monthly</changefreq>
