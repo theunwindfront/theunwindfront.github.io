@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet HTTP QUERY: The Safe, Cacheable Method We've Been Waiting For</title>
+    <meta name="description"
+        content="The HTTP QUERY method (RFC 10008) is officially here. Learn how it bridges the gap between GET and POST by allowing a request body on safe and idempotent requests.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/http-query-method/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Meet HTTP QUERY: The Safe, Cacheable Method We've Been Waiting For">
+    <meta property="og:description" content="The HTTP QUERY method (RFC 10008) is officially here. Learn how it bridges the gap between GET and POST by allowing a request body on safe and idempotent requests.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/http-query-method/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/http-query-method/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Meet HTTP QUERY: The Safe, Cacheable Method We've Been Waiting For">
+    <meta name="twitter:description" content="The HTTP QUERY method (RFC 10008) is officially here. Learn how it bridges the gap between GET and POST by allowing a request body on safe and idempotent requests.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/http-query-method/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <meta name="msapplication-TileColor" content="#6366f1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { brand: { DEFAULT: '#6366f1', dark: '#4f46e5' } }
+                }
+            }
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(99, 102, 241, .12) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+        }
+
+        .code-block {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 1.5rem;
+        }
+
+        .prose-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+         .prose-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .dark .prose-content h2, .dark .prose-content h3 {
+            color: white;
+        }
+
+        .prose-content p {
+            margin-bottom: 1rem;
+        }
+
+        .prose-content ul {
+            list-style-type: disc;
+            padding-left: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .prose-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.875rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid rgba(156, 163, 175, 0.2);
+            padding: 1rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .dark .comparison-table th {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .comparison-table th {
+            background-color: rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+        }
+
+        .dark .comparison-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+        
+        .comparison-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+    </style>
+
+    <!-- BlogPosting Structured Data for AI Search -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://sagarpansuriya.in/blog/http-query-method/"
+        },
+        "headline": "Meet HTTP QUERY: The Safe, Cacheable Method We've Been Waiting For",
+        "description": "The HTTP QUERY method (RFC 10008) is officially here. Learn how it bridges the gap between GET and POST by allowing a request body on safe and idempotent requests.",
+        "image": "https://sagarpansuriya.in/blog/http-query-method/cover.png",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/",
+            "jobTitle": "Technical Lead & Frontend Architect",
+            "sameAs": [
+                "https://www.linkedin.com/in/sagarpansuriya/",
+                "https://github.com/theunwindfront",
+                "https://x.com/frontendbysagar/"
+            ]
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "The Unwind Front",
+            "url": "https://sagarpansuriya.in/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://sagarpansuriya.in/favicon.png"
+            }
+        },
+        "datePublished": "2026-07-08",
+        "dateModified": "2026-07-08",
+        "articleSection": "DX Tools",
+        "keywords": [
+            "HTTP QUERY",
+            "API Design",
+            "Web Standards",
+            "Caching",
+            "REST API"
+        ],
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "url": "https://sagarpansuriya.in/blog/http-query-method/"
+    }
+    </script>
+</head>
+
+<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
+    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f4f4f5] text-zinc-700'">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
+        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
+
+    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors bg-[#09090b]/80 border-zinc-800/50"
+        :class="dark ? 'bg-[#09090b]/80 border-zinc-800/50' : 'bg-white/80 border-zinc-200/50'">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="/blog/" class="flex items-center gap-2 text-sm font-bold hover:text-brand transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    Dev Guides
+                </a>
+                <span class="text-zinc-400 dark:text-zinc-700">/</span>
+                <a href="/blog/?category=DX Tools" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all"> DX Tools </a>
+            </div>
+            <div class="flex items-center gap-4">
+                <button @click="toggleTheme()" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
+                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
+                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
+                </button>
+                <button @click="exploreWithAI('chatgpt')" title="Explore with AI" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
+        <div class="mb-12 text-left max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
+                :class="dark ? 'text-white' : 'text-zinc-900'">Meet HTTP QUERY: The Safe, Cacheable Method We've Been Waiting For</h1>
+
+            <!-- Author Info & Meta -->
+            <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
+                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <div class="flex items-center gap-4">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya"
+                        class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
+                        :class="dark ? 'border-[#27272a]' : 'border-white'">
+                    <div>
+                        <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
+                            class="block hover:text-brand transition-colors text-base"
+                            :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
+                        <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
+                            Lead & Frontend Architect</span>
+                    </div>
+                </div>
+                <div class="hidden sm:block w-px h-10" :class="dark ? 'bg-[#27272a]' : 'bg-gray-300'"></div>
+                <div class="flex items-center gap-4 text-sm">
+                    <time datetime="2026-07-08" class="text-brand">July 08, 2026</time>
+                    <span>·</span>
+                    <span
+                        class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">6
+                        min read</span>
+                </div>
+            </div>
+
+            <!-- Explore with AI Section -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 py-6 mb-10 border-y transition-colors"
+                :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
+                <div class="max-w-md text-left">
+                    <h3 class="text-lg font-bold mb-1 flex items-center gap-2 !mt-0" :class="dark ? 'text-white' : 'text-zinc-900'">
+                        <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        Explore with AI
+                    </h3>
+                    <p class="text-xs opacity-70">
+                        Want a quick summary or have specific questions about this post? Use your favorite AI agent.
+                    </p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button @click="exploreWithAI('chatgpt')" 
+                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
+                        <span class="w-4 h-4 flex items-center justify-center bg-[#10a37f] rounded text-white text-[8px]">GPT</span>
+                        ChatGPT
+                    </button>
+                    <button @click="exploreWithAI('claude')" 
+                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-sm font-semibold">
+                        <span class="w-4 h-4 flex items-center justify-center bg-[#d97757] rounded text-white text-[8px]">C</span>
+                        Claude
+                    </button>
+                    <button @click="exploreWithAI('perplexity')" 
+                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
+                        <span class="w-4 h-4 flex items-center justify-center bg-[#20b2aa] rounded text-white text-[8px]">P</span>
+                        Perplexity
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cover Image -->
+            <div class="rounded-2xl overflow-hidden mb-10 shadow-2xl border border-white/5">
+                <img src="cover.png" alt="HTTP QUERY Method Cover" class="w-full h-auto aspect-video object-cover">
+            </div>
+
+            <div class="prose-content text-base leading-relaxed max-w-3xl" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
+                <p>With the official standardization of **[RFC 10008](https://datatracker.ietf.org/doc/rfc10008/)** in June 2026, the HTTP protocol has introduced a brand new request method: **`QUERY`**.</p>
+                <p>For years, developers have had to make awkward architectural trade-offs when requesting complex or large search operations from a server. The `QUERY` method solves this fundamental limitation.</p>
+                <p>In this post, we'll dive deep into exactly what `QUERY` is, why it was created, and how it will change modern web API design.</p>
+
+                <h2>The Old Dilemma: GET vs. POST</h2>
+                <p>Historically, web developers had only two primary choices when querying resources from an API: <code>GET</code> and <code>POST</code>. Both come with severe trade-offs when building complex data-retrieval features.</p>
+
+                <div class="my-8">
+                    <img src="comparison.png" alt="HTTP Methods Comparison" class="w-full h-auto rounded-xl border border-white/5 shadow-lg">
+                </div>
+
+                <h3>1. The <code>GET</code> Method</h3>
+                <p><code>GET</code> is meant to retrieve data. It is defined by HTTP standards as <strong>safe</strong> and <strong>idempotent</strong>. This allows browsers, proxies, and CDNs to cache responses seamlessly.</p>
+                <p>However, <code>GET</code> does not support a standard request body. To filter, sort, or paginate, developers must encode parameters into the URL query string: <code>GET /api/users?role=admin&status=active&sort=name&page=1</code>.</p>
+                <ul>
+                    <li><strong>URL Limits:</strong> Browsers and servers enforce maximum URL length limits (often ~2KB). Complex queries easily exceed this.</li>
+                    <li><strong>Security Leaks:</strong> Query strings are written into browser history, server access logs, and proxy logs. Putting sensitive search values here is a significant risk.</li>
+                    <li><strong>Poor Readability:</strong> Nested logic is incredibly messy to encode into query parameters.</li>
+                </ul>
+
+                <h3>2. The <code>POST</code> Method</h3>
+                <p>To bypass URL limitations, many APIs (most notably GraphQL and Elasticsearch) use <code>POST</code> for search queries. This allows them to pass arbitrary JSON payloads in the request body.</p>
+                <ul>
+                    <li><strong>Incorrect Semantics:</strong> <code>POST</code> is meant for state-altering actions (e.g. creating records).</li>
+                    <li><strong>Non-Cacheable:</strong> Intermediaries cannot safely cache <code>POST</code> responses.</li>
+                    <li><strong>Resubmission Prompts:</strong> Reloading a browser page loaded via a <code>POST</code> request prompts a form resubmission warning.</li>
+                </ul>
+
+                <h2>Enter HTTP <code>QUERY</code> (RFC 10008)</h2>
+                <p>The <code>QUERY</code> method bridges this gap. It is explicitly designed for cases where a client needs to fetch data using a complex query structure that doesn't fit in a URL, without modifying any state.</p>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th><code>GET</code></th>
+                            <th><code>POST</code></th>
+                            <th><code>QUERY</code></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Request Body</strong></td>
+                            <td>❌ No</td>
+                            <td>✔️ Yes</td>
+                            <td>✔️ <strong>Yes</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Safe (No side-effects)</strong></td>
+                            <td>✔️ Yes</td>
+                            <td>❌ No</td>
+                            <td>✔️ <strong>Yes</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Idempotent (Safe to retry)</strong></td>
+                            <td>✔️ Yes</td>
+                            <td>❌ No</td>
+                            <td>✔️ <strong>Yes</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Standard Caching</strong></td>
+                            <td>✔️ Yes</td>
+                            <td>❌ No</td>
+                            <td>✔️ <strong>Yes</strong> (URL + Body)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>How Caching Works with <code>QUERY</code></h2>
+                <p>Since <code>QUERY</code> requests contain a payload that determines the response, standard HTTP caching must adapt. When caching a <code>QUERY</code> response, the cache key can no longer just be the request URL. Instead, caching intermediaries must calculate a <strong>cache key that incorporates the request body</strong>.</p>
+
+                <div class="my-8 p-6 rounded-2xl border bg-zinc-950/40 border-zinc-800/80 flex flex-col md:flex-row items-center justify-between gap-4 font-sans">
+                    <div class="flex-1 text-center p-4 rounded-xl bg-zinc-900 border border-zinc-800/50">
+                        <div class="text-[10px] text-brand uppercase tracking-wider font-bold mb-1">1. Client Request</div>
+                        <div class="text-sm font-semibold text-white">QUERY Request</div>
+                        <div class="text-xs text-zinc-500 mt-1">URL + JSON/GraphQL Body</div>
+                    </div>
+                    <div class="text-zinc-600 font-mono text-xl hidden md:block">➔</div>
+                    <div class="flex-1 text-center p-4 rounded-xl bg-zinc-900 border border-zinc-800/50">
+                        <div class="text-[10px] text-brand uppercase tracking-wider font-bold mb-1">2. Cache Intermediary</div>
+                        <div class="text-sm font-semibold text-white">Cache Lookup</div>
+                        <div class="text-xs text-zinc-500 mt-1">Key = Hash(URL + Body)</div>
+                    </div>
+                    <div class="text-zinc-600 font-mono text-xl hidden md:block">➔</div>
+                    <div class="flex-1 text-center p-4 rounded-xl bg-zinc-900 border border-zinc-800/50">
+                        <div class="text-[10px] text-brand uppercase tracking-wider font-bold mb-1">3. Server/Cache Hit</div>
+                        <div class="text-sm font-semibold text-white">Response Served</div>
+                        <div class="text-xs text-zinc-500 mt-1">From Cache or Origin Server</div>
+                    </div>
+                </div>
+
+                <p>This unlocks native CDN caching for heavy, complex query-based endpoints, which was previously impossible without custom hacks for <code>POST</code> requests.</p>
+
+                <h2>Practical Examples</h2>
+
+                <h3>1. JSON Search Request</h3>
+                <p>Instead of encoding complex filters into a URL, we can send a clean, readable JSON payload:</p>
+                <pre class="code-block"><code>QUERY /documents HTTP/1.1
+Host: api.example.com
+Content-Type: application/json
+Accept: application/json
+
+{
+  "search": "artificial intelligence",
+  "published_year": {
+    "from": 2024,
+    "to": 2026
+  },
+  "tags": ["tech", "ai", "web"],
+  "sort_by": "relevance"
+}</code></pre>
+
+                <h3>2. GraphQL over HTTP <code>QUERY</code></h3>
+                <p>GraphQL heavily relies on <code>POST</code> to fetch queries. With the <code>QUERY</code> method, GraphQL queries can now be semantically aligned and cached cleanly:</p>
+                <pre class="code-block"><code>QUERY /graphql HTTP/1.1
+Host: api.example.com
+Content-Type: application/graphql
+Accept: application/json
+
+query {
+  user(id: "12345") {
+    name
+    email
+    orders(first: 5) {
+      id
+      total
+    }
+  }
+}</code></pre>
+
+                <h2>Advertising Support: The <code>Accept-Query</code> Header</h2>
+                <p>To prevent clients from sending payload formats the server doesn't understand, RFC 10008 introduces the <code>Accept-Query</code> response header. When a server responds to an options request or an error, it can advertise which media types it accepts for <code>QUERY</code>:</p>
+                <pre class="code-block"><code>HTTP/1.1 200 OK
+Allow: GET, POST, QUERY, OPTIONS
+Accept-Query: application/json, application/graphql, application/sql</code></pre>
+                <p>This tells the client that they can safely use the <code>QUERY</code> method on this endpoint using JSON, GraphQL, or SQL formats.</p>
+
+                <h2>Summary and Key Takeaways</h2>
+                <p>The addition of <code>QUERY</code> represents a major evolution in how we build APIs:</p>
+                <ul>
+                    <li><strong>No more "GET vs. POST" hacks:</strong> You no longer have to choose between clean HTTP caching semantics and arbitrary payload sizes.</li>
+                    <li><strong>Better Security:</strong> Sensitive filter parameters can be kept inside the request body rather than leaking into server logs or browser history via URLs.</li>
+                    <li><strong>Optimized Performance:</strong> CDNs and proxies can now natively cache search results based on the query body, significantly reducing server loads for read-heavy query APIs.</li>
+                </ul>
+                <p>As web servers, CDNs, and client frameworks start rolling out native support for RFC 10008, <code>QUERY</code> is set to become the standard way we interact with search and analytical endpoints.</p>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="mt-20 pt-10 border-t border-gray-200 dark:border-[#1e1e24] max-w-3xl mx-auto">
+            <h3 class="text-2xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">Discussion</h3>
+            <div id="comments-container"></div>
+            <script>
+                const initComments = () => {
+                    if (document.querySelector('.utterances-frame')) return;
+                    const theme = document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
+                    let script = document.createElement('script');
+                    script.src = 'https://utteranc.es/client.js';
+                    script.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                    script.setAttribute('issue-term', 'pathname');
+                    script.setAttribute('label', 'comment');
+                    script.setAttribute('theme', theme);
+                    script.setAttribute('crossorigin', 'anonymous');
+                    script.async = true;
+                    document.getElementById('comments-container').appendChild(script);
+                };
+                setTimeout(initComments, 300);
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.attributeName === 'class') {
+                            const isDark = document.documentElement.classList.contains('dark');
+                            const message = { type: 'set-theme', theme: isDark ? 'github-dark' : 'github-light' };
+                            const iframe = document.querySelector('.utterances-frame');
+                            if (iframe) iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+                        }
+                    });
+                });
+                observer.observe(document.documentElement, { attributes: true });
+            </script>
+        </div>
+    </main>
+
+    <script>
+        function blogApp() {
+            return {
+                dark: true,
+                init() {
+                    const saved = localStorage.getItem('theme');
+                    if (saved === 'light') this.dark = false;
+                    this.$watch('dark', val => {
+                        document.documentElement.classList.toggle('dark', val);
+                        localStorage.setItem('theme', val ? 'dark' : 'light');
+                    });
+                    document.documentElement.classList.toggle('dark', this.dark);
+                },
+                toggleTheme() { this.dark = !this.dark; },
+                exploreWithAI(platform) {
+                    const url = window.location.href;
+                    const prompt = encodeURIComponent(`Please summarize this technical blog post and highlight the key takeaways: ${url}`);
+                    let aiUrl = '';
+                    if (platform === 'chatgpt') aiUrl = `https://chatgpt.com/?q=${prompt}`;
+                    if (platform === 'claude') aiUrl = `https://claude.ai/new?q=${prompt}`;
+                    if (platform === 'perplexity') aiUrl = `https://www.perplexity.ai/search?q=${prompt}`;
+                    window.open(aiUrl, '_blank');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
