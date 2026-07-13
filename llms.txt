@@ -37,7 +37,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 
 ### Core Topics
 - **Laravel & WordPress:** Building enterprise-grade WordPress using the Roots ecosystem (Sage, Bedrock, Acorn).
-- **NativePHP:** Research and fixes for bringing PHP to Desktop and Mobile (Android/iOS).
+- **NativePHP:** Research and fixes for bringing PHP to Desktop and Mobile (Android/iOS), including deep comparisons with NativeBlade (PHP-WASM + Tauri 2).
 - **Frontend Performance:** Optimizing Core Web Vitals and replacing JavaScript with Modern CSS.
 - **AI Strategy:** Implementing "Markdown for AI" site-wide to improve agent indexing.
 
@@ -58,6 +58,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - Claude Code Context Hygiene: https://sagarpansuriya.in/blog/claude-code-context-hygiene/
 - Markdown for AI: https://sagarpansuriya.in/blog/markdown-for-ai-wordpress-laravel-seo/
 - Laravel DNA in WordPress: https://sagarpansuriya.in/blog/laravel-dna-wordpress-sage-bedrock/
+- NativePHP vs NativeBlade: https://sagarpansuriya.in/blog/nativephp-vs-nativeblade/
 - NativePHP Android Fixes: https://sagarpansuriya.in/blog/nativephp-android-research-fixes/
 - NativePHP JumpBridge Hybrid Mode: https://sagarpansuriya.in/blog/nativephp-jumpbridge-hybrid-mode/
 - Shoogle Search Engine: https://sagarpansuriya.in/blog/shoogle-shadcn-search-engine/
