@@ -360,7 +360,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             <p class="text-lg leading-relaxed mb-8" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">When it comes to building native desktop and mobile applications with PHP and Laravel, the landscape has completely shifted over the last couple of years. Two frameworks have emerged as the heavyweights in this space: <a
                     href="https://nativephp.com" target="_blank" class="text-brand hover:underline">NativePHP</a>
-                and <strong>NativeBlade</strong>. While they share similar goals, their underlying architectures and philosophies couldn't be more different. Here is the ultimate showdown to help you choose the right tool for your next project.</p>
+                and <a href="https://nativeblade.dev" target="_blank" class="text-brand hover:underline"><strong>NativeBlade</strong></a>. While they share similar goals, their underlying architectures and philosophies couldn't be more different. Here is the ultimate showdown to help you choose the right tool for your next project.</p>
         </div>
 
         <div class="sticky top-[53px] z-40 -mx-6 px-6 py-3 backdrop-blur-xl border-b mb-10 overflow-x-auto scrollbar-hide"
@@ -421,7 +421,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <tr>
                             <td class="px-6 py-4" :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Database Support</td>
                             <td class="px-6 py-4 text-zinc-500">Standard DBs (MySQL/Postgres/SQLite)</td>
-                            <td class="px-6 py-4 text-brand">SQLite (persisted to IndexedDB)</td>
+                            <td class="px-6 py-4 text-brand">SQLite (local) & Remote DBs (SQLx)</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4" :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Updates Mechanism</td>
@@ -493,7 +493,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <h3 class="text-xl font-bold mt-8 mb-4 text-brand">Offline-First & Serverless</h3>
                 <ul class="list-disc pl-5 space-y-2 mt-4">
                     <li><strong>No Backend Needed:</strong> Because PHP runs locally inside the WASM runtime, your app can operate completely offline without a separate API layer.</li>
-                    <li><strong>Database Support:</strong> NativeBlade uses SQLite mapped and persisted down to the browser's IndexedDB. This ensures that database interactions are fast and remain persistent across app closures.</li>
+                    <li><strong>Database Support:</strong> While NativeBlade offers robust local SQLite (persisted to IndexedDB), it also supports remote MySQL and Postgres connections directly from the app via a native <strong>SQLx connector</strong>.</li>
+                    <li><strong>Out-of-the-box Integrations:</strong> Everything you need to build a real app—Camera, Push Notifications, In-App Purchases (IAP), AdMob—is included under an MIT license.</li>
+                    <li><strong>NativeBlade Studio & Cloud Build:</strong> Shipping is easier than ever with <a href="https://github.com/NativeBlade/studio" target="_blank" class="text-brand hover:underline">NativeBlade Studio</a> and their cloud build farm, meaning you can compile your apps without needing to set up Rust or Xcode locally.</li>
                     <li><strong>Smaller Footprint:</strong> Leveraging Tauri instead of Electron means the final bundled app size is microscopic compared to traditional native apps, perfect for mobile distribution.</li>
                 </ul>
             </div>
@@ -522,7 +524,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         Networking & Sockets</div>
                     <div class="p-4 rounded-b-lg border border-t-0"
                         :class="dark ? 'border-[#27272a] bg-[#18181b]' : 'border-gray-200 bg-gray-50'">
-                        <p class="text-sm" :class="dark ? 'text-zinc-400' : 'text-zinc-600'"><strong>NativeBlade</strong> currently faces limitations with low-level socket operations and traditional DB drivers (like raw MySQL/Postgres connections) because WASM restricts standard TCP socket bindings. If you need complex network connections beyond HTTP APIs, <strong>NativePHP</strong> is the required choice.</p>
+                        <p class="text-sm" :class="dark ? 'text-zinc-400' : 'text-zinc-600'"><strong>NativeBlade</strong> uses a native SQLx connector to overcome WASM's traditional TCP socket restrictions, meaning you <em>can</em> connect to MySQL and Postgres natively. However, for other deeply specialized low-level socket operations or custom binary protocols, <strong>NativePHP</strong> might still be the required choice.</p>
                     </div>
                 </div>
             </div>
@@ -547,7 +549,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <li>You want to rapidly target both mobile (iOS/Android) and desktop simultaneously from a single codebase.</li>
                         <li>Small application sizes are a hard requirement (thanks to Tauri 2).</li>
                         <li>You want the ability to push <strong>Over-The-Air (OTA) updates</strong> to bypass App Store review cycles for UI and logic changes.</li>
-                        <li>Your application is "offline-first" and functions perfectly with SQLite.</li>
+                        <li>You want access to a comprehensive MIT-licensed ecosystem (Push, IAP, AdMob) and the convenience of cloud builds via NativeBlade Studio.</li>
+                        <li>Your application is "offline-first" using local SQLite, or connects directly to remote databases using SQLx.</li>
                     </ul>
                 </div>
             </div>
