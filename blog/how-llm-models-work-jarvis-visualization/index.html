@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+<html lang="en">
 
 <head>
     <!-- Google Tag Manager -->
@@ -9,10 +9,11 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
     <!-- End Google Tag Manager -->
-    
+
     <link rel="llms" href="/llms.txt">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
     <title>How LLMs Work (Explained Like You're 5... With a Jarvis Playground)</title>
     <meta name="description"
         content="Ever wonder how ChatGPT or Claude works under the hood? It's basically a giant autocorrect with a math degree. Let's explore LLMs with a live interactive playground.">
@@ -35,78 +36,122 @@
 
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <meta name="msapplication-TileColor" content="#6366f1">
-    
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: { 
-                        sans: ['Plus Jakarta Sans', 'sans-serif'], 
-                        mono: ['JetBrains Mono', 'monospace'] 
-                    },
-                    colors: { 
-                        brand: { 
-                            DEFAULT: '#6366f1', 
-                            dark: '#4f46e5',
-                            glow: 'rgba(99, 102, 241, 0.15)'
-                        } 
-                    }
-                }
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
             }
         }
     </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <style>
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background-image: radial-gradient(circle, rgba(99, 102, 241, .08) 1px, transparent 1px);
-            background-size: 24px 24px;
-            pointer-events: none;
-        }
-
-        .code-block {
-            background: #101014;
-            color: #ececec;
-            border-radius: 12px;
-            padding: 18px;
-            overflow-x: auto;
-            font-size: 13px;
-            line-height: 1.6;
-            font-family: 'JetBrains Mono', monospace;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .feature-card {
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(255, 255, 255, 0.02);
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(99, 102, 241, 0.3);
-            background: rgba(99, 102, 241, 0.04);
-        }
-
         :root {
-            --border-ui: rgba(0, 0, 0, 0.08);
+            color-scheme: light dark;
+            --paper-l: #faf9f6; --paper-d: #0e0e0f;
+            --panel-l: #f1efe9; --panel-d: #17171a;
+            --code-l: #f4f2ec; --code-d: #131316;
+            --ink-l: #1a1a1a; --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b; --muted-d: #8f8d88;
+            --line-l: #e2ded4; --line-d: #262629;
+            --accent-l: #5b5bd6; --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
         }
-        .dark {
-            --border-ui: rgba(255, 255, 255, 0.05);
-        }
+        :root[data-theme="light"] { color-scheme: light; }
+        :root[data-theme="dark"] { color-scheme: dark; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scrollbar-gutter: stable; }
+        body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+        a { color: inherit; }
+        .wrap { max-width: 46rem; margin-inline: auto; padding: clamp(1.25rem, 4vw, 2rem); }
+
+        .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem 0; }
+        .brand { font-family: var(--mono); font-size: 0.8rem; text-decoration: none; color: var(--ink); }
+        .brand b { color: var(--accent); }
+        .top-nav { display: flex; gap: clamp(0.9rem, 3vw, 1.6rem); align-items: center; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; }
+        .top-nav a { text-decoration: none; color: var(--muted); padding-block: 0.35rem; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
+        .top-nav a:hover, .top-nav a[aria-current] { color: var(--ink); border-color: var(--accent); }
+        .theme-toggle { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.7rem; cursor: pointer; transition: color .2s, border-color .2s; }
+        .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
+
+        .post-cat { display:inline-block; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); text-decoration:none; margin-top: 2.5rem; }
+        .post-title { font-family: var(--serif); font-weight: 600; font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem); line-height: 1.08; letter-spacing: -0.02em; margin: 0.75rem 0 1.25rem; }
+        .post-meta { display:flex; flex-wrap:wrap; align-items:center; gap: 0.75rem 1rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
+        .post-meta img { width: 2.25rem; height: 2.25rem; border-radius: 50%; object-fit: cover; }
+        .post-meta a { color: var(--ink); text-decoration: none; }
+        .post-meta a:hover { color: var(--accent); }
+        .post-meta .sep { color: var(--line); }
+        .post-cover { margin: 2rem 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+        .post-cover img { display:block; width: 100%; height: auto; }
+
+        .prose { font-family: var(--serif); font-size: 1.2rem; line-height: 1.75; color: var(--ink); }
+        .prose > *:first-child { margin-top: 0; }
+        .prose p { margin: 0 0 1.4rem; }
+        .prose h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem); line-height: 1.2; letter-spacing: -0.01em; margin: 2.6rem 0 1rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+        .prose h3 { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; margin: 2rem 0 0.75rem; }
+        .prose h4 { font-family: var(--sans); font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 1.8rem 0 0.6rem; }
+        .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); }
+        .prose a:hover { border-bottom-color: var(--accent); }
+        .prose ul, .prose ol { margin: 0 0 1.4rem; padding-left: 1.4rem; }
+        .prose li { margin-bottom: 0.5rem; }
+        .prose li::marker { color: var(--accent); }
+        .prose strong { font-weight: 700; color: var(--ink); }
+        .prose em { font-style: italic; }
+        .prose blockquote { margin: 1.6rem 0; padding: 0.4rem 0 0.4rem 1.25rem; border-left: 2px solid var(--accent); color: var(--muted); font-style: italic; }
+        .prose img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; margin: 1.6rem 0; }
+        .prose hr { border: none; border-top: 1px solid var(--line); margin: 2.5rem 0; }
+
+        .prose :not(pre) > code { font-family: var(--mono); font-size: 0.86em; background: var(--code-bg); border: 1px solid var(--line); border-radius: 5px; padding: 0.1em 0.4em; color: var(--ink); }
+        .prose pre, pre.code-block { font-family: var(--mono); font-size: 0.82rem; line-height: 1.6; background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; overflow-x: auto; margin: 1.6rem 0; color: var(--ink); }
+        .prose pre code, pre.code-block code { font-family: var(--mono); background: none; border: none; padding: 0; font-size: inherit; color: inherit; white-space: pre; }
+
+        .prose table { width: 100%; border-collapse: collapse; margin: 1.6rem 0; font-family: var(--sans); font-size: 0.95rem; display: block; overflow-x: auto; }
+        .prose th, .prose td { text-align: left; padding: 0.65rem 0.85rem; border: 1px solid var(--line); vertical-align: top; }
+        .prose th { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--panel); }
+
+        /* interactive demo wrapper */
+        .demo { border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem; background: var(--panel); margin: 1.6rem 0; }
+
+        .post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display:flex; flex-wrap:wrap; gap: 1rem; justify-content: space-between; align-items:center; }
+        .post-footer a.back { font-family: var(--mono); font-size: 0.75rem; text-decoration:none; color: var(--accent); }
+        .share { display:flex; gap: 0.5rem; }
+        .share a { font-family: var(--mono); font-size: 0.72rem; text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.7rem; }
+        .share a:hover { color: var(--accent); border-color: var(--accent); }
+
+        #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--accent); z-index: 100; transition: width .1s linear; }
+
+        footer.site { border-top: 1px solid var(--line); margin-top: 3rem; padding-block: 2rem; display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; align-items:center; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
+        footer.site a { color: var(--muted); text-decoration:none; }
+        footer.site a:hover { color: var(--accent); }
+        .footer-links { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; }
+        .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
+        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
+        .counter { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .counter img { height: 0.7rem; width: auto; opacity: 0.7; }
+        :root[data-theme="light"] .counter img { filter: invert(1); }
+
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } #progress { transition: none; } }
     </style>
     <script type="application/ld+json">
     {
@@ -150,190 +195,155 @@
     </script>
 </head>
 
-<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400 font-sans"
-    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f8fafc] text-zinc-700'">
-    
-    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors bg-[#09090b]/80 border-zinc-800/50"
-        :class="dark ? 'bg-[#09090b]/80 border-zinc-800/50' : 'bg-white/80 border-zinc-200/50'">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-            <a href="/blog/" class="flex items-center gap-2 text-sm font-bold hover:text-brand transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                Dev Guides
-            </a>
-            <span class="text-zinc-400 dark:text-zinc-700">/</span>
-            <a href="/blog/?category=Artificial Intelligence" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all">Artificial Intelligence</a>
-        </div>
-            <div class="flex items-center gap-4">
-                <button @click="exploreWithAI('chatgpt')" title="Explore with AI" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                      <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-                    </svg>
-                </button>
-                <button @click="toggleTheme()" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
-                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
-                </button>
-            </div>
-        </div>
-    </header>
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
-        <!-- Sticky Navigation Tabs -->
-        <div class="sticky top-[53px] z-40 -mx-6 px-6 py-3 backdrop-blur-xl border-b mb-10 overflow-x-auto scrollbar-hide"
-            :class="dark ? 'bg-[#09090b]/90 border-zinc-800/50' : 'bg-white/90 border-gray-300'">
-            <div class="flex gap-2">
-                <template x-for="(tab, i) in tabs" :key="i">
-                    <button @click="activeTab = i"
-                        class="tab-btn px-4 py-2 rounded-lg font-mono text-xs font-semibold whitespace-nowrap border transition-all"
-                        :class="activeTab === i ? 'active border-brand/30' : (dark ? 'border-transparent text-zinc-500' : 'border-transparent text-zinc-500 bg-white shadow-sm duration-150')"
-                        x-text="tab.label"></button>
-                </template>
-            </div>
-        </div>
-        <div class="mb-12 text-left max-w-3xl mx-auto">
-            <a href="/blog/?category=Artificial Intelligence" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 text-brand text-xs font-bold mb-6 tracking-wide uppercase hover:bg-brand/20 transition-all">Artificial Intelligence</a>
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
-                :class="dark ? 'text-white' : 'text-zinc-900'">How LLMs Work (Explained Like You're 5... With a Jarvis Playground)</h1>
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
 
-            <!-- Author Info & Meta -->
-            <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <div class="flex items-center gap-4">
-                    <img src="/profile.jpg" alt="Sagar Pansuriya"
-                        class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
-                        :class="dark ? 'border-[#27272a]' : 'border-white'">
-                    <div>
-                        <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
-                            class="block hover:text-brand transition-colors text-base"
-                            :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
-                        <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
-                            Lead & Frontend Architect</span>
-                    </div>
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=Artificial Intelligence">§ Artificial Intelligence</a>
+                <h1 class="post-title">How LLMs Work (Explained Like You're 5... With a Jarvis Playground)</h1>
+                <div class="post-meta">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-06-05">June 05, 2026</time>
+                    <span class="sep">·</span>
+                    <span>6 min read</span>
                 </div>
-            </div>
 
-            <p class="text-xl leading-relaxed mb-8 font-medium" :class="dark ? 'text-zinc-300' : 'text-zinc-800'">
-                So you've probably heard that Large Language Models (LLMs) like GPT-4, Claude, and Gemini are "just really spicy autocorrects." And while that's not exactly wrong, it's like calling a Formula 1 car "just a really spicy go-kart." Let's break down the magic, without the math, and play with a Jarvis-style brain along the way.
-            </p>
-        </div>
+                <div class="post-cover"><img src="cover.png" alt="How LLMs Work Cover"></div>
 
-        <section class="mb-16">
-            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">1. The Token: Cutting Your Words into Spaghetti</h2>
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>LLMs don't read words like you and I do. They chew them up into tiny pieces called <strong>Tokens</strong>. Sometimes a token is a whole word (like "apple"). Sometimes it's a syllable (like "ap"). And sometimes, if it's a weird word like "pneumonoultramicroscopicsilicovolcanoconiosis", it gets chopped up into like 10 pieces.</p>
-                <p>Why do they do this? Because numbers are easier to do math on than letters. Every token gets assigned an ID. Think of it like a giant menu at a restaurant where the model just orders by number: "I'll take a #42 followed by a #69, please."</p>
-            </div>
-        </section>
+                <div class="prose">
+                    <p>So you've probably heard that Large Language Models (LLMs) like GPT-4, Claude, and Gemini are "just really spicy autocorrects." And while that's not exactly wrong, it's like calling a Formula 1 car "just a really spicy go-kart." Let's break down the magic, without the math, and play with a Jarvis-style brain along the way.</p>
 
-        <section class="mb-16">
-            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">2. Embeddings: The "Vibe Check"</h2>
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>Once the LLM has its menu numbers, it plots them in a multi-dimensional space. Think of a graph, but instead of X and Y, it has like 4,000 dimensions. (Don't try to picture 4,000 dimensions; your human brain will melt).</p>
-                <p>This is where the model learns <em>vibes</em>. It learns that "King" is similar to "Queen", but if you subtract "Man" and add "Woman" you get "Queen". It maps the conceptual distance between "Pizza" and "Happiness" (which, scientifically, is zero).</p>
-            </div>
-        </section>
+                    <h2>1. The Token: Cutting Your Words into Spaghetti</h2>
+                    <p>LLMs don't read words like you and I do. They chew them up into tiny pieces called <strong>Tokens</strong>. Sometimes a token is a whole word (like "apple"). Sometimes it's a syllable (like "ap"). And sometimes, if it's a weird word like "pneumonoultramicroscopicsilicovolcanoconiosis", it gets chopped up into like 10 pieces.</p>
+                    <p>Why do they do this? Because numbers are easier to do math on than letters. Every token gets assigned an ID. Think of it like a giant menu at a restaurant where the model just orders by number: "I'll take a #42 followed by a #69, please."</p>
 
-        <!-- THE JARVIS PLAYGROUND -->
-        <section class="mb-16">
-            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">3. The Jarvis Playground (Live Neural Visualization)</h2>
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>Below is a highly accurate*, definitely-not-just-a-canvas-element visualization of how an LLM processes your text. Type a prompt, hit generate, and watch the "neural network" pass your tokens around until it hallucinates a response.</p>
-                <p class="text-sm italic">*Accuracy not guaranteed. It's actually just JavaScript math randomizing some circles. But it looks cool.</p>
-            </div>
+                    <h2>2. Embeddings: The "Vibe Check"</h2>
+                    <p>Once the LLM has its menu numbers, it plots them in a multi-dimensional space. Think of a graph, but instead of X and Y, it has like 4,000 dimensions. (Don't try to picture 4,000 dimensions; your human brain will melt).</p>
+                    <p>This is where the model learns <em>vibes</em>. It learns that "King" is similar to "Queen", but if you subtract "Man" and add "Woman" you get "Queen". It maps the conceptual distance between "Pizza" and "Happiness" (which, scientifically, is zero).</p>
 
-            <!-- Playground UI -->
-            <div class="feature-card p-1 mt-6 bg-gradient-to-br from-[#18181b] to-[#09090b] border border-white/10 shadow-2xl relative" x-data="llmPlayground()" x-init="initCanvas()">
-                
-                <!-- Canvas Area -->
-                <div class="w-full h-[350px] relative rounded-t-xl overflow-hidden bg-black/40 border-b border-white/10">
-                    <canvas x-ref="jarvisCanvas" class="absolute inset-0 w-full h-full"></canvas>
-                    
-                    <!-- Output Overlay -->
-                    <div class="absolute inset-0 flex items-center justify-center p-8 pointer-events-none transition-opacity duration-300"
-                         :class="outputText ? 'opacity-100' : 'opacity-0'">
-                        <div class="bg-black/60 backdrop-blur-md p-6 rounded-2xl border border-brand/30 shadow-[0_0_30px_rgba(99,102,241,0.2)] max-w-lg text-center transform transition-transform duration-500"
-                             :class="outputText ? 'scale-100 translate-y-0' : 'scale-95 translate-y-4'">
-                             <p class="text-white font-mono text-lg font-bold leading-relaxed" x-text="outputText"></p>
+                    <h2>3. The Jarvis Playground (Live Neural Visualization)</h2>
+                    <p>Below is a highly accurate*, definitely-not-just-a-canvas-element visualization of how an LLM processes your text. Type a prompt, hit generate, and watch the "neural network" pass your tokens around until it hallucinates a response.</p>
+                    <p><em>*Accuracy not guaranteed. It's actually just JavaScript math randomizing some circles. But it looks cool.</em></p>
+
+                    <!-- THE JARVIS PLAYGROUND -->
+                    <div class="demo" x-data="llmPlayground()" x-init="initCanvas()" style="padding:0.35rem;background:linear-gradient(to bottom right,#18181b,#09090b);border-color:rgba(255,255,255,0.1);">
+
+                        <!-- Canvas Area -->
+                        <div style="position:relative;width:100%;height:350px;border-radius:8px 8px 0 0;overflow:hidden;background:rgba(0,0,0,0.4);border-bottom:1px solid rgba(255,255,255,0.1);">
+                            <canvas x-ref="jarvisCanvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+
+                            <!-- Output Overlay -->
+                            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:2rem;pointer-events:none;transition:opacity .3s;"
+                                 :style="outputText ? 'opacity:1' : 'opacity:0'">
+                                <div style="background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);padding:1.5rem;border-radius:1rem;border:1px solid rgba(99,102,241,0.3);box-shadow:0 0 30px rgba(99,102,241,0.2);max-width:32rem;text-align:center;transition:transform .5s;">
+                                     <p style="color:#fff;font-family:var(--mono);font-size:1.1rem;font-weight:700;line-height:1.6;margin:0;" x-text="outputText"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Input Area -->
+                        <div style="padding:1.5rem;">
+                            <div style="display:flex;gap:1rem;">
+                                <input type="text" x-model="inputText" @keydown.enter="generateResponse()"
+                                    placeholder="Ask the neural net something..."
+                                    style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:0.75rem;padding:0.75rem 1rem;color:#fff;font-family:var(--mono);font-size:0.875rem;outline:none;">
+
+                                <button @click="generateResponse()"
+                                    style="padding:0.75rem 1.5rem;border-radius:0.75rem;background:#6366f1;color:#fff;font-weight:700;letter-spacing:0.02em;border:none;cursor:pointer;display:flex;align-items:center;gap:0.5rem;transition:all .2s;"
+                                    :disabled="isThinking || !inputText.trim()"
+                                    :style="(isThinking || !inputText.trim()) ? 'opacity:0.5;cursor:not-allowed' : ''">
+
+                                    <span x-show="!isThinking">Initialize</span>
+                                    <span x-show="isThinking" style="animation:pulse 1.5s ease-in-out infinite;">Processing...</span>
+
+                                    <svg x-show="!isThinking" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div style="margin-top:1rem;display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;color:rgba(255,255,255,0.4);font-family:var(--mono);">
+                                <span>Status: <span x-text="isThinking ? 'Routing through 175B parameters...' : 'Idle'"></span></span>
+                                <span>Temperature: 0.9 (Extra Spicy)</span>
+                            </div>
                         </div>
                     </div>
+
+                    <h2>4. Attention: The "Ooh, Shiny!" Mechanism</h2>
+                    <p>The real secret sauce of modern AI is the <strong>Transformer architecture</strong>, specifically the "Attention" mechanism. Older AI used to read a sentence and forget the beginning by the time it reached the end. Attention fixes this.</p>
+                    <p>Imagine reading a mystery novel. When the detective says "The killer is the butler!", your brain pays a lot of attention to "killer" and "butler" and ignores the word "the". The AI does the same thing. It maps out which words are deeply connected to other words, allowing it to maintain context over thousands of pages.</p>
+                    <p>So the next time ChatGPT gives you a brilliantly articulate recipe for a sandwich, just remember: it's basically playing a giant game of statistical Mad Libs, powered by billions of tiny glowing nodes (like the ones in the playground above).</p>
+
+                    <hr>
+
+                    <p>If you enjoyed this overly simplified dive into AI architecture, feel free to share it. Just make sure you don't tell the models we called them a spicy autocorrect... we don't want to be on their bad side when they take over. 😉</p>
                 </div>
 
-                <!-- Input Area -->
-                <div class="p-6">
-                    <div class="flex gap-4">
-                        <input type="text" x-model="inputText" @keydown.enter="generateResponse()"
-                            placeholder="Ask the neural net something..." 
-                            class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-all font-mono text-sm">
-                        
-                        <button @click="generateResponse()" 
-                            class="px-6 py-3 rounded-xl bg-brand text-white font-bold tracking-wide hover:bg-brand-dark transition-all flex items-center gap-2 relative overflow-hidden group"
-                            :disabled="isThinking || !inputText.trim()"
-                            :class="(isThinking || !inputText.trim()) ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95 hover:shadow-[0_0_20px_rgba(99,102,241,0.4)]'">
-                            
-                            <span x-show="!isThinking">Initialize</span>
-                            <span x-show="isThinking" class="animate-pulse">Processing...</span>
-                            
-                            <svg x-show="!isThinking" class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="mt-4 flex justify-between items-center text-xs text-white/40 font-mono">
-                        <span>Status: <span x-text="isThinking ? 'Routing through 175B parameters...' : 'Idle'"></span></span>
-                        <span>Temperature: 0.9 (Extra Spicy)</span>
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/how-llm-models-work-jarvis-visualization/&text=How LLMs Work (Explained Like You're 5... With a Jarvis Playground)" target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/how-llm-models-work-jarvis-visualization/" target="_blank" rel="noopener">LinkedIn</a>
                     </div>
                 </div>
-            </div>
-        </section>
+            </article>
+        </main>
 
-        <section class="mb-16">
-            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">4. Attention: The "Ooh, Shiny!" Mechanism</h2>
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>The real secret sauce of modern AI is the <strong>Transformer architecture</strong>, specifically the "Attention" mechanism. Older AI used to read a sentence and forget the beginning by the time it reached the end. Attention fixes this.</p>
-                <p>Imagine reading a mystery novel. When the detective says "The killer is the butler!", your brain pays a lot of attention to "killer" and "butler" and ignores the word "the". The AI does the same thing. It maps out which words are deeply connected to other words, allowing it to maintain context over thousands of pages.</p>
-                <p>So the next time ChatGPT gives you a brilliantly articulate recipe for a sandwich, just remember: it's basically playing a giant game of statistical Mad Libs, powered by billions of tiny glowing nodes (like the ones in the playground above).</p>
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
             </div>
-        </section>
-
-        <!-- Closing -->
-        <div class="mt-20 pt-10 border-t space-y-6 max-w-3xl border-gray-200"
-            :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
-            <div class="text-lg space-y-4 leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>If you enjoyed this overly simplified dive into AI architecture, feel free to share it. Just make sure you don't tell the models we called them a spicy autocorrect... we don't want to be on their bad side when they take over. 😉</p>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter" title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤ Sponsor</a>
             </div>
-        </div>
-    </main>
+        </footer>
+    </div>
 
     <script>
-        function blogApp() {
-            return {
-                dark: true,
-                activeTab: 0,
-                tabs: [
-                    { label: 'Overview' },
-                    { label: 'Architecture' },
-                    { label: 'Capabilities' },
-                    { label: 'Dev Workflow' },
-                    { label: 'FAQ' }
-                ],
-                init() {
-                    const saved = localStorage.getItem('theme');
-                    if (saved === 'light') this.dark = false;
-                    this.$watch('dark', val => {
-                        document.documentElement.classList.toggle('dark', val);
-                        localStorage.setItem('theme', val ? 'dark' : 'light');
-                    });
-                    document.documentElement.classList.toggle('dark', this.dark);
-                },
-                toggleTheme() { this.dark = !this.dark; },
-            }
-        }
+        // theme toggle
+        (function(){
+            const meta=document.querySelector('meta[name="color-scheme"]');
+            const btn=document.getElementById('themeToggle');
+            const root=document.documentElement;
+            function sysDark(){return matchMedia('(prefers-color-scheme: dark)').matches;}
+            function curDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return sysDark();}
+            btn.addEventListener('click',function(){const n=curDark()?'light':'dark';localStorage.setItem('color-scheme',n);meta.content=n;root.dataset.theme=n;});
+        })();
+        // reading progress
+        (function(){
+            const bar=document.getElementById('progress');
+            addEventListener('scroll',function(){const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';},{passive:true});
+        })();
+    </script>
 
+    <style>@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}</style>
+
+    <script>
         // The Jarvis Playground Logic
         function llmPlayground() {
             return {
@@ -347,13 +357,13 @@
                 canvas: null,
                 ctx: null,
                 animationFrameId: null,
-                
+
                 initCanvas() {
                     this.canvas = this.$refs.jarvisCanvas;
                     this.ctx = this.canvas.getContext('2d');
                     this.resizeCanvas();
                     window.addEventListener('resize', () => this.resizeCanvas());
-                    
+
                     this.initRings();
                     this.animate();
                 },
@@ -385,19 +395,19 @@
                     const cx = this.canvas.width / 2;
                     const cy = this.canvas.height / 2;
                     this.time += 1;
-                    
+
                     if (this.isThinking) {
                         this.pulse = Math.min(this.pulse + 0.05, 1);
                     } else {
                         this.pulse = Math.max(this.pulse - 0.02, 0);
                     }
-                    
+
                     if (this.burst > 0) {
                         this.burst = Math.max(this.burst - 0.05, 0);
                     }
-                    
+
                     let thinkMultiplier = 1 + (this.pulse * 4);
-                    
+
                     let coreGlow = 10 + (Math.sin(this.time * 0.1) * 5) + (this.pulse * 15) + (this.burst * 30);
                     this.ctx.beginPath();
                     this.ctx.arc(cx, cy, 12 + (this.pulse * 8) + (this.burst * 15), 0, Math.PI * 2);
@@ -405,7 +415,7 @@
                     this.ctx.shadowBlur = coreGlow * 2;
                     this.ctx.shadowColor = '#6366f1';
                     this.ctx.fill();
-                    
+
                     this.ctx.beginPath();
                     this.ctx.arc(cx, cy, 20 + (this.pulse * 10) + (this.burst * 20), 0, Math.PI * 2);
                     this.ctx.strokeStyle = `rgba(99, 102, 241, ${0.5 + this.pulse * 0.5})`;
@@ -416,24 +426,24 @@
                     for(let i = 0; i < this.rings.length; i++) {
                         let ring = this.rings[i];
                         ring.angle += ring.speed * thinkMultiplier;
-                        
+
                         ring.radius = ring.baseRadius + (this.pulse * (i * 2)) + (this.burst * 40);
-                        
+
                         this.ctx.lineWidth = ring.width;
                         this.ctx.strokeStyle = ring.color;
                         this.ctx.globalAlpha = Math.min(1, ring.opacity + (this.pulse * 0.4) + this.burst);
-                        
+
                         if (ring.isDashed) {
                             this.ctx.setLineDash(ring.dashArray);
                         } else {
                             this.ctx.setLineDash([]);
                         }
-                        
+
                         let segmentAngle = (Math.PI * 2) / ring.gaps;
                         for(let j=0; j<ring.gaps; j++) {
                             let start = ring.angle + j * segmentAngle;
                             let end = start + segmentAngle - ring.gapSize;
-                            
+
                             this.ctx.beginPath();
                             this.ctx.arc(cx, cy, ring.radius, start, end);
                             this.ctx.stroke();
@@ -472,7 +482,7 @@
                     if(!this.inputText.trim()) return;
                     this.isThinking = true;
                     this.outputText = '';
-                    
+
                     let burstInterval = setInterval(() => {
                         for(let ring of this.rings) {
                             if(Math.random() > 0.7) {
@@ -484,10 +494,10 @@
                             }
                         }
                     }, 150);
-                    
+
                     setTimeout(() => {
                         clearInterval(burstInterval);
-                        
+
                         const lowerInput = this.inputText.toLowerCase();
                         let response = "";
 
@@ -517,7 +527,7 @@
                             ];
                             response = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
                         }
-                        
+
                         this.outputText = response;
                         this.isThinking = false;
                         this.burst = 1.0;

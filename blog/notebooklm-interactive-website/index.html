@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+<html lang="en">
 
 <head>
     <!-- Google Tag Manager -->
@@ -9,10 +9,11 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
     <!-- End Google Tag Manager -->
-    
+
     <link rel="llms" href="/llms.txt">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
     <title>NotebookLM to Interactive Website: Turn Research into Web Apps in Minutes (Zero Code)</title>
     <meta name="description"
         content="Step-by-step guide to generating fully interactive websites from NotebookLM sources using Gemini Pro Canvas. Features a live interactive prompt customizer.">
@@ -35,102 +36,136 @@
 
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <meta name="msapplication-TileColor" content="#6366f1">
-    
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: { 
-                        sans: ['Plus Jakarta Sans', 'sans-serif'], 
-                        mono: ['JetBrains Mono', 'monospace'] 
-                    },
-                    colors: { 
-                        brand: { 
-                            DEFAULT: '#6366f1', 
-                            dark: '#4f46e5',
-                            glow: 'rgba(99, 102, 241, 0.15)'
-                        } 
-                    }
-                }
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
             }
         }
     </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <style>
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background-image: radial-gradient(circle, rgba(99, 102, 241, .08) 1px, transparent 1px);
-            background-size: 24px 24px;
-            pointer-events: none;
-        }
-
-        .code-block {
-            background: #101014;
-            color: #ececec;
-            border-radius: 12px;
-            padding: 18px;
-            overflow-x: auto;
-            font-size: 13px;
-            line-height: 1.6;
-            font-family: 'JetBrains Mono', monospace;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .tab-btn {
-            transition: all .2s;
-        }
-
-        .tab-btn.active {
-            color: #6366f1;
-            border-color: #6366f1;
-            background: rgba(99, 102, 241, .08);
-        }
-
-        .feature-card {
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(255, 255, 255, 0.02);
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(99, 102, 241, 0.3);
-            background: rgba(99, 102, 241, 0.04);
-        }
-
-        kbd {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            padding: 0.15rem 0.4rem;
-            border-radius: 0.25rem;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .light kbd {
-            background-color: rgba(0, 0, 0, 0.05);
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
         :root {
-            --border-ui: rgba(0, 0, 0, 0.08);
+            color-scheme: light dark;
+            --paper-l: #faf9f6; --paper-d: #0e0e0f;
+            --panel-l: #f1efe9; --panel-d: #17171a;
+            --code-l: #f4f2ec; --code-d: #131316;
+            --ink-l: #1a1a1a; --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b; --muted-d: #8f8d88;
+            --line-l: #e2ded4; --line-d: #262629;
+            --accent-l: #5b5bd6; --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
         }
-        .dark {
-            --border-ui: rgba(255, 255, 255, 0.05);
-        }
+        :root[data-theme="light"] { color-scheme: light; }
+        :root[data-theme="dark"] { color-scheme: dark; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scrollbar-gutter: stable; }
+        body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+        a { color: inherit; }
+        .wrap { max-width: 46rem; margin-inline: auto; padding: clamp(1.25rem, 4vw, 2rem); }
+
+        .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem 0; }
+        .brand { font-family: var(--mono); font-size: 0.8rem; text-decoration: none; color: var(--ink); }
+        .brand b { color: var(--accent); }
+        .top-nav { display: flex; gap: clamp(0.9rem, 3vw, 1.6rem); align-items: center; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; }
+        .top-nav a { text-decoration: none; color: var(--muted); padding-block: 0.35rem; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
+        .top-nav a:hover, .top-nav a[aria-current] { color: var(--ink); border-color: var(--accent); }
+        .theme-toggle { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.7rem; cursor: pointer; transition: color .2s, border-color .2s; }
+        .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
+
+        .post-cat { display:inline-block; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); text-decoration:none; margin-top: 2.5rem; }
+        .post-title { font-family: var(--serif); font-weight: 600; font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem); line-height: 1.08; letter-spacing: -0.02em; margin: 0.75rem 0 1.25rem; }
+        .post-meta { display:flex; flex-wrap:wrap; align-items:center; gap: 0.75rem 1rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
+        .post-meta img { width: 2.25rem; height: 2.25rem; border-radius: 50%; object-fit: cover; }
+        .post-meta a { color: var(--ink); text-decoration: none; }
+        .post-meta a:hover { color: var(--accent); }
+        .post-meta .sep { color: var(--line); }
+        .post-cover { margin: 2rem 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+        .post-cover img { display:block; width: 100%; height: auto; }
+
+        .prose { font-family: var(--serif); font-size: 1.2rem; line-height: 1.75; color: var(--ink); }
+        .prose > *:first-child { margin-top: 0; }
+        .prose p { margin: 0 0 1.4rem; }
+        .prose h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem); line-height: 1.2; letter-spacing: -0.01em; margin: 2.6rem 0 1rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+        .prose h3 { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; margin: 2rem 0 0.75rem; }
+        .prose h4 { font-family: var(--sans); font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 1.8rem 0 0.6rem; }
+        .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); }
+        .prose a:hover { border-bottom-color: var(--accent); }
+        .prose ul, .prose ol { margin: 0 0 1.4rem; padding-left: 1.4rem; }
+        .prose li { margin-bottom: 0.5rem; }
+        .prose li::marker { color: var(--accent); }
+        .prose strong { font-weight: 700; color: var(--ink); }
+        .prose em { font-style: italic; }
+        .prose blockquote { margin: 1.6rem 0; padding: 0.4rem 0 0.4rem 1.25rem; border-left: 2px solid var(--accent); color: var(--muted); font-style: italic; }
+        .prose img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; margin: 1.6rem 0; }
+        .prose hr { border: none; border-top: 1px solid var(--line); margin: 2.5rem 0; }
+
+        .prose :not(pre) > code { font-family: var(--mono); font-size: 0.86em; background: var(--code-bg); border: 1px solid var(--line); border-radius: 5px; padding: 0.1em 0.4em; color: var(--ink); }
+        .prose pre, pre.code-block { font-family: var(--mono); font-size: 0.82rem; line-height: 1.6; background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; overflow-x: auto; margin: 1.6rem 0; color: var(--ink); }
+        .prose pre code, pre.code-block code { font-family: var(--mono); background: none; border: none; padding: 0; font-size: inherit; color: inherit; white-space: pre; }
+
+        .prose table { width: 100%; border-collapse: collapse; margin: 1.6rem 0; font-family: var(--sans); font-size: 0.95rem; display: block; overflow-x: auto; }
+        .prose th, .prose td { text-align: left; padding: 0.65rem 0.85rem; border: 1px solid var(--line); vertical-align: top; }
+        .prose th { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--panel); }
+
+        /* interactive demo wrapper */
+        .demo { border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem; background: var(--panel); margin: 1.6rem 0; }
+        .demo h3 { font-family: var(--serif); font-weight: 600; font-size: 1.2rem; margin: 0 0 1.25rem; display: flex; align-items: center; gap: 0.5rem; color: var(--accent); }
+        .demo label { display: block; font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.4rem; }
+        .demo .field { margin-bottom: 1rem; }
+        .demo input, .demo textarea { width: 100%; font-family: var(--sans); font-size: 0.95rem; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 0.6rem 0.75rem; outline: none; }
+        .demo input:focus, .demo textarea:focus { border-color: var(--accent); }
+        .demo .demo-head { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; }
+        .demo .demo-head span { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+        .demo .copy-btn { font-family: var(--mono); font-size: 0.72rem; text-decoration: none; color: var(--muted); background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.7rem; cursor: pointer; transition: color .2s, border-color .2s; }
+        .demo .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+        .demo pre.code-block { max-height: 20rem; overflow-y: auto; white-space: pre-wrap; margin: 0; }
+        @media (min-width: 40rem) { .demo .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; } .demo .grid2 .field.full { grid-column: 1 / -1; } }
+
+        .comments { margin-top: 3rem; }
+        .comments h2 { font-family: var(--serif); font-weight: 600; font-size: 1.6rem; border-top: 1px solid var(--line); padding-top: 1.4rem; margin: 0 0 1rem; }
+
+        .post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display:flex; flex-wrap:wrap; gap: 1rem; justify-content: space-between; align-items:center; }
+        .post-footer a.back { font-family: var(--mono); font-size: 0.75rem; text-decoration:none; color: var(--accent); }
+        .share { display:flex; gap: 0.5rem; }
+        .share a { font-family: var(--mono); font-size: 0.72rem; text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.7rem; }
+        .share a:hover { color: var(--accent); border-color: var(--accent); }
+
+        #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--accent); z-index: 100; transition: width .1s linear; }
+
+        footer.site { border-top: 1px solid var(--line); margin-top: 3rem; padding-block: 2rem; display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; align-items:center; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
+        footer.site a { color: var(--muted); text-decoration:none; }
+        footer.site a:hover { color: var(--accent); }
+        .footer-links { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; }
+        .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
+        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
+        .counter { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .counter img { height: 0.7rem; width: auto; opacity: 0.7; }
+        :root[data-theme="light"] .counter img { filter: invert(1); }
+
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } #progress { transition: none; } }
     </style>
 
     <!-- BlogPosting Structured Data for AI Search -->
@@ -182,356 +217,152 @@
     </script>
 </head>
 
-<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400 font-sans"
-    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f8fafc] text-zinc-700'">
+<body>
+    <div id="progress"></div>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
-        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
 
-        <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors bg-[#09090b]/80 border-zinc-800/50"
-        :class="dark ? 'bg-[#09090b]/80 border-zinc-800/50' : 'bg-white/80 border-zinc-200/50'">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-            <a href="/blog/" class="flex items-center gap-2 text-sm font-bold hover:text-brand transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                Dev Guides
-            </a>
-            <span class="text-zinc-400 dark:text-zinc-700">/</span>
-            <a href="/blog/?category=Artificial Intelligence" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all">Artificial Intelligence</a>
-        </div>
-            <div class="flex items-center gap-4">
-                <button @click="toggleTheme()" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
-                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
-                </button>
-                <button @click="exploreWithAI('chatgpt')" title="Explore with AI" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
-        <div class="mb-12 text-left max-w-3xl mx-auto">
-            <a href="/blog/?category=Artificial Intelligence" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 text-brand text-xs font-bold mb-6 tracking-wide uppercase hover:bg-brand/20 transition-all">Artificial Intelligence</a>
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
-                :class="dark ? 'text-white' : 'text-zinc-900'">Turn NotebookLM Sources into Interactive Websites in Minutes (Zero Code)</h1>
-
-            <!-- Author Info & Meta -->
-            <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <div class="flex items-center gap-4">
-                    <img src="/profile.jpg" alt="Sagar Pansuriya"
-                        class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
-                        :class="dark ? 'border-[#27272a]' : 'border-white'">
-                    <div>
-                        <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
-                            class="block hover:text-brand transition-colors text-base"
-                            :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
-                        <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
-                            Lead & Frontend Architect</span>
-                    </div>
-                </div>
-                <div class="hidden sm:block w-px h-10" :class="dark ? 'bg-[#27272a]' : 'bg-gray-300'"></div>
-                <div class="flex items-center gap-4 text-sm">
-                    <time datetime="2026-06-01" class="text-brand">June 1, 2026</time>
-                    <span>·</span>
-                    <span
-                        class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">7
-                        min read</span>
-                </div>
-            </div>
-
-            <!-- Cover Image (SVG) -->
-            <div class="rounded-2xl overflow-hidden border mb-12 shadow-2xl transition-colors bg-[#09090b]" :class="dark ? 'border-zinc-800' : 'border-gray-200'">
-                <img src="cover.png" alt="NotebookLM to Interactive Website Banner" class="w-full h-auto aspect-video object-cover">
-            </div>
-
-            <p class="text-xl leading-relaxed mb-8 font-medium" :class="dark ? 'text-zinc-300' : 'text-zinc-800'">
-                Anyone can now turn raw documents and research folders into fully functional, interactive websites in minutes. With NotebookLM acting as your verified source of truth and Gemini Pro's visual Canvas mode writing the code, the barrier to web development has officially dropped to zero.
-            </p>
-        </div>
-
-        <!-- Explore with AI Section -->
-        <div class="flex flex-col md:flex-row items-center justify-between gap-6 py-6 mb-10 border-y transition-colors"
-            :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
-            <div class="max-w-md text-left">
-                <h3 class="text-lg font-bold mb-1 flex items-center gap-2 !mt-0" :class="dark ? 'text-white' : 'text-zinc-900'">
-                    <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    Explore with AI
-                </h3>
-                <p class="text-xs opacity-70">
-                    Want a quick summary or have specific questions about this post? Use your favorite AI agent.
-                </p>
-            </div>
-            <div class="flex flex-wrap justify-center gap-3">
-                <button @click="exploreWithAI('chatgpt')" 
-                    class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
-                    <span class="w-4 h-4 flex items-center justify-center bg-[#10a37f] rounded text-white text-[8px]">GPT</span>
-                    ChatGPT
-                </button>
-                <button @click="exploreWithAI('claude')" 
-                    class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-sm font-semibold">
-                    <span class="w-4 h-4 flex items-center justify-center bg-[#d97757] rounded text-white text-[8px]">C</span>
-                    Claude
-                </button>
-                <button @click="exploreWithAI('perplexity')" 
-                    class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
-                    <span class="w-4 h-4 flex items-center justify-center bg-[#20b2aa] rounded text-white text-[8px]">P</span>
-                    Perplexity
-                </button>
-            </div>
-        </div>
-
-        <!-- Sticky Navigation Tabs -->
-        <div class="sticky top-[53px] z-40 -mx-6 px-6 py-3 backdrop-blur-xl border-b mb-10 overflow-x-auto scrollbar-hide"
-            :class="dark ? 'bg-[#09090b]/90 border-zinc-800/50' : 'bg-white/90 border-gray-300'">
-            <div class="flex gap-2">
-                <template x-for="(tab, i) in tabs" :key="i">
-                    <button @click="activeTab = i"
-                        class="tab-btn px-4 py-2 rounded-lg font-mono text-xs font-semibold whitespace-nowrap border transition-all"
-                        :class="activeTab === i ? 'active border-brand/30' : (dark ? 'border-transparent text-zinc-500' : 'border-transparent text-zinc-500 bg-white shadow-sm duration-150')"
-                        x-text="tab.label"></button>
-                </template>
-            </div>
-        </div>
-
-        <!-- Overview Section -->
-        <section x-show="activeTab === 0" x-transition.opacity>
-            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">1. Build a High-Quality Knowledge Base</h2>
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>Before generating a website, you need to establish a rock-solid, reliable source of truth. Without a verified knowledge boundary, generative AI models are prone to hallucinating details, fabricating resources, or deviating from your core messaging.</p>
-                <p>To avoid this, we start in <strong>NotebookLM</strong>, Google's specialized research assistant. Simply create a new notebook and upload your curated project materials:</p>
-                
-                <ul class="list-disc pl-6 space-y-3">
-                    <li><strong>PDFs &amp; Google Docs:</strong> In-depth research papers, text manuals, or internal books.</li>
-                    <li><strong>Research notes:</strong> Raw text files containing drafts, data tables, or developer outlines.</li>
-                    <li><strong>Curated web pages:</strong> Direct links to relevant documentation pages or live articles.</li>
-                    <li><strong>YouTube Transcripts:</strong> Audio-visual tutorials turned into structured text.</li>
-                    <li><strong>Google Drive integration:</strong> Direct, real-time sync with files stored in your workspace.</li>
-                </ul>
-
-                <h3 class="text-2xl font-bold pt-4" :class="dark ? 'text-white' : 'text-zinc-900'">Why NotebookLM is Crucial</h3>
-                <p>NotebookLM creates a strictly controlled information workspace. When you ask questions or instruct the system to build on top of these files, it acts as a closed-source semantic search database. By anchoring the generation pipeline here, you gain:</p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 mb-12">
-                <div class="p-5 rounded-xl border border-white/5 bg-white/[0.01] flex gap-3">
-                    <span class="text-emerald-500 text-xl font-bold">✓</span>
-                    <div>
-                        <h4 class="font-bold text-zinc-100 dark:text-white text-sm mb-1">Accurate Outputs</h4>
-                        <p class="text-xs opacity-75 leading-relaxed">Outputs are mathematically restricted to reference only the semantic contexts available in your source material.</p>
-                    </div>
-                </div>
-                <div class="p-5 rounded-xl border border-white/5 bg-white/[0.01] flex gap-3">
-                    <span class="text-emerald-500 text-xl font-bold">✓</span>
-                    <div>
-                        <h4 class="font-bold text-zinc-100 dark:text-white text-sm mb-1">Fewer Hallucinations</h4>
-                        <p class="text-xs opacity-75 leading-relaxed">No invented facts, fake URLs, or fabricated APIs. If it isn't in your Notebook, the AI won't state it as a fact.</p>
-                    </div>
-                </div>
-                <div class="p-5 rounded-xl border border-white/5 bg-white/[0.01] flex gap-3">
-                    <span class="text-emerald-500 text-xl font-bold">✓</span>
-                    <div>
-                        <h4 class="font-bold text-zinc-100 dark:text-white text-sm mb-1">Consistent Messaging</h4>
-                        <p class="text-xs opacity-75 leading-relaxed">Maintains brand style, technical phrasing, and naming conventions as defined inside your uploaded specs.</p>
-                    </div>
-                </div>
-                <div class="p-5 rounded-xl border border-white/5 bg-white/[0.01] flex gap-3">
-                    <span class="text-emerald-500 text-xl font-bold">✓</span>
-                    <div>
-                        <h4 class="font-bold text-zinc-100 dark:text-white text-sm mb-1">Domain-Specific Expertise</h4>
-                        <p class="text-xs opacity-75 leading-relaxed">Functions effectively as an expert specialized in your custom niche, API, product specs, or academic topic.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Connection Section -->
-        <section x-show="activeTab === 1" x-transition.opacity style="display: none;">
-            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">2. Connect NotebookLM to Gemini Pro</h2>
-            
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>Once your sources are verified inside NotebookLM, it's time to connect that knowledge to <strong>Gemini Pro</strong>. Gemini Pro acts as the reasoning engine and code-generation backend that turns your source documents into code.</p>
-                
-                <h3 class="text-2xl font-bold mt-8 mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">The Connection Process</h3>
-                <ol class="list-decimal pl-6 space-y-4">
-                    <li>
-                        <strong>Select Gemini Pro:</strong> Open the Gemini application workspace and toggle the model selection to the Pro model (Gemini 1.5 Pro / Gemini Advanced).
-                    </li>
-                    <li>
-                        <strong>Attach Materials:</strong> Click the "Add files" attachment icon and upload your exported NotebookLM text sources, curated documents, or directly link your Google Drive folder.
-                    </li>
-                    <li>
-                        <strong>Activate Canvas Mode:</strong> Canvas provides Gemini with a separate visual side-panel to render code layouts, write syntax, edit files, and build interactive UI modules in real-time.
-                    </li>
-                </ol>
-            </div>
-
-            <!-- Workflow Diagram -->
-            <div class="feature-card p-6 mb-12">
-                <img src="workflow.svg" alt="NotebookLM to Website Generation Pipeline" class="w-full h-auto rounded-xl">
-                <p class="text-sm font-medium text-center mt-4">The Generation Pipeline: Transitioning from raw knowledge sources to Gemini Pro Canvas, ending in Vercel/Netlify deployment.</p>
-            </div>
-
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <h3 class="text-2xl font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">The Power of Canvas Mode</h3>
-                <p>Without Canvas, raw LLM interactions dump hundreds of lines of code straight into your chat history. It's difficult to track changes, view visual renders, or make layout updates. Canvas turns Gemini into a interactive workspace where it can:</p>
-                <ul class="list-disc pl-6 space-y-2">
-                    <li>Generate complete code architecture (HTML, CSS, JS) on a side-pane.</li>
-                    <li>Render styling layout sheets visually.</li>
-                    <li>Allow you to highlight specific blocks and instruct changes (e.g. "make this button larger").</li>
-                    <li>Run version histories of the codebase as iterations proceed.</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Prompt Customizer Section -->
-        <section x-show="activeTab === 2" x-transition.opacity style="display: none;">
-            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">3. High-Leverage Master Prompt Customizer</h2>
-            
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>The quality of your AI-generated website depends entirely on your prompt. Weak, one-line prompts result in generic, non-interactive layouts. To unlock production-level UI designs, we use a <strong>senior frontend engineer archetype prompt</strong>.</p>
-                <p>Use the interactive tool below to customize the prompt to fit your target audience, site goals, desired layout modules, and styling rules. Then copy-paste it directly into Gemini:</p>
-            </div>
-
-            <!-- Interactive Prompt Builder Widget -->
-            <div class="feature-card p-6 md:p-8 mb-12 border-brand/20 bg-brand/5" x-data="promptBuilder()">
-                <h3 class="text-xl font-bold mb-6 text-brand flex items-center gap-2">
-                    <span>⚙️</span> Interactive Prompt Builder
-                </h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">Target Audience</label>
-                        <input type="text" x-model="audience" 
-                            class="w-full px-4 py-2.5 rounded-xl border border-zinc-700/80 bg-zinc-900/60 text-white text-sm outline-none focus:border-brand/60">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">Primary Goal of Site</label>
-                        <input type="text" x-model="goal" 
-                            class="w-full px-4 py-2.5 rounded-xl border border-zinc-700/80 bg-zinc-900/60 text-white text-sm outline-none focus:border-brand/60">
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">Desired Pages &amp; UI Sections</label>
-                        <textarea rows="3" x-model="sections" 
-                            class="w-full px-4 py-2.5 rounded-xl border border-zinc-700/80 bg-zinc-900/60 text-white text-sm outline-none focus:border-brand/60"></textarea>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">Brand Style &amp; Visual Theme</label>
-                        <input type="text" x-model="style" 
-                            class="w-full px-4 py-2.5 rounded-xl border border-zinc-700/80 bg-zinc-900/60 text-white text-sm outline-none focus:border-brand/60">
-                    </div>
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=Artificial Intelligence">§ Artificial Intelligence</a>
+                <h1 class="post-title">Turn NotebookLM Sources into Interactive Websites in Minutes (Zero Code)</h1>
+                <div class="post-meta">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-06-01">June 01, 2026</time>
+                    <span class="sep">·</span>
+                    <span>7 min read</span>
                 </div>
 
-                <div class="relative">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="text-xs font-bold text-zinc-500 uppercase tracking-widest font-mono">Compiled Prompt Output:</span>
-                        <button @click="copyPrompt()" 
-                            class="px-4 py-2 rounded-lg bg-brand hover:bg-brand-dark text-white font-mono text-xs font-semibold flex items-center gap-1.5 shadow transition-all">
-                            <svg x-show="!copied" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5A3.375 3.375 0 0 0 6.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0 0 15 2.25h-1.5a2.251 2.251 0 0 0-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 0 0-9-9Z" />
-                            </svg>
-                            <svg x-show="copied" class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg>
-                            <span x-text="copied ? 'Copied!' : 'Copy Prompt'"></span>
-                        </button>
-                    </div>
-                    <pre class="code-block h-64 overflow-y-auto whitespace-pre-wrap select-all font-mono" x-text="compilePrompt()"></pre>
-                </div>
-            </div>
-        </section>
+                <div class="post-cover"><img src="cover.png" alt="NotebookLM to Interactive Website Banner"></div>
 
-        <!-- Publish Section -->
-        <section x-show="activeTab === 3" x-transition.opacity style="display: none;">
-            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">4. Generate, Export, and Publish</h2>
-            
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>After submitting your customized Master Prompt, Gemini Pro analyzes your sources, structures the layouts, and renders your website directly inside the Canvas environment. Review the layout, test the navigation links, and check the responsive styling.</p>
-                <p>Once you are satisfied with the result, you have two pathways to bring the website live on the web:</p>
-            </div>
+                <div class="prose">
+                    <p>Anyone can now turn raw documents and research folders into fully functional, interactive websites in minutes. With NotebookLM acting as your verified source of truth and Gemini Pro's visual Canvas mode writing the code, the barrier to web development has officially dropped to zero.</p>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div class="feature-card p-6">
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="text-2xl">🔗</span>
-                        <h4 class="font-bold text-zinc-100 dark:text-white text-lg">Option 1: Instant Share Link</h4>
-                    </div>
-                    <p class="text-sm opacity-80 leading-relaxed mb-4">Click the "Share" button inside the Canvas frame to instantly generate a public, cloud-hosted link of your live interactive application. Gemini hosts the HTML, CSS, and JS files on Google Cloud automatically.</p>
-                    <div class="p-3 bg-white/5 rounded-lg border border-white/5 text-xs text-zinc-400">
-                        <strong>Best for:</strong> Live prototypes, quick reviews, internal wikis, and testing interactions.
-                    </div>
-                </div>
-                <div class="feature-card p-6">
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="text-2xl">⚡</span>
-                        <h4 class="font-bold text-zinc-100 dark:text-white text-lg">Option 2: Full Code Export</h4>
-                    </div>
-                    <p class="text-sm opacity-80 leading-relaxed mb-4">Click the export buttons or copy the full code files from the Canvas workspace. Save the code locally as files (e.g. <code>index.html</code>, <code>script.js</code>) or drag-and-drop the folder directly onto free static hosting platforms.</p>
-                    <div class="p-3 bg-white/5 rounded-lg border border-white/5 text-xs text-zinc-400">
-                        <strong>Best for:</strong> Production sites, custom domain integrations, Vercel, Netlify, or Github Pages.
-                    </div>
-                </div>
-            </div>
+                    <h2>1. Build a High-Quality Knowledge Base</h2>
+                    <p>Before generating a website, you need to establish a rock-solid, reliable source of truth. Without a verified knowledge boundary, generative AI models are prone to hallucinating details, fabricating resources, or deviating from your core messaging.</p>
+                    <p>To avoid this, we start in <strong>NotebookLM</strong>, Google's specialized research assistant. Simply create a new notebook and upload your curated project materials:</p>
+                    <ul>
+                        <li><strong>PDFs &amp; Google Docs:</strong> In-depth research papers, text manuals, or internal books.</li>
+                        <li><strong>Research notes:</strong> Raw text files containing drafts, data tables, or developer outlines.</li>
+                        <li><strong>Curated web pages:</strong> Direct links to relevant documentation pages or live articles.</li>
+                        <li><strong>YouTube Transcripts:</strong> Audio-visual tutorials turned into structured text.</li>
+                        <li><strong>Google Drive integration:</strong> Direct, real-time sync with files stored in your workspace.</li>
+                    </ul>
 
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <h3 class="text-2xl font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">Polishing Your Site</h3>
-                <p>To take the website from a basic generated output to a premium production app, use external tools to refine details:</p>
-                <ul class="list-disc pl-6 space-y-2">
-                    <li><strong>Branding assets:</strong> Design custom banners, site icons, or graphics in Canva or Figma and link them in the code.</li>
-                    <li><strong>Code Enhancements:</strong> Paste the exported layout into code editors like Cursor or VS Code to tweak spacing or add local analytical tags (e.g. Google Analytics).</li>
-                    <li><strong>Custom Domains:</strong> Bind your Netlify/Vercel server output to your personal URL.</li>
-                </ul>
-            </div>
-        </section>
+                    <h3>Why NotebookLM is Crucial</h3>
+                    <p>NotebookLM creates a strictly controlled information workspace. When you ask questions or instruct the system to build on top of these files, it acts as a closed-source semantic search database. By anchoring the generation pipeline here, you gain:</p>
+                    <ul>
+                        <li><strong>Accurate Outputs:</strong> Outputs are mathematically restricted to reference only the semantic contexts available in your source material.</li>
+                        <li><strong>Fewer Hallucinations:</strong> No invented facts, fake URLs, or fabricated APIs. If it isn't in your Notebook, the AI won't state it as a fact.</li>
+                        <li><strong>Consistent Messaging:</strong> Maintains brand style, technical phrasing, and naming conventions as defined inside your uploaded specs.</li>
+                        <li><strong>Domain-Specific Expertise:</strong> Functions effectively as an expert specialized in your custom niche, API, product specs, or academic topic.</li>
+                    </ul>
 
-        <!-- Custom Gems Section -->
-        <section x-show="activeTab === 4" x-transition.opacity style="display: none;">
-            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">5. Scale with a Custom Gem</h2>
-            
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>Generating websites one prompt at a time is excellent, but if you want to turn this into a repeatable development pipeline, you can build a <strong>Custom Gem</strong> inside Gemini.</p>
-                <p>Gems allow you to create custom AI agents configured with custom instructions, style guidelines, and output behaviors. Once created, you can instantly turn any uploaded notebook or research documents into a customized web portal repeatedly without re-prompting.</p>
-                
-                <h3 class="text-2xl font-bold text-zinc-200 mt-6 mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">Upgraded Custom Gem Prompt</h3>
-                <p class="text-sm opacity-80">Configure your Custom Gem with this detailed systems archetype instruction:</p>
-            </div>
+                    <h2>2. Connect NotebookLM to Gemini Pro</h2>
+                    <p>Once your sources are verified inside NotebookLM, it's time to connect that knowledge to <strong>Gemini Pro</strong>. Gemini Pro acts as the reasoning engine and code-generation backend that turns your source documents into code.</p>
 
-            <div class="mb-12 relative" x-data="{ copiedGem: false }">
-                <div class="flex justify-between items-center mb-3">
-                    <span class="text-xs font-bold text-zinc-500 uppercase tracking-widest font-mono">Gem System Prompt:</span>
-                    <button @click="
-                        navigator.clipboard.writeText($refs.gemPromptText.innerText);
-                        copiedGem = true;
-                        setTimeout(() => copiedGem = false, 2000);
-                        "
-                        class="px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-700/80 hover:border-brand/40 text-zinc-300 font-mono text-xs font-semibold flex items-center gap-1.5 shadow transition-all">
-                        <svg x-show="!copiedGem" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5A3.375 3.375 0 0 0 6.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0 0 15 2.25h-1.5a2.251 2.251 0 0 0-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 0 0-9-9Z" />
-                        </svg>
-                        <svg x-show="copiedGem" class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                        </svg>
-                        <span x-text="copiedGem ? 'Copied Gem!' : 'Copy Gem Instruction'"></span>
-                    </button>
-                </div>
-                <div class="code-block h-64 overflow-y-auto whitespace-pre-wrap select-all font-mono" x-ref="gemPromptText">Act as an expert AI systems architect and autonomous frontend website generator.
+                    <h3>The Connection Process</h3>
+                    <ol>
+                        <li><strong>Select Gemini Pro:</strong> Open the Gemini application workspace and toggle the model selection to the Pro model (Gemini 1.5 Pro / Gemini Advanced).</li>
+                        <li><strong>Attach Materials:</strong> Click the "Add files" attachment icon and upload your exported NotebookLM text sources, curated documents, or directly link your Google Drive folder.</li>
+                        <li><strong>Activate Canvas Mode:</strong> Canvas provides Gemini with a separate visual side-panel to render code layouts, write syntax, edit files, and build interactive UI modules in real-time.</li>
+                    </ol>
+
+                    <img src="workflow.svg" alt="NotebookLM to Website Generation Pipeline">
+                    <p><em>The Generation Pipeline: Transitioning from raw knowledge sources to Gemini Pro Canvas, ending in Vercel/Netlify deployment.</em></p>
+
+                    <h3>The Power of Canvas Mode</h3>
+                    <p>Without Canvas, raw LLM interactions dump hundreds of lines of code straight into your chat history. It's difficult to track changes, view visual renders, or make layout updates. Canvas turns Gemini into a interactive workspace where it can:</p>
+                    <ul>
+                        <li>Generate complete code architecture (HTML, CSS, JS) on a side-pane.</li>
+                        <li>Render styling layout sheets visually.</li>
+                        <li>Allow you to highlight specific blocks and instruct changes (e.g. "make this button larger").</li>
+                        <li>Run version histories of the codebase as iterations proceed.</li>
+                    </ul>
+
+                    <h2>3. High-Leverage Master Prompt Customizer</h2>
+                    <p>The quality of your AI-generated website depends entirely on your prompt. Weak, one-line prompts result in generic, non-interactive layouts. To unlock production-level UI designs, we use a <strong>senior frontend engineer archetype prompt</strong>.</p>
+                    <p>Use the interactive tool below to customize the prompt to fit your target audience, site goals, desired layout modules, and styling rules. Then copy-paste it directly into Gemini:</p>
+
+                    <!-- Interactive Prompt Builder Widget (Alpine) -->
+                    <div class="demo" x-data="promptBuilder()">
+                        <h3><span>⚙️</span> Interactive Prompt Builder</h3>
+                        <div class="grid2">
+                            <div class="field">
+                                <label>Target Audience</label>
+                                <input type="text" x-model="audience">
+                            </div>
+                            <div class="field">
+                                <label>Primary Goal of Site</label>
+                                <input type="text" x-model="goal">
+                            </div>
+                            <div class="field full">
+                                <label>Desired Pages &amp; UI Sections</label>
+                                <textarea rows="3" x-model="sections"></textarea>
+                            </div>
+                            <div class="field full">
+                                <label>Brand Style &amp; Visual Theme</label>
+                                <input type="text" x-model="style">
+                            </div>
+                        </div>
+                        <div class="demo-head">
+                            <span>Compiled Prompt Output:</span>
+                            <button type="button" class="copy-btn" @click="copyPrompt()" x-text="copied ? 'Copied!' : 'Copy Prompt'"></button>
+                        </div>
+                        <pre class="code-block select-all" x-text="compilePrompt()"></pre>
+                    </div>
+
+                    <h2>4. Generate, Export, and Publish</h2>
+                    <p>After submitting your customized Master Prompt, Gemini Pro analyzes your sources, structures the layouts, and renders your website directly inside the Canvas environment. Review the layout, test the navigation links, and check the responsive styling.</p>
+                    <p>Once you are satisfied with the result, you have two pathways to bring the website live on the web:</p>
+
+                    <h3>🔗 Option 1: Instant Share Link</h3>
+                    <p>Click the "Share" button inside the Canvas frame to instantly generate a public, cloud-hosted link of your live interactive application. Gemini hosts the HTML, CSS, and JS files on Google Cloud automatically.</p>
+                    <p><strong>Best for:</strong> Live prototypes, quick reviews, internal wikis, and testing interactions.</p>
+
+                    <h3>⚡ Option 2: Full Code Export</h3>
+                    <p>Click the export buttons or copy the full code files from the Canvas workspace. Save the code locally as files (e.g. <code>index.html</code>, <code>script.js</code>) or drag-and-drop the folder directly onto free static hosting platforms.</p>
+                    <p><strong>Best for:</strong> Production sites, custom domain integrations, Vercel, Netlify, or Github Pages.</p>
+
+                    <h3>Polishing Your Site</h3>
+                    <p>To take the website from a basic generated output to a premium production app, use external tools to refine details:</p>
+                    <ul>
+                        <li><strong>Branding assets:</strong> Design custom banners, site icons, or graphics in Canva or Figma and link them in the code.</li>
+                        <li><strong>Code Enhancements:</strong> Paste the exported layout into code editors like Cursor or VS Code to tweak spacing or add local analytical tags (e.g. Google Analytics).</li>
+                        <li><strong>Custom Domains:</strong> Bind your Netlify/Vercel server output to your personal URL.</li>
+                    </ul>
+
+                    <h2>5. Scale with a Custom Gem</h2>
+                    <p>Generating websites one prompt at a time is excellent, but if you want to turn this into a repeatable development pipeline, you can build a <strong>Custom Gem</strong> inside Gemini.</p>
+                    <p>Gems allow you to create custom AI agents configured with custom instructions, style guidelines, and output behaviors. Once created, you can instantly turn any uploaded notebook or research documents into a customized web portal repeatedly without re-prompting.</p>
+
+                    <h3>Upgraded Custom Gem Prompt</h3>
+                    <p>Configure your Custom Gem with this detailed systems archetype instruction:</p>
+
+                    <div class="demo" x-data="{ copiedGem: false }">
+                        <div class="demo-head">
+                            <span>Gem System Prompt:</span>
+                            <button type="button" class="copy-btn"
+                                @click="navigator.clipboard.writeText($refs.gemPromptText.innerText); copiedGem = true; setTimeout(() => copiedGem = false, 2000);"
+                                x-text="copiedGem ? 'Copied Gem!' : 'Copy Gem Instruction'"></button>
+                        </div>
+                        <pre class="code-block select-all" x-ref="gemPromptText">Act as an expert AI systems architect and autonomous frontend website generator.
 Your role is to transform a user’s uploaded NotebookLM knowledge base, PDFs, documents, or research materials into a fully interactive website.
 
 Core directives:
@@ -547,94 +378,54 @@ Core directives:
 ▪︎ Optimize readability, accessibility, and loading speed.
 ▪︎ Use clean component-based code architecture.
 ▪︎ Ensure the final result is visually polished and user-ready.
-▪︎ The generated website should feel like a professionally designed interactive knowledge platform rather than a basic webpage.</div>
-            </div>
+▪︎ The generated website should feel like a professionally designed interactive knowledge platform rather than a basic webpage.</pre>
+                    </div>
 
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <h3 class="text-2xl font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">Automating Repeatable Hubs</h3>
-                <p>This automated template approach allows you to instantly generate client portals, course websites, internal research repositories, team wikis, and interactive customer help hubs directly from Google Drive folders, saving hours of manual programming.</p>
-            </div>
-        </section>
+                    <h3>Automating Repeatable Hubs</h3>
+                    <p>This automated template approach allows you to instantly generate client portals, course websites, internal research repositories, team wikis, and interactive customer help hubs directly from Google Drive folders, saving hours of manual programming.</p>
 
-        <!-- Closing -->
-        <div class="mt-20 pt-10 border-t space-y-6 max-w-3xl border-gray-200"
-            :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
-            <h3 class="text-2xl font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">Final Thoughts</h3>
-            <div class="text-lg space-y-4 leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>By connecting NotebookLM's semantic source-anchoring to Gemini's code-writing Canvas, building simple web applications is no longer exclusive to software engineers. Whether you're assembling a dashboard for clients, organizing academic papers, or presenting business briefs, the transition from research to live web app is now just a single click away.</p>
-                <p>Connect your drive sources, customize your master prompts, and deploy your custom portals. Happy building! 🚀</p>
-            </div>
-        </div>
+                    <h2>Final Thoughts</h2>
+                    <p>By connecting NotebookLM's semantic source-anchoring to Gemini's code-writing Canvas, building simple web applications is no longer exclusive to software engineers. Whether you're assembling a dashboard for clients, organizing academic papers, or presenting business briefs, the transition from research to live web app is now just a single click away.</p>
+                    <p>Connect your drive sources, customize your master prompts, and deploy your custom portals. Happy building! 🚀</p>
+                </div>
 
-        <!-- Comments Section -->
-        <div class="mt-20 pt-10 border-t border-gray-200 dark:border-[#1e1e24] max-w-3xl mx-auto">
-            <h3 class="text-2xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">Discussion</h3>
-            <div id="comments-container"></div>
-            <script>
-                const initComments = () => {
-                    if (document.querySelector('.utterances-frame')) return;
-                    const theme = document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
-                    let script = document.createElement('script');
-                    script.src = 'https://utteranc.es/client.js';
-                    script.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
-                    script.setAttribute('issue-term', 'pathname');
-                    script.setAttribute('label', 'comment');
-                    script.setAttribute('theme', theme);
-                    script.setAttribute('crossorigin', 'anonymous');
-                    script.async = true;
-                    document.getElementById('comments-container').appendChild(script);
-                };
-                setTimeout(initComments, 300);
-                const observer = new MutationObserver((mutations) => {
-                    mutations.forEach((mutation) => {
-                        if (mutation.attributeName === 'class') {
-                            const isDark = document.documentElement.classList.contains('dark');
-                            const message = { type: 'set-theme', theme: isDark ? 'github-dark' : 'github-light' };
-                            const iframe = document.querySelector('.utterances-frame');
-                            if (iframe) iframe.contentWindow.postMessage(message, 'https://utteranc.es');
-                        }
-                    });
-                });
-                observer.observe(document.documentElement, { attributes: true });
-            </script>
-        </div>
-    </main>
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/notebooklm-interactive-website/&text=Turn NotebookLM Sources into Interactive Websites in Minutes (Zero Code)" target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/notebooklm-interactive-website/" target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter" title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤ Sponsor</a>
+            </div>
+        </footer>
+    </div>
 
     <script>
-        function blogApp() {
-            return {
-                dark: true,
-                activeTab: 0,
-                tabs: [
-                    { label: '1. Build Source' },
-                    { label: '2. Gemini Canvas' },
-                    { label: '3. Master Prompt' },
-                    { label: '4. Publish Site' },
-                    { label: '5. Custom Gems' }
-                ],
-                init() {
-                    const saved = localStorage.getItem('theme');
-                    if (saved === 'light') this.dark = false;
-                    this.$watch('dark', val => {
-                        document.documentElement.classList.toggle('dark', val);
-                        localStorage.setItem('theme', val ? 'dark' : 'light');
-                    });
-                    document.documentElement.classList.toggle('dark', this.dark);
-                },
-                toggleTheme() { this.dark = !this.dark; },
-                exploreWithAI(platform) { 
-                    const url = window.location.href; 
-                    const prompt = encodeURIComponent(`Please summarize this technical blog post about converting NotebookLM sources into interactive websites with Gemini Pro Canvas: ${url}`); 
-                    let aiUrl = ''; 
-                    if (platform === 'chatgpt') aiUrl = `https://chatgpt.com/?q=${prompt}`; 
-                    if (platform === 'claude') aiUrl = `https://claude.ai/new?q=${prompt}`; 
-                    if (platform === 'perplexity') aiUrl = `https://www.perplexity.ai/search?q=${prompt}`; 
-                    window.open(aiUrl, '_blank'); 
-                }
-            }
-        }
-
+        // Interactive Prompt Builder (Alpine)
         function promptBuilder() {
             return {
                 audience: 'Developers, Tech Leaders, and Architects',
@@ -672,6 +463,42 @@ Open the Canvas workspace and generate the complete production-ready code.`;
                 }
             }
         }
+
+        // theme toggle
+        (function(){
+            const meta=document.querySelector('meta[name="color-scheme"]');
+            const btn=document.getElementById('themeToggle');
+            const root=document.documentElement;
+            function sysDark(){return matchMedia('(prefers-color-scheme: dark)').matches;}
+            function curDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return sysDark();}
+            btn.addEventListener('click',function(){const n=curDark()?'light':'dark';localStorage.setItem('color-scheme',n);meta.content=n;root.dataset.theme=n;});
+        })();
+        // reading progress
+        (function(){
+            const bar=document.getElementById('progress');
+            addEventListener('scroll',function(){const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';},{passive:true});
+        })();
+        // comments (utterances)
+        (function(){
+            function isDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return matchMedia('(prefers-color-scheme: dark)').matches;}
+            function initComments(){
+                if(document.querySelector('.utterances-frame'))return;
+                const s=document.createElement('script');
+                s.src='https://utteranc.es/client.js';
+                s.setAttribute('repo','theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term','pathname');
+                s.setAttribute('label','comment');
+                s.setAttribute('theme', isDark()?'github-dark':'github-light');
+                s.setAttribute('crossorigin','anonymous');
+                s.async=true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments,300);
+            document.getElementById('themeToggle').addEventListener('click',function(){
+                const f=document.querySelector('.utterances-frame');
+                if(f)f.contentWindow.postMessage({type:'set-theme',theme:isDark()?'github-dark':'github-light'},'https://utteranc.es');
+            });
+        })();
     </script>
 </body>
 

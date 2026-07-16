@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+<html lang="en">
 
 <head>
     <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
-<!-- End Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
     <link rel="llms" href="/llms.txt">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
     <title>Design Principles & Free Tools for Laravel 13 Development</title>
     <meta name="description"
         content="Discover essential design principles, free tools for UI/UX, and how they seamlessly integrate with building modern Laravel 13 web and mobile applications.">
@@ -35,60 +36,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <meta name="msapplication-TileColor" content="#6366f1">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
-                    colors: { brand: { DEFAULT: '#6366f1', dark: '#4f46e5' } }
-                }
-            }
-        }
-    </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <style>
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background-image: radial-gradient(circle, rgba(99, 102, 241, .12) 1px, transparent 1px);
-            background-size: 24px 24px;
-            pointer-events: none;
-        }
-
-        pre code {
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        .code-block {
-            background: #1e1e2e;
-            color: #cdd6f4;
-            border-radius: 8px;
-            padding: 16px;
-            overflow-x: auto;
-            font-size: 13px;
-            line-height: 1.6;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .tool-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .tool-card:hover {
-            transform: translateY(-4px);
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- BlogPosting Structured Data for AI Search -->
     <script type="application/ld+json">
@@ -137,181 +90,231 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         "url": "https://sagarpansuriya.in/blog/design-tools-laravel-13/"
 }
     </script>
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6; --paper-d: #0e0e0f;
+            --panel-l: #f1efe9; --panel-d: #17171a;
+            --code-l: #f4f2ec; --code-d: #131316;
+            --ink-l: #1a1a1a; --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b; --muted-d: #8f8d88;
+            --line-l: #e2ded4; --line-d: #262629;
+            --accent-l: #5b5bd6; --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+        :root[data-theme="light"] { color-scheme: light; }
+        :root[data-theme="dark"] { color-scheme: dark; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scrollbar-gutter: stable; }
+        body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+        a { color: inherit; }
+        .wrap { max-width: 46rem; margin-inline: auto; padding: clamp(1.25rem, 4vw, 2rem); }
+
+        .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem 0; }
+        .brand { font-family: var(--mono); font-size: 0.8rem; text-decoration: none; color: var(--ink); }
+        .brand b { color: var(--accent); }
+        .top-nav { display: flex; gap: clamp(0.9rem, 3vw, 1.6rem); align-items: center; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; }
+        .top-nav a { text-decoration: none; color: var(--muted); padding-block: 0.35rem; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
+        .top-nav a:hover, .top-nav a[aria-current] { color: var(--ink); border-color: var(--accent); }
+        .theme-toggle { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.7rem; cursor: pointer; transition: color .2s, border-color .2s; }
+        .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
+
+        .post-cat { display:inline-block; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); text-decoration:none; margin-top: 2.5rem; }
+        .post-title { font-family: var(--serif); font-weight: 600; font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem); line-height: 1.08; letter-spacing: -0.02em; margin: 0.75rem 0 1.25rem; }
+        .post-meta { display:flex; flex-wrap:wrap; align-items:center; gap: 0.75rem 1rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
+        .post-meta img { width: 2.25rem; height: 2.25rem; border-radius: 50%; object-fit: cover; }
+        .post-meta a { color: var(--ink); text-decoration: none; }
+        .post-meta a:hover { color: var(--accent); }
+        .post-meta .sep { color: var(--line); }
+        .post-cover { margin: 2rem 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+        .post-cover img { display:block; width: 100%; height: auto; }
+
+        .prose { font-family: var(--serif); font-size: 1.2rem; line-height: 1.75; color: var(--ink); }
+        .prose > *:first-child { margin-top: 0; }
+        .prose p { margin: 0 0 1.4rem; }
+        .prose h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem); line-height: 1.2; letter-spacing: -0.01em; margin: 2.6rem 0 1rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+        .prose h3 { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; margin: 2rem 0 0.75rem; }
+        .prose h4 { font-family: var(--sans); font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 1.8rem 0 0.6rem; }
+        .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); }
+        .prose a:hover { border-bottom-color: var(--accent); }
+        .prose ul, .prose ol { margin: 0 0 1.4rem; padding-left: 1.4rem; }
+        .prose li { margin-bottom: 0.5rem; }
+        .prose li::marker { color: var(--accent); }
+        .prose strong { font-weight: 700; color: var(--ink); }
+        .prose em { font-style: italic; }
+        .prose blockquote { margin: 1.6rem 0; padding: 0.4rem 0 0.4rem 1.25rem; border-left: 2px solid var(--accent); color: var(--muted); font-style: italic; }
+        .prose img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; margin: 1.6rem 0; }
+        .prose hr { border: none; border-top: 1px solid var(--line); margin: 2.5rem 0; }
+
+        .prose :not(pre) > code { font-family: var(--mono); font-size: 0.86em; background: var(--code-bg); border: 1px solid var(--line); border-radius: 5px; padding: 0.1em 0.4em; color: var(--ink); }
+        .prose pre, pre.code-block { font-family: var(--mono); font-size: 0.82rem; line-height: 1.6; background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; overflow-x: auto; margin: 1.6rem 0; color: var(--ink); }
+        .prose pre code, pre.code-block code { font-family: var(--mono); background: none; border: none; padding: 0; font-size: inherit; color: inherit; white-space: pre; }
+
+        .prose table, .comparison-table { width: 100%; border-collapse: collapse; margin: 1.6rem 0; font-family: var(--sans); font-size: 0.95rem; display: block; overflow-x: auto; }
+        .prose th, .prose td { text-align: left; padding: 0.65rem 0.85rem; border: 1px solid var(--line); vertical-align: top; }
+        .prose th { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--panel); }
+
+        .comments { margin-top: 3rem; }
+        .comments h2 { font-family: var(--serif); font-weight: 600; font-size: 1.6rem; border-top: 1px solid var(--line); padding-top: 1.4rem; margin: 0 0 1rem; }
+
+        .visitor { text-align: center; margin: 2.5rem 0 0; }
+        .visitor a { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 0.35rem 0.8rem; }
+        .visitor a:hover { color: var(--accent); border-color: var(--accent); }
+        .visitor img { height: 0.7rem; width: auto; }
+
+        .post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display:flex; flex-wrap:wrap; gap: 1rem; justify-content: space-between; align-items:center; }
+        .post-footer a.back { font-family: var(--mono); font-size: 0.75rem; text-decoration:none; color: var(--accent); }
+        .share { display:flex; gap: 0.5rem; }
+        .share a { font-family: var(--mono); font-size: 0.72rem; text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.7rem; }
+        .share a:hover { color: var(--accent); border-color: var(--accent); }
+
+        #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--accent); z-index: 100; transition: width .1s linear; }
+
+        footer.site { border-top: 1px solid var(--line); margin-top: 3rem; padding-block: 2rem; display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
+        footer.site a { color: var(--muted); text-decoration:none; }
+        footer.site a:hover { color: var(--accent); }
+        .footer-links { display:flex; flex-wrap:wrap; gap:1rem; }
+
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } #progress { transition: none; } }
+    
+        .counter { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .counter img { height: 0.7rem; width: auto; opacity: 0.7; }
+        :root[data-theme="light"] .counter img { filter: invert(1); }
+        .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
+        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
+
+    </style>
 </head>
 
-<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
-    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f4f4f5] text-zinc-700'">
-    <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
-        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-        <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors bg-[#09090b]/80 border-zinc-800/50"
-        :class="dark ? 'bg-[#09090b]/80 border-zinc-800/50' : 'bg-white/80 border-zinc-200/50'">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-            <a href="/blog/" class="flex items-center gap-2 text-sm font-bold hover:text-brand transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                Dev Guides
-            </a>
-            <span class="text-zinc-400 dark:text-zinc-700">/</span>
-            <a href="/blog/?category=Design Strategy" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all"> Design Strategy </a>
-        </div>
-            <div class="flex items-center gap-4">
-                <button @click="toggleTheme()" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
-                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
-                </button>
-                <button @click="exploreWithAI('chatgpt')" title="Explore with AI" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </header>
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
 
-    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
-        <article class="max-w-3xl mx-auto">
-                <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors bg-[#09090b]/80 border-zinc-800/50"
-        :class="dark ? 'bg-[#09090b]/80 border-zinc-800/50' : 'bg-white/80 border-zinc-200/50'">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-            <a href="/blog/" class="flex items-center gap-2 text-sm font-bold hover:text-brand transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                Dev Guides
-            </a>
-            <span class="text-zinc-400 dark:text-zinc-700">/</span>
-            <a href="/blog/?category=Design Strategy" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all"> Design Strategy </a>
-        </div>
-            <div class="flex items-center gap-4">
-                <button @click="toggleTheme()" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
-                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
-                </button>
-                <button @click="exploreWithAI('chatgpt')" title="Explore with AI" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </header>
-            <div class="space-y-12 text-base leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                
-                <section>
-                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">1. Core UI/UX Design Principles</h2>
-                    <p class="mb-4">
-                        Before touching a single tool, understanding fundamental design principles is essential. These aren't abstract art-school theories — they directly influence how users perceive your Laravel application's quality.
-                    </p>
-                    <ul class="space-y-4 mb-6 list-disc pl-5">
-                        <li>
-                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Consistency:</strong> Elements like buttons, typography, and spacing should remain uniform across the platform. This reduces cognitive load for the user. In Laravel, this maps directly to <strong>reusable Blade components</strong> — design once, use everywhere.
-                        </li>
-                        <li>
-                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Visual Hierarchy:</strong> Use size, color, and contrast to guide the user's eye to the most critical information first (e.g., primary calls to action vs. secondary links). Laravel's layout system and component slots make implementing this hierarchy in code trivial.
-                        </li>
-                        <li>
-                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Accessibility (a11y):</strong> Ensure your application is usable by everyone. This means proper ARIA labels, semantic HTML, and adhering to WCAG contrast ratios. Laravel 13's new starter kits ship with accessibility best practices baked in.
-                        </li>
-                        <li>
-                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Mobile-First Approach:</strong> Start designing for the smallest screen and progressively enhance the layout. With Laravel 13 embracing Tailwind CSS 4, responsive design is a first-class citizen from day one.
-                        </li>
-                        <li>
-                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Feedback & Micro-interactions:</strong> Users need instant visual feedback. Button hover states, loading spinners, toast notifications — these micro-interactions are what make an app feel polished. Livewire and Alpine.js handle these effortlessly in the Laravel stack.
-                        </li>
-                    </ul>
-                </section>
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=Design Strategy">§ Design Strategy</a>
+                <h1 class="post-title">Design Principles & Free Tools for Laravel 13 Development</h1>
+                <div class="post-meta">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-03-18">March 18, 2026</time>
+                    <span class="sep">·</span>
+                    <span>8 min read</span>
+                </div>
 
-                <section>
-                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">2. Free Tools to Manage Web & Mobile Design</h2>
-                    <p class="mb-6">
-                        You don't need expensive licenses to create premium designs. The open-source and free-tier ecosystems are incredibly robust right now. Here are five essential tools every Laravel developer should know:
-                    </p>
+                <div class="post-cover"><img src="cover.png" alt="Design Principles & Free Tools for Laravel 13 Development Cover"></div>
 
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="tool-card p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
-                            <h3 class="text-lg font-bold mb-2 flex flex-col md:flex-row md:items-center gap-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">
-                                <span class="w-8 h-8 shrink-0 rounded bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-bold">1</span>
-                                Penpot / Figma
-                            </h3>
-                            <p class="text-sm">While <strong>Figma</strong> is the industry standard with a generous free tier, <strong>Penpot</strong> is an excellent open-source alternative. Both allow for vector-based UI design, interactive prototyping, and seamless handoff to developers. Export your design tokens (colors, spacing, typography) and feed them directly into your Laravel project's Tailwind config.</p>
-                        </div>
+                <div class="prose">
+                    <section>
+                        <h2>1. Core UI/UX Design Principles</h2>
+                        <p>
+                            Before touching a single tool, understanding fundamental design principles is essential. These aren't abstract art-school theories — they directly influence how users perceive your Laravel application's quality.
+                        </p>
+                        <ul>
+                            <li>
+                                <strong>Consistency:</strong> Elements like buttons, typography, and spacing should remain uniform across the platform. This reduces cognitive load for the user. In Laravel, this maps directly to <strong>reusable Blade components</strong> — design once, use everywhere.
+                            </li>
+                            <li>
+                                <strong>Visual Hierarchy:</strong> Use size, color, and contrast to guide the user's eye to the most critical information first (e.g., primary calls to action vs. secondary links). Laravel's layout system and component slots make implementing this hierarchy in code trivial.
+                            </li>
+                            <li>
+                                <strong>Accessibility (a11y):</strong> Ensure your application is usable by everyone. This means proper ARIA labels, semantic HTML, and adhering to WCAG contrast ratios. Laravel 13's new starter kits ship with accessibility best practices baked in.
+                            </li>
+                            <li>
+                                <strong>Mobile-First Approach:</strong> Start designing for the smallest screen and progressively enhance the layout. With Laravel 13 embracing Tailwind CSS 4, responsive design is a first-class citizen from day one.
+                            </li>
+                            <li>
+                                <strong>Feedback & Micro-interactions:</strong> Users need instant visual feedback. Button hover states, loading spinners, toast notifications — these micro-interactions are what make an app feel polished. Livewire and Alpine.js handle these effortlessly in the Laravel stack.
+                            </li>
+                        </ul>
+                    </section>
 
-                        <div class="tool-card p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
-                            <h3 class="text-lg font-bold mb-2 flex flex-col md:flex-row md:items-center gap-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">
-                                <span class="w-8 h-8 shrink-0 rounded bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-bold">2</span>
-                                Coolors.co
-                            </h3>
-                            <p class="text-sm">A highly intuitive, free color palette generator. It helps you quickly discover visually pleasing color schemes, export them as CSS variables or Tailwind config values, and verify their contrast ratios for WCAG accessibility compliance — critical for enterprise Laravel apps.</p>
-                        </div>
+                    <section>
+                        <h2>2. Free Tools to Manage Web & Mobile Design</h2>
+                        <p>
+                            You don't need expensive licenses to create premium designs. The open-source and free-tier ecosystems are incredibly robust right now. Here are five essential tools every Laravel developer should know:
+                        </p>
 
-                        <div class="tool-card p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
-                            <h3 class="text-lg font-bold mb-2 flex flex-col md:flex-row md:items-center gap-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">
-                                <span class="w-8 h-8 shrink-0 rounded bg-pink-500/10 text-pink-500 flex items-center justify-center font-bold">3</span>
-                                Phosphor Icons / Heroicons
-                            </h3>
-                            <p class="text-sm">Open-source icon families for modern interfaces. <strong>Heroicons</strong> (by the Tailwind team) integrates perfectly with Laravel's Blade ecosystem via <code class="px-1.5 py-0.5 rounded text-sm font-mono border" :class="dark ? 'border-zinc-700 bg-zinc-800' : 'border-gray-200 bg-gray-100'">blade-heroicons</code> package. Phosphor provides thousands of consistent SVG icons in multiple weights.</p>
-                        </div>
+                        <h3>1. Penpot / Figma</h3>
+                        <p>While <strong>Figma</strong> is the industry standard with a generous free tier, <strong>Penpot</strong> is an excellent open-source alternative. Both allow for vector-based UI design, interactive prototyping, and seamless handoff to developers. Export your design tokens (colors, spacing, typography) and feed them directly into your Laravel project's Tailwind config.</p>
 
-                        <div class="tool-card p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
-                            <h3 class="text-lg font-bold mb-2 flex flex-col md:flex-row md:items-center gap-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">
-                                <span class="w-8 h-8 shrink-0 rounded bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold">4</span>
-                                Google Fonts & Fontsource
-                            </h3>
-                            <p class="text-sm">Typography sets the tone. <strong>Fontsource</strong> lets you install Google Fonts via npm for self-hosting, ensuring optimal loading performance. Laravel 13's Vite 6 integration handles font bundling seamlessly with zero extra configuration.</p>
-                        </div>
+                        <h3>2. Coolors.co</h3>
+                        <p>A highly intuitive, free color palette generator. It helps you quickly discover visually pleasing color schemes, export them as CSS variables or Tailwind config values, and verify their contrast ratios for WCAG accessibility compliance — critical for enterprise Laravel apps.</p>
 
-                        <div class="tool-card p-6 rounded-2xl border md:col-span-2" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
-                            <h3 class="text-lg font-bold mb-2 flex flex-col md:flex-row md:items-center gap-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">
-                                <span class="w-8 h-8 shrink-0 rounded bg-cyan-500/10 text-cyan-500 flex items-center justify-center font-bold">5</span>
-                                Storybook / Histoire
-                            </h3>
-                            <p class="text-sm">Component documentation tools that let you develop and test UI components in isolation. <strong>Histoire</strong> is particularly great for Vue-based Laravel projects. Build your component library visually, share it with designers for sign-off, and then deploy the exact same components in your Laravel views. This bridges the gap between "what was designed" and "what was built."</p>
-                        </div>
-                    </div>
-                </section>
+                        <h3>3. Phosphor Icons / Heroicons</h3>
+                        <p>Open-source icon families for modern interfaces. <strong>Heroicons</strong> (by the Tailwind team) integrates perfectly with Laravel's Blade ecosystem via <code>blade-heroicons</code> package. Phosphor provides thousands of consistent SVG icons in multiple weights.</p>
 
-                <section>
-                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">3. What's New in Laravel 13 for Design-Driven Development</h2>
-                    <p class="mb-6">
-                        Laravel 13 introduces several features that make the connection between design and development tighter than ever. Here's a breakdown of the key features and how they impact your design workflow:
-                    </p>
+                        <h3>4. Google Fonts & Fontsource</h3>
+                        <p>Typography sets the tone. <strong>Fontsource</strong> lets you install Google Fonts via npm for self-hosting, ensuring optimal loading performance. Laravel 13's Vite 6 integration handles font bundling seamlessly with zero extra configuration.</p>
 
-                    <div class="space-y-8">
-                        <!-- Feature: New Starter Kits -->
-                        <div class="p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
-                            <h3 class="text-xl font-bold mb-3" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">🚀 Redesigned Starter Kits</h3>
-                            <p class="mb-4">
-                                Laravel 13 ships with completely overhauled starter kits. The new <strong>React, Vue, and Livewire starter kits</strong> provide a beautifully designed authentication scaffold out of the box — login, registration, password reset, email verification, and profile management pages that actually look production-ready from day one.
-                            </p>
-                            <p class="mb-4">
-                                Unlike previous versions where Breeze/Jetstream gave you functional but bland starter pages, Laravel 13's starters are built with <strong>Tailwind CSS v4</strong> and include polished dark mode support, responsive layouts, and smooth transitions. You get a design system, not just a boilerplate.
-                            </p>
-                            <div class="code-block border" :class="dark ? 'border-[#27272a]' : 'border-gray-200'">
-                                <pre><code># Scaffold a new Laravel 13 project with the Livewire starter
+                        <h3>5. Storybook / Histoire</h3>
+                        <p>Component documentation tools that let you develop and test UI components in isolation. <strong>Histoire</strong> is particularly great for Vue-based Laravel projects. Build your component library visually, share it with designers for sign-off, and then deploy the exact same components in your Laravel views. This bridges the gap between "what was designed" and "what was built."</p>
+                    </section>
+
+                    <section>
+                        <h2>3. What's New in Laravel 13 for Design-Driven Development</h2>
+                        <p>
+                            Laravel 13 introduces several features that make the connection between design and development tighter than ever. Here's a breakdown of the key features and how they impact your design workflow:
+                        </p>
+
+                        <h3>🚀 Redesigned Starter Kits</h3>
+                        <p>
+                            Laravel 13 ships with completely overhauled starter kits. The new <strong>React, Vue, and Livewire starter kits</strong> provide a beautifully designed authentication scaffold out of the box — login, registration, password reset, email verification, and profile management pages that actually look production-ready from day one.
+                        </p>
+                        <p>
+                            Unlike previous versions where Breeze/Jetstream gave you functional but bland starter pages, Laravel 13's starters are built with <strong>Tailwind CSS v4</strong> and include polished dark mode support, responsive layouts, and smooth transitions. You get a design system, not just a boilerplate.
+                        </p>
+                        <pre class="code-block"><code># Scaffold a new Laravel 13 project with the Livewire starter
 laravel new my-app --using=livewire
 
 # Or with React + Inertia
 laravel new my-app --using=react</code></pre>
-                            </div>
-                        </div>
 
-                        <!-- Feature: Tailwind CSS 4 -->
-                        <div class="p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
-                            <h3 class="text-xl font-bold mb-3" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">🎨 Tailwind CSS v4 Integration</h3>
-                            <p class="mb-4">
-                                Laravel 13 ships with <strong>Tailwind CSS v4</strong> as the default styling framework. This is a massive upgrade for design-to-code workflows. Key changes include:
-                            </p>
-                            <ul class="list-disc pl-5 space-y-2 mb-4">
-                                <li><strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">CSS-first configuration:</strong> No more <code class="px-1.5 py-0.5 rounded text-sm font-mono border" :class="dark ? 'border-zinc-700 bg-zinc-800' : 'border-gray-200 bg-gray-100'">tailwind.config.js</code>. Design tokens are defined directly in CSS using <code class="px-1.5 py-0.5 rounded text-sm font-mono border" :class="dark ? 'border-zinc-700 bg-zinc-800' : 'border-gray-200 bg-gray-100'">@theme</code> directive.</li>
-                                <li><strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Lightning-fast builds:</strong> The new Oxide engine written in Rust compiles CSS 10x faster.</li>
-                                <li><strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Container queries:</strong> Native support for component-level responsive design — design components that adapt to their container, not just the viewport.</li>
-                            </ul>
-                            <div class="code-block border" :class="dark ? 'border-[#27272a]' : 'border-gray-200'">
-                                <pre><code>/* app.css — Tailwind v4 CSS-first config */
+                        <h3>🎨 Tailwind CSS v4 Integration</h3>
+                        <p>
+                            Laravel 13 ships with <strong>Tailwind CSS v4</strong> as the default styling framework. This is a massive upgrade for design-to-code workflows. Key changes include:
+                        </p>
+                        <ul>
+                            <li><strong>CSS-first configuration:</strong> No more <code>tailwind.config.js</code>. Design tokens are defined directly in CSS using <code>@theme</code> directive.</li>
+                            <li><strong>Lightning-fast builds:</strong> The new Oxide engine written in Rust compiles CSS 10x faster.</li>
+                            <li><strong>Container queries:</strong> Native support for component-level responsive design — design components that adapt to their container, not just the viewport.</li>
+                        </ul>
+                        <pre class="code-block"><code>/* app.css — Tailwind v4 CSS-first config */
 @import "tailwindcss";
 
 @theme {
@@ -320,20 +323,15 @@ laravel new my-app --using=react</code></pre>
     --font-sans: 'Inter', sans-serif;
     --breakpoint-xs: 475px;
 }</code></pre>
-                            </div>
-                        </div>
 
-                        <!-- Feature: Livewire Flux -->
-                        <div class="p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
-                            <h3 class="text-xl font-bold mb-3" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">⚡ Livewire Flux UI Components</h3>
-                            <p class="mb-4">
-                                The Laravel ecosystem now includes <strong>Flux</strong>, a beautifully designed UI component library built specifically for Livewire. It provides pre-built, design-ready components like modals, dropdowns, tables, forms, and navigation — all following modern design patterns.
-                            </p>
-                            <p class="mb-4">
-                                This is where design principles meet code directly. Instead of writing custom CSS for every dropdown or modal, you use Flux components that are already designed with proper accessibility, keyboard navigation, focus traps, and smooth animations.
-                            </p>
-                            <div class="code-block border" :class="dark ? 'border-[#27272a]' : 'border-gray-200'">
-                                <pre><code>&lt;!-- A polished, accessible modal with zero custom CSS --&gt;
+                        <h3>⚡ Livewire Flux UI Components</h3>
+                        <p>
+                            The Laravel ecosystem now includes <strong>Flux</strong>, a beautifully designed UI component library built specifically for Livewire. It provides pre-built, design-ready components like modals, dropdowns, tables, forms, and navigation — all following modern design patterns.
+                        </p>
+                        <p>
+                            This is where design principles meet code directly. Instead of writing custom CSS for every dropdown or modal, you use Flux components that are already designed with proper accessibility, keyboard navigation, focus traps, and smooth animations.
+                        </p>
+                        <pre class="code-block"><code>&lt;!-- A polished, accessible modal with zero custom CSS --&gt;
 &lt;flux:modal name="confirm-delete" class="max-w-sm"&gt;
     &lt;div class="space-y-6"&gt;
         &lt;flux:heading size="lg"&gt;Delete project?&lt;/flux:heading&gt;
@@ -346,20 +344,15 @@ laravel new my-app --using=react</code></pre>
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/flux:modal&gt;</code></pre>
-                            </div>
-                        </div>
 
-                        <!-- Feature: Volt -->
-                        <div class="p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
-                            <h3 class="text-xl font-bold mb-3" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">📦 Single-File Components with Volt</h3>
-                            <p class="mb-4">
-                                <strong>Volt</strong> introduces single-file Livewire components — your PHP logic and Blade template live in the same file. This is a game-changer for design-driven development because designers and developers can see the complete picture in one place.
-                            </p>
-                            <p class="mb-4">
-                                When iterating on a component's design, there's no switching between a PHP class file and a Blade template. The component is self-contained, making it easy to prototype, review, and refine rapidly.
-                            </p>
-                            <div class="code-block border" :class="dark ? 'border-[#27272a]' : 'border-gray-200'">
-                                <pre><code>&lt;?php
+                        <h3>📦 Single-File Components with Volt</h3>
+                        <p>
+                            <strong>Volt</strong> introduces single-file Livewire components — your PHP logic and Blade template live in the same file. This is a game-changer for design-driven development because designers and developers can see the complete picture in one place.
+                        </p>
+                        <p>
+                            When iterating on a component's design, there's no switching between a PHP class file and a Blade template. The component is self-contained, making it easy to prototype, review, and refine rapidly.
+                        </p>
+                        <pre class="code-block"><code>&lt;?php
 use function Livewire\Volt\{state, computed};
 
 state(['search' => '']);
@@ -381,45 +374,34 @@ $filteredUsers = computed(function () {
         @endforeach
     &lt;/div&gt;
 &lt;/div&gt;</code></pre>
-                            </div>
-                        </div>
 
-                        <!-- Feature: Vite 6 -->
-                        <div class="p-6 rounded-2xl border" :class="dark ? 'bg-[#111113]/50 border-[#1e1e24]' : 'bg-gray-50 border-gray-200'">
-                            <h3 class="text-xl font-bold mb-3" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">🔧 Vite 6 & Asset Pipeline</h3>
-                            <p class="mb-4">
-                                Laravel 13 upgrades to <strong>Vite 6</strong> with the Environment API for faster dev server startup and hot module replacement (HMR). For design workflows this means:
-                            </p>
-                            <ul class="list-disc pl-5 space-y-2">
-                                <li><strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Instant CSS updates:</strong> Change a color variable in your CSS and see it reflected in the browser in milliseconds — no page reload.</li>
-                                <li><strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Optimized font loading:</strong> Self-hosted fonts via Fontsource are automatically tree-shaken and bundled.</li>
-                                <li><strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Image optimization:</strong> Vite plugins for automatic WebP/AVIF conversion keep your design assets lightweight without manual compression.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+                        <h3>🔧 Vite 6 & Asset Pipeline</h3>
+                        <p>
+                            Laravel 13 upgrades to <strong>Vite 6</strong> with the Environment API for faster dev server startup and hot module replacement (HMR). For design workflows this means:
+                        </p>
+                        <ul>
+                            <li><strong>Instant CSS updates:</strong> Change a color variable in your CSS and see it reflected in the browser in milliseconds — no page reload.</li>
+                            <li><strong>Optimized font loading:</strong> Self-hosted fonts via Fontsource are automatically tree-shaken and bundled.</li>
+                            <li><strong>Image optimization:</strong> Vite plugins for automatic WebP/AVIF conversion keep your design assets lightweight without manual compression.</li>
+                        </ul>
+                    </section>
 
-                <section>
-                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">4. The Design → Development Pipeline</h2>
-                    <p class="mb-6">
-                        Here's how a modern design-to-development workflow looks with Laravel 13:
-                    </p>
+                    <section>
+                        <h2>4. The Design → Development Pipeline</h2>
+                        <p>
+                            Here's how a modern design-to-development workflow looks with Laravel 13:
+                        </p>
 
-                    <div class="space-y-8">
-                        <div>
-                            <h3 class="text-xl font-bold mb-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Step 1: Design Tokens → Tailwind Config</h3>
-                            <p class="mb-4">
-                                Extract your design tokens from Figma (colors, spacing, border-radius, shadows, typography) and map them directly into your Tailwind v4 <code class="px-1.5 py-0.5 rounded text-sm font-mono border" :class="dark ? 'border-zinc-700 bg-zinc-800' : 'border-gray-200 bg-gray-100'">@theme</code> block. This is your single source of truth. When a designer updates the primary color in Figma, you update one CSS variable and the entire Laravel app reflects it.
-                            </p>
-                        </div>
+                        <h3>Step 1: Design Tokens → Tailwind Config</h3>
+                        <p>
+                            Extract your design tokens from Figma (colors, spacing, border-radius, shadows, typography) and map them directly into your Tailwind v4 <code>@theme</code> block. This is your single source of truth. When a designer updates the primary color in Figma, you update one CSS variable and the entire Laravel app reflects it.
+                        </p>
 
-                        <div>
-                            <h3 class="text-xl font-bold mb-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Step 2: Wireframes → Blade Components</h3>
-                            <p class="mb-4">
-                                Every UI element in your wireframe should map to a reusable Blade component. Laravel 13's anonymous components with attribute forwarding make this incredibly clean:
-                            </p>
-                            <div class="code-block border" :class="dark ? 'border-[#27272a]' : 'border-gray-200'">
-                                <pre><code>&lt;!-- resources/views/components/card.blade.php --&gt;
+                        <h3>Step 2: Wireframes → Blade Components</h3>
+                        <p>
+                            Every UI element in your wireframe should map to a reusable Blade component. Laravel 13's anonymous components with attribute forwarding make this incredibly clean:
+                        </p>
+                        <pre class="code-block"><code>&lt;!-- resources/views/components/card.blade.php --&gt;
 @props(['variant' => 'default', 'padding' => 'md'])
 
 &lt;div {{ $attributes->class([
@@ -438,16 +420,12 @@ $filteredUsers = computed(function () {
     &lt;h3 class="text-xl font-bold"&gt;Premium Feature&lt;/h3&gt;
     &lt;p&gt;This card matches your Figma design exactly.&lt;/p&gt;
 &lt;/x-card&gt;</code></pre>
-                            </div>
-                        </div>
 
-                        <div>
-                            <h3 class="text-xl font-bold mb-2" :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Step 3: API-First for Mobile Consistency</h3>
-                            <p class="mb-4">
-                                If you're building a mobile app alongside your web app (Flutter, React Native, or NativePHP), Laravel 13 acts as the centralized backend. Use <strong>Laravel Sanctum</strong> for authentication and <strong>API Resources</strong> to ensure response schemas match your mobile UI components. The design language (colors, icons, spacing) stays consistent because both web and mobile clients consume the same data structure while following your shared Figma design system.
-                            </p>
-                            <div class="code-block border" :class="dark ? 'border-[#27272a]' : 'border-gray-200'">
-                                <pre><code>// app/Http/Resources/ProjectResource.php
+                        <h3>Step 3: API-First for Mobile Consistency</h3>
+                        <p>
+                            If you're building a mobile app alongside your web app (Flutter, React Native, or NativePHP), Laravel 13 acts as the centralized backend. Use <strong>Laravel Sanctum</strong> for authentication and <strong>API Resources</strong> to ensure response schemas match your mobile UI components. The design language (colors, icons, spacing) stays consistent because both web and mobile clients consume the same data structure while following your shared Figma design system.
+                        </p>
+                        <pre class="code-block"><code>// app/Http/Resources/ProjectResource.php
 class ProjectResource extends JsonResource
 {
     public function toArray(Request $request): array
@@ -463,129 +441,122 @@ class ProjectResource extends JsonResource
         ];
     }
 }</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                    </section>
 
-                <section>
-                    <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">5. Bridging the Culture Gap</h2>
-                    <p class="mb-4">
-                        The real challenge isn't tools or frameworks — it's communication between designers and developers. Here are practical ways to bridge the gap in your Laravel team:
-                    </p>
-                    <ul class="space-y-4 mb-6 list-disc pl-5">
-                        <li>
-                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Shared vocabulary:</strong> When your designer says "8px spacing," your developer should know that's <code class="px-1.5 py-0.5 rounded text-sm font-mono border" :class="dark ? 'border-zinc-700 bg-zinc-800' : 'border-gray-200 bg-gray-100'">space-2</code> in Tailwind. Document this translation in your project wiki.
-                        </li>
-                        <li>
-                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Design reviews in code:</strong> Deploy preview environments (Laravel Forge, Vercel, Coolify) for every pull request. Designers review running code, not static screenshots.
-                        </li>
-                        <li>
-                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Component inventory:</strong> Maintain a living component library. Use Laravel's Blade component system as the source of truth — if a component doesn't exist in your <code class="px-1.5 py-0.5 rounded text-sm font-mono border" :class="dark ? 'border-zinc-700 bg-zinc-800' : 'border-gray-200 bg-gray-100'">resources/views/components/</code> directory, it shouldn't exist in the Figma file either.
-                        </li>
-                        <li>
-                            <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Pixel-perfect isn't the goal:</strong> The goal is design <em>intent</em>. A button that's 2px different in padding is fine; a button that doesn't communicate urgency through color and hierarchy is a failure.
-                        </li>
-                    </ul>
-                </section>
+                    <section>
+                        <h2>5. Bridging the Culture Gap</h2>
+                        <p>
+                            The real challenge isn't tools or frameworks — it's communication between designers and developers. Here are practical ways to bridge the gap in your Laravel team:
+                        </p>
+                        <ul>
+                            <li>
+                                <strong>Shared vocabulary:</strong> When your designer says "8px spacing," your developer should know that's <code>space-2</code> in Tailwind. Document this translation in your project wiki.
+                            </li>
+                            <li>
+                                <strong>Design reviews in code:</strong> Deploy preview environments (Laravel Forge, Vercel, Coolify) for every pull request. Designers review running code, not static screenshots.
+                            </li>
+                            <li>
+                                <strong>Component inventory:</strong> Maintain a living component library. Use Laravel's Blade component system as the source of truth — if a component doesn't exist in your <code>resources/views/components/</code> directory, it shouldn't exist in the Figma file either.
+                            </li>
+                            <li>
+                                <strong>Pixel-perfect isn't the goal:</strong> The goal is design <em>intent</em>. A button that's 2px different in padding is fine; a button that doesn't communicate urgency through color and hierarchy is a failure.
+                            </li>
+                        </ul>
+                    </section>
 
-                <section class="mt-12 bg-zinc-900 text-zinc-100 p-8 rounded-2xl border border-zinc-800">
-                    <h2 class="text-2xl font-bold mb-4 text-white">Summary</h2>
-                    <p class="text-sm opacity-80 leading-relaxed text-zinc-300 mb-4">
-                        Laravel 13 is the most design-aware version of Laravel yet. With Tailwind CSS v4 as the default, Flux UI components for Livewire, single-file Volt components, redesigned starter kits, and Vite 6 for instant feedback loops — the framework is purpose-built for teams that care about both beautiful design <em>and</em> powerful backend logic.
-                    </p>
-                    <p class="text-sm opacity-80 leading-relaxed text-zinc-300">
-                        Pair these framework capabilities with free tools like Figma, Coolors, and Heroicons, and you have a complete design-to-deployment pipeline that costs nothing but delivers enterprise-grade quality. The gap between "what the designer envisioned" and "what the developer shipped" has never been smaller.
-                    </p>
-                </section>
+                    <section>
+                        <h2>Summary</h2>
+                        <p>
+                            Laravel 13 is the most design-aware version of Laravel yet. With Tailwind CSS v4 as the default, Flux UI components for Livewire, single-file Volt components, redesigned starter kits, and Vite 6 for instant feedback loops — the framework is purpose-built for teams that care about both beautiful design <em>and</em> powerful backend logic.
+                        </p>
+                        <p>
+                            Pair these framework capabilities with free tools like Figma, Coolors, and Heroicons, and you have a complete design-to-deployment pipeline that costs nothing but delivers enterprise-grade quality. The gap between "what the designer envisioned" and "what the developer shipped" has never been smaller.
+                        </p>
+                    </section>
 
-                <footer class="mt-16 pt-10 border-t border-gray-200" :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
-                    <p class="text-sm text-center italic" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">
+                    <blockquote>
                         "Great applications aren't just coded; they are designed. Laravel 13 makes bridging that gap seamless."
-                    </p>
-                </footer>
+                    </blockquote>
+                </div>
+
+                <div class="visitor">
+                    <a href="https://smallcounter.com" target="_blank" rel="noopener" title="Visitor Counter">
+                        <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="visitor count">
+                        visitors
+                    </a>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/design-tools-laravel-13/&text=Design Principles & Free Tools for Laravel 13 Development" target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/design-tools-laravel-13/" target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
             </div>
-        </article>
-
-        <!-- Visitor Counter (Sticky Left) -->
-        <a href="https://smallcounter.com" target="_blank" rel="noopener" title="Visitor Counter"
-            class="fixed top-1/2 left-5 transform -translate-x-1/2 -translate-y-1/2 -rotate-90 z-50 flex items-center gap-2 py-2 pl-3 pr-2.5 rounded-xl backdrop-blur-md shadow-lg group"
-            :class="dark
-                ? 'bg-[#111113]/80 border-[#1e1e24] text-zinc-500 hover:text-brand hover:border-brand/40 hover:shadow-[0_4px_24px_rgba(99,102,241,0.18)]'
-                : 'bg-white/80 border-gray-300 text-zinc-400 hover:text-brand-dark hover:border-brand/30 hover:shadow-[0_4px_20px_rgba(99,102,241,0.12)]'">
-            <svg class="w-3 h-3 shrink-0 text-brand group-hover:scale-110 transition-transform duration-300" fill="none"
-                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                <circle cx="12" cy="12" r="3" />
-            </svg>
-            <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="visitor count"
-                class="h-2.5 w-auto transition-all duration-300"
-                :class="dark ? 'opacity-70 group-hover:opacity-100' : 'opacity-60 group-hover:opacity-90 invert'">
-            <span class="font-mono text-[9px] font-medium tracking-widest uppercase whitespace-nowrap leading-none">
-                visitors
-            </span>
-        </a>
-
-        <!-- Comments Section -->
-        <div class="mt-20 pt-10 border-t border-gray-200 dark:border-[#1e1e24] max-w-3xl mx-auto">
-            <h3 class="text-2xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">Discussion</h3>
-            <div id="comments-container"></div>
-            <script>
-                // Initialize utterances and listen for theme changes
-                const initComments = () => {
-                    if (document.querySelector('.utterances-frame')) return;
-                    const theme = document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
-                    let script = document.createElement('script');
-                    script.src = 'https://utteranc.es/client.js';
-                    script.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
-                    script.setAttribute('issue-term', 'pathname');
-                    script.setAttribute('label', 'comment');
-                    script.setAttribute('theme', theme);
-                    script.setAttribute('crossorigin', 'anonymous');
-                    script.async = true;
-                    document.getElementById('comments-container').appendChild(script);
-                };
-                setTimeout(initComments, 300);
-                const observer = new MutationObserver((mutations) => {
-                    mutations.forEach((mutation) => {
-                        if (mutation.attributeName === 'class') {
-                            const isDark = document.documentElement.classList.contains('dark');
-                            const message = { type: 'set-theme', theme: isDark ? 'github-dark' : 'github-light' };
-                            const iframe = document.querySelector('.utterances-frame');
-                            if (iframe) iframe.contentWindow.postMessage(message, 'https://utteranc.es');
-                        }
-                    });
-                });
-                observer.observe(document.documentElement, { attributes: true });
-            </script>
-        </div>
-    </main>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter" title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤ Sponsor</a>
+            </div>
+        </footer>
+    </div>
 
     <script>
-        function blogApp() {
-            return {
-                dark: true,
-                init() {
-                    const saved = localStorage.getItem('theme');
-                    if (saved === 'light') this.dark = false;
-                    this.$watch('dark', val => {
-                        document.documentElement.classList.toggle('dark', val);
-                        localStorage.setItem('theme', val ? 'dark' : 'light');
-                    });
-                    document.documentElement.classList.toggle('dark', this.dark);
-                },
-                toggleTheme() { this.dark = !this.dark; },
-                exploreWithAI(platform) {
-                    const url = window.location.href;
-                    const prompt = encodeURIComponent(`Please summarize this technical blog post and highlight the key takeaways: ${url}`);
-                    let aiUrl = '';
-                    if (platform === 'chatgpt') aiUrl = `https://chatgpt.com/?q=${prompt}`;
-                    if (platform === 'claude') aiUrl = `https://claude.ai/new?q=${prompt}`;
-                    if (platform === 'perplexity') aiUrl = `https://www.perplexity.ai/search?q=${prompt}`;
-                    window.open(aiUrl, '_blank');
-                }
+        // theme toggle
+        (function(){
+            const meta=document.querySelector('meta[name="color-scheme"]');
+            const btn=document.getElementById('themeToggle');
+            const root=document.documentElement;
+            function sysDark(){return matchMedia('(prefers-color-scheme: dark)').matches;}
+            function curDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return sysDark();}
+            btn.addEventListener('click',function(){const n=curDark()?'light':'dark';localStorage.setItem('color-scheme',n);meta.content=n;root.dataset.theme=n;});
+        })();
+        // reading progress
+        (function(){
+            const bar=document.getElementById('progress');
+            addEventListener('scroll',function(){const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';},{passive:true});
+        })();
+        // comments (utterances)
+        (function(){
+            function isDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return matchMedia('(prefers-color-scheme: dark)').matches;}
+            function initComments(){
+                if(document.querySelector('.utterances-frame'))return;
+                const s=document.createElement('script');
+                s.src='https://utteranc.es/client.js';
+                s.setAttribute('repo','theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term','pathname');
+                s.setAttribute('label','comment');
+                s.setAttribute('theme', isDark()?'github-dark':'github-light');
+                s.setAttribute('crossorigin','anonymous');
+                s.async=true;
+                document.getElementById('comments-container').appendChild(s);
             }
-        }
+            setTimeout(initComments,300);
+            document.getElementById('themeToggle').addEventListener('click',function(){
+                const f=document.querySelector('.utterances-frame');
+                if(f)f.contentWindow.postMessage({type:'set-theme',theme:isDark()?'github-dark':'github-light'},'https://utteranc.es');
+            });
+        })();
     </script>
 </body>
 
