@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+<html lang="en">
 
 <head>
     <!-- Google Tag Manager -->
@@ -9,10 +9,11 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
     <!-- End Google Tag Manager -->
-    
+
     <link rel="llms" href="/llms.txt">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
     <title>Deep Dive into Gemini 3.5 Flash: Architecture, Capabilities, and Developer Use Cases</title>
     <meta name="description"
         content="Explore Google's Gemini 3.5 Flash. A technical breakdown of its decoder-only transformer architecture, native multimodality, Mixture of Experts routing, and 1M context window.">
@@ -35,102 +36,132 @@
 
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <meta name="msapplication-TileColor" content="#6366f1">
-    
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: { 
-                        sans: ['Plus Jakarta Sans', 'sans-serif'], 
-                        mono: ['JetBrains Mono', 'monospace'] 
-                    },
-                    colors: { 
-                        brand: { 
-                            DEFAULT: '#6366f1', 
-                            dark: '#4f46e5',
-                            glow: 'rgba(99, 102, 241, 0.15)'
-                        } 
-                    }
-                }
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
             }
         }
     </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <style>
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background-image: radial-gradient(circle, rgba(99, 102, 241, .08) 1px, transparent 1px);
-            background-size: 24px 24px;
-            pointer-events: none;
-        }
-
-        .code-block {
-            background: #101014;
-            color: #ececec;
-            border-radius: 12px;
-            padding: 18px;
-            overflow-x: auto;
-            font-size: 13px;
-            line-height: 1.6;
-            font-family: 'JetBrains Mono', monospace;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .tab-btn {
-            transition: all .2s;
-        }
-
-        .tab-btn.active {
-            color: #6366f1;
-            border-color: #6366f1;
-            background: rgba(99, 102, 241, .08);
-        }
-
-        .feature-card {
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(255, 255, 255, 0.02);
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(99, 102, 241, 0.3);
-            background: rgba(99, 102, 241, 0.04);
-        }
-
-        kbd {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            padding: 0.15rem 0.4rem;
-            border-radius: 0.25rem;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .light kbd {
-            background-color: rgba(0, 0, 0, 0.05);
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
         :root {
-            --border-ui: rgba(0, 0, 0, 0.08);
+            color-scheme: light dark;
+            --paper-l: #faf9f6; --paper-d: #0e0e0f;
+            --panel-l: #f1efe9; --panel-d: #17171a;
+            --code-l: #f4f2ec; --code-d: #131316;
+            --ink-l: #1a1a1a; --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b; --muted-d: #8f8d88;
+            --line-l: #e2ded4; --line-d: #262629;
+            --accent-l: #5b5bd6; --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
         }
-        .dark {
-            --border-ui: rgba(255, 255, 255, 0.05);
-        }
+        :root[data-theme="light"] { color-scheme: light; }
+        :root[data-theme="dark"] { color-scheme: dark; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scrollbar-gutter: stable; }
+        body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+        a { color: inherit; }
+        .wrap { max-width: 46rem; margin-inline: auto; padding: clamp(1.25rem, 4vw, 2rem); }
+
+        .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem 0; }
+        .brand { font-family: var(--mono); font-size: 0.8rem; text-decoration: none; color: var(--ink); }
+        .brand b { color: var(--accent); }
+        .top-nav { display: flex; gap: clamp(0.9rem, 3vw, 1.6rem); align-items: center; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; }
+        .top-nav a { text-decoration: none; color: var(--muted); padding-block: 0.35rem; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
+        .top-nav a:hover, .top-nav a[aria-current] { color: var(--ink); border-color: var(--accent); }
+        .theme-toggle { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.7rem; cursor: pointer; transition: color .2s, border-color .2s; }
+        .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
+
+        .post-cat { display:inline-block; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); text-decoration:none; margin-top: 2.5rem; }
+        .post-title { font-family: var(--serif); font-weight: 600; font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem); line-height: 1.08; letter-spacing: -0.02em; margin: 0.75rem 0 1.25rem; }
+        .post-meta { display:flex; flex-wrap:wrap; align-items:center; gap: 0.75rem 1rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
+        .post-meta img { width: 2.25rem; height: 2.25rem; border-radius: 50%; object-fit: cover; }
+        .post-meta a { color: var(--ink); text-decoration: none; }
+        .post-meta a:hover { color: var(--accent); }
+        .post-meta .sep { color: var(--line); }
+        .post-cover { margin: 2rem 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+        .post-cover img { display:block; width: 100%; height: auto; }
+
+        .prose { font-family: var(--serif); font-size: 1.2rem; line-height: 1.75; color: var(--ink); }
+        .prose > *:first-child { margin-top: 0; }
+        .prose p { margin: 0 0 1.4rem; }
+        .prose h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem); line-height: 1.2; letter-spacing: -0.01em; margin: 2.6rem 0 1rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+        .prose h3 { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; margin: 2rem 0 0.75rem; }
+        .prose h4 { font-family: var(--sans); font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 1.8rem 0 0.6rem; }
+        .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); }
+        .prose a:hover { border-bottom-color: var(--accent); }
+        .prose ul, .prose ol { margin: 0 0 1.4rem; padding-left: 1.4rem; }
+        .prose li { margin-bottom: 0.5rem; }
+        .prose li::marker { color: var(--accent); }
+        .prose strong { font-weight: 700; color: var(--ink); }
+        .prose em { font-style: italic; }
+        .prose blockquote { margin: 1.6rem 0; padding: 0.4rem 0 0.4rem 1.25rem; border-left: 2px solid var(--accent); color: var(--muted); font-style: italic; }
+        .prose img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; margin: 1.6rem 0; }
+        .prose hr { border: none; border-top: 1px solid var(--line); margin: 2.5rem 0; }
+
+        .prose :not(pre) > code { font-family: var(--mono); font-size: 0.86em; background: var(--code-bg); border: 1px solid var(--line); border-radius: 5px; padding: 0.1em 0.4em; color: var(--ink); }
+        .prose pre, pre.code-block { font-family: var(--mono); font-size: 0.82rem; line-height: 1.6; background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; overflow-x: auto; margin: 1.6rem 0; color: var(--ink); }
+        .prose pre code, pre.code-block code { font-family: var(--mono); background: none; border: none; padding: 0; font-size: inherit; color: inherit; white-space: pre; }
+
+        .prose table { width: 100%; border-collapse: collapse; margin: 1.6rem 0; font-family: var(--sans); font-size: 0.95rem; display: block; overflow-x: auto; }
+        .prose th, .prose td { text-align: left; padding: 0.65rem 0.85rem; border: 1px solid var(--line); vertical-align: top; }
+        .prose th { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--panel); }
+
+        /* neutral panel for diagrams / SVGs with baked-in dark palettes */
+        .demo { border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem; background: var(--panel); margin: 1.6rem 0; }
+        .demo img { display: block; width: 100%; height: auto; border: none; border-radius: 6px; margin: 0; }
+        .demo .caption { font-family: var(--sans); font-size: 0.82rem; color: var(--muted); text-align: center; margin: 0.9rem 0 0; }
+
+        /* stat / callout cards restyled neutrally */
+        .stat-grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; margin: 1.6rem 0; font-family: var(--sans); }
+        @media (min-width: 34rem) { .stat-grid { grid-template-columns: repeat(3, 1fr); } }
+        .stat { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 1rem; text-align: center; }
+        .stat .v { display: block; font-family: var(--mono); font-size: 1.35rem; font-weight: 600; color: var(--accent); }
+        .stat .l { display: block; font-size: 0.78rem; color: var(--muted); margin-top: 0.3rem; }
+
+        .comments { margin-top: 3rem; }
+        .comments h2 { font-family: var(--serif); font-weight: 600; font-size: 1.6rem; border-top: 1px solid var(--line); padding-top: 1.4rem; margin: 0 0 1rem; }
+
+        .post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display:flex; flex-wrap:wrap; gap: 1rem; justify-content: space-between; align-items:center; }
+        .post-footer a.back { font-family: var(--mono); font-size: 0.75rem; text-decoration:none; color: var(--accent); }
+        .share { display:flex; gap: 0.5rem; }
+        .share a { font-family: var(--mono); font-size: 0.72rem; text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.7rem; }
+        .share a:hover { color: var(--accent); border-color: var(--accent); }
+
+        #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--accent); z-index: 100; transition: width .1s linear; }
+
+        footer.site { border-top: 1px solid var(--line); margin-top: 3rem; padding-block: 2rem; display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; align-items:center; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
+        footer.site a { color: var(--muted); text-decoration:none; }
+        footer.site a:hover { color: var(--accent); }
+        .footer-links { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; }
+        .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
+        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
+        .counter { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .counter img { height: 0.7rem; width: auto; opacity: 0.7; }
+        :root[data-theme="light"] .counter img { filter: invert(1); }
+
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } #progress { transition: none; } }
     </style>
 
     <!-- BlogPosting Structured Data for AI Search -->
@@ -182,222 +213,89 @@
     </script>
 </head>
 
-<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400 font-sans"
-    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f8fafc] text-zinc-700'">
+<body>
+    <div id="progress"></div>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
-        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
 
-        <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors bg-[#09090b]/80 border-zinc-800/50"
-        :class="dark ? 'bg-[#09090b]/80 border-zinc-800/50' : 'bg-white/80 border-zinc-200/50'">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-            <a href="/blog/" class="flex items-center gap-2 text-sm font-bold hover:text-brand transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                Dev Guides
-            </a>
-            <span class="text-zinc-400 dark:text-zinc-700">/</span>
-            <a href="/blog/?category=Artificial Intelligence" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all">Artificial Intelligence</a>
-        </div>
-            <div class="flex items-center gap-4">
-                <button @click="toggleTheme()" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
-                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
-                </button>
-                <button @click="exploreWithAI('chatgpt')" title="Explore with AI" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </header>
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=Artificial Intelligence">§ Artificial Intelligence</a>
+                <h1 class="post-title">Deep Dive into Gemini 3.5 Flash: Architecture, Capabilities, and Developer Use Cases</h1>
+                <div class="post-meta">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-05-20">May 20, 2026</time>
+                    <span class="sep">·</span>
+                    <span>10 min read</span>
+                </div>
 
-    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
-        <div class="mb-12 text-left max-w-3xl mx-auto">
-            <a href="/blog/?category=Artificial Intelligence" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 text-brand text-xs font-bold mb-6 tracking-wide uppercase hover:bg-brand/20 transition-all">Artificial Intelligence</a>
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
-                :class="dark ? 'text-white' : 'text-zinc-900'">Deep Dive into Gemini 3.5 Flash: Architecture, Capabilities, and Developer Use Cases</h1>
+                <div class="post-cover"><img src="cover.svg" alt="Gemini 3.5 Flash Banner"></div>
 
-            <!-- Author Info & Meta -->
-            <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <div class="flex items-center gap-4">
-                    <img src="/profile.jpg" alt="Sagar Pansuriya"
-                        class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
-                        :class="dark ? 'border-[#27272a]' : 'border-white'">
-                    <div>
-                        <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
-                            class="block hover:text-brand transition-colors text-base"
-                            :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
-                        <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
-                            Lead & Frontend Architect</span>
+                <div class="prose">
+                    <p>Google's Gemini 3.5 Flash is engineered to redefine efficiency for high-speed, long-context reasoning. By combining native multimodality with lightweight Mixture of Experts (MoE) routing, it achieves massive token throughput without sacrificing deep comprehension.</p>
+
+                    <h2>1. Overview &amp; Heritage</h2>
+                    <p>Developed by the team at <strong>Google DeepMind</strong>, the Gemini family represents a major pivot in artificial intelligence: moving away from solo text-only language models toward <strong>native multimodality</strong>. Gemini 3.5 Flash is the speed-oriented, highly optimized sibling of Gemini 1.5 Pro, designed for high-frequency application workflows.</p>
+                    <p>Where model families like GPT-4 rely on complex pipelines, API chains, or helper models to interpret audio and video, Gemini architectures merge these paths into a single neural framework. This enables extremely low latency, making it the perfect runtime for automated coding engines, IDE extensions, and conversational applications.</p>
+
+                    <h3>Positioning in the Ecosystem</h3>
+                    <p>Gemini 3.5 Flash is specifically positioned as the developer workhorse. By leveraging advanced <strong>distillation and routing algorithms</strong> from larger models, it matches the capabilities of legacy flagship models at a fraction of the cost and computation footprint, rendering real-time developer feedback loops feasible.</p>
+                    <div class="stat-grid">
+                        <div class="stat"><span class="v">1,000,000</span><span class="l">Token Context Window</span></div>
+                        <div class="stat"><span class="v">&lt; 1.5s</span><span class="l">Average TTFT (Time to First Token)</span></div>
+                        <div class="stat"><span class="v">Native</span><span class="l">Audio/Video Processing</span></div>
                     </div>
-                </div>
-                <div class="hidden sm:block w-px h-10" :class="dark ? 'bg-[#27272a]' : 'bg-gray-300'"></div>
-                <div class="flex items-center gap-4 text-sm">
-                    <time datetime="2026-05-20" class="text-brand">May 20, 2026</time>
-                    <span>·</span>
-                    <span
-                        class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">10
-                        min read</span>
-                </div>
-            </div>
 
-            <!-- Cover Image (SVG) -->
-            <div class="rounded-2xl overflow-hidden border mb-12 shadow-2xl transition-colors bg-[#09090b]" :class="dark ? 'border-zinc-800' : 'border-gray-200'">
-                <img src="cover.svg" alt="Gemini 3.5 Flash Banner" class="w-full h-auto aspect-video object-cover">
-            </div>
+                    <h2>2. Under the Hood: Transformer &amp; MoE</h2>
+                    <p>Gemini 3.5 Flash is built on a <strong>decoder-only Transformer architecture</strong>. It utilizes several optimizations to maintain its speed and scale, including <strong>Mixture of Experts (MoE)</strong> layers, linear attention mechanisms, and dynamic KV-caching.</p>
 
-            <p class="text-xl leading-relaxed mb-8 font-medium" :class="dark ? 'text-zinc-300' : 'text-zinc-800'">
-                Google's Gemini 3.5 Flash is engineered to redefine efficiency for high-speed, long-context reasoning. By combining native multimodality with lightweight Mixture of Experts (MoE) routing, it achieves massive token throughput without sacrificing deep comprehension.
-            </p>
-        </div>
-
-        <!-- Explore with AI Section -->
-        <div class="flex flex-col md:flex-row items-center justify-between gap-6 py-6 mb-10 border-y transition-colors"
-            :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
-            <div class="max-w-md text-left">
-                <h3 class="text-lg font-bold mb-1 flex items-center gap-2 !mt-0" :class="dark ? 'text-white' : 'text-zinc-900'">
-                    <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    Explore with AI
-                </h3>
-                <p class="text-xs opacity-70">
-                    Want a quick summary or have specific questions about this post? Use your favorite AI agent.
-                </p>
-            </div>
-            <div class="flex flex-wrap justify-center gap-3">
-                <button @click="exploreWithAI('chatgpt')" 
-                    class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
-                    <span class="w-4 h-4 flex items-center justify-center bg-[#10a37f] rounded text-white text-[8px]">GPT</span>
-                    ChatGPT
-                </button>
-                <button @click="exploreWithAI('claude')" 
-                    class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-sm font-semibold">
-                    <span class="w-4 h-4 flex items-center justify-center bg-[#d97757] rounded text-white text-[8px]">C</span>
-                    Claude
-                </button>
-                <button @click="exploreWithAI('perplexity')" 
-                    class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
-                    <span class="w-4 h-4 flex items-center justify-center bg-[#20b2aa] rounded text-white text-[8px]">P</span>
-                    Perplexity
-                </button>
-            </div>
-        </div>
-
-        <!-- Sticky Navigation Tabs -->
-        <div class="sticky top-[53px] z-40 -mx-6 px-6 py-3 backdrop-blur-xl border-b mb-10 overflow-x-auto scrollbar-hide"
-            :class="dark ? 'bg-[#09090b]/90 border-zinc-800/50' : 'bg-white/90 border-gray-300'">
-            <div class="flex gap-2">
-                <template x-for="(tab, i) in tabs" :key="i">
-                    <button @click="activeTab = i"
-                        class="tab-btn px-4 py-2 rounded-lg font-mono text-xs font-semibold whitespace-nowrap border transition-all"
-                        :class="activeTab === i ? 'active border-brand/30' : (dark ? 'border-transparent text-zinc-500' : 'border-transparent text-zinc-500 bg-white shadow-sm duration-150')"
-                        x-text="tab.label"></button>
-                </template>
-            </div>
-        </div>
-
-        <!-- Overview Section -->
-        <section x-show="activeTab === 0" x-transition.opacity>
-            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">1. Overview & Heritage</h2>
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>Developed by the team at <strong>Google DeepMind</strong>, the Gemini family represents a major pivot in artificial intelligence: moving away from solo text-only language models toward <strong>native multimodality</strong>. Gemini 3.5 Flash is the speed-oriented, highly optimized sibling of Gemini 1.5 Pro, designed for high-frequency application workflows.</p>
-                <p>Where model families like GPT-4 rely on complex pipelines, API chains, or helper models to interpret audio and video, Gemini architectures merge these paths into a single neural framework. This enables extremely low latency, making it the perfect runtime for automated coding engines, IDE extensions, and conversational applications.</p>
-            </div>
-
-            <div class="feature-card p-8 mb-12">
-                <h3 class="text-xl font-bold mb-4 text-brand">Positioning in the Ecosystem</h3>
-                <p class="mb-6">Gemini 3.5 Flash is specifically positioned as the developer workhorse. By leveraging advanced <strong>distillation and routing algorithms</strong> from larger models, it matches the capabilities of legacy flagship models at a fraction of the cost and computation footprint, rendering real-time developer feedback loops feasible.</p>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
-                    <div class="p-4 rounded-xl border border-white/5 bg-white/[0.01] text-center">
-                        <span class="block text-2xl font-extrabold text-brand">1,000,000</span>
-                        <span class="text-xs opacity-75">Token Context Window</span>
+                    <!-- Native Multimodality Diagram (SVG has baked-in dark palette) -->
+                    <div class="demo">
+                        <img src="architecture.svg" alt="Native Multimodality Architecture">
+                        <p class="caption">Native Multimodality: Text, audio, and video inputs feed into a unified early-fusion layer.</p>
                     </div>
-                    <div class="p-4 rounded-xl border border-white/5 bg-white/[0.01] text-center">
-                        <span class="block text-2xl font-extrabold text-brand">&lt; 1.5s</span>
-                        <span class="text-xs opacity-75">Average TTFT (Time to First Token)</span>
-                    </div>
-                    <div class="p-4 rounded-xl border border-white/5 bg-white/[0.01] text-center">
-                        <span class="block text-2xl font-extrabold text-brand">Native</span>
-                        <span class="text-xs opacity-75">Audio/Video Processing</span>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Architecture Section -->
-        <section x-show="activeTab === 1" x-transition.opacity style="display: none;">
-            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">2. Under the Hood: Transformer & MoE</h2>
-            
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>Gemini 3.5 Flash is built on a <strong>decoder-only Transformer architecture</strong>. It utilizes several optimizations to maintain its speed and scale, including <strong>Mixture of Experts (MoE)</strong> layers, linear attention mechanisms, and dynamic KV-caching.</p>
-            </div>
+                    <h3>Key Architectural Building Blocks</h3>
+                    <ul>
+                        <li><strong>Mixture of Experts (MoE):</strong> Instead of activating all parameters for every calculation, the model route tokens to active expert modules, maximizing compute efficiency.</li>
+                        <li><strong>Rotary Positional Embeddings (RoPE):</strong> Enables the model to maintain context across millions of tokens by mapping relative positions in a multi-dimensional geometric space.</li>
+                        <li><strong>Early Fusion Multimodality:</strong> Inputs from different media forms are tokenized and combined into a single joint vector space, preserving the cross-modal nuances (e.g. vocal inflections corresponding to written script).</li>
+                    </ul>
 
-            <!-- Native Multimodality Diagram -->
-            <div class="feature-card p-6 mb-8">
-                <img src="architecture.svg" alt="Native Multimodality Architecture" class="w-full h-auto rounded-xl">
-                <p class="text-sm font-medium text-center mt-4">Native Multimodality: Text, audio, and video inputs feed into a unified early-fusion layer.</p>
-            </div>
+                    <h2>3. Multimodal &amp; Context Capabilities</h2>
+                    <p>Because the model is natively multimodal, it behaves uniquely compared to text-only APIs that feed images through external OCR. For developers, this manifests in three core domains: high-density source analysis, execution tracking, and tool use.</p>
 
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <h3 class="text-2xl font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">Key Architectural Building Blocks</h3>
-                <ul class="list-disc pl-6 space-y-4">
-                    <li>
-                        <strong>Mixture of Experts (MoE):</strong> Instead of activating all parameters for every calculation, the model route tokens to active expert modules, maximizing compute efficiency.
-                    </li>
-                    <li>
-                        <strong>Rotary Positional Embeddings (RoPE):</strong> Enables the model to maintain context across millions of tokens by mapping relative positions in a multi-dimensional geometric space.
-                    </li>
-                    <li>
-                        <strong>Early Fusion Multimodality:</strong> Inputs from different media forms are tokenized and combined into a single joint vector space, preserving the cross-modal nuances (e.g. vocal inflections corresponding to written script).
-                    </li>
-                </ul>
-            </div>
-        </section>
+                    <h3>1M Context Window</h3>
+                    <p>Feed entire codebases (up to ~750,000 words), multiple full-length books, or 1 hour of video instructions straight into the prompt without chunking or search database degradation.</p>
 
-        <!-- Capabilities Section -->
-        <section x-show="activeTab === 2" x-transition.opacity style="display: none;">
-            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">3. Multimodal & Context Capabilities</h2>
-            
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>Because the model is natively multimodal, it behaves uniquely compared to text-only APIs that feed images through external OCR. For developers, this manifests in three core domains: high-density source analysis, execution tracking, and tool use.</p>
-            </div>
+                    <h3>Structured Tool Usage</h3>
+                    <p>Native JSON-schema mode forces the model's outputs into precise data structures, making automated tool-calls and configuration parsing highly deterministic and reliable.</p>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div class="feature-card p-6">
-                    <h4 class="font-bold mb-2 text-brand">1M Context Window</h4>
-                    <p class="text-sm opacity-80 leading-relaxed">Feed entire codebases (up to ~750,000 words), multiple full-length books, or 1 hour of video instructions straight into the prompt without chunking or search database degradation.</p>
-                </div>
-                <div class="feature-card p-6">
-                    <h4 class="font-bold mb-2 text-brand">Structured Tool Usage</h4>
-                    <p class="text-sm opacity-80 leading-relaxed">Native JSON-schema mode forces the model's outputs into precise data structures, making automated tool-calls and configuration parsing highly deterministic and reliable.</p>
-                </div>
-                <div class="feature-card p-6">
-                    <h4 class="font-bold mb-2 text-brand">Fast Inference Speed</h4>
-                    <p class="text-sm opacity-80 leading-relaxed">Engineered with high token-per-second processing speed, making it optimal for interactive developer operations, live UI editing, and real-time conversation flows.</p>
-                </div>
-                <div class="feature-card p-6">
-                    <h4 class="font-bold mb-2 text-brand">Cross-Modal Reasoning</h4>
-                    <p class="text-sm opacity-80 leading-relaxed">Analyze screenshot flows, code repositories, and recorded terminal sessions simultaneously, mapping stack-traces to visual outputs without friction.</p>
-                </div>
-            </div>
+                    <h3>Fast Inference Speed</h3>
+                    <p>Engineered with high token-per-second processing speed, making it optimal for interactive developer operations, live UI editing, and real-time conversation flows.</p>
 
-            <div class="mb-12">
-                <h3 class="text-xl font-bold mb-4" :class="dark ? 'text-zinc-200' : 'text-zinc-800'">API Sample: Function Calling in Python</h3>
-                <p class="text-sm mb-4 opacity-80">Here is how developers integrate Gemini's function calling in Python to fetch system state:</p>
-                <div class="code-block">
-<pre><code>import google.generativeai as genai
+                    <h3>Cross-Modal Reasoning</h3>
+                    <p>Analyze screenshot flows, code repositories, and recorded terminal sessions simultaneously, mapping stack-traces to visual outputs without friction.</p>
+
+                    <h3>API Sample: Function Calling in Python</h3>
+                    <p>Here is how developers integrate Gemini's function calling in Python to fetch system state:</p>
+                    <pre class="code-block"><code>import google.generativeai as genai
 
 def get_system_load():
     # Helper to check CPU stats
@@ -411,166 +309,120 @@ model = genai.GenerativeModel(
 chat = model.start_chat(enable_automatic_function_calling=True)
 response = chat.send_message("What is the current resource utilization of the system?")
 print(response.text)</code></pre>
+
+                    <h2>4. Code Agents &amp; Autonomy</h2>
+                    <p>As a developer assistant (Antigravity), my background is deeply tied to models like Gemini. When you ask me to modify code, run scripts, or compile styling sheets, we are executing a highly synchronized <strong>agentic loop</strong>.</p>
+
+                    <!-- Agentic Loop Diagram (SVG has baked-in dark palette) -->
+                    <div class="demo">
+                        <img src="agentic-loop.svg" alt="Agentic Loop Diagram">
+                        <p class="caption">The Agentic Loop: Observation and Thought driving autonomous system manipulation.</p>
+                    </div>
+
+                    <h3>How I Leverage Gemini 3.5 Flash</h3>
+                    <p>An agent is more than just a raw model instance; it is a feedback system. Here is the operational architecture that powers my workflow:</p>
+                    <ol>
+                        <li><strong>Context Assembly:</strong> When you provide a task, I collect active file paths, directory trees, open documents, and cursor configurations, packaging them into structured prompts.</li>
+                        <li><strong>Inference:</strong> The assembled prompt is passed to Gemini 3.5 Flash. The model reasons about the goal, referencing syntax, and generates a structured tool call.</li>
+                        <li><strong>Tool Execution:</strong> I execute the tool autonomously (such as editing a file, executing a shell command, or generating an image) in the local sandbox workspace.</li>
+                        <li><strong>Observation Loop:</strong> The output or errors are captured and piped back into the next context step, allowing the model to self-correct and iterate until the objective is reached.</li>
+                    </ol>
+
+                    <h3>💎 Hidden Gem Agentic Features</h3>
+                    <p>Beyond simple autocomplete or text-generation, coding assistants like Antigravity running on Gemini 3.5 Flash possess several highly advanced, "hidden gem" features:</p>
+                    <h4>1. Autonomous Self-Correction Loops</h4>
+                    <p>If I write a code snippet and compile or run it, and the terminal returns a build or lint error, I don't stop to ask what to do. I parse the stack trace, locate the failing file, apply a patch, and re-run tests automatically until the build succeeds.</p>
+                    <h4>2. Dynamic Context Compaction</h4>
+                    <p>Long developer conversations quickly bloat context, causing performance to drop. I run behind-the-scenes sweeps to summarize past terminal feedback and compress irrelevant file contents, keeping processing speed at peak levels.</p>
+                    <h4>3. Multi-Tool Synergy Sequence</h4>
+                    <p>I can chain different tool types seamlessly. For example, I can create a design asset dynamically, write the CSS, launch a local web server, and then instruct a browser subagent to render and verify the layout visually in a single workflow.</p>
+                    <h4>4. Intelligent Multi-Point Diffs</h4>
+                    <p>Rather than blindly overwriting files, I use semantic diffing tools to perform precise, non-contiguous replacements. This leaves your custom spacing, unrelated comments, and surrounding logic completely untouched.</p>
+
+                    <h2>Frequently Asked Questions</h2>
+                    <h3>How accurate is the 1M token context?</h3>
+                    <p>It boasts near-perfect "Needle in a Haystack" (NIAH) retrieval rates. Even at 100% capacity, it can retrieve specific data fields with up to 99% accuracy, though query performance scales best with clean, structured contexts.</p>
+                    <h3>Can it run locally?</h3>
+                    <p>No, Gemini 3.5 Flash requires massive hardware clusters to coordinate routing across Mixture of Experts weights. It is accessed via Google Cloud APIs or developer integrations like Vertex AI.</p>
+                    <h3>What is the difference between Flash and Pro?</h3>
+                    <p>Pro is tuned for deep, complex reasoning task chains and highly subjective tasks (e.g. complex structural architecture). Flash is optimized for speed, low latency, and high-frequency tool usage (API calls, simple editing, data routing).</p>
+
+                    <h2>Final Thoughts</h2>
+                    <p>Gemini 3.5 Flash represents a massive step forward in building responsive, context-aware digital products. By mastering its native multimodal inputs and high token speeds, developers can create tools that truly feel live, fluid, and integrated.</p>
+                    <p>Ready to deploy AI capability in your stack? Make sure to leverage function calling schemas to secure stable, production-ready outputs. Happy coding! 🚀</p>
                 </div>
-            </div>
-        </section>
 
-        <!-- Developer Integration Section -->
-        <section x-show="activeTab === 3" x-transition.opacity style="display: none;">
-            <h2 class="text-3xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">4. Code Agents & Autonomy</h2>
-            
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>As a developer assistant (Antigravity), my background is deeply tied to models like Gemini. When you ask me to modify code, run scripts, or compile styling sheets, we are executing a highly synchronized <strong>agentic loop</strong>.</p>
-            </div>
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
 
-            <!-- Agentic Loop Diagram -->
-            <div class="feature-card p-6 mb-8">
-                <img src="agentic-loop.svg" alt="Agentic Loop Diagram" class="w-full h-auto rounded-xl">
-                <p class="text-sm font-medium text-center mt-4">The Agentic Loop: Observation and Thought driving autonomous system manipulation.</p>
-            </div>
-
-            <div class="prose-content mb-8 space-y-6 text-lg leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <h3 class="text-2xl font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">How I Leverage Gemini 3.5 Flash</h3>
-                <p>An agent is more than just a raw model instance; it is a feedback system. Here is the operational architecture that powers my workflow:</p>
-                <ol class="list-decimal pl-6 space-y-4">
-                    <li>
-                        <strong>Context Assembly:</strong> When you provide a task, I collect active file paths, directory trees, open documents, and cursor configurations, packaging them into structured prompts.
-                    </li>
-                    <li>
-                        <strong>Inference:</strong> The assembled prompt is passed to Gemini 3.5 Flash. The model reasons about the goal, referencing syntax, and generates a structured tool call.
-                    </li>
-                    <li>
-                        <strong>Tool Execution:</strong> I execute the tool autonomously (such as editing a file, executing a shell command, or generating an image) in the local sandbox workspace.
-                    </li>
-                    <li>
-                        <strong>Observation Loop:</strong> The output or errors are captured and piped back into the next context step, allowing the model to self-correct and iterate until the objective is reached.
-                    </li>
-                </ol>
-            </div>
-
-            <!-- Hidden Gem Features Card -->
-            <div class="feature-card p-8 mt-10 border-brand/20 bg-brand/5">
-                <h3 class="text-xl font-bold mb-4 text-brand">💎 Hidden Gem Agentic Features</h3>
-                <p class="mb-6 opacity-90" :class="dark ? 'text-zinc-300' : 'text-zinc-700'">Beyond simple autocomplete or text-generation, coding assistants like Antigravity running on Gemini 3.5 Flash possess several highly advanced, "hidden gem" features:</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
-                    <div>
-                        <h4 class="font-bold mb-1" :class="dark ? 'text-white' : 'text-zinc-900'">1. Autonomous Self-Correction Loops</h4>
-                        <p class="opacity-85 leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">If I write a code snippet and compile or run it, and the terminal returns a build or lint error, I don't stop to ask what to do. I parse the stack trace, locate the failing file, apply a patch, and re-run tests automatically until the build succeeds.</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold mb-1" :class="dark ? 'text-white' : 'text-zinc-900'">2. Dynamic Context Compaction</h4>
-                        <p class="opacity-85 leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">Long developer conversations quickly bloat context, causing performance to drop. I run behind-the-scenes sweeps to summarize past terminal feedback and compress irrelevant file contents, keeping processing speed at peak levels.</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold mb-1" :class="dark ? 'text-white' : 'text-zinc-900'">3. Multi-Tool Synergy Sequence</h4>
-                        <p class="opacity-85 leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">I can chain different tool types seamlessly. For example, I can create a design asset dynamically, write the CSS, launch a local web server, and then instruct a browser subagent to render and verify the layout visually in a single workflow.</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-zinc-100 dark:text-white mb-1" :class="dark ? 'text-white' : 'text-zinc-900'">4. Intelligent Multi-Point Diffs</h4>
-                        <p class="opacity-85 leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">Rather than blindly overwriting files, I use semantic diffing tools to perform precise, non-contiguous replacements. This leaves your custom spacing, unrelated comments, and surrounding logic completely untouched.</p>
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/gemini-3-5-flash-capabilities-workings/&text=Deep Dive into Gemini 3.5 Flash" target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/gemini-3-5-flash-capabilities-workings/" target="_blank" rel="noopener">LinkedIn</a>
                     </div>
                 </div>
-            </div>
-        </section>
+            </article>
+        </main>
 
-        <!-- FAQ Section -->
-        <section x-show="activeTab === 4" x-transition.opacity style="display: none;">
-            <h2 class="text-3xl font-bold mb-8" :class="dark ? 'text-white' : 'text-zinc-900'">Frequently Asked Questions</h2>
-            <div class="space-y-6 max-w-3xl">
-                <div class="feature-card p-6">
-                    <h4 class="font-bold text-brand mb-2">How accurate is the 1M token context?</h4>
-                    <p class="text-sm opacity-80 leading-relaxed">It boasts near-perfect "Needle in a Haystack" (NIAH) retrieval rates. Even at 100% capacity, it can retrieve specific data fields with up to 99% accuracy, though query performance scales best with clean, structured contexts.</p>
-                </div>
-                <div class="feature-card p-6">
-                    <h4 class="font-bold text-brand mb-2">Can it run locally?</h4>
-                    <p class="text-sm opacity-80 leading-relaxed">No, Gemini 3.5 Flash requires massive hardware clusters to coordinate routing across Mixture of Experts weights. It is accessed via Google Cloud APIs or developer integrations like Vertex AI.</p>
-                </div>
-                <div class="feature-card p-6">
-                    <h4 class="font-bold text-brand mb-2">What is the difference between Flash and Pro?</h4>
-                    <p class="text-sm opacity-80 leading-relaxed">Pro is tuned for deep, complex reasoning task chains and highly subjective tasks (e.g. complex structural architecture). Flash is optimized for speed, low latency, and high-frequency tool usage (API calls, simple editing, data routing).</p>
-                </div>
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
             </div>
-        </section>
-
-        <!-- Closing -->
-        <div class="mt-20 pt-10 border-t space-y-6 max-w-3xl border-gray-200"
-            :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
-            <h3 class="text-2xl font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">Final Thoughts</h3>
-            <div class="text-lg space-y-4 leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>Gemini 3.5 Flash represents a massive step forward in building responsive, context-aware digital products. By mastering its native multimodal inputs and high token speeds, developers can create tools that truly feel live, fluid, and integrated.</p>
-                <p>Ready to deploy AI capability in your stack? Make sure to leverage function calling schemas to secure stable, production-ready outputs. Happy coding! 🚀</p>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter" title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤ Sponsor</a>
             </div>
-        </div>
-
-        <!-- Comments Section -->
-        <div class="mt-20 pt-10 border-t border-gray-200 dark:border-[#1e1e24] max-w-3xl mx-auto">
-            <h3 class="text-2xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">Discussion</h3>
-            <div id="comments-container"></div>
-            <script>
-                const initComments = () => {
-                    if (document.querySelector('.utterances-frame')) return;
-                    const theme = document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
-                    let script = document.createElement('script');
-                    script.src = 'https://utteranc.es/client.js';
-                    script.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
-                    script.setAttribute('issue-term', 'pathname');
-                    script.setAttribute('label', 'comment');
-                    script.setAttribute('theme', theme);
-                    script.setAttribute('crossorigin', 'anonymous');
-                    script.async = true;
-                    document.getElementById('comments-container').appendChild(script);
-                };
-                setTimeout(initComments, 300);
-                const observer = new MutationObserver((mutations) => {
-                    mutations.forEach((mutation) => {
-                        if (mutation.attributeName === 'class') {
-                            const isDark = document.documentElement.classList.contains('dark');
-                            const message = { type: 'set-theme', theme: isDark ? 'github-dark' : 'github-light' };
-                            const iframe = document.querySelector('.utterances-frame');
-                            if (iframe) iframe.contentWindow.postMessage(message, 'https://utteranc.es');
-                        }
-                    });
-                });
-                observer.observe(document.documentElement, { attributes: true });
-            </script>
-        </div>
-    </main>
+        </footer>
+    </div>
 
     <script>
-        function blogApp() {
-            return {
-                dark: true,
-                activeTab: 0,
-                tabs: [
-                    { label: 'Overview' },
-                    { label: 'Architecture' },
-                    { label: 'Capabilities' },
-                    { label: 'Dev Workflow' },
-                    { label: 'FAQ' }
-                ],
-                init() {
-                    const saved = localStorage.getItem('theme');
-                    if (saved === 'light') this.dark = false;
-                    this.$watch('dark', val => {
-                        document.documentElement.classList.toggle('dark', val);
-                        localStorage.setItem('theme', val ? 'dark' : 'light');
-                    });
-                    document.documentElement.classList.toggle('dark', this.dark);
-                },
-                toggleTheme() { this.dark = !this.dark; },
-                exploreWithAI(platform) { 
-                    const url = window.location.href; 
-                    const prompt = encodeURIComponent(`Please summarize this technical blog post about Gemini 3.5 Flash and highlight its architecture and key capabilities: ${url}`); 
-                    let aiUrl = ''; 
-                    if (platform === 'chatgpt') aiUrl = `https://chatgpt.com/?q=${prompt}`; 
-                    if (platform === 'claude') aiUrl = `https://claude.ai/new?q=${prompt}`; 
-                    if (platform === 'perplexity') aiUrl = `https://www.perplexity.ai/search?q=${prompt}`; 
-                    window.open(aiUrl, '_blank'); 
-                }
+        // theme toggle
+        (function(){
+            const meta=document.querySelector('meta[name="color-scheme"]');
+            const btn=document.getElementById('themeToggle');
+            const root=document.documentElement;
+            function sysDark(){return matchMedia('(prefers-color-scheme: dark)').matches;}
+            function curDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return sysDark();}
+            btn.addEventListener('click',function(){const n=curDark()?'light':'dark';localStorage.setItem('color-scheme',n);meta.content=n;root.dataset.theme=n;});
+        })();
+        // reading progress
+        (function(){
+            const bar=document.getElementById('progress');
+            addEventListener('scroll',function(){const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';},{passive:true});
+        })();
+        // comments (utterances)
+        (function(){
+            function isDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return matchMedia('(prefers-color-scheme: dark)').matches;}
+            function initComments(){
+                if(document.querySelector('.utterances-frame'))return;
+                const s=document.createElement('script');
+                s.src='https://utteranc.es/client.js';
+                s.setAttribute('repo','theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term','pathname');
+                s.setAttribute('label','comment');
+                s.setAttribute('theme', isDark()?'github-dark':'github-light');
+                s.setAttribute('crossorigin','anonymous');
+                s.async=true;
+                document.getElementById('comments-container').appendChild(s);
             }
-        }
+            setTimeout(initComments,300);
+            document.getElementById('themeToggle').addEventListener('click',function(){
+                const f=document.querySelector('.utterances-frame');
+                if(f)f.contentWindow.postMessage({type:'set-theme',theme:isDark()?'github-dark':'github-light'},'https://utteranc.es');
+            });
+        })();
     </script>
 </body>
 

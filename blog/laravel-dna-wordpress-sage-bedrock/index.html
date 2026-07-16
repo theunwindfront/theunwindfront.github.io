@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+<html lang="en">
 
 <head>
     <!-- Google Tag Manager -->
@@ -8,11 +8,12 @@ new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
-<!-- End Google Tag Manager -->
+    <!-- End Google Tag Manager -->
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
     <link rel="llms" href="/llms.txt">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
     <title>The Ultimate Guide: Building Enterprise-Grade WordPress with the Laravel DNA</title>
     <meta name="description"
         content="A comprehensive guide on building scalable WordPress applications using Sage, Bedrock, and Acorn. Includes detailed setup steps, Laravel DNA integration, and a complete command cheat sheet.">
@@ -35,143 +36,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <meta name="msapplication-TileColor" content="#6366f1">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
-                    colors: { 
-                        brand: { DEFAULT: '#6366f1', dark: '#4f46e5' },
-                        laravel: '#FF2D20'
-                    }
-                }
-            }
-        }
-    </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <style>
-        [x-cloak] { display: none !important; }
-        
-        :root {
-            --bg-page: #f8fafc;
-            --text-body: #475569;
-            --text-heading: #0f172a;
-            --text-subheading: #334155;
-            --border-ui: rgba(0, 0, 0, 0.08);
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --dot-color: rgba(99, 102, 241, 0.1);
-            --card-bg: #ffffff;
-        }
-
-        .dark {
-            --bg-page: #060608;
-            --text-body: #a1a1aa;
-            --text-heading: #ffffff;
-            --text-subheading: #cbd5e1;
-            --border-ui: rgba(255, 255, 255, 0.05);
-            --glass-bg: rgba(255, 255, 255, 0.02);
-            --dot-color: rgba(99, 102, 241, 0.1);
-            --card-bg: rgba(255, 255, 255, 0.03);
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background-image: radial-gradient(circle, var(--dot-color) 1px, transparent 1px);
-            background-size: 32px 32px;
-            pointer-events: none;
-        }
-
-        .prose-custom p { margin-bottom: 1.5rem; line-height: 1.8; }
-        .prose-custom h2 { font-size: 2.25rem; font-weight: 900; margin-top: 4rem; margin-bottom: 2rem; color: var(--text-heading); letter-spacing: -0.02em; }
-        .prose-custom h3 { font-size: 1.5rem; font-weight: 800; margin-top: 2.5rem; margin-bottom: 1.25rem; color: var(--text-subheading); }
-        .prose-custom strong { color: var(--text-heading); }
-        .prose-custom ul { list-style: none; padding-left: 0; margin-bottom: 2rem; }
-        .prose-custom li { position: relative; padding-left: 1.75rem; margin-bottom: 1rem; }
-        .prose-custom li::before { content: '→'; position: absolute; left: 0; color: #6366f1; font-weight: bold; }
-
-        .code-block {
-            background: #0d0d0f;
-            color: #e2e8f0;
-            border-radius: 16px;
-            padding: 24px;
-            margin: 2rem 0;
-            overflow-x: auto;
-            border: 1px solid var(--border-ui);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.875rem;
-            position: relative;
-        }
-        .code-block::after {
-            content: 'TERMINAL';
-            position: absolute;
-            top: 0;
-            right: 0;
-            padding: 4px 12px;
-            background: rgba(255,255,255,0.05);
-            font-size: 10px;
-            font-weight: 900;
-            letter-spacing: 0.1em;
-            border-bottom-left-radius: 8px;
-            color: rgba(255,255,255,0.3);
-        }
-
-        .command-badge {
-            display: inline-block;
-            padding: 2px 6px;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 6px;
-            font-family: inherit;
-            color: #818cf8;
-            font-weight: 600;
-        }
-
-        .step-tag {
-            background: linear-gradient(135deg, #6366f1, #a855f7);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 99px;
-            font-size: 10px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
-            display: inline-block;
-        }
-
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-ui);
-            border-radius: 24px;
-            padding: 32px;
-            margin: 3rem 0;
-        }
-
-        .text-gradient {
-            background: linear-gradient(to right, #6366f1, #a855f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .laravel-accent {
-            background: linear-gradient(to right, #FF2D20, #f05340);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- BlogPosting Structured Data for AI Search -->
     <script type="application/ld+json">
@@ -221,448 +91,350 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         "url": "https://sagarpansuriya.in/blog/laravel-dna-wordpress-sage-bedrock/"
 }
     </script>
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6; --paper-d: #0e0e0f;
+            --panel-l: #f1efe9; --panel-d: #17171a;
+            --code-l: #f4f2ec; --code-d: #131316;
+            --ink-l: #1a1a1a; --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b; --muted-d: #8f8d88;
+            --line-l: #e2ded4; --line-d: #262629;
+            --accent-l: #5b5bd6; --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+        :root[data-theme="light"] { color-scheme: light; }
+        :root[data-theme="dark"] { color-scheme: dark; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scrollbar-gutter: stable; }
+        body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+        a { color: inherit; }
+        .wrap { max-width: 46rem; margin-inline: auto; padding: clamp(1.25rem, 4vw, 2rem); }
+
+        .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem 0; }
+        .brand { font-family: var(--mono); font-size: 0.8rem; text-decoration: none; color: var(--ink); }
+        .brand b { color: var(--accent); }
+        .top-nav { display: flex; gap: clamp(0.9rem, 3vw, 1.6rem); align-items: center; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; }
+        .top-nav a { text-decoration: none; color: var(--muted); padding-block: 0.35rem; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
+        .top-nav a:hover, .top-nav a[aria-current] { color: var(--ink); border-color: var(--accent); }
+        .theme-toggle { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.7rem; cursor: pointer; transition: color .2s, border-color .2s; }
+        .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
+
+        .post-cat { display:inline-block; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); text-decoration:none; margin-top: 2.5rem; }
+        .post-title { font-family: var(--serif); font-weight: 600; font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem); line-height: 1.08; letter-spacing: -0.02em; margin: 0.75rem 0 1.25rem; }
+        .post-meta { display:flex; flex-wrap:wrap; align-items:center; gap: 0.75rem 1rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
+        .post-meta img { width: 2.25rem; height: 2.25rem; border-radius: 50%; object-fit: cover; }
+        .post-meta a { color: var(--ink); text-decoration: none; }
+        .post-meta a:hover { color: var(--accent); }
+        .post-meta .sep { color: var(--line); }
+        .post-cover { margin: 2rem 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+        .post-cover img { display:block; width: 100%; height: auto; }
+
+        .prose { font-family: var(--serif); font-size: 1.2rem; line-height: 1.75; color: var(--ink); }
+        .prose > *:first-child { margin-top: 0; }
+        .prose p { margin: 0 0 1.4rem; }
+        .prose h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem); line-height: 1.2; letter-spacing: -0.01em; margin: 2.6rem 0 1rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+        .prose h3 { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; margin: 2rem 0 0.75rem; }
+        .prose h4 { font-family: var(--sans); font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 1.8rem 0 0.6rem; }
+        .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); }
+        .prose a:hover { border-bottom-color: var(--accent); }
+        .prose ul, .prose ol { margin: 0 0 1.4rem; padding-left: 1.4rem; }
+        .prose li { margin-bottom: 0.5rem; }
+        .prose li::marker { color: var(--accent); }
+        .prose strong { font-weight: 700; color: var(--ink); }
+        .prose em { font-style: italic; }
+        .prose blockquote { margin: 1.6rem 0; padding: 0.4rem 0 0.4rem 1.25rem; border-left: 2px solid var(--accent); color: var(--muted); font-style: italic; }
+        .prose img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; margin: 1.6rem 0; }
+        .prose hr { border: none; border-top: 1px solid var(--line); margin: 2.5rem 0; }
+
+        .prose :not(pre) > code { font-family: var(--mono); font-size: 0.86em; background: var(--code-bg); border: 1px solid var(--line); border-radius: 5px; padding: 0.1em 0.4em; color: var(--ink); }
+        .prose pre, pre.code-block { font-family: var(--mono); font-size: 0.82rem; line-height: 1.6; background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; overflow-x: auto; margin: 1.6rem 0; color: var(--ink); }
+        .prose pre code, pre.code-block code { font-family: var(--mono); background: none; border: none; padding: 0; font-size: inherit; color: inherit; white-space: pre; }
+
+        .prose table { width: 100%; border-collapse: collapse; margin: 1.6rem 0; font-family: var(--sans); font-size: 0.95rem; display: block; overflow-x: auto; }
+        .prose th, .prose td { text-align: left; padding: 0.65rem 0.85rem; border: 1px solid var(--line); vertical-align: top; }
+        .prose th { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--panel); }
+
+        /* neutral callout panel (restyled from the original glass panels/cards) */
+        .prose .panel { margin: 1.6rem 0; padding: 1.25rem; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+        .prose .panel > *:first-child { margin-top: 0; }
+        .prose .panel > *:last-child { margin-bottom: 0; }
+        .prose .panel h3 { margin-top: 0; }
+
+        .comments { margin-top: 3rem; }
+        .comments h2 { font-family: var(--serif); font-weight: 600; font-size: 1.6rem; border-top: 1px solid var(--line); padding-top: 1.4rem; margin: 0 0 1rem; }
+
+        .post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display:flex; flex-wrap:wrap; gap: 1rem; justify-content: space-between; align-items:center; }
+        .post-footer a.back { font-family: var(--mono); font-size: 0.75rem; text-decoration:none; color: var(--accent); }
+        .share { display:flex; gap: 0.5rem; }
+        .share a { font-family: var(--mono); font-size: 0.72rem; text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.7rem; }
+        .share a:hover { color: var(--accent); border-color: var(--accent); }
+
+        #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--accent); z-index: 100; transition: width .1s linear; }
+
+        footer.site { border-top: 1px solid var(--line); margin-top: 3rem; padding-block: 2rem; display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
+        footer.site a { color: var(--muted); text-decoration:none; }
+        footer.site a:hover { color: var(--accent); }
+        .footer-links { display:flex; flex-wrap:wrap; gap:1rem; }
+
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } #progress { transition: none; } }
+    
+        .counter { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .counter img { height: 0.7rem; width: auto; opacity: 0.7; }
+        :root[data-theme="light"] .counter img { filter: invert(1); }
+        .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
+        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
+
+    </style>
 </head>
 
-<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400 bg-[var(--bg-page)] text-[var(--text-body)]">
+<body>
+    <div id="progress"></div>
     <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-    
-    <div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10">
-        <div class="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] rounded-full blur-[120px] bg-brand/10 opacity-60"></div>
-        <div class="absolute top-[40%] -right-[10%] w-[40%] h-[40%] rounded-full blur-[100px] bg-laravel/5 opacity-40"></div>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=WordPress">§ WordPress</a>
+                <h1 class="post-title">Building Agency-Grade WordPress with the Laravel DNA</h1>
+                <div class="post-meta">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-04-16">April 16, 2026</time>
+                    <span class="sep">·</span>
+                    <span>8 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Integrated Tech Stack"></div>
+
+                <div class="prose">
+                    <p>A masterclass in transforming the world's most versatile CMS into a production-ready application framework using Sage, Bedrock, and Acorn.</p>
+
+                    <h2>I. The Architecture Philosophy</h2>
+                    <p>Standard WordPress development often leads to <strong>"Technical Debt"</strong>. Manual plugin updates, business logic inside <code>functions.php</code>, and credentials sitting in the web root make projects fragile. For agencies building for enterprise clients, this isn't enough.</p>
+                    <p>The <strong>Roots Ecosystem</strong> (specifically Bedrock and Sage) introduces the 12-factor application methodology to WordPress. We are not just building websites; we are building <strong>scalable digital products</strong>.</p>
+
+                    <div class="panel">
+                        <h3>Why this stack?</h3>
+                        <ul>
+                            <li><strong>Dependency Reliability:</strong> Manage plugins and WP core via Composer.</li>
+                            <li><strong>Environment Parity:</strong> Ensure your local, staging, and production environments are identical via <code>.env</code>.</li>
+                            <li><strong>Developer Happiness:</strong> Use modern tools like Blade, Vite, and Tailwind CSS.</li>
+                            <li><strong>Security:</strong> Isolate WordPress from the web root and hide sensitive configurations.</li>
+                        </ul>
+                    </div>
+
+                    <h2>II. Environment Setup</h2>
+                    <p>Before executing code, your local machine needs the professional baseline. We assume a Unix-based system (macOS/Linux) or WSL2.</p>
+
+                    <h3>Prerequisites</h3>
+                    <ul>
+                        <li><strong>PHP 8.2+</strong> — Required for Acorn 4 compatibility.</li>
+                        <li><strong>Composer</strong> — Global installation for PHP dependencies.</li>
+                        <li><strong>Node.js & Yarn</strong> — Essential for the Vite-powered Sage 10.</li>
+                        <li><strong>WP-CLI</strong> — Command-line control of WordPress.</li>
+                    </ul>
+
+                    <p><strong>Recommendation:</strong> Use <a href="https://localwp.com" target="_blank" rel="noopener">LocalWP</a> for a GUI-driven setup, or <a href="https://laravel.com/docs/valet" target="_blank" rel="noopener">Laravel Valet</a> for an ultra-fast terminal workflow.</p>
+
+                    <h2>III. Implementing Bedrock</h2>
+                    <p>Bedrock is our project skeleton. It replaces the traditional WordPress directory structure with one that is professional and secure.</p>
+
+                    <pre class="code-block"><code># Install Bedrock
+composer create-project roots/bedrock my-project-name</code></pre>
+
+                    <h3>Key Modifications by Bedrock</h3>
+                    <ul>
+                        <li><strong><code>web/wp/</code></strong>: WordPress core is isolated here.</li>
+                        <li><strong><code>web/app/</code></strong>: Equivalent to <code>wp-content</code>.</li>
+                        <li><strong><code>.env</code></strong>: All database and salt configurations live here.</li>
+                        <li><strong><code>config/</code></strong>: Site-wide configuration logic.</li>
+                    </ul>
+
+                    <p>Once installed, edit your <code>.env</code> file:</p>
+                    <pre class="code-block"><code>DB_NAME='database_name'
+DB_USER='database_user'
+DB_PASSWORD='database_password'
+WP_HOME='https://my-site.test'</code></pre>
+
+                    <h2>IV. The Sage 10 & Laravel DNA</h2>
+                    <p>This is where the magic happens. Sage is our starter theme, but with <strong>Acorn</strong> integrated, it becomes a mini-Laravel application. It brings the concepts of modern frontend development right into the WordPress ecosystem.</p>
+
+                    <pre class="code-block"><code># Navigate to themes and install Sage
+cd web/app/themes
+composer create-project roots/sage my-theme-name</code></pre>
+
+                    <h3>Blade Components: Higher Abstraction</h3>
+                    <p>Stop writing loops. Start writing components. Sage allows you to create high-reusable UI elements exactly like in Laravel. This separation of concerns is the hallmark of professional projects.</p>
+                    <pre class="code-block"><code># Example Component (resources/views/components/hero.blade.php)
+&lt;section class="bg-brand py-20 text-white"&gt;
+  &lt;h1&gt;{{ $title }}&lt;/h1&gt;
+  &lt;div&gt;{{ $slot }}&lt;/div&gt;
+&lt;/section&gt;</code></pre>
+
+                    <h2>V. Deep Laravel Ecosystem Integration</h2>
+                    <p>The true power of this stack is its adoption of the <strong>Laravel Framework's</strong> core concepts. This isn't just about syntax; it's about the entire architectural ecosystem.</p>
+
+                    <div class="panel">
+                        <h4>Service Container</h4>
+                        <p>The heart of dependency management. Bind your complex services to the container and resolve them anywhere in your theme via type-hinting.</p>
+                    </div>
+                    <div class="panel">
+                        <h4>Service Providers</h4>
+                        <p>Register your custom services, bind interfaces to implementations, and manage your custom configuration logic in a Laravel-standard way.</p>
+                    </div>
+
+                    <h3>Acorn: The Laravel Bridge</h3>
+                    <p>Acorn is what boots the Laravel ecosystem. It allows you to use <strong>Dependency Injection</strong> in your View Composers, just like you would in a Laravel Controller.</p>
+                    <pre class="code-block"><code># app/View/Composers/Post.php
+public function __construct(protected WeatherService $weather) {}
+
+public function with() {
+    return [ 'temp' => $this->weather->current() ];
+}</code></pre>
+
+                    <h3>CLI Control: WP Acorn</h3>
+                    <p>Love <code>php artisan</code>? You get an equivalent with <code>wp acorn</code>. You can publish vendor configs, clear caches, and even generate components or providers directly from your terminal.</p>
+                    <pre class="code-block"><code>wp acorn make:provider AppServiceProvider
+wp acorn vendor:publish --tag=acorn</code></pre>
+
+                    <h2>VI. Complete Command Cheat Sheet</h2>
+                    <p>A quick reference for daily development tasks within the Roots ecosystem.</p>
+
+                    <h4>Development workflow</h4>
+                    <pre class="code-block"><code>yarn dev          # Starts the Vite development server
+yarn build        # Compiles assets for production
+yarn lint         # Checks your JS and CSS for errors</code></pre>
+
+                    <h4>Dependency management</h4>
+                    <pre class="code-block"><code>composer install  # Installs PHP dependencies
+composer update   # Safely updates all plugins/core
+yarn install      # Installs Node dependencies</code></pre>
+
+                    <h4>Acorn CLI Commands</h4>
+                    <pre class="code-block"><code>wp acorn vendor:publish    # Publish config files
+wp acorn cache:clear        # Clear the internal cache
+wp acorn make:component     # Create a new Blade component</code></pre>
+
+                    <h2>VII. Deployment & Hosting</h2>
+                    <p>To truly leverage this stack, your hosting must support <strong>Git/SSH</strong> and <strong>managed WP environments</strong>.</p>
+                    <p><strong>Top Picks:</strong></p>
+                    <ul>
+                        <li><a href="https://kinsta.com" target="_blank" rel="noopener">Kinsta</a> (Managed WP with Staging/Dev environments).</li>
+                        <li><a href="https://spinupwp.com" target="_blank" rel="noopener">SpinupWP</a> (Modern server control for developers).</li>
+                    </ul>
+                    <p>Your CI/CD pipeline should run <code>composer install --no-dev</code> and <code>yarn build</code> to ensure a clean production artifact every time.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/laravel-dna-wordpress-sage-bedrock/&text=Building Agency-Grade WordPress with the Laravel DNA" target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/laravel-dna-wordpress-sage-bedrock/" target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter" title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤ Sponsor</a>
+            </div>
+        </footer>
     </div>
 
-    <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors bg-[var(--bg-page)]/80 border-[var(--border-ui)]">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-            <a href="/blog/" class="flex items-center gap-2 text-sm font-bold hover:text-brand transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                Dev Guides
-            </a>
-            <span class="text-zinc-400 dark:text-zinc-700">/</span>
-            <a href="/blog/?category=WordPress" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all">WordPress</a>
-        </div>
-            <div class="flex items-center gap-4">
-                <button @click="toggleTheme()" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
-                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
-                </button>
-                <button @click="exploreWithAI('chatgpt')" title="Explore with AI" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <main class="relative z-10 max-w-4xl mx-auto px-6 py-20 pb-40">
-        <!-- Hero Section -->
-        <div class="mb-20">
-            <div class="step-tag">Phase: Ultimate Guidance</div>
-            <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-[1] mb-10" :class="dark ? 'text-white' : 'text-zinc-900'">
-                Building <span class="text-brand">Agency-Grade</span> WordPress with the Laravel DNA
-            </h1>
-            <p class="text-xl md:text-2xl leading-relaxed mb-12 opacity-80 max-w-2xl font-medium">
-                A masterclass in transforming the world's most versatile CMS into a production-ready application framework using Sage, Bedrock, and Acorn.
-            </p>
-            
-            <div class="rounded-[3rem] overflow-hidden border border-white/5 shadow-2xl mb-16 group">
-                <img src="cover.png" alt="Integrated Tech Stack" class="w-full h-auto aspect-[16/9] object-cover transition-transform duration-700 group-hover:scale-105">
-            </div>
-
-            <div class="flex flex-wrap items-center gap-6">
-                <div class="flex items-center gap-3">
-                    <img src="/profile.jpg" alt="Sagar Pansuriya" class="w-12 h-12 rounded-full border-2 border-brand/20">
-                    <div>
-                        <span class="block text-sm font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">Sagar Pansuriya</span>
-                        <span class="text-xs uppercase tracking-widest opacity-50" :class="dark ? 'text-zinc-400' : 'text-zinc-500'">Lead Architect</span>
-                    </div>
-                </div>
-                <div class="h-8 w-px bg-white/10 hidden sm:block"></div>
-                <div class="text-xs font-mono uppercase tracking-widest">
-                    Last Updated: <span class="text-brand">April 16, 2026</span>
-                </div>
-            </div>
-        </div>
-
-        
-            <!-- Explore with AI Section -->
-            <div class="flex flex-col md:flex-row items-center justify-between gap-6 py-6 mb-10 border-y transition-colors"
-                :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
-                <div class="max-w-md text-left">
-                    <h3 class="text-lg font-bold mb-1 flex items-center gap-2 !mt-0" :class="dark ? 'text-white' : 'text-zinc-900'">
-                        <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                        Explore with AI
-                    </h3>
-                    <p class="text-xs opacity-70">
-                        Want a quick summary or have specific questions about this post? Use your favorite AI agent.
-                    </p>
-                </div>
-                <div class="flex flex-wrap justify-center gap-3">
-                    <button @click="exploreWithAI('chatgpt')" 
-                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
-                        <span class="w-4 h-4 flex items-center justify-center bg-[#10a37f] rounded text-white text-[8px]">GPT</span>
-                        ChatGPT
-                    </button>
-                    <button @click="exploreWithAI('claude')" 
-                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-sm font-semibold">
-                        <span class="w-4 h-4 flex items-center justify-center bg-[#d97757] rounded text-white text-[8px]">C</span>
-                        Claude
-                    </button>
-                    <button @click="exploreWithAI('perplexity')" 
-                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
-                        <span class="w-4 h-4 flex items-center justify-center bg-[#20b2aa] rounded text-white text-[8px]">P</span>
-                        Perplexity
-                    </button>
-                </div>
-            </div>
-
-            <!-- Sticky Table of Contents -->
-        <div class="sticky top-[80px] z-40 mb-20 backdrop-blur-2xl p-2 rounded-2xl border flex gap-1 overflow-x-auto scrollbar-hide no-scrollbar transition-colors"
-            :class="dark ? 'bg-zinc-950/50 border-white/5' : 'bg-white/70 border-zinc-200'">
-            <template x-for="item in toc" :key="item.id">
-                <button @click="scrollToSection(item.id)" 
-                        class="px-5 py-2 whitespace-nowrap rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:bg-white/5"
-                        :class="activeSection === item.id ? 'bg-brand text-white shadow-lg' : 'text-zinc-500'">
-                    <span x-text="item.label"></span>
-                </button>
-            </template>
-        </div>
-
-        <div class="prose-custom max-w-3xl">
-            <!-- SECTION 1: INTRODUCTION -->
-            <section id="philosophy" class="scroll-mt-32">
-                <h2 class="text-gradient">I. The Architecture Philosophy</h2>
-                <p>Standard WordPress development often leads to <strong>"Technical Debt"</strong>. Manual plugin updates, business logic inside <code>functions.php</code>, and credentials sitting in the web root make projects fragile. For agencies building for enterprise clients, this isn't enough.</p>
-                <p>The <strong>Roots Ecosystem</strong> (specifically Bedrock and Sage) introduces the 12-factor application methodology to WordPress. We are not just building websites; we are building <strong>scalable digital products</strong>.</p>
-                
-                <div class="glass-panel">
-                    <h3 class="mt-0">Why this stack?</h3>
-                    <ul class="space-y-4">
-                        <li><strong>Dependency Reliability:</strong> Manage plugins and WP core via Composer.</li>
-                        <li><strong>Environment Parity:</strong> Ensure your local, staging, and production environments are identical via <code>.env</code>.</li>
-                        <li><strong>Developer Happiness:</strong> Use modern tools like Blade, Vite, and Tailwind CSS.</li>
-                        <li><strong>Security:</strong> Isolate WordPress from the web root and hide sensitive configurations.</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- SECTION 2: ENVIRONMENT -->
-            <section id="environment" class="scroll-mt-32">
-                <h2 class="text-gradient">II. Environment Setup</h2>
-                <p>Before executing code, your local machine needs the professional baseline. We assume a Unix-based system (macOS/Linux) or WSL2.</p>
-                
-                <h3>Prerequisites</h3>
-                <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <li class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--border-ui)] transition-colors">
-                        <strong>PHP 8.2+</strong><br>
-                        <span class="text-xs opacity-60">Required for Acorn 4 compatibility.</span>
-                    </li>
-                    <li class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--border-ui)] transition-colors">
-                        <strong>Composer</strong><br>
-                        <span class="text-xs opacity-60">Global installation for PHP dependencies.</span>
-                    </li>
-                    <li class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--border-ui)] transition-colors">
-                        <strong>Node.js & Yarn</strong><br>
-                        <span class="text-xs opacity-60">Essential for the Vite-powered Sage 10.</span>
-                    </li>
-                    <li class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--border-ui)] transition-colors">
-                        <strong>WP-CLI</strong><br>
-                        <span class="text-xs opacity-60">Command-line control of WordPress.</span>
-                    </li>
-                </ul>
-
-                <p><strong>Recommendation:</strong> Use <a href="https://localwp.com" target="_blank" class="text-brand underline">LocalWP</a> for a GUI-driven setup, or <a href="https://laravel.com/docs/valet" target="_blank" class="text-brand underline">Laravel Valet</a> for an ultra-fast terminal workflow.</p>
-            </section>
-
-            <!-- SECTION 3: BEDROCK -->
-            <section id="bedrock" class="scroll-mt-32">
-                <h2 class="text-gradient">III. Implementing Bedrock</h2>
-                <p>Bedrock is our project skeleton. It replaces the traditional WordPress directory structure with one that is professional and secure.</p>
-                
-                <div class="code-block">
-                    # Install Bedrock
-                    composer create-project roots/bedrock my-project-name
-                </div>
-
-                <h3>Key Modifications by Bedrock</h3>
-                <ul>
-                    <li><strong><code>web/wp/</code></strong>: WordPress core is isolated here.</li>
-                    <li><strong><code>web/app/</code></strong>: Equivalent to <code>wp-content</code>.</li>
-                    <li><strong><code>.env</code></strong>: All database and salt configurations live here.</li>
-                    <li><strong><code>config/</code></strong>: Site-wide configuration logic.</li>
-                </ul>
-
-                <p>Once installed, edit your <code>.env</code> file:</p>
-                <div class="code-block">
-                    DB_NAME='database_name'
-                    DB_USER='database_user'
-                    DB_PASSWORD='database_password'
-                    WP_HOME='https://my-site.test'
-                </div>
-            </section>
-
-            <!-- SECTION 4: SAGE & DNA -->
-            <section id="sage" class="scroll-mt-32">
-                <h2 class="text-gradient">IV. The Sage 10 & Laravel DNA</h2>
-                <p>This is where the magic happens. Sage is our starter theme, but with <strong>Acorn</strong> integrated, it becomes a mini-Laravel application. It brings the concepts of modern frontend development right into the WordPress ecosystem.</p>
-                
-                <div class="code-block">
-                    # Navigate to themes and install Sage
-                    cd web/app/themes
-                    composer create-project roots/sage my-theme-name
-                </div>
-
-                <h3>Blade Components: Higher Abstraction</h3>
-                <p>Stop writing loops. Start writing components. Sage allows you to create high-reusable UI elements exactly like in Laravel. This separation of concerns is the hallmark of professional projects.</p>
-                <div class="code-block">
-                    # Example Component (resources/views/components/hero.blade.php)
-                    &lt;section class="bg-brand py-20 text-white"&gt;
-                      &lt;h1&gt;{{ $title }}&lt;/h1&gt;
-                      &lt;div&gt;{{ $slot }}&lt;/div&gt;
-                    &lt;/section&gt;
-                </div>
-            </section>
-
-            <!-- SECTION 5: LARAVEL ECOSYSTEM -->
-            <section id="ecosystem" class="scroll-mt-32">
-                <h2 class="laravel-accent">V. Deep Laravel Ecosystem Integration</h2>
-                <p>The true power of this stack is its adoption of the <strong>Laravel Framework's</strong> core concepts. This isn't just about syntax; it's about the entire architectural ecosystem.</p>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
-                    <div class="p-8 rounded-3xl glass-panel !m-0 border-laravel/10">
-                        <div class="w-12 h-12 rounded-2xl bg-laravel/10 flex items-center justify-center text-laravel font-black text-xl mb-4">SC</div>
-                        <h4 class="font-black mb-2" :class="dark ? 'text-white' : 'text-zinc-900'">Service Container</h4>
-                        <p class="text-sm opacity-70">The heart of dependency management. Bind your complex services to the container and resolve them anywhere in your theme via type-hinting.</p>
-                    </div>
-                    <div class="p-8 rounded-3xl glass-panel !m-0 border-brand/10">
-                        <div class="w-12 h-12 rounded-2xl bg-brand/10 flex items-center justify-center text-brand font-black text-xl mb-4">SP</div>
-                        <h4 class="font-black mb-2" :class="dark ? 'text-white' : 'text-zinc-900'">Service Providers</h4>
-                        <p class="text-sm opacity-70">Register your custom services, bind interfaces to implementations, and manage your custom configuration logic in a Laravel-standard way.</p>
-                    </div>
-                </div>
-
-                <h3>Acorn: The Laravel Bridge</h3>
-                <p>Acorn is what boots the Laravel ecosystem. It allows you to use <strong>Dependency Injection</strong> in your View Composers, just like you would in a Laravel Controller.</p>
-                <div class="code-block">
-                    # app/View/Composers/Post.php
-                    public function __construct(protected WeatherService $weather) {}
-
-                    public function with() {
-                        return [ 'temp' => $this->weather->current() ];
-                    }
-                </div>
-
-                <h3>CLI Control: WP Acorn</h3>
-                <p>Love <code>php artisan</code>? You get an equivalent with <code>wp acorn</code>. You can publish vendor configs, clear caches, and even generate components or providers directly from your terminal.</p>
-                <div class="code-block">
-                    wp acorn make:provider AppServiceProvider
-                    wp acorn vendor:publish --tag=acorn
-                </div>
-            </section>
-
-            <!-- SECTION 6: COMMANDS -->
-            <section id="commands" class="scroll-mt-32">
-                <h2 class="text-gradient">VI. Complete Command Cheat Sheet</h2>
-                <p>A quick reference for daily development tasks within the Roots ecosystem.</p>
-                
-                <div class="space-y-6">
-                    <div>
-                        <h4 class="text-xs font-black uppercase text-brand mb-2">Development workflow</h4>
-                        <div class="code-block mt-0">
-                            yarn dev          # Starts the Vite development server
-                            yarn build        # Compiles assets for production
-                            yarn lint         # Checks your JS and CSS for errors
-                        </div>
-                    </div>
-                    <div>
-                        <h4 class="text-xs font-black uppercase text-brand mb-2">Dependency management</h4>
-                        <div class="code-block mt-0">
-                            composer install  # Installs PHP dependencies
-                            composer update   # Safely updates all plugins/core
-                            yarn install      # Installs Node dependencies
-                        </div>
-                    </div>
-                    <div>
-                        <h4 class="text-xs font-black uppercase text-brand mb-2">Acorn CLI Commands</h4>
-                        <div class="code-block mt-0">
-                            wp acorn vendor:publish    # Publish config files
-                            wp acorn cache:clear        # Clear the internal cache
-                            wp acorn make:component     # Create a new Blade component
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION 7: DEPLOYMENT -->
-            <section id="deployment" class="scroll-mt-32">
-                <h2 class="text-gradient">VII. Deployment & Hosting</h2>
-                <p>To truly leverage this stack, your hosting must support <strong>Git/SSH</strong> and <strong>managed WP environments</strong>.</p>
-                <p><strong>Top Picks:</strong></p>
-                <ul>
-                    <li><a href="https://kinsta.com" target="_blank" class="text-brand font-bold">Kinsta</a> (Managed WP with Staging/Dev environments).</li>
-                    <li><a href="https://spinupwp.com" target="_blank" class="text-brand font-bold">SpinupWP</a> (Modern server control for developers).</li>
-                </ul>
-                <p>Your CI/CD pipeline should run <code>composer install --no-dev</code> and <code>yarn build</code> to ensure a clean production artifact every time.</p>
-            </section>
-        </div>
-
-        <!-- Master Vision Footer -->
-        <div class="mt-40">
-            <section class="relative z-10 py-32 overflow-hidden border-y rounded-[4rem] transition-colors" 
-                    :class="dark ? 'bg-white/[0.02] border-white/5' : 'bg-brand/[0.03] border-brand/10'">
-                <div class="max-w-4xl mx-auto px-6 text-center">
-                    <h3 class="text-4xl md:text-7xl font-black mb-8 tracking-tighter" :class="dark ? 'text-white' : 'text-zinc-900'">
-                        Level Up Your <span class="text-gradient">Projects</span>
-                    </h3>
-                    <p class="text-xl md:text-2xl text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-                        Need an enterprise-grade WordPress environment built for your next big project? Let's discuss your architecture.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button @click="showContactModal = true" 
-                                class="px-12 py-6 rounded-3xl bg-brand text-white text-xl font-black transition-all hover:shadow-[0_0_60px_rgba(99,102,241,0.5)] hover:scale-105 active:scale-95 shadow-xl shadow-brand/20">
-                            Let's Build Together
-                        </button>
-                        <a href="/showcase/" class="px-12 py-6 rounded-3xl border text-xl font-black transition-all hover:bg-brand/5"
-                            :class="dark ? 'border-white/10 text-white' : 'border-brand/20 text-brand'">
-                            View Showcase
-                        </a>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Contact Modal (Preserved Interaction) -->
-        <div x-show="showContactModal" x-cloak x-transition class="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-2xl bg-black/80">
-            <div @click.away="closeModal()" class="relative w-full max-w-xl glass-panel p-2 transition-colors"
-                :class="dark ? 'bg-white/5 border-white/10' : 'bg-white/80 border-zinc-200'">
-                <div class="rounded-[3rem] p-10" :class="dark ? 'bg-zinc-950/90' : 'bg-white'">
-                    <div class="flex justify-between items-start mb-10">
-                        <h2 class="text-4xl font-black tracking-tight leading-tight" :class="dark ? 'text-white' : 'text-zinc-900'">Project <span class="text-gradient">Briefing</span></h2>
-                        <button @click="closeModal()" class="p-2 text-zinc-400 hover:text-brand transition-colors"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-width="3"/></svg></button>
-                    </div>
-                    <template x-if="!successMessage">
-                        <form @submit.prevent="submitForm()" class="space-y-6">
-                            <input type="text" required x-model="contactForm.name" placeholder="Name" class="w-full px-6 py-5 rounded-2xl bg-brand/5 border border-brand/10 focus:border-brand outline-none transition-colors" :class="dark ? 'text-white' : 'text-zinc-900'">
-                            <input type="email" required x-model="contactForm.email" placeholder="Email" class="w-full px-6 py-5 rounded-2xl bg-brand/5 border border-brand/10 focus:border-brand outline-none transition-colors" :class="dark ? 'text-white' : 'text-zinc-900'">
-                            <textarea required x-model="contactForm.message" rows="4" placeholder="How can I help you?" class="w-full px-6 py-5 rounded-2xl bg-brand/5 border border-brand/10 focus:border-brand outline-none transition-colors resize-none" :class="dark ? 'text-white' : 'text-zinc-900'"></textarea>
-                            <button type="submit" :disabled="isSubmitting" class="w-full py-6 rounded-2xl bg-brand text-white font-black text-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-brand/30">
-                                <span x-show="!isSubmitting">INITIATE REQUEST</span>
-                                <span x-show="isSubmitting">TRANSMITTING...</span>
-                            </button>
-                        </form>
-                    </template>
-                    <template x-if="successMessage">
-                        <div class="text-center py-10">
-                            <div class="w-24 h-24 bg-brand/10 rounded-full flex items-center justify-center text-brand mx-auto mb-8"><svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-width="4"/></svg></div>
-                            <h3 class="text-3xl font-black mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">Transmission Received</h3>
-                            <button @click="closeModal()" class="px-10 py-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl font-bold transition-colors">CLOSE</button>
-                        </div>
-                    </template>
-                </div>
-            </div>
-        </div>
-
-        <!-- Discussion -->
-        <div class="mt-24 pt-16 border-t border-[var(--border-ui)] max-w-3xl mx-auto">
-            <h3 class="text-3xl font-black mb-10 italic" :class="dark ? 'text-white' : 'text-zinc-900'">Discussion</h3>
-            <div id="comments-container"></div>
-            <script>
-                const initComments = () => {
-                    if (document.querySelector('.utterances-frame')) return;
-                    const theme = document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
-                    let script = document.createElement('script');
-                    script.src = 'https://utteranc.es/client.js';
-                    script.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
-                    script.setAttribute('issue-term', 'pathname');
-                    script.setAttribute('label', 'comment');
-                    script.setAttribute('theme', theme);
-                    script.setAttribute('crossorigin', 'anonymous');
-                    script.async = true;
-                    document.getElementById('comments-container').appendChild(script);
-                };
-                setTimeout(initComments, 1000);
-            </script>
-        </div>
-    </main>
-
     <script>
-        function blogApp() {
-            return {
-                dark: true,
-                showContactModal: false,
-                isSubmitting: false,
-                successMessage: false,
-                contactForm: { name: '', email: '', message: '' },
-                activeSection: 'philosophy',
-                toc: [
-                    { id: 'philosophy', label: '1. Philosophy' },
-                    { id: 'environment', label: '2. Setup' },
-                    { id: 'bedrock', label: '3. Bedrock' },
-                    { id: 'sage', label: '4. Sage 10' },
-                    { id: 'ecosystem', label: '5. Ecosystem' },
-                    { id: 'commands', label: '6. Commands' },
-                    { id: 'deployment', label: '7. Hosting' }
-                ],
-                init() {
-                    const saved = localStorage.getItem('theme');
-                    if (saved === 'light') this.dark = false;
-                    this.$watch('dark', val => {
-                        document.documentElement.classList.toggle('dark', val);
-                        localStorage.setItem('theme', val ? 'dark' : 'light');
-                    });
-                    document.documentElement.classList.toggle('dark', this.dark);
-
-                    window.addEventListener('scroll', () => {
-                        const sections = this.toc.map(item => document.getElementById(item.id));
-                        const scrollPosition = window.scrollY + 150;
-                        for (let i = sections.length - 1; i >= 0; i--) {
-                            if (sections[i] && scrollPosition >= sections[i].offsetTop) {
-                                this.activeSection = this.toc[i].id;
-                                break;
-                            }
-                        }
-                    });
-                },
-                scrollToSection(id) {
-                    const element = document.getElementById(id);
-                    if (element) {
-                        window.scrollTo({
-                            top: element.offsetTop - 120,
-                            behavior: 'smooth'
-                        });
-                    }
-                },
-                toggleTheme() { this.dark = !this.dark; },
-                exploreWithAI(platform) {
-                    const url = window.location.href;
-                    const prompt = encodeURIComponent(`Please summarize this technical blog post and highlight the key takeaways: ${url}`);
-                    let aiUrl = '';
-                    if (platform === 'chatgpt') aiUrl = `https://chatgpt.com/?q=${prompt}`;
-                    if (platform === 'claude') aiUrl = `https://claude.ai/new?q=${prompt}`;
-                    if (platform === 'perplexity') aiUrl = `https://www.perplexity.ai/search?q=${prompt}`;
-                    window.open(aiUrl, '_blank');
-                },
-                closeModal() {
-                    this.showContactModal = false;
-                    setTimeout(() => {
-                        this.successMessage = false;
-                        this.contactForm = { name: '', email: '', message: '' };
-                    }, 500);
-                },
-                async submitForm() {
-                    this.isSubmitting = true;
-                    await new Promise(resolve => setTimeout(resolve, 2000));
-                    this.successMessage = true;
-                    this.isSubmitting = false;
-                }
+        // theme toggle
+        (function(){
+            const meta=document.querySelector('meta[name="color-scheme"]');
+            const btn=document.getElementById('themeToggle');
+            const root=document.documentElement;
+            function sysDark(){return matchMedia('(prefers-color-scheme: dark)').matches;}
+            function curDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return sysDark();}
+            btn.addEventListener('click',function(){const n=curDark()?'light':'dark';localStorage.setItem('color-scheme',n);meta.content=n;root.dataset.theme=n;});
+        })();
+        // reading progress
+        (function(){
+            const bar=document.getElementById('progress');
+            addEventListener('scroll',function(){const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';},{passive:true});
+        })();
+        // comments (utterances)
+        (function(){
+            function isDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return matchMedia('(prefers-color-scheme: dark)').matches;}
+            function initComments(){
+                if(document.querySelector('.utterances-frame'))return;
+                const s=document.createElement('script');
+                s.src='https://utteranc.es/client.js';
+                s.setAttribute('repo','theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term','pathname');
+                s.setAttribute('label','comment');
+                s.setAttribute('theme', isDark()?'github-dark':'github-light');
+                s.setAttribute('crossorigin','anonymous');
+                s.async=true;
+                document.getElementById('comments-container').appendChild(s);
             }
-        }
+            setTimeout(initComments,300);
+            document.getElementById('themeToggle').addEventListener('click',function(){
+                const f=document.querySelector('.utterances-frame');
+                if(f)f.contentWindow.postMessage({type:'set-theme',theme:isDark()?'github-dark':'github-light'},'https://utteranc.es');
+            });
+        })();
     </script>
 </body>
+
 </html>

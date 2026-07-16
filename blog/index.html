@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+<html lang="en">
 
 <head>
     <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
-<!-- End Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
     <link rel="llms" href="/llms.txt">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#5b5bd6">
     <title>Architecture Journal | The Unwind Method — Sagar Pansuriya</title>
     <meta name="description"
         content="Engineering-led insights on scaling digital systems. Deep dives into Laravel DNA, performance engineering, and modern frontend architecture by Sagar Pansuriya.">
@@ -35,7 +40,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="canonical" href="https://sagarpansuriya.in/blog/">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <meta name="msapplication-TileColor" content="#6366f1">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
 
     <!-- Blog Collection Structured Data for AI Search -->
     <script type="application/ld+json">
@@ -68,867 +73,462 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
 
-    <!-- TailwindCSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FOUC-safe theme pin (must run before render, not deferred) -->
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    },
-                    colors: {
-                        brand: {
-                            DEFAULT: '#6366f1',
-                            dark: '#4f46e5',
-                            light: '#818cf8'
-                        }
-                    }
-                }
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
             }
         }
     </script>
 
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <!-- Lenis (Smooth Scroll) -->
-    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
-
     <style>
-        [x-cloak] {
-            display: none !important;
+        :root {
+            color-scheme: light dark;
+
+            /* Raw tokens */
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+
+            /* Resolved */
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+
+            --serif: "Newsreader", Georgia, "Times New Roman", serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+            --measure: 60rem;
+            accent-color: var(--accent);
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            background-image:
-                radial-gradient(circle at 2px 2px, rgba(99, 102, 241, 0.08) 1px, transparent 0);
-            background-size: 32px 32px;
+        /* Manual override branch (JS sets data-theme + meta) */
+        :root[data-theme="light"] { color-scheme: light; }
+        :root[data-theme="dark"] { color-scheme: dark; }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        html { scrollbar-gutter: stable; }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            font-size: clamp(1rem, 0.96rem + 0.2vw, 1.075rem);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        a { color: inherit; }
+
+        .wrap {
+            max-width: var(--measure);
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        /* ---- Top bar ---- */
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            letter-spacing: 0.02em;
+            text-decoration: none;
+            color: var(--ink);
+        }
+        .brand b { color: var(--accent); }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+        .top-nav a:hover, .top-nav a[aria-current] { color: var(--ink); border-color: var(--accent); }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+        .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
+
+        /* ---- Section scaffolding ---- */
+        section { margin-block: clamp(3rem, 8vw, 5rem); }
+
+        .eyebrow {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--accent);
+            display: flex;
+            align-items: baseline;
+            gap: 0.6rem;
+            margin: 0 0 1.5rem;
+        }
+        .eyebrow::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--line);
+            transform: translateY(-0.25em);
+        }
+
+        h2.section-title {
+            font-family: var(--serif);
+            font-weight: 500;
+            font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2rem);
+            line-height: 1.2;
+            margin: 0 0 1.25rem;
+            letter-spacing: -0.01em;
+        }
+
+        /* ---- Hero ---- */
+        .hero { padding-block: clamp(2.5rem, 8vw, 4.5rem) 0; }
+        .hero .eyebrow { margin-bottom: 1.25rem; }
+
+        h1 {
+            font-family: var(--serif);
+            font-weight: 500;
+            font-size: clamp(2.4rem, 1.4rem + 4.5vw, 4rem);
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin: 0 0 1.25rem;
+        }
+        h1 .accent { color: var(--accent); font-style: italic; }
+
+        .lede {
+            font-size: clamp(1.05rem, 1rem + 0.4vw, 1.2rem);
+            color: var(--muted);
+            max-width: 42rem;
+            margin: 0;
+        }
+        .lede strong { color: var(--ink); font-weight: 600; }
+
+        /* ---- Controls (filters + search) ---- */
+        .controls { margin-block: clamp(2.25rem, 6vw, 3.25rem); }
+
+        .search-field {
+            position: relative;
+            margin-bottom: 1.5rem;
+            max-width: 30rem;
+        }
+        .search-field svg {
+            position: absolute;
+            left: 0.85rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1rem;
+            height: 1rem;
+            color: var(--muted);
             pointer-events: none;
         }
+        .search-field input {
+            width: 100%;
+            font: inherit;
+            font-size: 0.95rem;
+            padding: 0.65rem 0.85rem 0.65rem 2.4rem;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            background: var(--panel);
+            color: var(--ink);
+        }
+        .search-field input::placeholder { color: var(--muted); }
+        .search-field input:focus { outline: none; border-color: var(--accent); }
 
-        .glass {
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .filter-btn {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.4rem 0.85rem;
+            cursor: pointer;
+            transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+        .filter-btn:hover { color: var(--ink); border-color: var(--accent); }
+        .filter-btn[aria-pressed="true"] {
+            color: light-dark(#fff, #0e0e0f);
+            background: var(--accent);
+            border-color: var(--accent);
         }
 
-        .blog-card {
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        /* ---- Article index list ---- */
+        .index { list-style: none; margin: 0; padding: 0; }
+        .index li { border-top: 1px solid var(--line); }
+        .index li:last-child { border-bottom: 1px solid var(--line); }
+        .index li[hidden] { display: none; }
+        .index a {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            column-gap: 1.25rem;
+            row-gap: 0.35rem;
+            align-items: baseline;
+            padding: 1.35rem 0.25rem;
+            text-decoration: none;
+            transition: background 0.15s ease, padding-inline 0.15s ease;
+        }
+        .index a:hover { background: var(--panel); padding-inline: 0.75rem; }
+        .index .title {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            line-height: 1.25;
+            grid-column: 1;
+            transition: color 0.15s ease;
+        }
+        .index a:hover .title { color: var(--accent); }
+        .index .cat {
+            font-family: var(--mono);
+            font-size: 0.64rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            grid-column: 2;
+            grid-row: 1;
+            white-space: nowrap;
+            padding-top: 0.25rem;
+        }
+        .index .desc {
+            grid-column: 1 / -1;
+            font-size: 0.92rem;
+            color: var(--muted);
+            margin: 0;
+            max-width: 46rem;
+        }
+        .index .meta {
+            grid-column: 1 / -1;
+            font-family: var(--mono);
+            font-size: 0.66rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin-top: 0.15rem;
+        }
+        .index .meta .sep { opacity: 0.5; margin-inline: 0.4rem; }
+        @media (max-width: 34rem) {
+            .index a { grid-template-columns: 1fr; }
+            .index .cat { grid-column: 1; grid-row: auto; padding-top: 0; }
+            .index .title { font-size: 1.15rem; }
         }
 
-        .blog-card:hover {
-            transform: translateY(-8px);
+        /* ---- Empty state ---- */
+        .empty {
+            text-align: center;
+            padding: clamp(3rem, 10vw, 5rem) 1rem;
+            color: var(--muted);
+        }
+        .empty h3 { font-family: var(--serif); font-weight: 500; font-size: 1.4rem; color: var(--ink); margin: 0 0 0.5rem; }
+        .empty p { margin: 0 0 1.25rem; font-size: 0.95rem; }
+        .empty button {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.4rem 0.9rem;
+            cursor: pointer;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+        .empty button:hover { color: var(--ink); border-color: var(--accent); }
+
+        .result-count {
+            font-family: var(--mono);
+            font-size: 0.66rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--muted);
+            margin: 0 0 1.25rem;
         }
 
-        .gradient-text {
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* ---- Footer ---- */
+        footer {
+            border-top: 1px solid var(--line);
+            margin-top: clamp(3rem, 8vw, 5rem);
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.06em;
+            color: var(--muted);
         }
-
-        @keyframes bg-glow {
-
-            0%,
-            100% {
-                opacity: 0.5;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.8;
-                transform: scale(1.1);
-            }
+        footer a { color: var(--muted); text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+        .footer-links { display: flex; flex-wrap: wrap; gap: 1rem; }
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
         }
+        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
 
-        .glow-sphere {
-            animation: bg-glow 10s ease-in-out infinite;
-        }
+        /* ---- Entrance ---- */
+        .reveal { opacity: 0; transform: translateY(10px); animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; }
+        @keyframes rise { to { opacity: 1; transform: none; } }
 
-        /* VisionOS Liquid Glass Core */
-        .vision-glass {
-            position: relative;
-            background: transparent !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            z-index: 1;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-        }
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
 
-        .dark .vision-glass {
-            border-color: rgba(255, 255, 255, 0.1) !important;
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+            .reveal { opacity: 1; transform: none; }
         }
+    
+        .counter { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .counter img { height: 0.7rem; width: auto; opacity: 0.7; }
+        :root[data-theme="light"] .counter img { filter: invert(1); }
+        .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
+        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
 
-        /* Glass Backdrop Layer */
-        .vision-glass::before,
-        .blog-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            z-index: -2;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(25px) saturate(180%);
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            filter: url(#vision-glass-distortion);
-            transition: all 0.4s ease;
-        }
-
-        .dark .vision-glass::before,
-        .dark .blog-card::before {
-            background: rgba(20, 20, 22, 0.6);
-            backdrop-filter: blur(25px) saturate(140%);
-        }
-
-        /* Shine & Reflection Layer (Caustics) */
-        .vision-glass::after,
-        .blog-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            z-index: -1;
-            background: linear-gradient(135deg,
-                    rgba(255, 255, 255, 0.3) 0%,
-                    rgba(255, 255, 255, 0) 50%,
-                    rgba(255, 255, 255, 0.05) 100%);
-            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4),
-                inset 0 -1px 2px rgba(0, 0, 0, 0.05);
-            transition: all 0.4s ease;
-        }
-
-        .dark .vision-glass::after,
-        .dark .blog-card::after {
-            background: linear-gradient(135deg,
-                    rgba(255, 255, 255, 0.1) 0%,
-                    rgba(255, 255, 255, 0) 50%,
-                    rgba(0, 0, 0, 0.2) 100%);
-            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1),
-                inset 0 -1px 2px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Blog Card Specific Glass */
-        .blog-card {
-            position: relative;
-            background: transparent !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            z-index: 10;
-        }
-
-        .blog-card:hover {
-            transform: translateY(-10px) scale(1.01);
-            border-color: rgba(255, 255, 255, 0.4) !important;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Mouse Following Shine */
-        .blog-card-shine {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-            pointer-events: none;
-            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-                    rgba(255, 255, 255, 0.12) 0%,
-                    transparent 65%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .blog-card:hover .blog-card-shine {
-            opacity: 1;
-        }
-
-        .blog-card article {
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Hide scrollbar for Chrome, Safari and Opera */
-        .no-scrollbar::-webkit-scrollbar,
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none !important;
-        }
-
-        /* Hide scrollbar for IE, Edge and Firefox */
-        .no-scrollbar,
-        .scrollbar-hide {
-            -ms-overflow-style: none !important;  /* IE and Edge */
-            scrollbar-width: none !important;  /* Firefox */
-        }
     </style>
 </head>
 
-<body class="min-h-screen transition-colors duration-400 font-sans"
-    :class="dark ? 'bg-[#09090b] text-zinc-400' : 'bg-[#f8fafc] text-zinc-600'">
+<body>
     <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
 
-    <!-- Ambient backgrounds -->
-    <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-        <div class="glow-sphere absolute -top-[10%] -left-[10%] w-[50%] h-[50%] rounded-full blur-[120px]"
-            :class="dark ? 'bg-brand/10' : 'bg-brand/5'"></div>
-        <div class="glow-sphere absolute top-[40%] -right-[10%] w-[40%] h-[40%] rounded-full blur-[100px]"
-            :class="dark ? 'bg-purple-500/10' : 'bg-purple-500/5'" style="animation-delay: -5s;"></div>
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Hero -->
+            <section class="hero reveal" aria-labelledby="hero-title">
+                <p class="eyebrow"><span>&sect; Writing</span> The Unwind Method</p>
+                <h1 id="hero-title">Architecture <span class="accent">Journal</span></h1>
+                <p class="lede">
+                    Engineering-led insights on scaling digital systems. Deep dives into
+                    <strong>Laravel DNA</strong>, performance engineering, and modern frontend architecture.
+                </p>
+            </section>
+
+            <!-- Filters & search -->
+            <section class="controls" aria-label="Filter articles">
+                <div class="search-field">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" />
+                        <path d="M21 21l-4.35-4.35" />
+                    </svg>
+                    <input type="search" id="searchInput" placeholder="Search articles…"
+                        aria-label="Search articles by title or description" autocomplete="off">
+                </div>
+                <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
+            </section>
+
+            <!-- Article list -->
+            <section aria-labelledby="articles-h">
+                <p class="eyebrow"><span>&sect; Index</span> All articles</p>
+                <h2 class="section-title" id="articles-h">Every piece, most recent first</h2>
+                <p class="result-count" id="resultCount" aria-live="polite"></p>
+                <ul class="index" id="postList"></ul>
+                <div class="empty" id="emptyState" hidden>
+                    <h3>No articles found</h3>
+                    <p>Try adjusting your search or clearing the active filter.</p>
+                    <button type="button" id="resetBtn">Clear filters</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter" title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤ Sponsor</a>
+            </div>
+        </footer>
     </div>
 
-    <!-- Header / Navigation -->
-    <nav class="sticky top-0 z-50 glass border-b transition-colors duration-300"
-        :class="dark ? 'bg-[#09090b]/70 border-zinc-800/50 text-white' : 'bg-white/70 border-zinc-200/50 text-zinc-900'">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="/" class="flex items-center gap-2 group">
-                <div
-                    class="w-8 h-8 rounded-lg bg-brand flex items-center justify-center text-white shadow-lg shadow-brand/20">
-                    <span class="font-bold text-lg">S</span>
-                </div>
-                <span class="font-bold tracking-tight hidden sm:block">Sagar Pansuriya</span>
-            </a>
-
-            <div class="flex items-center gap-6">
-                <div class="hidden md:flex items-center gap-6 text-[11px] font-bold uppercase tracking-widest">
-                    <a href="/blog/" class="hover:text-brand transition-colors text-brand font-black">Insights</a>
-                    <a href="/showcase/" class="hover:text-brand transition-colors">Showcase</a>
-                    <a href="/talks/" class="hover:text-brand transition-colors">Talks</a>
-                    <a href="https://github.com/theunwindfront" target="_blank" class="hover:text-brand transition-colors">Archive</a>
-                </div>
-
-                <div class="w-px h-6 bg-zinc-200 dark:bg-white/10 hidden md:block"></div>
-
-                <button @click="toggleTheme()"
-                    class="w-9 h-9 rounded-xl border flex items-center justify-center transition-all duration-300"
-                    :class="dark ? 'border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white hover:border-zinc-700' : 'border-zinc-200 bg-white text-zinc-500 hover:text-brand hover:border-brand'">
-                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="5" />
-                        <path
-                            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                    </svg>
-                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-                    </svg>
-                </button>
-
-                <button @click="exploreWithAI('chatgpt')" title="Explore with AI"
-                    class="w-9 h-9 rounded-xl border flex items-center justify-center transition-all duration-300"
-                    :class="dark ? 'border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white hover:border-zinc-700' : 'border-zinc-200 bg-white text-zinc-500 hover:text-brand hover:border-brand'">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Banner -->
-    <header class="relative pt-20 pb-16 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border mb-6 text-xs font-semibold tracking-wider uppercase transform-gpu transition-all"
-                :class="dark ? 'bg-zinc-900/50 border-zinc-800 text-zinc-400' : 'bg-zinc-100 border-zinc-200 text-zinc-500'">
-                <span class="w-2 h-2 rounded-full bg-brand animate-pulse"></span>
-                Fresh Perspectives
-            </div>
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight"
-                :class="dark ? 'text-white' : 'text-zinc-900'">
-                Architecture <span class="gradient-text">Journal</span>
-            </h1>
-            <p class="max-w-2xl mx-auto text-lg md:text-xl leading-relaxed"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-500'">
-                Engineering-led insights on scaling digital systems. Master <span class="text-brand font-semibold">Laravel DNA</span>, performance engineering, and modern frontend architecture.
-            </p>
-        </div>
-    </header>
-
-    <!-- Search & Filters -->
-    <section class="sticky top-[76px] z-40 max-w-7xl mx-auto px-6 mb-12">
-        <div class="vision-glass p-4 rounded-2xl border flex flex-col md:flex-row items-center justify-between gap-6"
-            :class="dark ? 'border-zinc-800' : 'bg-white shadow-sm border-zinc-200'">
-
-            <!-- Category Dropdown -->
-            <div class="relative w-full md:w-64" x-data="{ open: false }" @click.away="open = false">
-                <button @click="open = !open"
-                    class="w-full px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center justify-between gap-3 border shadow-sm"
-                    :class="dark 
-                        ? 'bg-zinc-900/50 border-zinc-800/80 text-white hover:bg-zinc-900 hover:border-zinc-700' 
-                        : 'bg-zinc-50 border-zinc-200 text-zinc-700 hover:bg-zinc-100 hover:border-zinc-300'">
-                    <span class="flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-brand animate-pulse"></span>
-                        <span x-text="activeCategory"></span>
-                    </span>
-                    <svg class="w-4 h-4 transition-transform duration-300" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
-                </button>
-
-                <!-- Dropdown Menu -->
-                <div x-show="open" 
-                    x-transition:enter="transition ease-out duration-150"
-                    x-transition:enter-start="opacity-0 scale-95"
-                    x-transition:enter-end="opacity-100 scale-100"
-                    x-transition:leave="transition ease-in duration-100"
-                    x-transition:leave-start="opacity-100 scale-100"
-                    x-transition:leave-end="opacity-0 scale-95"
-                    class="absolute left-0 right-0 mt-2 z-50 rounded-2xl border shadow-xl p-2 glass max-h-72 overflow-y-auto"
-                    :class="dark ? 'border-zinc-800/80 bg-zinc-950/90 text-white' : 'border-zinc-200/80 bg-white/90 text-zinc-800'"
-                    style="display: none;">
-                    <template x-for="category in categories" :key="category">
-                        <button @click="activeCategory = category; open = false"
-                            class="w-full text-left px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 flex items-center justify-between"
-                            :class="activeCategory === category 
-                                ? 'bg-brand text-white shadow-md shadow-brand/10' 
-                                : (dark ? 'hover:bg-zinc-800/50 hover:text-white text-zinc-400' : 'hover:bg-zinc-100 hover:text-zinc-900 text-zinc-600')">
-                            <span x-text="category"></span>
-                            <svg x-show="activeCategory === category" class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                            </svg>
-                        </button>
-                    </template>
-                </div>
-            </div>
-
-            <!-- Search Input -->
-            <div class="relative w-full md:max-w-xs group">
-                <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none transition-colors duration-300"
-                    :class="dark ? 'text-zinc-600 group-focus-within:text-brand' : 'text-zinc-400 group-focus-within:text-brand'">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </div>
-                <input type="text" x-model="searchQuery" placeholder="Search articles..."
-                    class="w-full pl-11 pr-4 py-2.5 rounded-xl border text-sm outline-none transition-all duration-300"
-                    :class="dark 
-                        ? 'bg-zinc-950/50 border-zinc-800 text-white placeholder-zinc-700 focus:border-brand/50 focus:bg-zinc-950' 
-                        : 'bg-zinc-50 border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-brand focus:bg-white'">
-            </div>
-        </div>
-    </section>
-
-    <!-- Blog Grid -->
-    <main class="max-w-7xl mx-auto px-6 pb-24">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <template x-for="post in filteredPosts" :key="post.id">
-                <a :href="post.url" class="blog-card group flex flex-col h-full rounded-2xl overflow-hidden p-3 no-underline"
-                    @mousemove="updateShine($event)">
-
-                    <div class="blog-card-shine"></div>
-
-                    <article class="flex flex-col h-full">
-
-                        <!-- Thumbnail Area -->
-                        <div class="relative aspect-video rounded-2xl overflow-hidden mb-6 group-hover:shadow-2xl transition-all duration-500"
-                            :class="{
-                                'bg-[#FF2D20]/5': post.category === 'Laravel',
-                                'bg-[#38BDF8]/5': post.category === 'TailwindCSS',
-                                'bg-[#21759b]/5': post.category === 'WordPress',
-                                'bg-[#505b93]/5': post.category === 'NativePHP',
-                                'bg-[#a855f7]/5': post.category === 'Artificial Intelligence',
-                                'bg-[#77c1d2]/5': post.category === 'AlpineJS',
-                                'bg-[#6366f1]/5': ['Design Strategy', 'DX Tools'].includes(post.category)
-                            }">
-
-                            <!-- Dynamic Background Pattern -->
-                            <div class="absolute inset-0 opacity-10 transition-transform duration-700 group-hover:scale-110"
-                                :class="{
-                                    'bg-[radial-gradient(#FF2D20_1.5px,transparent_1.5px)]': post.category === 'Laravel',
-                                    'bg-[radial-gradient(#505b93_1.5px,transparent_1.5px)]': post.category === 'NativePHP',
-                                    'bg-[radial-gradient(#21759b_1.5px,transparent_1.5px)]': post.category === 'WordPress',
-                                    'bg-[radial-gradient(#38BDF8_1.5px,transparent_1.5px)]': post.category === 'TailwindCSS',
-                                    'bg-[radial-gradient(#a855f7_1.5px,transparent_1.5px)]': post.category === 'Artificial Intelligence',
-                                    'bg-[radial-gradient(#77c1d2_1.5px,transparent_1.5px)]': post.category === 'AlpineJS',
-                                    'bg-[radial-gradient(#6366f1_1.5px,transparent_1.5px)]': ['Design Strategy', 'DX Tools'].includes(post.category)
-                                }"
-                                style="background-size: 24px 24px;"></div>
-
-                            <!-- Category Accent Glow -->
-                            <div class="absolute -bottom-10 -right-10 w-32 h-32 rounded-full blur-[60px] opacity-20 transition-all duration-500 group-hover:scale-150"
-                                :class="{
-                                    'bg-[#FF2D20]': post.category === 'Laravel',
-                                    'bg-[#00aaa6]': post.category === 'NativePHP',
-                                    'bg-[#21759b]': post.category === 'WordPress',
-                                    'bg-[#38BDF8]': post.category === 'TailwindCSS',
-                                    'bg-[#a855f7]': post.category === 'Artificial Intelligence',
-                                    'bg-[#77c1d2]': post.category === 'AlpineJS',
-                                    'bg-[#6366f1]': ['Design Strategy', 'DX Tools'].includes(post.category)
-                                }"></div>
-
-                            <div class="absolute inset-0 flex items-center justify-center p-12">
-                                <div class="w-full h-full flex items-center justify-center transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-2">
-                                    <template x-if="post.category === 'Laravel'">
-                                        <svg class="h-16 w-auto" viewBox="0 0 200 206" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M199.887 46.582c.074.275.112.558.113.842v44.198a3.226 3.226 0 0 1-1.619 2.796l-37.093 21.358v42.333a3.231 3.231 0 0 1-1.611 2.796l-77.428 44.576c-.177.101-.37.166-.564.234-.072.024-.14.069-.217.089a3.254 3.254 0 0 1-1.652 0c-.088-.024-.169-.073-.253-.105-.178-.065-.363-.121-.532-.218L1.619 160.905A3.23 3.23 0 0 1 0 158.109V25.514c0-.29.04-.572.113-.845.024-.093.08-.178.113-.27.06-.17.116-.343.205-.5.06-.105.149-.19.222-.286.092-.129.177-.262.285-.374.093-.093.214-.162.319-.242.117-.097.221-.202.354-.278h.004L40.323.43a3.23 3.23 0 0 1 3.222 0l38.708 22.288h.008c.13.08.238.181.355.274.104.08.221.153.314.242.113.116.193.25.29.378.068.097.161.181.217.286.093.161.145.33.21.5.032.092.088.177.113.274.074.274.112.557.112.842v82.817l32.256-18.575V47.42c0-.282.04-.568.112-.838.029-.096.081-.18.113-.274.065-.169.121-.342.21-.5.06-.104.149-.188.217-.285.097-.129.177-.262.29-.375.093-.092.21-.16.314-.241.121-.097.226-.202.355-.278h.004l38.712-22.289a3.224 3.224 0 0 1 3.222 0l38.708 22.289c.137.08.241.18.362.274.101.08.218.153.31.241.113.117.194.25.29.379.073.097.162.181.218.286.093.157.145.33.209.5.037.092.089.177.113.273Zm-6.34 43.175V53.003l-13.545 7.8-18.714 10.775v36.754l32.263-18.575h-.004Zm-38.707 66.487v-36.778l-18.408 10.514-52.564 30.002v37.125l70.972-40.863ZM6.453 31.094v125.15l70.963 40.859v-37.117l-37.073-20.983-.012-.008-.016-.008c-.125-.073-.23-.177-.346-.266-.101-.081-.218-.145-.306-.234l-.009-.012c-.104-.1-.177-.225-.265-.338-.081-.109-.178-.202-.242-.314l-.004-.012c-.073-.121-.117-.266-.17-.403-.052-.121-.12-.234-.152-.363v-.004c-.04-.153-.049-.314-.065-.471-.016-.121-.048-.242-.048-.363V49.668l-18.71-10.78-13.545-7.79v-.004ZM41.938 6.948 9.687 25.515 41.93 44.08l32.247-18.57L41.93 6.948h.008ZM58.71 122.817l18.71-10.771V31.094l-13.546 7.798L45.16 49.668v80.952l13.55-7.803Zm99.356-93.959-32.247 18.566 32.247 18.567 32.243-18.57-32.243-18.563Zm-3.226 42.72-18.714-10.776-13.546-7.799v36.754l18.71 10.772 13.55 7.803V71.578Zm-74.202 82.825 47.299-27.006 23.644-13.494-32.223-18.554-37.1 21.361-33.815 19.469 32.195 18.224Z"
-                                                fill="#FF2D20"></path>
-                                        </svg>
-                                    </template>
-                                    <template x-if="post.category === 'TailwindCSS'">
-                                        <svg class="h-16 w-auto" viewBox="0 0 200 120" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M100 0C73.333 0 56.667 13.333 50 40c10-13.333 21.667-18.333 35-15 7.607 1.9 13.044 7.422 19.063 13.53C113.867 48.48 125.215 60 150 60c26.667 0 43.333-13.333 50-40-10 13.333-21.667 18.333-35 15-7.607-1.9-13.044-7.422-19.063-13.53C136.133 11.52 124.785 0 100 0ZM50 60C23.333 60 6.667 73.333 0 100c10-13.333 21.667-18.333 35-15 7.607 1.904 13.044 7.422 19.063 13.53C63.867 108.48 75.215 120 100 120c26.667 0 43.333-13.333 50-40-10 13.333-21.667 18.333-35 15-7.607-1.9-13.044-7.422-19.063-13.53C86.133 71.52 74.785 60 50 60Z"
-                                                fill="#38BDF8"></path>
-                                        </svg>
-                                    </template>
-                                    <template x-if="post.category === 'AlpineJS'">
-                                        <svg class="h-16 w-auto" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill="#77c1d2" fill-rule="evenodd" d="M98.444 35.562 126 62.997 98.444 90.432 70.889 62.997z" clip-rule="evenodd"/>
-                                            <path fill="#2d3441" fill-rule="evenodd" d="m29.556 35.562 57.126 56.876H31.571L2 62.997z" clip-rule="evenodd"/>
-                                        </svg>
-                                    </template>
-                                    <template x-if="post.category === 'NativePHP'">
-                                        <svg class="h-16 w-auto" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path class="text-[#505b93] dark:text-[#8696ed]" fill="currentColor" d="M29.5,98.4H0V1.2h29.5V98.4z"></path>
-                                            <path class="text-[#00aaa6] dark:text-[#3edad7]" fill="currentColor" d="M96.7,98.4H67.2V1.2h29.5V98.4z"></path>
-                                            <path class="text-[#272d48] dark:text-white/80" fill="currentColor" d="M96.7,98.4H29.5V1.2L96.7,98.4z"></path>
-                                        </svg>
-                                    </template>
-                                    <template x-if="post.category === 'DX Tools'">
-                                        <svg class="h-14 w-auto text-[#6366f1]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-                                        </svg>
-                                    </template>
-                                    <template x-if="post.category === 'WordPress'">
-                                        <svg class="h-16 w-auto" viewBox="0 0 122.52 122.523" xmlns="http://www.w3.org/2000/svg">
-                                            <g fill="currentColor" class="text-[#21759b] dark:text-white">
-                                                <path d="m8.708 61.26c0 20.802 12.089 38.779 29.619 47.298l-25.069-68.686c-2.916 6.536-4.55 13.769-4.55 21.388z"/>
-                                                <path d="m96.74 58.608c0-6.495-2.333-10.993-4.334-14.494-2.664-4.329-5.161-7.995-5.161-12.324 0-4.831 3.664-9.328 8.825-9.328.233 0 .454.029.681.042-9.35-8.566-21.807-13.796-35.489-13.796-18.36 0-34.513 9.42-43.91 23.688 1.233.037 2.395.063 3.382.063 5.497 0 14.006-.667 14.006-.667 2.833-.167 3.167 3.994.337 4.329 0 0-2.847.335-6.015.501l19.138 56.925 11.501-34.493-8.188-22.434c-2.83-.166-5.511-.501-5.511-.501-2.832-.166-2.5-4.496.332-4.329 0 0-8.679.667 13.843.667 5.496 0 14.006-.667 14.006-.667 2.835-.167 3.168 3.994.337 4.329 0 0-2.853.335-6.015.501l18.992 56.494 5.242-17.517c2.272-7.269 4.001-12.49 4.001-16.989z"/>
-                                                <path d="m62.184 65.857-15.768 45.819c4.708 1.384 9.687 2.141 14.846 2.141 6.12 0 11.989-1.058 17.452-2.979-.141-.225-.269-.464-.374-.724z"/>
-                                                <path d="m107.376 36.046c.226 1.674.354 3.471.354 5.404 0 5.333-.996 11.328-3.996 18.824l-16.053 46.413c15.624-9.111 26.133-26.038 26.133-45.426.001-9.137-2.333-17.729-6.438-25.215z"/>
-                                                <path d="m61.262 0c-33.779 0-61.262 27.481-61.262 61.26 0 33.783 27.483 61.263 61.262 61.263 33.778 0 61.265-27.48 61.265-61.263-.001-33.779-27.487-61.26-61.265-61.26zm0 119.715c-32.23 0-58.453-26.223-58.453-58.455 0-32.23 26.222-58.451 58.453-58.451 32.229 0 58.45 26.221 58.45 58.451 0 32.232-26.221 58.455-58.45 58.455z"/>
-                                            </g>
-                                        </svg>
-                                    </template>
-                                    <template x-if="post.category === 'Artificial Intelligence'">
-                                        <svg class="h-14 w-auto text-[#a855f7] drop-shadow-[0_0_8px_rgba(168,85,247,0.3)]" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M12 2c.4 0 .7.3.9.7l1.7 4.7 4.7 1.7c.4.2.7.5.7.9s-.3.7-.7.9l-4.7 1.7-1.7 4.7c-.2.4-.5.7-.9.7s-.7-.3-.9-.7l-1.7-4.7-4.7-1.7c-.4-.2-.7-.5-.7-.9s.3-.7.7-.9l4.7-1.7 1.7-4.7c.2-.4.5-.7.9-.7zm6 12c.3 0 .5.2.6.5l.8 2.2 2.2.8c.3.1.5.3.5.6s-.2.5-.5.6l-2.2.8-.8 2.2c-.1.3-.3.5-.6.5s-.5-.2-.6-.5l-.8-2.2-2.2-.8c-.3-.1-.5-.3-.5-.6s.2-.5.5-.6l2.2-.8.8-2.2c.1-.3.3-.5.6-.5z"/>
-                                        </svg>
-                                    </template>
-                                    <template x-if="post.category === 'Design Strategy'">
-                                        <svg class="h-16 w-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M13.64 21.97C13.14 22.21 12.57 22.35 12 22.35C11.43 22.35 10.86 22.21 10.36 21.97C9.86 21.73 9.39 21.38 9.04 20.93L3.07 13.18C2.72 12.73 2.5 12.19 2.41 11.62C2.32 11.05 2.37 10.47 2.55 9.92L4.67 3.59C4.85 3.04 5.16 2.55 5.57 2.17C5.98 1.78 6.49 1.51 7.04 1.38L13.51 0.03C14.06 -0.1 14.64 -0.09 15.19 0.07C15.74 0.23 16.24 0.53 16.63 0.93L21.07 5.73C21.46 6.14 21.73 6.65 21.86 7.2C21.99 7.75 21.97 8.33 21.81 8.87L19.45 15.13C19.29 15.67 19 16.15 18.6 16.53L13.64 21.97Z" fill="#6366f1"/>
-                                            <circle cx="12" cy="10" r="3" fill="white"/>
-                                        </svg>
-                                    </template>
-                                    <template x-if="post.category === 'Personal'">
-                                        <svg class="h-14 w-auto text-[#10b981]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                        </svg>
-                                    </template>
-                                </div>
-                            </div>
-
-                            <!-- Category Badge (Floating Top Right) -->
-                            <div class="absolute top-4 right-4 px-3 py-1.5 rounded-xl glass border text-[9px] font-bold uppercase tracking-widest"
-                                :class="dark ? 'bg-black/30 border-white/5 text-zinc-300' : 'bg-white/40 border-black/5 text-zinc-600'">
-                                <span x-text="post.category"></span>
-                            </div>
-                        </div>
-
-                        <!-- Content -->
-                        <div class="px-3 pb-4 flex flex-col flex-grow">
-                            <div class="flex items-center gap-3 text-xs font-mono mb-3"
-                                :class="dark ? 'text-zinc-500' : 'text-zinc-400'">
-                                <time x-text="post.date"></time>
-                                <span>·</span>
-                                <span x-text="post.readTime"></span>
-                            </div>
-                            <h2 class="text-xl font-bold mb-3 leading-tight transition-colors group-hover:text-brand"
-                                :class="dark ? 'text-white' : 'text-zinc-900'" x-text="post.title"></h2>
-                            <p class="text-sm line-clamp-3 mb-6 flex-grow" x-text="post.excerpt"></p>
-
-                            <span
-                                class="inline-flex items-center gap-2 text-sm font-bold text-brand group/link">
-                                Read Full Article
-                                <svg class="w-4 h-4 transform transition-transform duration-300 group-hover/link:translate-x-1"
-                                    fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                    <path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                                </svg>
-                            </span>
-                        </div>
-                    </article>
-                </a>
-            </template>
-        </div>
-
-        <!-- Empty State -->
-        <div x-show="filteredPosts.length === 0" x-cloak class="text-center py-20">
-            <div
-                class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-zinc-100 dark:bg-zinc-800 mb-6">
-                <svg class="w-8 h-8 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24">
-                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-            </div>
-            <h3 class="text-xl font-bold mb-2">No articles found</h3>
-            <p class="text-zinc-500">Try adjusting your search or filters to find what you're looking for.</p>
-            <button @click="resetFilters()" class="mt-6 text-brand font-bold hover:underline">Clear all filters</button>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="border-t transition-colors duration-300"
-        :class="dark ? 'border-zinc-800/50 bg-[#09090b]' : 'border-zinc-200 bg-white'">
-        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between gap-4">
-            <p class="font-mono text-[10px] tracking-wider uppercase" :class="dark ? 'text-zinc-500' : 'text-zinc-400'">
-                © 2026 Sagar Pansuriya · built with ☕
-            </p>
-            <div class="flex items-center gap-2">
-                <a href="https://github.com/theunwindfront" target="_blank" rel="noopener"
-                    class="p-2 transition-all duration-300 hover:text-brand"
-                    :class="dark ? 'text-zinc-600 hover:bg-white/5' : 'text-zinc-400 hover:bg-black/5'"
-                    style="border-radius: 8px;" aria-label="GitHub">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
-                    </svg>
-                </a>
-                <a href="https://linkedin.com/in/sagarpansuriya" target="_blank" rel="noopener"
-                    class="p-2 transition-all duration-300 hover:text-brand"
-                    :class="dark ? 'text-zinc-600 hover:bg-white/5' : 'text-zinc-400 hover:bg-black/5'"
-                    style="border-radius: 8px;" aria-label="LinkedIn">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                    </svg>
-                </a>
-                <a href="https://x.com/frontendbysagar/" target="_blank" rel="noopener"
-                    class="p-2 transition-all duration-300 hover:text-brand"
-                    :class="dark ? 'text-zinc-600 hover:bg-white/5' : 'text-zinc-400 hover:bg-black/5'"
-                    style="border-radius: 8px;" aria-label="Twitter (X)">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Visitor Counter (Sticky Left) -->
-    <a href="https://smallcounter.com" target="_blank" rel="noopener" title="Visitor Counter"
-        class="fixed top-1/2 left-5 transform -translate-x-1/2 -translate-y-1/2 -rotate-90 z-50 flex items-center gap-2 py-2 pl-3 pr-2.5 rounded-xl glass shadow-lg group transition-all duration-300"
-        :class="dark
-            ? 'bg-zinc-950/80 border-zinc-800 text-zinc-500 hover:text-brand hover:border-brand/40 hover:shadow-brand/10'
-            : 'bg-white/80 border-zinc-200 text-zinc-400 hover:text-brand hover:border-brand/30 hover:shadow-brand/5'">
-        <svg class="w-3 h-3 text-brand group-hover:scale-110 transition-transform" fill="none" stroke="currentColor"
-            stroke-width="2" viewBox="0 0 24 24">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-            <circle cx="12" cy="12" r="3" />
-        </svg>
-        <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="visitor count" class="h-2.5 w-auto"
-            :class="dark ? 'opacity-70 group-hover:opacity-100' : 'opacity-60 group-hover:opacity-90 invert'">
-        <span class="font-mono text-[9px] font-bold tracking-widest uppercase">visitors</span>
-    </a>
-
-    <script>
-        function blogApp() {
-            return {
-                dark: true,
-                activePage: 'blog',
-                activeCategory: 'All',
-                searchQuery: '',
-                categories: ['All', 'Artificial Intelligence', 'Laravel', 'NativePHP', 'NativeBlade', 'TailwindCSS', 'WordPress', 'Design Strategy', 'DX Tools', 'AlpineJS'],
-                posts: [
-                    {
-                        id: 22,
-                        title: 'NativePHP vs NativeBlade: The Ultimate Showdown',
-                        excerpt: 'A deep architecture dive into NativePHP (real PHP binary + Electron/Kotlin bridge) and NativeBlade (PHP-WASM + Tauri 2 + OTA updates). Learn which platform to choose for your next desktop or mobile app.',
-                        date: 'July 13, 2026',
-                        readTime: '12 min read',
-                        category: 'NativePHP',
-                        url: '/blog/nativephp-vs-nativeblade/',
-                    },
-                    {
-                        id: 21,
-                        title: 'Meet HTTP QUERY: The Safe, Cacheable Method We\'ve Been Waiting For',
-                        excerpt: 'The HTTP QUERY method (RFC 10008) is officially here. Learn how it bridges the gap between GET and POST by allowing a request body on safe and idempotent requests.',
-                        date: 'July 08, 2026',
-                        readTime: '6 min read',
-                        category: 'DX Tools',
-                        url: '/blog/http-query-method/',
-                    },
-                    {
-                        id: 20,
-                        title: 'Alpine.js Plugins: Extending the Alpine Core',
-                        excerpt: 'Learn how to write custom Alpine.js plugins by building three practical extensions: reactive storage, keyboard shortcuts, and lightweight forms validation.',
-                        date: 'June 30, 2026',
-                        readTime: '7 min read',
-                        category: 'AlpineJS',
-                        url: '/blog/alpinejs-plugin-development/',
-                    },
-                    {
-                        id: 19,
-                        title: 'Tailwind CSS: Rethinking Separation of Concerns',
-                        excerpt: 'You don\'t understand Tailwind? Let\'s explore how applying composable utility classes differs from the old days of using HTML attributes, and why separation of concerns isn\'t what it used to be.',
-                        date: 'June 24, 2026',
-                        readTime: '5 min read',
-                        category: 'TailwindCSS',
-                        url: '/blog/tailwind-vs-traditional-css/',
-                    },
-                    {
-                        id: 18,
-                        title: 'Uncovering NativePHP\'s Hidden Gem: The "JumpBridge" Hybrid Mode',
-                        excerpt: 'A technical deep dive into the hidden JumpBridge hybrid mode mechanism found in the NativePHP mobile-air repository.',
-                        date: 'June 15, 2026',
-                        readTime: '8 min read',
-                        category: 'NativePHP',
-                        url: '/blog/nativephp-jumpbridge-hybrid-mode/',
-                    },
-                    {
-                        id: 17,
-                        title: 'How LLMs Work (Explained Like You\'re 5... With a Jarvis Playground)',
-                        excerpt: 'Ever wonder how ChatGPT or Claude works under the hood? It\'s basically a giant autocorrect with a math degree. Let\'s explore LLMs with a live interactive playground.',
-                        date: 'June 05, 2026',
-                        readTime: '6 min read',
-                        category: 'Artificial Intelligence',
-                        url: '/blog/how-llm-models-work-jarvis-visualization/',
-                    },
-                    {
-                        id: 16,
-                        title: 'Turn NotebookLM Sources into Interactive Websites in Minutes (Zero Code)',
-                        excerpt: 'Learn the exact 5-step process to transform your NotebookLM research notes, PDFs, and documents into a live, interactive web application using Gemini Pro and Canvas.',
-                        date: 'June 01, 2026',
-                        readTime: '7 min read',
-                        category: 'Artificial Intelligence',
-                        url: '/blog/notebooklm-interactive-website/',
-                    },
-                    {
-                        id: 15,
-                        title: 'How AI Agents Are Changing the Customer Journey',
-                        excerpt: 'How AI agents are changing the way people interact, decide, and buy—and what that means for your customer journey.',
-                        date: 'May 28, 2026',
-                        readTime: '5 min read',
-                        category: 'Artificial Intelligence',
-                        url: '/blog/ai-agents-customer-journey/',
-                    },
-                    {
-                        id: 14,
-                        title: 'Deep Dive into Gemini 3.5 Flash: Architecture, Capabilities, and Developer Use Cases',
-                        excerpt: 'Explore the architecture and capabilities of Google\'s Gemini 3.5 Flash. Learn how its native multimodality, transformer efficiency, and long context window power coding workflows and agentic assistants.',
-                        date: 'May 20, 2026',
-                        readTime: '10 min read',
-                        category: 'Artificial Intelligence',
-                        url: '/blog/gemini-3-5-flash-capabilities-workings/',
-                    },
-                    {
-                        id: 13,
-                        title: 'WordPress 7.0: AI, Real-Time Collaboration, and the Future of the Web',
-                        excerpt: 'Explore the massive WordPress 7.0 update. Discover the new native AI API, real-time collaboration, modernized UI, and the highly anticipated release date.',
-                        date: 'May 13, 2026',
-                        readTime: '12 min read',
-                        category: 'WordPress',
-                        url: '/blog/wordpress-7-release-date-features/',
-                    },
-                    {
-                        id: 12,
-                        title: 'Why Your Claude Code Sessions Get Dumber Over Time (And How to Fix It)',
-                        excerpt: 'Learn how context hygiene, compaction, and .claudeignore can prevent Claude Code from degrading over long coding sessions.',
-                        date: 'May 04, 2026',
-                        readTime: '6 min read',
-                        category: 'DX Tools',
-                        url: '/blog/claude-code-context-hygiene/',
-                    },
-                    {
-                        id: 11,
-                        title: 'Markdown for AI and Accept Headers in WordPress SEO Plugins & Laravel',
-                        excerpt: 'How to properly support Markdown for AI using Accept headers in WordPress, Bedrock, and Laravel.',
-                        date: 'Apr 24, 2026',
-                        readTime: '5 min read',
-                        category: 'WordPress',
-                        url: '/blog/markdown-for-ai-wordpress-laravel-seo/',
-                    },
-                    {
-                        id: 10,
-                        title: 'The Laravel DNA in WordPress: Powering Sage & Bedrock',
-                        excerpt: 'The Ultimate Guide to building enterprise-grade WordPress. Master Bedrock, Sage 10, and the Laravel Ecosystem with detailed phases and CLI commands.',
-                        date: 'Apr 16, 2026',
-                        readTime: '22 min read',
-                        category: 'WordPress',
-                        url: '/blog/laravel-dna-wordpress-sage-bedrock/',
-                    },
-                    {
-                        id: 9,
-                        title: 'Work-Life Balance as a Developer: Returning with Renewed Energy',
-                        excerpt: 'Balancing work and personal life as a developer isn\'t easy, but taking a step back to support family makes both life and progress stronger.',
-                        date: 'Apr 08, 2026',
-                        readTime: '4 min read',
-                        category: 'Design Strategy',
-                        url: '/blog/work-life-balance-developer/',
-                    },
-                    {
-                        id: 8,
-                        title: 'WordPress Studio: The Fast, Dependency-Free Local Development Revolution',
-                        excerpt: 'Discover Automattic\'s new desktop app for WordPress local development. No Docker, no MySQL, just PHP via WebAssembly and SQLite.',
-                        date: 'Mar 31, 2026',
-                        readTime: '10 min read',
-                        category: 'WordPress',
-                        url: '/blog/wordpress-studio/',
-                    },
-                    {
-                        id: 7,
-                        title: 'Vite 8 + Laravel 13: The New Gold Standard for Full-Stack Speed',
-                        excerpt: 'Discover why the combination of Vite 8 and Laravel 13 is a game-changer for web performance. Deep dive into the new environment API, universal plugins, and instant HMR.',
-                        date: 'Mar 24, 2026',
-                        readTime: '12 min read',
-                        category: 'Laravel',
-                        url: '/blog/vite-8-laravel-13/',
-                    },
-                    {
-                        id: 6,
-                        title: 'Design Principles & Free Tools for Laravel 13 Development',
-                        excerpt: 'Discover essential design principles, free tools for UI/UX, and how they seamlessly integrate with building modern Laravel 13 web and mobile applications.',
-                        date: 'Mar 18, 2026',
-                        readTime: '12 min read',
-                        category: 'Design Strategy',
-                        url: '/blog/design-tools-laravel-13/',
-                    },
-                    {
-                        id: 5,
-                        title: 'Finally a good solution for the headache of building HTML emails 😮💨',
-                        excerpt: 'Maizzle is a framework for building responsive HTML emails using modern tools instead of writing messy email-safe HTML by hand.',
-                        date: 'Mar 16, 2026',
-                        readTime: '5 min read',
-                        category: 'DX Tools',
-                        url: '/blog/maizzle-html-emails/',
-                    },
-                    {
-                        id: 4,
-                        title: 'NativePHP on Android: Mastering JNI & v3.1.0 Binaries',
-                        excerpt: 'A comprehensive guide on running NativePHP on Android, updated for v3.1.0. Breakdown of the Binary Revolution, Dynamic Manifest Hub, and ~5ms persistent runtime.',
-                        date: 'Mar 20, 2026',
-                        readTime: '15 min read',
-                        category: 'NativePHP',
-                        url: '/blog/nativephp-android-research-fixes/',
-                    },
-                    {
-                        id: 3,
-                        title: 'Shoogle: The Search Engine for shadcn/ui Blocks You Didn\'t Know You Needed',
-                        excerpt: 'Everything about Shoogle — the dedicated search engine that indexes 2,750+ pages from 110+ shadcn libraries. Search, preview, copy blocks in seconds, and use the MCP server for AI-powered component search.',
-                        date: 'Mar 11, 2026',
-                        readTime: '7 min read',
-                        category: 'TailwindCSS',
-                        url: '/blog/shoogle-shadcn-search-engine/',
-                    },
-                    {
-                        id: 1,
-                        title: 'Simple TALL Stack Explanation for Modern Laravel Apps',
-                        excerpt: 'A clean explanation of the TALL stack (Tailwind, Alpine.js, Laravel, Livewire) and how it helps build modern Laravel applications with minimal JavaScript complexity.',
-                        date: 'Mar 6, 2026',
-                        readTime: '5 min read',
-                        category: 'Laravel',
-                        url: '/blog/tall-stack-laravel/',
-                    },
-                    {
-                        id: 2,
-                        title: "Modern CSS Is Replacing Your JavaScript (And You Didn't Notice)",
-                        excerpt: '6 modern CSS features that make JavaScript optional — :has(), container queries, fluid typography, and the Popover API. Stop writing so much JS.',
-                        date: 'Mar 3, 2026',
-                        readTime: '8 min read',
-                        category: 'TailwindCSS',
-                        url: '/blog/modern-css-replacing-javascript/',
-                    }
-                ],
-                get filteredPosts() {
-                    return this.posts.filter(post => {
-                        const matchesCategory = this.activeCategory === 'All' || post.category === this.activeCategory;
-                        const matchesSearch = post.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                            post.excerpt.toLowerCase().includes(this.searchQuery.toLowerCase());
-                        return matchesCategory && matchesSearch;
-                    });
-                },
-                init() {
-                    const saved = localStorage.getItem('theme');
-                    if (saved === 'light') this.dark = false;
-                    this.$watch('dark', val => {
-                        document.documentElement.classList.toggle('dark', val);
-                        localStorage.setItem('theme', val ? 'dark' : 'light');
-                    });
-                    document.documentElement.classList.toggle('dark', this.dark);
-
-                    // Parse category query parameter from URL
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const categoryParam = urlParams.get('category');
-                    if (categoryParam && this.categories.includes(categoryParam)) {
-                        this.activeCategory = categoryParam;
-                    }
-
-                    // Parse search query parameter from URL (supports SearchAction schema)
-                    const searchParam = urlParams.get('q');
-                    if (searchParam) {
-                        this.searchQuery = decodeURIComponent(searchParam);
-                    }
-
-                    // Watch for activeCategory changes and sync to URL
-                    this.$watch('activeCategory', val => {
-                        const url = new URL(window.location.href);
-                        if (val && val !== 'All') {
-                            url.searchParams.set('category', val);
-                        } else {
-                            url.searchParams.delete('category');
-                        }
-                        window.history.replaceState({}, '', url.pathname + url.search);
-                    });
-                },
-                toggleTheme() { this.dark = !this.dark; },
-                scrollCategories(e) {
-                    const container = e.currentTarget;
-                    const scrollAmount = e.deltaY;
-                    const canScrollLeft = container.scrollLeft > 0;
-                    const canScrollRight = container.scrollLeft < (container.scrollWidth - container.clientWidth);
-                    
-                    if ((scrollAmount > 0 && canScrollRight) || (scrollAmount < 0 && canScrollLeft)) {
-                        e.preventDefault();
-                        container.scrollLeft += scrollAmount;
-                    }
-                },
-                resetFilters() {
-                    this.activeCategory = 'All';
-                    this.searchQuery = '';
-                },
-                updateShine(e) {
-                    const card = e.currentTarget;
-                    const rect = card.getBoundingClientRect();
-                    const x = ((e.clientX - rect.left) / rect.width) * 100;
-                    const y = ((e.clientY - rect.top) / rect.height) * 100;
-                    card.style.setProperty('--mouse-x', `${x}%`);
-                    card.style.setProperty('--mouse-y', `${y}%`);
-                },
-                exploreWithAI(platform) {
-                    const url = window.location.href;
-                    const prompt = encodeURIComponent(`Please summarize this blog archive and highlight the latest articles: ${url}`);
-                    let aiUrl = '';
-                    if (platform === 'chatgpt') aiUrl = `https://chatgpt.com/?q=${prompt}`;
-                    if (platform === 'claude') aiUrl = `https://claude.ai/new?q=${prompt}`;
-                    if (platform === 'perplexity') aiUrl = `https://www.perplexity.ai/search?q=${prompt}`;
-                    window.open(aiUrl, '_blank');
-                }
-            }
-        }
-
-        // Initialize Liquid Scroll (Lenis)
-        document.addEventListener('DOMContentLoaded', () => {
-            const lenis = new Lenis();
-            function raf(time) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
-            requestAnimationFrame(raf);
-        });
-    </script>
     <!-- SEO: Static links for crawlers to prevent orphan pages -->
     <div style="display: none;" aria-hidden="true" hidden>
+        <a href="/blog/nativephp-vs-nativeblade/">NativePHP vs NativeBlade: The Ultimate Showdown</a>
         <a href="/blog/http-query-method/">Meet HTTP QUERY: The Safe, Cacheable Method We've Been Waiting For</a>
+        <a href="/blog/alpinejs-plugin-development/">Alpine.js Plugins: Extending the Alpine Core</a>
+        <a href="/blog/tailwind-vs-traditional-css/">Tailwind CSS: Rethinking Separation of Concerns</a>
+        <a href="/blog/nativephp-jumpbridge-hybrid-mode/">Uncovering NativePHP's Hidden Gem: The JumpBridge Hybrid Mode</a>
+        <a href="/blog/how-llm-models-work-jarvis-visualization/">How LLMs Work (Explained Like You're 5... With a Jarvis Playground)</a>
         <a href="/blog/notebooklm-interactive-website/">Turn NotebookLM Sources into Interactive Websites in Minutes (Zero Code)</a>
+        <a href="/blog/ai-agents-customer-journey/">How AI Agents Are Changing the Customer Journey</a>
         <a href="/blog/gemini-3-5-flash-capabilities-workings/">Deep Dive into Gemini 3.5 Flash: Architecture, Capabilities, and Developer Use Cases</a>
         <a href="/blog/wordpress-7-release-date-features/">WordPress 7.0: AI, Real-Time Collaboration, and the Future of the Web</a>
         <a href="/blog/claude-code-context-hygiene/">Why Your Claude Code Sessions Get Dumber Over Time (And How to Fix It)</a>
@@ -945,14 +545,357 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="/blog/modern-css-replacing-javascript/">Modern CSS Is Replacing Your JavaScript (And You Didn't Notice)</a>
     </div>
 
-    <!-- VisionOS Glass Distortion Filter -->
-    <svg style="display: none">
-        <filter id="vision-glass-distortion" x="0%" y="0%" width="100%" height="100%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.015 0.015" numOctaves="1" seed="5" result="turbulence" />
-            <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="8" xChannelSelector="R"
-                yChannelSelector="G" />
-        </filter>
-    </svg>
+    <script>
+        // ---- Data ----
+        const categories = ['All', 'Artificial Intelligence', 'Laravel', 'NativePHP', 'NativeBlade', 'TailwindCSS', 'WordPress', 'Design Strategy', 'DX Tools', 'AlpineJS'];
+        const posts = [
+            {
+                id: 22,
+                title: 'NativePHP vs NativeBlade: The Ultimate Showdown',
+                excerpt: 'A deep architecture dive into NativePHP (real PHP binary + Electron/Kotlin bridge) and NativeBlade (PHP-WASM + Tauri 2 + OTA updates). Learn which platform to choose for your next desktop or mobile app.',
+                date: 'July 13, 2026',
+                readTime: '12 min read',
+                category: 'NativePHP',
+                url: '/blog/nativephp-vs-nativeblade/',
+            },
+            {
+                id: 21,
+                title: 'Meet HTTP QUERY: The Safe, Cacheable Method We\'ve Been Waiting For',
+                excerpt: 'The HTTP QUERY method (RFC 10008) is officially here. Learn how it bridges the gap between GET and POST by allowing a request body on safe and idempotent requests.',
+                date: 'July 08, 2026',
+                readTime: '6 min read',
+                category: 'DX Tools',
+                url: '/blog/http-query-method/',
+            },
+            {
+                id: 20,
+                title: 'Alpine.js Plugins: Extending the Alpine Core',
+                excerpt: 'Learn how to write custom Alpine.js plugins by building three practical extensions: reactive storage, keyboard shortcuts, and lightweight forms validation.',
+                date: 'June 30, 2026',
+                readTime: '7 min read',
+                category: 'AlpineJS',
+                url: '/blog/alpinejs-plugin-development/',
+            },
+            {
+                id: 19,
+                title: 'Tailwind CSS: Rethinking Separation of Concerns',
+                excerpt: 'You don\'t understand Tailwind? Let\'s explore how applying composable utility classes differs from the old days of using HTML attributes, and why separation of concerns isn\'t what it used to be.',
+                date: 'June 24, 2026',
+                readTime: '5 min read',
+                category: 'TailwindCSS',
+                url: '/blog/tailwind-vs-traditional-css/',
+            },
+            {
+                id: 18,
+                title: 'Uncovering NativePHP\'s Hidden Gem: The "JumpBridge" Hybrid Mode',
+                excerpt: 'A technical deep dive into the hidden JumpBridge hybrid mode mechanism found in the NativePHP mobile-air repository.',
+                date: 'June 15, 2026',
+                readTime: '8 min read',
+                category: 'NativePHP',
+                url: '/blog/nativephp-jumpbridge-hybrid-mode/',
+            },
+            {
+                id: 17,
+                title: 'How LLMs Work (Explained Like You\'re 5... With a Jarvis Playground)',
+                excerpt: 'Ever wonder how ChatGPT or Claude works under the hood? It\'s basically a giant autocorrect with a math degree. Let\'s explore LLMs with a live interactive playground.',
+                date: 'June 05, 2026',
+                readTime: '6 min read',
+                category: 'Artificial Intelligence',
+                url: '/blog/how-llm-models-work-jarvis-visualization/',
+            },
+            {
+                id: 16,
+                title: 'Turn NotebookLM Sources into Interactive Websites in Minutes (Zero Code)',
+                excerpt: 'Learn the exact 5-step process to transform your NotebookLM research notes, PDFs, and documents into a live, interactive web application using Gemini Pro and Canvas.',
+                date: 'June 01, 2026',
+                readTime: '7 min read',
+                category: 'Artificial Intelligence',
+                url: '/blog/notebooklm-interactive-website/',
+            },
+            {
+                id: 15,
+                title: 'How AI Agents Are Changing the Customer Journey',
+                excerpt: 'How AI agents are changing the way people interact, decide, and buy—and what that means for your customer journey.',
+                date: 'May 28, 2026',
+                readTime: '5 min read',
+                category: 'Artificial Intelligence',
+                url: '/blog/ai-agents-customer-journey/',
+            },
+            {
+                id: 14,
+                title: 'Deep Dive into Gemini 3.5 Flash: Architecture, Capabilities, and Developer Use Cases',
+                excerpt: 'Explore the architecture and capabilities of Google\'s Gemini 3.5 Flash. Learn how its native multimodality, transformer efficiency, and long context window power coding workflows and agentic assistants.',
+                date: 'May 20, 2026',
+                readTime: '10 min read',
+                category: 'Artificial Intelligence',
+                url: '/blog/gemini-3-5-flash-capabilities-workings/',
+            },
+            {
+                id: 13,
+                title: 'WordPress 7.0: AI, Real-Time Collaboration, and the Future of the Web',
+                excerpt: 'Explore the massive WordPress 7.0 update. Discover the new native AI API, real-time collaboration, modernized UI, and the highly anticipated release date.',
+                date: 'May 13, 2026',
+                readTime: '12 min read',
+                category: 'WordPress',
+                url: '/blog/wordpress-7-release-date-features/',
+            },
+            {
+                id: 12,
+                title: 'Why Your Claude Code Sessions Get Dumber Over Time (And How to Fix It)',
+                excerpt: 'Learn how context hygiene, compaction, and .claudeignore can prevent Claude Code from degrading over long coding sessions.',
+                date: 'May 04, 2026',
+                readTime: '6 min read',
+                category: 'DX Tools',
+                url: '/blog/claude-code-context-hygiene/',
+            },
+            {
+                id: 11,
+                title: 'Markdown for AI and Accept Headers in WordPress SEO Plugins & Laravel',
+                excerpt: 'How to properly support Markdown for AI using Accept headers in WordPress, Bedrock, and Laravel.',
+                date: 'Apr 24, 2026',
+                readTime: '5 min read',
+                category: 'WordPress',
+                url: '/blog/markdown-for-ai-wordpress-laravel-seo/',
+            },
+            {
+                id: 10,
+                title: 'The Laravel DNA in WordPress: Powering Sage & Bedrock',
+                excerpt: 'The Ultimate Guide to building enterprise-grade WordPress. Master Bedrock, Sage 10, and the Laravel Ecosystem with detailed phases and CLI commands.',
+                date: 'Apr 16, 2026',
+                readTime: '22 min read',
+                category: 'WordPress',
+                url: '/blog/laravel-dna-wordpress-sage-bedrock/',
+            },
+            {
+                id: 9,
+                title: 'Work-Life Balance as a Developer: Returning with Renewed Energy',
+                excerpt: 'Balancing work and personal life as a developer isn\'t easy, but taking a step back to support family makes both life and progress stronger.',
+                date: 'Apr 08, 2026',
+                readTime: '4 min read',
+                category: 'Design Strategy',
+                url: '/blog/work-life-balance-developer/',
+            },
+            {
+                id: 8,
+                title: 'WordPress Studio: The Fast, Dependency-Free Local Development Revolution',
+                excerpt: 'Discover Automattic\'s new desktop app for WordPress local development. No Docker, no MySQL, just PHP via WebAssembly and SQLite.',
+                date: 'Mar 31, 2026',
+                readTime: '10 min read',
+                category: 'WordPress',
+                url: '/blog/wordpress-studio/',
+            },
+            {
+                id: 7,
+                title: 'Vite 8 + Laravel 13: The New Gold Standard for Full-Stack Speed',
+                excerpt: 'Discover why the combination of Vite 8 and Laravel 13 is a game-changer for web performance. Deep dive into the new environment API, universal plugins, and instant HMR.',
+                date: 'Mar 24, 2026',
+                readTime: '12 min read',
+                category: 'Laravel',
+                url: '/blog/vite-8-laravel-13/',
+            },
+            {
+                id: 6,
+                title: 'Design Principles & Free Tools for Laravel 13 Development',
+                excerpt: 'Discover essential design principles, free tools for UI/UX, and how they seamlessly integrate with building modern Laravel 13 web and mobile applications.',
+                date: 'Mar 18, 2026',
+                readTime: '12 min read',
+                category: 'Design Strategy',
+                url: '/blog/design-tools-laravel-13/',
+            },
+            {
+                id: 5,
+                title: 'Finally a good solution for the headache of building HTML emails 😮💨',
+                excerpt: 'Maizzle is a framework for building responsive HTML emails using modern tools instead of writing messy email-safe HTML by hand.',
+                date: 'Mar 16, 2026',
+                readTime: '5 min read',
+                category: 'DX Tools',
+                url: '/blog/maizzle-html-emails/',
+            },
+            {
+                id: 4,
+                title: 'NativePHP on Android: Mastering JNI & v3.1.0 Binaries',
+                excerpt: 'A comprehensive guide on running NativePHP on Android, updated for v3.1.0. Breakdown of the Binary Revolution, Dynamic Manifest Hub, and ~5ms persistent runtime.',
+                date: 'Mar 20, 2026',
+                readTime: '15 min read',
+                category: 'NativePHP',
+                url: '/blog/nativephp-android-research-fixes/',
+            },
+            {
+                id: 3,
+                title: 'Shoogle: The Search Engine for shadcn/ui Blocks You Didn\'t Know You Needed',
+                excerpt: 'Everything about Shoogle — the dedicated search engine that indexes 2,750+ pages from 110+ shadcn libraries. Search, preview, copy blocks in seconds, and use the MCP server for AI-powered component search.',
+                date: 'Mar 11, 2026',
+                readTime: '7 min read',
+                category: 'TailwindCSS',
+                url: '/blog/shoogle-shadcn-search-engine/',
+            },
+            {
+                id: 1,
+                title: 'Simple TALL Stack Explanation for Modern Laravel Apps',
+                excerpt: 'A clean explanation of the TALL stack (Tailwind, Alpine.js, Laravel, Livewire) and how it helps build modern Laravel applications with minimal JavaScript complexity.',
+                date: 'Mar 6, 2026',
+                readTime: '5 min read',
+                category: 'Laravel',
+                url: '/blog/tall-stack-laravel/',
+            },
+            {
+                id: 2,
+                title: "Modern CSS Is Replacing Your JavaScript (And You Didn't Notice)",
+                excerpt: '6 modern CSS features that make JavaScript optional — :has(), container queries, fluid typography, and the Popover API. Stop writing so much JS.',
+                date: 'Mar 3, 2026',
+                readTime: '8 min read',
+                category: 'TailwindCSS',
+                url: '/blog/modern-css-replacing-javascript/',
+            }
+        ];
+
+        // ---- State ----
+        let activeCategory = 'All';
+        let searchQuery = '';
+
+        // ---- DOM refs ----
+        const postList = document.getElementById('postList');
+        const filtersEl = document.getElementById('filters');
+        const searchInput = document.getElementById('searchInput');
+        const emptyState = document.getElementById('emptyState');
+        const resultCount = document.getElementById('resultCount');
+        const resetBtn = document.getElementById('resetBtn');
+
+        // ---- Render posts once (data-driven) ----
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        function renderPosts() {
+            postList.innerHTML = posts.map(post => `
+                <li data-category="${escapeHtml(post.category)}"
+                    data-title="${escapeHtml(post.title.toLowerCase())}"
+                    data-excerpt="${escapeHtml(post.excerpt.toLowerCase())}">
+                    <a href="${escapeHtml(post.url)}">
+                        <span class="title">${escapeHtml(post.title)}</span>
+                        <span class="cat">${escapeHtml(post.category)}</span>
+                        <p class="desc">${escapeHtml(post.excerpt)}</p>
+                        <span class="meta"><time>${escapeHtml(post.date)}</time><span class="sep">·</span>${escapeHtml(post.readTime)}</span>
+                    </a>
+                </li>
+            `).join('');
+        }
+
+        // ---- Render category filter buttons ----
+        function renderFilters() {
+            filtersEl.innerHTML = categories.map(cat => `
+                <button type="button" class="filter-btn" data-filter="${escapeHtml(cat)}"
+                    aria-pressed="${cat === activeCategory ? 'true' : 'false'}">${escapeHtml(cat)}</button>
+            `).join('');
+        }
+
+        // ---- Apply filters (show/hide) ----
+        function applyFilters() {
+            const q = searchQuery.trim().toLowerCase();
+            let visible = 0;
+            postList.querySelectorAll('li').forEach(li => {
+                const matchCat = activeCategory === 'All' || li.dataset.category === activeCategory;
+                const matchSearch = !q ||
+                    li.dataset.title.includes(q) ||
+                    li.dataset.excerpt.includes(q);
+                const show = matchCat && matchSearch;
+                li.hidden = !show;
+                if (show) visible++;
+            });
+
+            emptyState.hidden = visible !== 0;
+            resultCount.textContent = visible === 1
+                ? '1 article'
+                : visible + ' articles';
+
+            filtersEl.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.setAttribute('aria-pressed', btn.dataset.filter === activeCategory ? 'true' : 'false');
+            });
+        }
+
+        // ---- Sync active category to URL ----
+        function syncUrl() {
+            const url = new URL(window.location.href);
+            if (activeCategory && activeCategory !== 'All') {
+                url.searchParams.set('category', activeCategory);
+            } else {
+                url.searchParams.delete('category');
+            }
+            if (searchQuery) {
+                url.searchParams.set('q', searchQuery);
+            } else {
+                url.searchParams.delete('q');
+            }
+            window.history.replaceState({}, '', url.pathname + url.search + url.hash);
+        }
+
+        // ---- Events ----
+        filtersEl.addEventListener('click', e => {
+            const btn = e.target.closest('.filter-btn');
+            if (!btn) return;
+            activeCategory = btn.dataset.filter;
+            applyFilters();
+            syncUrl();
+        });
+
+        searchInput.addEventListener('input', () => {
+            searchQuery = searchInput.value;
+            applyFilters();
+            syncUrl();
+        });
+
+        resetBtn.addEventListener('click', () => {
+            activeCategory = 'All';
+            searchQuery = '';
+            searchInput.value = '';
+            applyFilters();
+            syncUrl();
+        });
+
+        // ---- Init: read ?category= and ?q= params ----
+        (function init() {
+            renderPosts();
+
+            const params = new URLSearchParams(window.location.search);
+            const catParam = params.get('category');
+            if (catParam && categories.includes(catParam)) {
+                activeCategory = catParam;
+            }
+            const qParam = params.get('q');
+            if (qParam) {
+                searchQuery = decodeURIComponent(qParam);
+                searchInput.value = searchQuery;
+            }
+
+            renderFilters();
+            applyFilters();
+        })();
+
+        // ---- Theme toggle (FOUC-safe pin already ran in <head>) ----
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+
+            function systemDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function currentDark() {
+                const pinned = localStorage.getItem('color-scheme');
+                if (pinned === 'dark') return true;
+                if (pinned === 'light') return false;
+                return systemDark();
+            }
+            btn.addEventListener('click', function () {
+                const next = currentDark() ? 'light' : 'dark';
+                localStorage.setItem('color-scheme', next);
+                meta.content = next;
+                root.dataset.theme = next;
+            });
+        })();
+    </script>
 </body>
 
 </html>

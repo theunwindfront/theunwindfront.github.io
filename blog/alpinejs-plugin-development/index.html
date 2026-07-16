@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+<html lang="en">
 
 <head>
     <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
-<!-- End Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
     <link rel="llms" href="/llms.txt">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
     <title>Alpine.js Plugins: Extending the Alpine Core</title>
     <meta name="description"
         content="Learn how to write custom Alpine.js plugins by building three practical extensions: reactive storage, keyboard shortcuts, and lightweight forms validation.">
@@ -35,112 +36,136 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <meta name="msapplication-TileColor" content="#6366f1">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Alpine.js (kept — this post has live interactive demos in the body) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
-                    colors: { brand: { DEFAULT: '#6366f1', dark: '#4f46e5' } }
-                }
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
             }
         }
     </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <style>
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background-image: radial-gradient(circle, rgba(99, 102, 241, .12) 1px, transparent 1px);
-            background-size: 24px 24px;
-            pointer-events: none;
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6; --paper-d: #0e0e0f;
+            --panel-l: #f1efe9; --panel-d: #17171a;
+            --code-l: #f4f2ec; --code-d: #131316;
+            --ink-l: #1a1a1a; --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b; --muted-d: #8f8d88;
+            --line-l: #e2ded4; --line-d: #262629;
+            --accent-l: #5b5bd6; --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
         }
+        :root[data-theme="light"] { color-scheme: light; }
+        :root[data-theme="dark"] { color-scheme: dark; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scrollbar-gutter: stable; }
+        body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+        a { color: inherit; }
+        .wrap { max-width: 46rem; margin-inline: auto; padding: clamp(1.25rem, 4vw, 2rem); }
 
-        .code-block {
-            background: #1e1e2e;
-            color: #cdd6f4;
-            border-radius: 8px;
-            padding: 16px;
-            overflow-x: auto;
-            font-size: 13px;
-            line-height: 1.6;
-            font-family: 'JetBrains Mono', monospace;
-            margin-bottom: 1.5rem;
-        }
+        .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem 0; }
+        .brand { font-family: var(--mono); font-size: 0.8rem; text-decoration: none; color: var(--ink); }
+        .brand b { color: var(--accent); }
+        .top-nav { display: flex; gap: clamp(0.9rem, 3vw, 1.6rem); align-items: center; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; }
+        .top-nav a { text-decoration: none; color: var(--muted); padding-block: 0.35rem; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
+        .top-nav a:hover, .top-nav a[aria-current] { color: var(--ink); border-color: var(--accent); }
+        .theme-toggle { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.7rem; cursor: pointer; transition: color .2s, border-color .2s; }
+        .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
 
-        .prose-content h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-        }
-        
-        .prose-content h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
-        }
+        .post-cat { display:inline-block; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); text-decoration:none; margin-top: 2.5rem; }
+        .post-title { font-family: var(--serif); font-weight: 600; font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem); line-height: 1.08; letter-spacing: -0.02em; margin: 0.75rem 0 1.25rem; }
+        .post-meta { display:flex; flex-wrap:wrap; align-items:center; gap: 0.75rem 1rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
+        .post-meta img { width: 2.25rem; height: 2.25rem; border-radius: 50%; object-fit: cover; }
+        .post-meta a { color: var(--ink); text-decoration: none; }
+        .post-meta a:hover { color: var(--accent); }
+        .post-meta .sep { color: var(--line); }
+        .post-cover { margin: 2rem 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+        .post-cover img { display:block; width: 100%; height: auto; }
 
-        .dark .prose-content h2, .dark .prose-content h3 {
-            color: white;
-        }
+        .prose { font-family: var(--serif); font-size: 1.2rem; line-height: 1.75; color: var(--ink); }
+        .prose > *:first-child { margin-top: 0; }
+        .prose p { margin: 0 0 1.4rem; }
+        .prose h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem); line-height: 1.2; letter-spacing: -0.01em; margin: 2.6rem 0 1rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+        .prose h3 { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; margin: 2rem 0 0.75rem; }
+        .prose h4 { font-family: var(--sans); font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 1.8rem 0 0.6rem; }
+        .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); }
+        .prose a:hover { border-bottom-color: var(--accent); }
+        .prose ul, .prose ol { margin: 0 0 1.4rem; padding-left: 1.4rem; }
+        .prose li { margin-bottom: 0.5rem; }
+        .prose li::marker { color: var(--accent); }
+        .prose strong { font-weight: 700; color: var(--ink); }
+        .prose em { font-style: italic; }
+        .prose blockquote { margin: 1.6rem 0; padding: 0.4rem 0 0.4rem 1.25rem; border-left: 2px solid var(--accent); color: var(--muted); font-style: italic; }
+        .prose img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; margin: 1.6rem 0; }
+        .prose hr { border: none; border-top: 1px solid var(--line); margin: 2.5rem 0; }
 
-        .prose-content p {
-            margin-bottom: 1rem;
-        }
+        .prose :not(pre) > code { font-family: var(--mono); font-size: 0.86em; background: var(--code-bg); border: 1px solid var(--line); border-radius: 5px; padding: 0.1em 0.4em; color: var(--ink); }
+        .prose pre, pre.code-block { font-family: var(--mono); font-size: 0.82rem; line-height: 1.6; background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; overflow-x: auto; margin: 1.6rem 0; color: var(--ink); }
+        .prose pre code, pre.code-block code { font-family: var(--mono); background: none; border: none; padding: 0; font-size: inherit; color: inherit; white-space: pre; }
 
-        .prose-content ul {
-            list-style-type: disc;
-            padding-left: 1.25rem;
-            margin-bottom: 1rem;
-        }
-        
-        .prose-content li {
-            margin-bottom: 0.5rem;
-        }
+        .prose table { width: 100%; border-collapse: collapse; margin: 1.6rem 0; font-family: var(--sans); font-size: 0.95rem; display: block; overflow-x: auto; }
+        .prose th, .prose td { text-align: left; padding: 0.65rem 0.85rem; border: 1px solid var(--line); vertical-align: top; }
+        .prose th { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--panel); }
 
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            font-size: 0.875rem;
-        }
+        /* live interactive Alpine demos */
+        .demo{border:1px solid var(--line);border-radius:10px;padding:1.25rem;background:var(--panel);margin:1.6rem 0;}
+        .demo .demo-label{font-family:var(--mono);font-size:0.62rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--accent);display:block;margin-bottom:0.75rem;}
+        .demo input{font-family:var(--sans);font-size:0.95rem;padding:0.5rem 0.7rem;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);width:100%;max-width:22rem;}
+        .demo input.invalid{border-color:#e5484d;}
+        .demo p{font-family:var(--sans);font-size:0.95rem;margin:0.75rem 0 0;color:var(--ink);}
+        .demo kbd{font-family:var(--mono);font-size:0.75rem;background:var(--code-bg);border:1px solid var(--line);border-radius:4px;padding:0.1em 0.4em;}
+        .demo .panel{margin-top:0.75rem;padding:0.7rem 0.9rem;border-radius:8px;background:var(--accent);color:#fff;font-family:var(--sans);font-size:0.9rem;}
+        .demo .err{font-family:var(--sans);font-size:0.78rem;color:#e5484d;margin-top:0.35rem;min-height:1rem;}
+        .demo button{font-family:var(--mono);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;background:var(--accent);color:#fff;border:none;border-radius:6px;padding:0.45rem 0.9rem;cursor:pointer;}
+        .demo .field{margin-bottom:0.9rem;}
+        .demo label{display:block;font-family:var(--sans);font-size:0.85rem;color:var(--muted);margin-bottom:0.35rem;}
 
-        .comparison-table th, .comparison-table td {
-            border: 1px solid rgba(156, 163, 175, 0.2);
-            padding: 1rem;
-            text-align: left;
-            vertical-align: top;
-        }
+        .comments { margin-top: 3rem; }
+        .comments h2 { font-family: var(--serif); font-weight: 600; font-size: 1.6rem; border-top: 1px solid var(--line); padding-top: 1.4rem; margin: 0 0 1rem; }
 
-        .dark .comparison-table th {
-            background-color: rgba(255, 255, 255, 0.05);
-            color: white;
-        }
+        .post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display:flex; flex-wrap:wrap; gap: 1rem; justify-content: space-between; align-items:center; }
+        .post-footer a.back { font-family: var(--mono); font-size: 0.75rem; text-decoration:none; color: var(--accent); }
+        .share { display:flex; gap: 0.5rem; }
+        .share a { font-family: var(--mono); font-size: 0.72rem; text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.7rem; }
+        .share a:hover { color: var(--accent); border-color: var(--accent); }
 
-        .comparison-table th {
-            background-color: rgba(0, 0, 0, 0.05);
-            font-weight: 600;
-        }
+        #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--accent); z-index: 100; transition: width .1s linear; }
 
-        .dark .comparison-table tr:hover {
-            background-color: rgba(255, 255, 255, 0.02);
-        }
-        
-        .comparison-table tr:hover {
-            background-color: rgba(0, 0, 0, 0.02);
-        }
+        footer.site { border-top: 1px solid var(--line); margin-top: 3rem; padding-block: 2rem; display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; align-items:center; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
+        footer.site a { color: var(--muted); text-decoration:none; }
+        footer.site a:hover { color: var(--accent); }
+        .footer-links { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; }
+        .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
+        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
+        .counter { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .counter img { height: 0.7rem; width: auto; opacity: 0.7; }
+        :root[data-theme="light"] .counter img { filter: invert(1); }
 
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } #progress { transition: none; } }
     </style>
 
     <!-- BlogPosting Structured Data for AI Search -->
@@ -191,175 +216,142 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         "url": "https://sagarpansuriya.in/blog/alpinejs-plugin-development/"
 }
     </script>
+
+    <!-- Register the three custom Alpine plugins from this article so the live demos below actually work -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            // Idea 1: $localStore magic helper
+            Alpine.magic('localStore', (el, { cleanup }) => {
+                return (key, initialValue) => {
+                    const getStoredValue = () => {
+                        const item = localStorage.getItem(key);
+                        if (item === null) return initialValue;
+                        try { return JSON.parse(item); } catch { return item; }
+                    };
+                    const storageState = Alpine.reactive({ value: getStoredValue() });
+                    Alpine.effect(() => {
+                        localStorage.setItem(key, JSON.stringify(storageState.value));
+                    });
+                    const handleStorageChange = (e) => {
+                        if (e.key === key) {
+                            try { storageState.value = JSON.parse(e.newValue); }
+                            catch { storageState.value = e.newValue; }
+                        }
+                    };
+                    window.addEventListener('storage', handleStorageChange);
+                    cleanup(() => window.removeEventListener('storage', handleStorageChange));
+                    return new Proxy(storageState, {
+                        get(target, prop) {
+                            if (prop === 'value') return target.value;
+                            return target.value[prop];
+                        },
+                        set(target, prop, val) {
+                            if (prop === 'value') { target.value = val; return true; }
+                            target.value[prop] = val; return true;
+                        }
+                    });
+                };
+            });
+
+            // Idea 2: x-shortcut directive
+            Alpine.directive('shortcut', (el, { expression, modifiers }, { evaluateLater, cleanup }) => {
+                const handler = evaluateLater(expression);
+                const keys = modifiers.map(m => m.toLowerCase());
+                const onKeyDown = (e) => {
+                    const matchesCmdOrMeta = keys.includes('cmd') || keys.includes('meta');
+                    const matchesCtrl = keys.includes('ctrl');
+                    const matchesShift = keys.includes('shift');
+                    const matchesAlt = keys.includes('alt');
+                    if (matchesCmdOrMeta && !(e.metaKey || e.ctrlKey)) return;
+                    if (matchesCtrl && !e.ctrlKey) return;
+                    if (matchesShift && !e.shiftKey) return;
+                    if (matchesAlt && !e.altKey) return;
+                    const specialModifiers = ['cmd', 'meta', 'ctrl', 'shift', 'alt'];
+                    const targetKey = keys.find(k => !specialModifiers.includes(k));
+                    if (targetKey && e.key.toLowerCase() !== targetKey) return;
+                    e.preventDefault();
+                    handler();
+                };
+                window.addEventListener('keydown', onKeyDown);
+                cleanup(() => window.removeEventListener('keydown', onKeyDown));
+            });
+
+            // Idea 3: x-validate directive
+            Alpine.directive('validate', (el, { modifiers }, { cleanup }) => {
+                const input = el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'
+                    ? el : el.querySelector('input, textarea, select');
+                if (!input) return;
+                const errorContainer = el.querySelector('.err') || (() => {
+                    const d = document.createElement('div'); d.className = 'err'; el.appendChild(d); return d;
+                })();
+                const checkValidity = () => {
+                    if (!input.checkValidity()) {
+                        errorContainer.textContent = input.validationMessage;
+                        input.classList.add('invalid');
+                    } else {
+                        errorContainer.textContent = '';
+                        input.classList.remove('invalid');
+                    }
+                };
+                const eventType = modifiers.includes('input') ? 'input' : 'blur';
+                input.addEventListener(eventType, checkValidity);
+                cleanup(() => input.removeEventListener(eventType, checkValidity));
+            });
+        });
+    </script>
 </head>
-<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
-    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f4f4f5] text-zinc-700'">
+
+<body>
+    <div id="progress"></div>
     <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
-        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
-        <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors bg-[#09090b]/80 border-zinc-800/50"
-        :class="dark ? 'bg-[#09090b]/80 border-zinc-800/50' : 'bg-white/80 border-zinc-200/50'">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-            <a href="/blog/" class="flex items-center gap-2 text-sm font-bold hover:text-brand transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                Dev Guides
-            </a>
-            <span class="text-zinc-400 dark:text-zinc-700">/</span>
-            <a href="/blog/?category=AlpineJS" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all"> AlpineJS </a>
-        </div>
-            <div class="flex items-center gap-4">
-                <button @click="toggleTheme()" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
-                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
-                </button>
-                <button @click="exploreWithAI('chatgpt')" title="Explore with AI" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </header>
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
 
-    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
-        <div class="mb-12 text-left max-w-3xl mx-auto">
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
-                :class="dark ? 'text-white' : 'text-zinc-900'">Alpine.js Plugins: Extending the Alpine Core</h1>
-
-            <!-- Author Info & Meta -->
-            <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <div class="flex items-center gap-4">
-                    <img src="/profile.jpg" alt="Sagar Pansuriya"
-                        class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
-                        :class="dark ? 'border-[#27272a]' : 'border-white'">
-                    <div>
-                        <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
-                            class="block hover:text-brand transition-colors text-base"
-                            :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
-                        <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
-                            Lead & Frontend Architect</span>
-                    </div>
-                </div>
-                <div class="hidden sm:block w-px h-10" :class="dark ? 'bg-[#27272a]' : 'bg-gray-300'"></div>
-                <div class="flex items-center gap-4 text-sm">
-                    <time datetime="2026-06-30" class="text-brand">June 30, 2026</time>
-                    <span>·</span>
-                    <span
-                        class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">7
-                        min read</span>
-                </div>
-            </div>
-
-            <!-- Explore with AI Section -->
-            <div class="flex flex-col md:flex-row items-center justify-between gap-6 py-6 mb-10 border-y transition-colors"
-                :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
-                <div class="max-w-md text-left">
-                    <h3 class="text-lg font-bold mb-1 flex items-center gap-2 !mt-0" :class="dark ? 'text-white' : 'text-zinc-900'">
-                        <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                        Explore with AI
-                    </h3>
-                    <p class="text-xs opacity-70">
-                        Want a quick summary or have specific questions about this post? Use your favorite AI agent.
-                    </p>
-                </div>
-                <div class="flex flex-wrap justify-center gap-3">
-                    <button @click="exploreWithAI('chatgpt')" 
-                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
-                        <span class="w-4 h-4 flex items-center justify-center bg-[#10a37f] rounded text-white text-[8px]">GPT</span>
-                        ChatGPT
-                    </button>
-                    <button @click="exploreWithAI('claude')" 
-                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-sm font-semibold">
-                        <span class="w-4 h-4 flex items-center justify-center bg-[#d97757] rounded text-white text-[8px]">C</span>
-                        Claude
-                    </button>
-                    <button @click="exploreWithAI('perplexity')" 
-                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
-                        <span class="w-4 h-4 flex items-center justify-center bg-[#20b2aa] rounded text-white text-[8px]">P</span>
-                        Perplexity
-                    </button>
-                </div>
-            </div>
-
-            <!-- Cover Component -->
-            <div class="relative aspect-video rounded-2xl overflow-hidden mb-10 shadow-2xl border flex flex-col items-center justify-center p-8 select-none"
-                :class="dark ? 'bg-[#09090b] border-white/5' : 'bg-white border-zinc-200'">
-                <!-- Glowing Gradients in background -->
-                <div class="absolute inset-0 bg-gradient-to-tr opacity-30" :class="dark ? 'from-brand/20 via-transparent to-cyan-500/10' : 'from-brand/10 via-transparent to-cyan-500/5'"></div>
-                <div class="absolute w-72 h-72 rounded-full bg-brand/20 blur-[80px] -top-10 -left-10 animate-pulse"></div>
-                <div class="absolute w-72 h-72 rounded-full bg-cyan-500/15 blur-[80px] -bottom-10 -right-10 animate-pulse" style="animation-delay: 2s;"></div>
-                
-                <!-- Dot grid background -->
-                <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(circle, rgba(99, 102, 241, 0.4) 1px, transparent 1px); background-size: 20px 20px;"></div>
-
-                <!-- Floating Code Blocks and badging representing plugin ideas -->
-                <div class="absolute top-8 left-8 md:left-12 border backdrop-blur-md rounded-xl p-3 font-mono text-[10px] md:text-xs rotate-[-2deg] shadow-lg"
-                    :class="dark ? 'bg-white/5 border-white/5 text-zinc-400' : 'bg-black/5 border-black/5 text-zinc-600'">
-                    <span class="text-brand">Alpine</span>.magic(<span class="text-cyan-400">'localStore'</span>, ...)
-                </div>
-                
-                <div class="absolute bottom-8 right-8 md:right-12 border backdrop-blur-md rounded-xl p-3 font-mono text-[10px] md:text-xs rotate-[3deg] shadow-lg"
-                    :class="dark ? 'bg-white/5 border-white/5 text-zinc-400' : 'bg-black/5 border-black/5 text-zinc-600'">
-                    <span class="text-brand">Alpine</span>.directive(<span class="text-violet-400">'shortcut'</span>, ...)
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=AlpineJS">§ AlpineJS</a>
+                <h1 class="post-title">Alpine.js Plugins: Extending the Alpine Core</h1>
+                <div class="post-meta">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-06-30">June 30, 2026</time>
+                    <span class="sep">·</span>
+                    <span>7 min read</span>
                 </div>
 
-                <!-- Central glowing logo structure -->
-                <div class="relative flex flex-col items-center gap-4 z-10">
-                    <div class="w-24 h-24 md:w-32 md:h-32 rounded-3xl border flex items-center justify-center p-6 shadow-2xl backdrop-blur-xl relative group"
-                        :class="dark ? 'bg-zinc-950/60 border-white/10' : 'bg-zinc-50 border-zinc-200'">
-                        <div class="absolute inset-0 rounded-3xl bg-gradient-to-tr from-brand to-cyan-400 opacity-0 group-hover:opacity-10 transition-opacity duration-500"></div>
-                        <!-- Alpine JS Logo -->
-                        <svg class="w-full h-full drop-shadow-[0_0_12px_rgba(119,193,210,0.5)]" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#77c1d2" fill-rule="evenodd" d="M98.444 35.562 126 62.997 98.444 90.432 70.889 62.997z" clip-rule="evenodd"/>
-                            <path :fill="dark ? '#e2e8f0' : '#2d3441'" fill-rule="evenodd" d="m29.556 35.562 57.126 56.876H31.571L2 62.997z" clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                    
-                    <div class="text-center">
-                        <span class="text-xs uppercase tracking-[0.25em] font-bold text-zinc-500">Alpine.js Extension Guide</span>
-                        <h2 class="text-xl md:text-2xl font-extrabold tracking-tight mt-1 bg-gradient-to-r bg-clip-text text-transparent !my-0"
-                            :class="dark ? 'from-white via-zinc-200 to-zinc-400' : 'from-zinc-900 via-zinc-800 to-zinc-600'">Plugin Architecture</h2>
-                    </div>
-                </div>
+                <div class="post-cover"><img src="cover.png" alt="Alpine.js Plugins: Extending the Alpine Core"></div>
 
-                <!-- Floating Tags/Pills representing features -->
-                <div class="absolute bottom-8 left-8 md:left-12 flex items-center gap-2">
-                    <span class="px-2.5 py-1 rounded-full bg-[#77c1d2]/10 border border-[#77c1d2]/20 text-[#77c1d2] font-mono text-[9px] uppercase tracking-wider">x-validate</span>
-                    <span class="px-2.5 py-1 rounded-full bg-brand/10 border border-brand/20 text-brand font-mono text-[9px] uppercase tracking-wider">x-shortcut</span>
-                </div>
+                <div class="prose">
 
-                <div class="absolute top-8 right-8 md:right-12 flex items-center gap-2">
-                    <span class="px-2.5 py-1 rounded-full bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 font-mono text-[9px] uppercase tracking-wider">x-data</span>
-                    <span class="px-2.5 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/20 text-emerald-400 font-mono text-[9px] uppercase tracking-wider">$store</span>
-                </div>
-            </div>
+                    <h2>The Power of the Alpine.js Plugin API</h2>
+                    <p>Alpine.js is beloved for its simplicity. With a handful of directives like <code>x-data</code>, <code>x-bind</code>, and <code>x-on</code>, you can build dynamic, interactive interfaces without leaving your HTML. However, as your application grows, you often need to reuse complex behavior or integrate external libraries. This is where Alpine's robust plugin API comes in.</p>
 
-            <div class="prose-content text-base leading-relaxed max-w-3xl" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                
-                <h2>The Power of the Alpine.js Plugin API</h2>
-                <p>Alpine.js is beloved for its simplicity. With a handful of directives like <code>x-data</code>, <code>x-bind</code>, and <code>x-on</code>, you can build dynamic, interactive interfaces without leaving your HTML. However, as your application grows, you often need to reuse complex behavior or integrate external libraries. This is where Alpine's robust plugin API comes in.</p>
-                
-                <p>By writing a custom plugin, you gain direct access to Alpine's internal engine, allowing you to define:</p>
-                <ul>
-                    <li><strong>Custom Directives:</strong> Modify the DOM, listen to events, or bind reactive state using prefix attributes (e.g., <code>x-validate</code>).</li>
-                    <li><strong>Magic Properties:</strong> Expose helper variables or utilities with a dollar sign prefix (e.g., <code>$clipboard</code>).</li>
-                    <li><strong>Global Stores:</strong> Manage shared state across multiple disconnected components.</li>
-                </ul>
+                    <p>By writing a custom plugin, you gain direct access to Alpine's internal engine, allowing you to define:</p>
+                    <ul>
+                        <li><strong>Custom Directives:</strong> Modify the DOM, listen to events, or bind reactive state using prefix attributes (e.g., <code>x-validate</code>).</li>
+                        <li><strong>Magic Properties:</strong> Expose helper variables or utilities with a dollar sign prefix (e.g., <code>$clipboard</code>).</li>
+                        <li><strong>Global Stores:</strong> Manage shared state across multiple disconnected components.</li>
+                    </ul>
 
-                <p>Let's look at how to hook into the plugin system and explore three practical plugin ideas you can build for your next project.</p>
+                    <p>Let's look at how to hook into the plugin system and explore three practical plugin ideas you can build for your next project.</p>
 
-                <h2>How Alpine.plugin() Works</h2>
-                <p>Under the hood, registering a plugin is simple. You call <code>Alpine.plugin(yourPluginFunction)</code> before calling <code>Alpine.start()</code>. Your plugin function receives a single parameter: the global <code>Alpine</code> object.</p>
+                    <h2>How Alpine.plugin() Works</h2>
+                    <p>Under the hood, registering a plugin is simple. You call <code>Alpine.plugin(yourPluginFunction)</code> before calling <code>Alpine.start()</code>. Your plugin function receives a single parameter: the global <code>Alpine</code> object.</p>
 
-                <pre class="code-block"><code>// basic-plugin.js
+                    <pre class="code-block"><code>// basic-plugin.js
 export default function (Alpine) {
     // Add a custom magic helper
     Alpine.magic('uppercase', (el) => {
@@ -372,16 +364,16 @@ export default function (Alpine) {
     });
 }</code></pre>
 
-                <p>Now, let's explore three creative plugin ideas that solve common frontend challenges.</p>
+                    <p>Now, let's explore three creative plugin ideas that solve common frontend challenges.</p>
 
-                <hr class="my-8 border-zinc-800" />
+                    <hr />
 
-                <h2>Idea 1: Reactive State Storage Binding (<code>$localStore</code>)</h2>
-                <p>While Alpine.js has an official <code>$persist</code> plugin, building your own custom reactive store hook allows you to control exactly how storage events synchronization behaves across browser tabs, specify customizable serializers, or automatically clear expired cache.</p>
-                
-                <p>Here is an implementation of a custom <code>$localStore</code> magic helper. It registers a reactive variable that syncs to <code>localStorage</code>, but also listens to the window's <code>storage</code> event so that changes in other tabs instantly update the UI.</p>
+                    <h2>Idea 1: Reactive State Storage Binding (<code>$localStore</code>)</h2>
+                    <p>While Alpine.js has an official <code>$persist</code> plugin, building your own custom reactive store hook allows you to control exactly how storage events synchronization behaves across browser tabs, specify customizable serializers, or automatically clear expired cache.</p>
 
-                <pre class="code-block"><code>export default function (Alpine) {
+                    <p>Here is an implementation of a custom <code>$localStore</code> magic helper. It registers a reactive variable that syncs to <code>localStorage</code>, but also listens to the window's <code>storage</code> event so that changes in other tabs instantly update the UI.</p>
+
+                    <pre class="code-block"><code>export default function (Alpine) {
     Alpine.magic('localStore', (el, { cleanup }) => {
         return (key, initialValue) => {
             // Read from storage or fall back to initial value
@@ -441,24 +433,30 @@ export default function (Alpine) {
     });
 }</code></pre>
 
-                <p><strong>Usage in Markup:</strong></p>
-                <pre class="code-block"><code>&lt;div x-data="{ username: $localStore('user_name', 'Guest') }"&gt;
+                    <p><strong>Usage in Markup:</strong></p>
+                    <pre class="code-block"><code>&lt;div x-data="{ username: $localStore('user_name', 'Guest') }"&gt;
     &lt;input type="text" x-model="username.value" class="p-2 border"&gt;
     &lt;p&gt;Hello, &lt;span x-text="username.value"&gt;&lt;/span&gt;!&lt;/p&gt;
 &lt;/div&gt;</code></pre>
 
-                <hr class="my-8 border-zinc-800" />
+                    <div class="demo" x-data="{ username: $localStore('user_name', 'Guest') }">
+                        <span class="demo-label">Live demo · persists across reloads &amp; tabs</span>
+                        <input type="text" x-model="username.value" aria-label="Your name">
+                        <p>Hello, <span x-text="username.value"></span>!</p>
+                    </div>
 
-                <h2>Idea 2: Custom Keyboard Shortcuts (<code>x-shortcut</code>)</h2>
-                <p>Handling key combinations (like <code>Ctrl + K</code> or <code>Cmd + Enter</code>) usually involves cluttering your components with complex event listeners or writing manual key code mappings. We can abstract this logic into a declarative directive: <code>x-shortcut</code>.</p>
+                    <hr />
 
-                <pre class="code-block"><code>export default function (Alpine) {
+                    <h2>Idea 2: Custom Keyboard Shortcuts (<code>x-shortcut</code>)</h2>
+                    <p>Handling key combinations (like <code>Ctrl + K</code> or <code>Cmd + Enter</code>) usually involves cluttering your components with complex event listeners or writing manual key code mappings. We can abstract this logic into a declarative directive: <code>x-shortcut</code>.</p>
+
+                    <pre class="code-block"><code>export default function (Alpine) {
     Alpine.directive('shortcut', (el, { expression, modifiers }, { evaluateLater, cleanup }) => {
         const handler = evaluateLater(expression);
-        
+
         // Parse modifiers to find the keys
         const keys = modifiers.map(m => m.toLowerCase());
-        
+
         const onKeyDown = (e) => {
             const matchesCmdOrMeta = keys.includes('cmd') || keys.includes('meta');
             const matchesCtrl = keys.includes('ctrl');
@@ -479,33 +477,41 @@ export default function (Alpine) {
 
             // Prevent default action (like browser search on Cmd+K)
             e.preventDefault();
-            
+
             // Execute component method
             handler();
         };
 
         window.addEventListener('keydown', onKeyDown);
-        
+
         cleanup(() => {
             window.removeEventListener('keydown', onKeyDown);
         });
     });
 }</code></pre>
 
-                <p><strong>Usage in Markup:</strong></p>
-                <pre class="code-block"><code>&lt;div x-data="{ isOpen: false }" x-shortcut.cmd.k="isOpen = !isOpen"&gt;
+                    <p><strong>Usage in Markup:</strong></p>
+                    <pre class="code-block"><code>&lt;div x-data="{ isOpen: false }" x-shortcut.cmd.k="isOpen = !isOpen"&gt;
     &lt;p&gt;Press &lt;kbd class="bg-gray-200 dark:bg-zinc-800 px-1.5 py-0.5 rounded font-mono"&gt;Cmd + K&lt;/kbd&gt; to toggle the modal.&lt;/p&gt;
     &lt;div x-show="isOpen" class="p-4 bg-brand text-white rounded mt-2"&gt;
         Shortcut triggered modal active!
     &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 
-                <hr class="my-8 border-zinc-800" />
+                    <div class="demo" x-data="{ isOpen: false }" x-shortcut.cmd.k="isOpen = !isOpen">
+                        <span class="demo-label">Live demo · try the shortcut</span>
+                        <p>Press <kbd>Cmd/Ctrl + K</kbd> to toggle the modal.</p>
+                        <div class="panel" x-show="isOpen" x-cloak>
+                            Shortcut triggered modal active!
+                        </div>
+                    </div>
 
-                <h2>Idea 3: Constraints-Based Form Validation (<code>x-validate</code>)</h2>
-                <p>Standard form validation packages are often heavy and force you to rewrite rules in JavaScript that already exist in HTML5 (like <code>required</code>, <code>type="email"</code>, or <code>min="5"</code>). Let's build a plugin that leverages the browser's native Validation API, exposing reactive validation states to Alpine.</p>
+                    <hr />
 
-                <pre class="code-block"><code>export default function (Alpine) {
+                    <h2>Idea 3: Constraints-Based Form Validation (<code>x-validate</code>)</h2>
+                    <p>Standard form validation packages are often heavy and force you to rewrite rules in JavaScript that already exist in HTML5 (like <code>required</code>, <code>type="email"</code>, or <code>min="5"</code>). Let's build a plugin that leverages the browser's native Validation API, exposing reactive validation states to Alpine.</p>
+
+                    <pre class="code-block"><code>export default function (Alpine) {
     Alpine.directive('validate', (el, { modifiers }, { evaluateLater, cleanup }) => {
         // Find the input element (or use the element itself)
         const input = el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT'
@@ -532,7 +538,7 @@ export default function (Alpine) {
 
         // Validate on blur or input based on modifiers
         const eventType = modifiers.includes('input') ? 'input' : 'blur';
-        
+
         input.addEventListener(eventType, checkValidity);
 
         cleanup(() => {
@@ -542,13 +548,13 @@ export default function (Alpine) {
     });
 }</code></pre>
 
-                <p><strong>Usage in Markup:</strong></p>
-                <pre class="code-block"><code>&lt;form @submit.prevent="alert('Submitted!')" class="space-y-4 max-w-sm"&gt;
+                    <p><strong>Usage in Markup:</strong></p>
+                    <pre class="code-block"><code>&lt;form @submit.prevent="alert('Submitted!')" class="space-y-4 max-w-sm"&gt;
     &lt;div x-validate&gt;
         &lt;label class="block text-sm"&gt;Email Address&lt;/label&gt;
         &lt;input type="email" required placeholder="name@example.com" class="p-2 border rounded w-full dark:bg-zinc-900"&gt;
     &lt;/div&gt;
-    
+
     &lt;div x-validate.input&gt;
         &lt;label class="block text-sm"&gt;Password (Min 8 Characters)&lt;/label&gt;
         &lt;input type="password" required minlength="8" class="p-2 border rounded w-full dark:bg-zinc-900"&gt;
@@ -557,72 +563,103 @@ export default function (Alpine) {
     &lt;button type="submit" class="bg-brand text-white px-4 py-2 rounded"&gt;Submit&lt;/button&gt;
 &lt;/form&gt;</code></pre>
 
-                <hr class="my-8 border-zinc-800" />
+                    <div class="demo">
+                        <span class="demo-label">Live demo · blur a field to validate</span>
+                        <form @submit.prevent="alert('Submitted!')" x-data>
+                            <div class="field" x-validate>
+                                <label>Email Address</label>
+                                <input type="email" required placeholder="name@example.com">
+                            </div>
 
-                <h2>Conclusion</h2>
-                <p>Custom Alpine.js plugins are an excellent way to keep your templates clean while maintaining high code reusability. Whether you're wrapping native browser features like the Constraint Validation and Storage APIs, or listening to keyboard events globally, the plugin API provides a powerful way to organize your front-end architecture. The next time you find yourself writing repetitive <code>x-init</code> code or creating complex custom event dispatchers, consider bundling that logic into a custom Alpine.js plugin instead!</p>
+                            <div class="field" x-validate.input>
+                                <label>Password (Min 8 Characters)</label>
+                                <input type="password" required minlength="8" placeholder="••••••••">
+                            </div>
+
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+
+                    <hr />
+
+                    <h2>Conclusion</h2>
+                    <p>Custom Alpine.js plugins are an excellent way to keep your templates clean while maintaining high code reusability. Whether you're wrapping native browser features like the Constraint Validation and Storage APIs, or listening to keyboard events globally, the plugin API provides a powerful way to organize your front-end architecture. The next time you find yourself writing repetitive <code>x-init</code> code or creating complex custom event dispatchers, consider bundling that logic into a custom Alpine.js plugin instead!</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/alpinejs-plugin-development/&text=Alpine.js Plugins: Extending the Alpine Core" target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/alpinejs-plugin-development/" target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
             </div>
-        </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter" title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤ Sponsor</a>
+            </div>
+        </footer>
+    </div>
 
-        <!-- Comments Section -->
-        <div class="mt-20 pt-10 border-t border-gray-200 dark:border-[#1e1e24] max-w-3xl mx-auto">
-            <h3 class="text-2xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">Discussion</h3>
-            <div id="comments-container"></div>
-            <script>
-                const initComments = () => {
-                    if (document.querySelector('.utterances-frame')) return;
-                    const theme = document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
-                    let script = document.createElement('script');
-                    script.src = 'https://utteranc.es/client.js';
-                    script.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
-                    script.setAttribute('issue-term', 'pathname');
-                    script.setAttribute('label', 'comment');
-                    script.setAttribute('theme', theme);
-                    script.setAttribute('crossorigin', 'anonymous');
-                    script.async = true;
-                    document.getElementById('comments-container').appendChild(script);
-                };
-                setTimeout(initComments, 300);
-                const observer = new MutationObserver((mutations) => {
-                    mutations.forEach((mutation) => {
-                        if (mutation.attributeName === 'class') {
-                            const isDark = document.documentElement.classList.contains('dark');
-                            const message = { type: 'set-theme', theme: isDark ? 'github-dark' : 'github-light' };
-                            const iframe = document.querySelector('.utterances-frame');
-                            if (iframe) iframe.contentWindow.postMessage(message, 'https://utteranc.es');
-                        }
-                    });
-                });
-                observer.observe(document.documentElement, { attributes: true });
-            </script>
-        </div>
-    </main>
+    <style>[x-cloak]{display:none !important;}</style>
 
     <script>
-        function blogApp() {
-            return {
-                dark: true,
-                init() {
-                    const saved = localStorage.getItem('theme');
-                    if (saved === 'light') this.dark = false;
-                    this.$watch('dark', val => {
-                        document.documentElement.classList.toggle('dark', val);
-                        localStorage.setItem('theme', val ? 'dark' : 'light');
-                    });
-                    document.documentElement.classList.toggle('dark', this.dark);
-                },
-                toggleTheme() { this.dark = !this.dark; },
-                exploreWithAI(platform) {
-                    const url = window.location.href;
-                    const prompt = encodeURIComponent(`Please summarize this technical blog post and highlight the key takeaways: ${url}`);
-                    let aiUrl = '';
-                    if (platform === 'chatgpt') aiUrl = `https://chatgpt.com/?q=${prompt}`;
-                    if (platform === 'claude') aiUrl = `https://claude.ai/new?q=${prompt}`;
-                    if (platform === 'perplexity') aiUrl = `https://www.perplexity.ai/search?q=${prompt}`;
-                    window.open(aiUrl, '_blank');
-                }
+        // theme toggle
+        (function(){
+            const meta=document.querySelector('meta[name="color-scheme"]');
+            const btn=document.getElementById('themeToggle');
+            const root=document.documentElement;
+            function sysDark(){return matchMedia('(prefers-color-scheme: dark)').matches;}
+            function curDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return sysDark();}
+            btn.addEventListener('click',function(){const n=curDark()?'light':'dark';localStorage.setItem('color-scheme',n);meta.content=n;root.dataset.theme=n;});
+        })();
+        // reading progress
+        (function(){
+            const bar=document.getElementById('progress');
+            addEventListener('scroll',function(){const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';},{passive:true});
+        })();
+        // comments (utterances)
+        (function(){
+            function isDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return matchMedia('(prefers-color-scheme: dark)').matches;}
+            function initComments(){
+                if(document.querySelector('.utterances-frame'))return;
+                const s=document.createElement('script');
+                s.src='https://utteranc.es/client.js';
+                s.setAttribute('repo','theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term','pathname');
+                s.setAttribute('label','comment');
+                s.setAttribute('theme', isDark()?'github-dark':'github-light');
+                s.setAttribute('crossorigin','anonymous');
+                s.async=true;
+                document.getElementById('comments-container').appendChild(s);
             }
-        }
+            setTimeout(initComments,300);
+            document.getElementById('themeToggle').addEventListener('click',function(){
+                const f=document.querySelector('.utterances-frame');
+                if(f)f.contentWindow.postMessage({type:'set-theme',theme:isDark()?'github-dark':'github-light'},'https://utteranc.es');
+            });
+        })();
     </script>
 </body>
+
 </html>

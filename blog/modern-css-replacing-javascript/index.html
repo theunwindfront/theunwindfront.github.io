@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+<html lang="en">
 
 <head>
     <!-- Google Tag Manager -->
@@ -13,6 +13,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="llms" href="/llms.txt">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
     <title>Modern CSS Is Replacing Your JavaScript (And You Didn't Notice)</title>
     <meta name="description"
         content="6 modern CSS features that replace JavaScript: :has(), container queries, anchor positioning, clamp(), light-dark(), and the Popover API.">
@@ -35,174 +36,171 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <meta name="msapplication-TileColor" content="#6366f1">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
-                    colors: { brand: { DEFAULT: '#6366f1', dark: '#4f46e5' } }
-                }
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
             }
         }
     </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <style>
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background-image: radial-gradient(circle, rgba(99, 102, 241, .12) 1px, transparent 1px);
-            background-size: 24px 24px;
-            pointer-events: none;
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6; --paper-d: #0e0e0f;
+            --panel-l: #f1efe9; --panel-d: #17171a;
+            --code-l: #f4f2ec; --code-d: #131316;
+            --ink-l: #1a1a1a; --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b; --muted-d: #8f8d88;
+            --line-l: #e2ded4; --line-d: #262629;
+            --accent-l: #5b5bd6; --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
         }
+        :root[data-theme="light"] { color-scheme: light; }
+        :root[data-theme="dark"] { color-scheme: dark; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scrollbar-gutter: stable; }
+        body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+        a { color: inherit; }
+        .wrap { max-width: 46rem; margin-inline: auto; padding: clamp(1.25rem, 4vw, 2rem); }
 
-        pre code {
-            font-size: 13px;
-            line-height: 1.6;
-        }
+        .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem 0; }
+        .brand { font-family: var(--mono); font-size: 0.8rem; text-decoration: none; color: var(--ink); }
+        .brand b { color: var(--accent); }
+        .top-nav { display: flex; gap: clamp(0.9rem, 3vw, 1.6rem); align-items: center; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; }
+        .top-nav a { text-decoration: none; color: var(--muted); padding-block: 0.35rem; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
+        .top-nav a:hover, .top-nav a[aria-current] { color: var(--ink); border-color: var(--accent); }
+        .theme-toggle { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.7rem; cursor: pointer; transition: color .2s, border-color .2s; }
+        .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
 
-        .tab-btn {
-            transition: all .2s;
-        }
+        .post-cat { display:inline-block; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); text-decoration:none; margin-top: 2.5rem; }
+        .post-title { font-family: var(--serif); font-weight: 600; font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem); line-height: 1.08; letter-spacing: -0.02em; margin: 0.75rem 0 1.25rem; }
+        .post-meta { display:flex; flex-wrap:wrap; align-items:center; gap: 0.75rem 1rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
+        .post-meta img { width: 2.25rem; height: 2.25rem; border-radius: 50%; object-fit: cover; }
+        .post-meta a { color: var(--ink); text-decoration: none; }
+        .post-meta a:hover { color: var(--accent); }
+        .post-meta .sep { color: var(--line); }
+        .post-cover { margin: 2rem 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+        .post-cover img { display:block; width: 100%; height: auto; }
 
-        .tab-btn.active {
-            color: #6366f1;
-            border-color: #6366f1;
-            background: rgba(99, 102, 241, .08);
-        }
+        .prose { font-family: var(--serif); font-size: 1.2rem; line-height: 1.75; color: var(--ink); }
+        .prose > *:first-child { margin-top: 0; }
+        .prose p { margin: 0 0 1.4rem; }
+        .prose h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem); line-height: 1.2; letter-spacing: -0.01em; margin: 2.6rem 0 1rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+        .prose h3 { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; margin: 2rem 0 0.75rem; }
+        .prose h4 { font-family: var(--sans); font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 1.8rem 0 0.6rem; }
+        .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); }
+        .prose a:hover { border-bottom-color: var(--accent); }
+        .prose ul, .prose ol { margin: 0 0 1.4rem; padding-left: 1.4rem; }
+        .prose li { margin-bottom: 0.5rem; }
+        .prose li::marker { color: var(--accent); }
+        .prose strong { font-weight: 700; color: var(--ink); }
+        .prose em { font-style: italic; }
+        .prose blockquote { margin: 1.6rem 0; padding: 0.4rem 0 0.4rem 1.25rem; border-left: 2px solid var(--accent); color: var(--muted); font-style: italic; }
+        .prose img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; margin: 1.6rem 0; }
+        .prose hr { border: none; border-top: 1px solid var(--line); margin: 2.5rem 0; }
 
-        .panel-header-before {
-            background: #fef2f2;
-            color: #b91c1c;
-            border-bottom: 2px solid #fecaca;
-        }
+        .prose :not(pre) > code { font-family: var(--mono); font-size: 0.86em; background: var(--code-bg); border: 1px solid var(--line); border-radius: 5px; padding: 0.1em 0.4em; color: var(--ink); }
+        .prose pre, pre.code-block { font-family: var(--mono); font-size: 0.82rem; line-height: 1.6; background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; overflow-x: auto; margin: 1.6rem 0; color: var(--ink); }
+        .prose pre code, pre.code-block code { font-family: var(--mono); background: none; border: none; padding: 0; font-size: inherit; color: inherit; white-space: pre; }
 
-        .panel-header-after {
-            background: #f0fdf4;
-            color: #15803d;
-            border-bottom: 2px solid #bbf7d0;
-        }
+        .prose table { width: 100%; border-collapse: collapse; margin: 1.6rem 0; font-family: var(--sans); font-size: 0.95rem; display: block; overflow-x: auto; }
+        .prose th, .prose td { text-align: left; padding: 0.65rem 0.85rem; border: 1px solid var(--line); vertical-align: top; }
+        .prose th { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--panel); }
 
-        .dark .panel-header-before {
-            background: #2c1616;
-            color: #fca5a5;
-            border-color: #4c2020;
-        }
+        /* interactive demo wrapper */
+        .demo { border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem; background: var(--panel); margin: 1.6rem 0; }
+        .demo .demo-grid { display: grid; gap: 1.25rem; }
+        @media (min-width: 40rem) { .demo .demo-grid.two { grid-template-columns: 1fr 1fr; } }
+        .demo .panel-label { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; margin-bottom: 0.6rem; }
+        .demo .panel-label.before { color: light-dark(#b91c1c, #fca5a5); }
+        .demo .panel-label.after { color: light-dark(#15803d, #86efac); }
+        .demo .demo-stage { border: 1px solid var(--line); border-radius: 8px; padding: 1rem; background: var(--paper); }
+        .demo .demo-code { font-family: var(--mono); font-size: 0.78rem; line-height: 1.55; background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px; padding: 0.9rem 1rem; overflow-x: auto; color: var(--ink); margin-top: 0.9rem; white-space: pre; }
+        .demo label.pick { display: flex; align-items: center; gap: 0.65rem; cursor: pointer; font-family: var(--sans); font-size: 0.95rem; font-weight: 600; }
+        .demo .demo-card { border: 1px solid var(--line); border-radius: 8px; padding: 0.9rem; background: var(--paper); transition: border-color .2s, background .2s; }
+        .demo .demo-card .card-t { font-family: var(--sans); font-weight: 600; font-size: 0.9rem; }
+        .demo .demo-card .card-s { font-family: var(--sans); font-size: 0.78rem; color: var(--muted); margin-top: 0.15rem; }
+        .demo .has-demo-card { border: 1px solid var(--line); border-radius: 8px; padding: 0.9rem; background: var(--paper); transition: border-color .2s, background .2s; }
+        .demo .has-demo-card:has(input:checked) { border-color: var(--accent); background: color-mix(in oklab, var(--accent) 8%, transparent); }
+        .demo .js-card[data-checked="true"] { border-color: var(--accent); background: color-mix(in oklab, var(--accent) 8%, transparent); }
+        .demo .demo-btn { font-family: var(--sans); font-size: 0.85rem; font-weight: 600; background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 0.5rem 0.9rem; cursor: pointer; }
+        .demo .menu { border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: 0.25rem 0; box-shadow: 0 10px 30px rgba(0,0,0,.15); min-width: 8rem; }
+        .demo .menu a { display: block; padding: 0.4rem 0.9rem; font-family: var(--sans); font-size: 0.85rem; text-decoration: none; color: var(--ink); }
+        .demo .menu a:hover { background: var(--panel); }
+        .demo .stage-rel { position: relative; min-height: 12rem; }
+        .demo .stage-rel .menu.js-menu { position: absolute; left: 0; top: 3rem; z-index: 10; }
+        .demo .fluid-box { padding: 2rem 1rem; text-align: center; background: color-mix(in oklab, var(--accent) 10%, transparent); border-radius: 8px; }
+        .demo .fluid-box p { font-family: var(--serif); font-weight: 700; color: var(--accent); margin: 0; font-size: clamp(1.2rem, 4vw + 1rem, 3rem); }
+        .demo .seg { display: inline-flex; }
+        .demo .seg button { font-family: var(--sans); font-size: 0.85rem; font-weight: 600; border: 1px solid var(--line); background: var(--paper); color: var(--muted); padding: 0.4rem 0.9rem; cursor: pointer; }
+        .demo .seg button:first-child { border-radius: 8px 0 0 8px; }
+        .demo .seg button:last-child { border-radius: 0 8px 8px 0; border-left: none; }
+        .demo .seg button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .demo .ld-card { margin: 1.25rem auto 0; width: 16rem; padding: 1.25rem; border-radius: 10px; font-family: var(--sans); font-weight: 700; text-align: center; transition: all .3s; }
+        .demo .ld-card.light { background: #fff; color: #1a1a1a; border: 1px solid #e0e0e0; }
+        .demo .ld-card.dark { background: #1a1a2e; color: #eee; border: 1px solid #333; }
 
-        .dark .panel-header-after {
-            background: #0f2c1c;
-            color: #86efac;
-            border-color: #1a4a2a;
-        }
+        /* container query demo */
+        .resize-handle { resize: horizontal; overflow: hidden; min-width: 200px; max-width: 100%; border: 2px dashed var(--muted); padding: 12px; border-radius: 8px; container-type: inline-size; }
+        @container (min-width: 400px) { .cq-grid { grid-template-columns: 1fr 1fr; } }
+        .cq-grid { display: grid; gap: 0.75rem; grid-template-columns: 1fr; }
 
-        .code-block {
-            background: #1e1e2e;
-            color: #cdd6f4;
-            border-radius: 8px;
-            padding: 16px;
-            overflow-x: auto;
-            font-size: 13px;
-            line-height: 1.6;
-        }
+        /* anchor popover demo */
+        .anchor-btn { anchor-name: --pop-anchor; }
+        #my-popover[popover] { position: fixed; position-anchor: --pop-anchor; top: anchor(bottom); left: anchor(left); margin: 4px 0 0; inset: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: 0.25rem 0; box-shadow: 0 10px 30px rgba(0,0,0,.15); }
 
-        .demo-card {
-            border: 1px solid;
-            border-radius: 10px;
-            padding: 16px;
-            transition: all .3s;
-        }
+        .callout { margin: 2rem 0 0; padding: 1.25rem 1.4rem; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); display: flex; gap: 1rem; font-family: var(--sans); }
+        .callout .callout-icon { flex-shrink: 0; color: var(--accent); }
+        .callout h3 { font-family: var(--sans); font-weight: 700; font-size: 0.95rem; margin: 0 0 0.35rem; }
+        .callout p { font-size: 0.9rem; line-height: 1.6; color: var(--muted); margin: 0; }
+        .callout a { color: var(--accent); text-decoration: none; font-weight: 600; }
+        .callout a:hover { text-decoration: underline; }
 
-        .dark .demo-card {
-            border-color: #27272a;
-            background: #18181b;
-        }
+        .comments { margin-top: 3rem; }
+        .comments h2 { font-family: var(--serif); font-weight: 600; font-size: 1.6rem; border-top: 1px solid var(--line); padding-top: 1.4rem; margin: 0 0 1rem; }
 
-        .demo-card:not(.dark .demo-card) {
-            border-color: #e4e4e7;
-            background: #fff;
-        }
+        .post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display:flex; flex-wrap:wrap; gap: 1rem; justify-content: space-between; align-items:center; }
+        .post-footer a.back { font-family: var(--mono); font-size: 0.75rem; text-decoration:none; color: var(--accent); }
+        .share { display:flex; gap: 0.5rem; }
+        .share a { font-family: var(--mono); font-size: 0.72rem; text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.7rem; }
+        .share a:hover { color: var(--accent); border-color: var(--accent); }
 
-        /* has demo */
-        .has-demo-card {
-            border: 2px solid #e4e4e7;
-            border-radius: 12px;
-            padding: 20px;
-            transition: all .3s;
-            background: #fff;
-        }
+        #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--accent); z-index: 100; transition: width .1s linear; }
 
-        .dark .has-demo-card {
-            border-color: #27272a;
-            background: #18181b;
-        }
+        footer.site { border-top: 1px solid var(--line); margin-top: 3rem; padding-block: 2rem; display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; align-items:center; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
+        footer.site a { color: var(--muted); text-decoration:none; }
+        footer.site a:hover { color: var(--accent); }
+        .footer-links { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; }
+        .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
+        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
+        .counter { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .counter img { height: 0.7rem; width: auto; opacity: 0.7; }
+        :root[data-theme="light"] .counter img { filter: invert(1); }
 
-        .has-demo-card:has(input:checked) {
-            border-color: #6366f1;
-            background: rgba(99, 102, 241, .06);
-        }
-
-        /* light-dark demo */
-        .ld-card-light {
-            background: #fff;
-            color: #1a1a1a;
-            border: 1px solid #e0e0e0;
-        }
-
-        .ld-card-dark {
-            background: #1a1a2e;
-            color: #eee;
-            border: 1px solid #333;
-        }
-
-        .ld-badge-light {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        .ld-badge-dark {
-            background: #6366f1;
-            color: #fff;
-        }
-
-        /* container query */
-        .resize-handle {
-            resize: horizontal;
-            overflow: hidden;
-            min-width: 200px;
-            max-width: 100%;
-            border: 2px dashed #a1a1aa;
-            padding: 12px;
-            border-radius: 8px;
-            container-type: inline-size;
-        }
-
-        @container (min-width: 400px) {
-            .cq-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        /* anchor popover */
-        .anchor-btn {
-            anchor-name: --pop-anchor;
-        }
-
-        [popover] {
-            position: fixed;
-            position-anchor: --pop-anchor;
-            top: anchor(bottom);
-            left: anchor(left);
-            margin: 4px 0 0;
-        }
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } #progress { transition: none; } }
     </style>
 
     <!-- BlogPosting Structured Data for AI Search -->
@@ -254,546 +252,282 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </script>
 </head>
 
-<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
-    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f4f4f5] text-zinc-700'">
+<body>
+    <div id="progress"></div>
     <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
-        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
 
-        <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors bg-[#09090b]/80 border-zinc-800/50"
-        :class="dark ? 'bg-[#09090b]/80 border-zinc-800/50' : 'bg-white/80 border-zinc-200/50'">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-            <a href="/blog/" class="flex items-center gap-2 text-sm font-bold hover:text-brand transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                Dev Guides
-            </a>
-            <span class="text-zinc-400 dark:text-zinc-700">/</span>
-            <a href="/blog/?category=TailwindCSS" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all">TailwindCSS</a>
-        </div>
-            <div class="flex items-center gap-4">
-                <button @click="toggleTheme()" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
-                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
-                </button>
-                <button @click="exploreWithAI('chatgpt')" title="Explore with AI" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </header>
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
 
-    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
-        <div class="mb-12 text-left max-w-3xl mx-auto">
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
-                :class="dark ? 'text-white' : 'text-zinc-900'">Modern CSS Is Replacing Your JavaScript</h1>
-
-            <!-- Author Info & Meta -->
-            <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <div class="flex items-center gap-4">
-                    <img src="/profile.jpg" alt="Sagar Pansuriya"
-                        class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
-                        :class="dark ? 'border-[#27272a]' : 'border-white'">
-                    <div>
-                        <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
-                            class="block hover:text-brand transition-colors text-base"
-                            :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
-                        <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
-                            Lead & Frontend Architect</span>
-                    </div>
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=TailwindCSS">§ TailwindCSS</a>
+                <h1 class="post-title">Modern CSS Is Replacing Your JavaScript</h1>
+                <div class="post-meta">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-03-03">March 3, 2026</time>
+                    <span class="sep">·</span>
+                    <span>8 min read</span>
                 </div>
-                <div class="hidden sm:block w-px h-10" :class="dark ? 'bg-[#27272a]' : 'bg-gray-300'"></div>
-                <div class="flex items-center gap-4 text-sm">
-                    <time datetime="2026-03-03" class="text-brand">Mar 3, 2026</time>
-                    <span>·</span>
-                    <span
-                        class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">6
-                        min read</span>
-                </div>
-            </div>
 
+                <div class="post-cover"><img src="cover.jpg" alt="Modern CSS Cover"></div>
 
-            
-            <!-- Explore with AI Section -->
-            <div class="flex flex-col md:flex-row items-center justify-between gap-6 py-6 mb-10 border-y transition-colors"
-                :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
-                <div class="max-w-md text-left">
-                    <h3 class="text-lg font-bold mb-1 flex items-center gap-2 !mt-0" :class="dark ? 'text-white' : 'text-zinc-900'">
-                        <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                        Explore with AI
-                    </h3>
-                    <p class="text-xs opacity-70">
-                        Want a quick summary or have specific questions about this post? Use your favorite AI agent.
-                    </p>
-                </div>
-                <div class="flex flex-wrap justify-center gap-3">
-                    <button @click="exploreWithAI('chatgpt')" 
-                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
-                        <span class="w-4 h-4 flex items-center justify-center bg-[#10a37f] rounded text-white text-[8px]">GPT</span>
-                        ChatGPT
-                    </button>
-                    <button @click="exploreWithAI('claude')" 
-                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-sm font-semibold">
-                        <span class="w-4 h-4 flex items-center justify-center bg-[#d97757] rounded text-white text-[8px]">C</span>
-                        Claude
-                    </button>
-                    <button @click="exploreWithAI('perplexity')" 
-                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
-                        <span class="w-4 h-4 flex items-center justify-center bg-[#20b2aa] rounded text-white text-[8px]">P</span>
-                        Perplexity
-                    </button>
-                </div>
-            </div>
+                <div class="prose">
+                    <p>For years, we've treated CSS as a pure styling language and JavaScript as the "real" logic layer. If something needed to respond to state, toggle visibility, or calculate positions — we reached for JS. That's outdated. Modern CSS can now handle state, layout intelligence, and UI logic natively. Let's break down 6 features you're probably underusing.</p>
 
-            <!-- Cover Image -->
-            <div class="rounded-2xl overflow-hidden mb-10 shadow-2xl border border-white/5">
-                <img src="cover.jpg" alt="Modern CSS Cover" class="w-full h-auto aspect-video object-cover">
-            </div>
+                    <h2>1. :has() — The Parent Selector We Waited a Decade For</h2>
+                    <p>The <code>:has()</code> pseudo-class is arguably the most powerful CSS feature added in years. It allows you to style a parent element based on the state or existence of its children. Previously, if you wanted to highlight a card when a user checked a box inside it, you had to attach event listeners and toggle classes with JavaScript.</p>
+                    <p>Now, it's a single CSS rule. Zero state management needed just to change a border color. <strong>Use cases:</strong> Form validation UI, interactive cards, accordion states, and navigation highlighting.</p>
 
-            <p class="text-lg leading-relaxed mb-8" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">For years, we've
-                treated CSS as a pure styling language and JavaScript as the "real" logic layer. If something needed to
-                respond to state, toggle visibility, or calculate positions — we reached for JS. That's outdated. Modern
-                CSS can now handle state, layout intelligence, and UI logic natively. Let's break down 6 features you're
-                probably underusing.</p>
-        </div>
-
-        <div class="sticky top-[53px] z-40 -mx-6 px-6 py-3 backdrop-blur-xl border-b mb-10 overflow-x-auto scrollbar-hide"
-            :class="dark ? 'bg-[#09090b]/90 border-[#1e1e24]' : 'bg-[#f4f4f5]/90 border-gray-300'">
-            <div class="flex gap-2">
-                <template x-for="(tab, i) in tabs" :key="i">
-                    <button @click="activeTab = i"
-                        class="tab-btn px-4 py-2 rounded-lg font-mono text-xs font-semibold whitespace-nowrap border"
-                        :class="activeTab === i ? 'active border-brand/30' : (dark ? 'border-transparent text-zinc-500' : 'border-transparent text-zinc-500 bg-white shadow-sm duration-150')"
-                        x-text="tab.label"></button>
-                </template>
-            </div>
-        </div>
-
-        <!-- :has() -->
-        <section x-show="activeTab === 0" x-transition.opacity>
-            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">1. :has() — The Parent
-                Selector We Waited a Decade For</h2>
-            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>The <code class="px-1.5 py-0.5 rounded text-sm font-mono"
-                        :class="dark ? 'bg-zinc-800 text-brand' : 'bg-brand/10 text-brand-dark'">:has()</code>
-                    pseudo-class is arguably the most powerful CSS feature added in years. It allows you to style a
-                    parent element based on the state or existence of its children. Previously, if you wanted to
-                    highlight a card when a user checked a box inside it, you had to attach event listeners and toggle
-                    classes with JavaScript.</p>
-                <p>Now, it's a single CSS rule. Zero state management needed just to change a border color. <strong
-                        :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Use cases:</strong> Form validation UI,
-                    interactive cards, accordion states, and navigation highlighting.</p>
-            </div>
-
-            <div class="rounded-xl border overflow-hidden"
-                :class="dark ? 'border-[#1e1e24] bg-[#111113]' : 'border-gray-200 bg-white'">
-                <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x"
-                    :class="dark ? 'divide-[#1e1e24]' : 'divide-gray-200'">
-                    <div class="p-6">
-                        <div class="panel-header-before rounded-t-lg px-4 py-2 font-mono text-xs font-bold uppercase">
-                            Before — JavaScript</div>
-                        <div class="p-4 rounded-b-lg border border-t-0"
-                            :class="dark ? 'border-[#27272a] bg-[#18181b]' : 'border-gray-200 bg-gray-50'">
-                            <div class="demo-card mb-4" x-data="{ checked: false }"
-                                :class="checked ? 'border-brand' : ''"
-                                :style="checked ? 'background: rgba(99,102,241,.06)' : ''">
-                                <label class="flex items-center gap-3 cursor-pointer">
-                                    <input type="checkbox" x-model="checked" class="w-4 h-4 accent-brand">
-                                    <span class="text-sm font-semibold"
-                                        :class="dark ? 'text-white' : 'text-zinc-900'">Select this item</span>
-                                </label>
-                            </div>
-                            <div class="code-block">
-                                <pre><code>// JavaScript required
+                    <div class="demo">
+                        <div class="demo-grid two">
+                            <div>
+                                <div class="panel-label before">Before — JavaScript</div>
+                                <div class="demo-stage">
+                                    <div class="demo-card js-card" x-data="{ checked: false }" :data-checked="checked" style="margin-bottom:0.9rem;">
+                                        <label class="pick">
+                                            <input type="checkbox" x-model="checked">
+                                            <span>Select this item</span>
+                                        </label>
+                                    </div>
+                                    <div class="demo-code">// JavaScript required
 checkbox.addEventListener('change', () => {
   card.classList.toggle('is-selected',
     checkbox.checked);
-});</code></pre>
+});</div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="panel-header-after rounded-t-lg px-4 py-2 font-mono text-xs font-bold uppercase">
-                            After — Pure CSS :has()</div>
-                        <div class="p-4 rounded-b-lg border border-t-0"
-                            :class="dark ? 'border-[#27272a] bg-[#18181b]' : 'border-gray-200 bg-gray-50'">
-                            <div class="has-demo-card mb-4">
-                                <label class="flex items-center gap-3 cursor-pointer">
-                                    <input type="checkbox" class="w-4 h-4 accent-brand">
-                                    <span class="text-sm font-semibold"
-                                        :class="dark ? 'text-white' : 'text-zinc-900'">Select this item</span>
-                                </label>
-                            </div>
-                            <div class="code-block">
-                                <pre><code>/* No JavaScript! */
+                            <div>
+                                <div class="panel-label after">After — Pure CSS :has()</div>
+                                <div class="demo-stage">
+                                    <div class="has-demo-card" style="margin-bottom:0.9rem;">
+                                        <label class="pick">
+                                            <input type="checkbox">
+                                            <span>Select this item</span>
+                                        </label>
+                                    </div>
+                                    <div class="demo-code">/* No JavaScript! */
 .card:has(input:checked) {
   border-color: var(--accent);
   background: var(--accent-light);
-}</code></pre>
+}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Container Queries -->
-        <section x-show="activeTab === 1" x-transition.opacity style="display: none;">
-            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">2. Container Queries —
-                True Component Responsiveness</h2>
-            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>Media queries are global. They respond to the viewport. That's fine until your responsive component
-                    lives inside a sidebar, a dashboard widget, or a resizable panel. Then it breaks, because the
-                    viewport is wide, but the component's actual container is narrow.</p>
-                <p>With <code class="px-1.5 py-0.5 rounded text-sm font-mono"
-                        :class="dark ? 'bg-zinc-800 text-brand' : 'bg-brand/10 text-brand-dark'">@container</code>,
-                    components adapt to their parent's width, not the viewport. This is fundamental for building truly
-                    reusable component libraries and design systems. If you're building isolated UI components without
-                    container queries, you're building them rigidly.</p>
-            </div>
+                    <h2>2. Container Queries — True Component Responsiveness</h2>
+                    <p>Media queries are global. They respond to the viewport. That's fine until your responsive component lives inside a sidebar, a dashboard widget, or a resizable panel. Then it breaks, because the viewport is wide, but the component's actual container is narrow.</p>
+                    <p>With <code>@container</code>, components adapt to their parent's width, not the viewport. This is fundamental for building truly reusable component libraries and design systems. If you're building isolated UI components without container queries, you're building them rigidly.</p>
 
-            <div class="rounded-xl border overflow-hidden"
-                :class="dark ? 'border-[#1e1e24] bg-[#111113]' : 'border-gray-200 bg-white'">
-                <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x"
-                    :class="dark ? 'divide-[#1e1e24]' : 'divide-gray-200'">
-                    <div class="p-6">
-                        <div class="panel-header-before rounded-t-lg px-4 py-2 font-mono text-xs font-bold uppercase">
-                            Before — Media Queries</div>
-                        <div class="p-4 rounded-b-lg border border-t-0"
-                            :class="dark ? 'border-[#27272a] bg-[#18181b]' : 'border-gray-200 bg-gray-50'">
-                            <div class="grid grid-cols-2 gap-3 mb-4">
-                                <div class="demo-card">
-                                    <p class="text-sm font-semibold" :class="dark ? 'text-white' : 'text-zinc-900'">Card
-                                        A</p>
-                                    <p class="text-xs" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Always same
-                                        layout</p>
-                                </div>
-                                <div class="demo-card">
-                                    <p class="text-sm font-semibold" :class="dark ? 'text-white' : 'text-zinc-900'">Card
-                                        B</p>
-                                    <p class="text-xs" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Regardless of
-                                        parent</p>
-                                </div>
-                            </div>
-                            <div class="code-block">
-                                <pre><code>@media (min-width: 600px) {
+                    <div class="demo">
+                        <div class="demo-grid two">
+                            <div>
+                                <div class="panel-label before">Before — Media Queries</div>
+                                <div class="demo-stage">
+                                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.9rem;">
+                                        <div class="demo-card">
+                                            <p class="card-t">Card A</p>
+                                            <p class="card-s">Always same layout</p>
+                                        </div>
+                                        <div class="demo-card">
+                                            <p class="card-t">Card B</p>
+                                            <p class="card-s">Regardless of parent</p>
+                                        </div>
+                                    </div>
+                                    <div class="demo-code">@media (min-width: 600px) {
   .grid { grid-template-columns: 1fr 1fr; }
-}</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="panel-header-after rounded-t-lg px-4 py-2 font-mono text-xs font-bold uppercase">
-                            After — @container</div>
-                        <div class="p-4 rounded-b-lg border border-t-0"
-                            :class="dark ? 'border-[#27272a] bg-[#18181b]' : 'border-gray-200 bg-gray-50'">
-                            <p class="text-xs mb-2 italic" :class="dark ? 'text-zinc-400' : 'text-zinc-500'">Drag the
-                                edge to resize container &rarr;</p>
-                            <div class="resize-handle mb-4" :class="dark ? 'border-[#3f3f46]' : 'border-gray-300'">
-                                <div class="cq-grid grid gap-3">
-                                    <div class="demo-card">
-                                        <p class="text-sm font-semibold" :class="dark ? 'text-white' : 'text-zinc-900'">
-                                            Card A</p>
-                                    </div>
-                                    <div class="demo-card">
-                                        <p class="text-sm font-semibold" :class="dark ? 'text-white' : 'text-zinc-900'">
-                                            Card B</p>
-                                    </div>
-                                    <div class="demo-card">
-                                        <p class="text-sm font-semibold" :class="dark ? 'text-white' : 'text-zinc-900'">
-                                            Card C</p>
-                                    </div>
+}</div>
                                 </div>
                             </div>
-                            <div class="code-block">
-                                <pre><code>.wrapper { container-type: inline-size; }
+                            <div>
+                                <div class="panel-label after">After — @container</div>
+                                <div class="demo-stage">
+                                    <p class="card-s" style="font-style:italic;margin:0 0 0.5rem;">Drag the edge to resize container &rarr;</p>
+                                    <div class="resize-handle" style="margin-bottom:0.9rem;">
+                                        <div class="cq-grid">
+                                            <div class="demo-card"><p class="card-t">Card A</p></div>
+                                            <div class="demo-card"><p class="card-t">Card B</p></div>
+                                            <div class="demo-card"><p class="card-t">Card C</p></div>
+                                        </div>
+                                    </div>
+                                    <div class="demo-code">.wrapper { container-type: inline-size; }
 @container (min-width: 400px) {
   .grid { grid-template-columns: 1fr 1fr; }
-}</code></pre>
+}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Anchor Positioning / Popover API -->
-        <section x-show="activeTab === 2 || activeTab === 5" x-transition.opacity style="display: none;">
-            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">3. Anchor Positioning &
-                Popover API — Tooltips & Menus</h2>
-            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>Positioning tooltips or dropdowns used to require <code
-                        class="px-1.5 py-0.5 rounded text-sm font-mono"
-                        :class="dark ? 'bg-zinc-800 text-brand' : 'bg-brand/10 text-brand-dark'">position: relative</code>
-                    wrappers, manual `top/left` offset calculations, and nasty event listener logic (like outside-click
-                    detection and escape key focus trapping). It was fragile and broke constantly on scroll or resize.
-                </p>
-                <p>Now, the pair of <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Anchor
-                        Positioning</strong> and the <strong :class="dark ? 'text-zinc-300' : 'text-zinc-800'">Popover
-                        API</strong> removes the math entirely. The browser natively handles open/close state, light
-                    dismiss (clicking outside), z-index elevation, and linking an absolutely positioned element to its
-                    origin anchor. If you're building custom dropdown logic in 2026, you're reinventing what the browser
-                    already solved.</p>
-            </div>
+                    <h2>3. Anchor Positioning &amp; Popover API — Tooltips &amp; Menus</h2>
+                    <p>Positioning tooltips or dropdowns used to require <code>position: relative</code> wrappers, manual <code>top/left</code> offset calculations, and nasty event listener logic (like outside-click detection and escape key focus trapping). It was fragile and broke constantly on scroll or resize.</p>
+                    <p>Now, the pair of <strong>Anchor Positioning</strong> and the <strong>Popover API</strong> removes the math entirely. The browser natively handles open/close state, light dismiss (clicking outside), z-index elevation, and linking an absolutely positioned element to its origin anchor. If you're building custom dropdown logic in 2026, you're reinventing what the browser already solved.</p>
 
-            <div class="rounded-xl border overflow-hidden"
-                :class="dark ? 'border-[#1e1e24] bg-[#111113]' : 'border-gray-200 bg-white'">
-                <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x"
-                    :class="dark ? 'divide-[#1e1e24]' : 'divide-gray-200'">
-                    <div class="p-6" x-data="{ open: false }">
-                        <div class="panel-header-before rounded-t-lg px-4 py-2 font-mono text-xs font-bold uppercase">
-                            Before — JS Toggle & Calc()</div>
-                        <div class="p-4 rounded-b-lg border border-t-0 relative h-64"
-                            :class="dark ? 'border-[#27272a] bg-[#18181b]' : 'border-gray-200 bg-gray-50'">
-                            <button @click="open = !open"
-                                class="px-4 py-2 bg-brand text-white rounded-lg text-sm font-semibold">Actions
-                                (JS)</button>
-                            <div x-show="open" @click.outside="open = false"
-                                class="absolute left-4 top-16 w-32 rounded-lg border shadow-xl z-10 py-1"
-                                :class="dark ? 'bg-[#18181b] border-[#27272a]' : 'bg-white border-gray-200'">
-                                <a href="#" class="block px-4 py-1.5 text-sm"
-                                    :class="dark?'hover:bg-zinc-800 text-zinc-300':'hover:bg-gray-100'">Edit</a>
+                    <div class="demo">
+                        <div class="demo-grid two">
+                            <div x-data="{ open: false }">
+                                <div class="panel-label before">Before — JS Toggle &amp; Calc()</div>
+                                <div class="demo-stage stage-rel">
+                                    <button @click="open = !open" class="demo-btn anchor-btn-none">Actions (JS)</button>
+                                    <div x-show="open" @click.outside="open = false" class="menu js-menu" style="display:none;">
+                                        <a href="#">Edit</a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="panel-header-after rounded-t-lg px-4 py-2 font-mono text-xs font-bold uppercase">
-                            After — Popover API & Anchor CSS</div>
-                        <div class="p-4 rounded-b-lg border border-t-0 h-64"
-                            :class="dark ? 'border-[#27272a] bg-[#18181b]' : 'border-gray-200 bg-gray-50'">
-                            <button popovertarget="my-popover"
-                                class="anchor-btn px-4 py-2 bg-brand text-white rounded-lg text-sm font-semibold">Actions
-                                (Native)</button>
-                            <div id="my-popover" popover class="w-32 rounded-lg border shadow-xl p-0"
-                                :class="dark ? 'bg-[#18181b] border-[#27272a]' : 'bg-white border-gray-200'">
-                                <a href="#" class="block px-4 py-1.5 text-sm"
-                                    :class="dark?'hover:bg-zinc-800 text-zinc-300':'hover:bg-gray-100'">Edit</a>
-                            </div>
-                            <div class="code-block mt-8">
-                                <pre><code>.btn { anchor-name: --pop-anchor; }
+                            <div>
+                                <div class="panel-label after">After — Popover API &amp; Anchor CSS</div>
+                                <div class="demo-stage">
+                                    <button popovertarget="my-popover" class="demo-btn anchor-btn">Actions (Native)</button>
+                                    <div id="my-popover" popover class="menu">
+                                        <a href="#">Edit</a>
+                                    </div>
+                                    <div class="demo-code" style="margin-top:2rem;">.btn { anchor-name: --pop-anchor; }
 [popover] {
   position-anchor: --pop-anchor;
   top: anchor(bottom);
   left: anchor(left);
-}</code></pre>
+}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- clamp() -->
-        <section x-show="activeTab === 3" x-transition.opacity style="display: none;">
-            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">4. clamp() — Fluid
-                Typography Without Breakpoints</h2>
-            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>Scaling font sizes and spacing used to mean writing multiple stacked <code
-                        class="px-1.5 py-0.5 rounded text-sm font-mono"
-                        :class="dark ? 'bg-zinc-800 text-brand' : 'bg-brand/10 text-brand-dark'">@media</code> queries,
-                    leading to jumpy "snap" transitions on resize and lots of duplicated declarations. The modern
-                    approach is mathematically fluid.</p>
-                <p><code class="px-1.5 py-0.5 rounded text-sm font-mono"
-                        :class="dark ? 'bg-zinc-800 text-brand' : 'bg-brand/10 text-brand-dark'">clamp(min, preferred, max)</code>
-                    scales your value smoothly between a minimum bound and a maximum bound, based on the current
-                    viewport width. One line replaces four block declarations. Fluid design &gt; breakpoint jumps.</p>
-            </div>
-            <div class="rounded-xl border p-6"
-                :class="dark ? 'border-[#1e1e24] bg-[#111113]' : 'border-gray-200 bg-white'">
-                <div class="p-8 text-center bg-brand/10 rounded-xl mb-6">
-                    <p class="font-bold text-brand" style="font-size: clamp(1.2rem, 4vw + 1rem, 3rem);">Responsive text
-                        that fluidly scales</p>
-                </div>
-                <div class="code-block">
-                    <pre><code>h2 { font-size: clamp(1.2rem, 4vw + 1rem, 3rem); }</code></pre>
-                </div>
-            </div>
-        </section>
+                    <h2>4. clamp() — Fluid Typography Without Breakpoints</h2>
+                    <p>Scaling font sizes and spacing used to mean writing multiple stacked <code>@media</code> queries, leading to jumpy "snap" transitions on resize and lots of duplicated declarations. The modern approach is mathematically fluid.</p>
+                    <p><code>clamp(min, preferred, max)</code> scales your value smoothly between a minimum bound and a maximum bound, based on the current viewport width. One line replaces four block declarations. Fluid design &gt; breakpoint jumps.</p>
 
-        <!-- light-dark() -->
-        <section x-show="activeTab === 4" x-transition.opacity style="display: none;" x-data="{ ldMode: 'light' }">
-            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">5. light-dark() Function
-                — Stop Theme Duplication</h2>
-            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>Implementing dark mode usually results in bloated CSS because you have to duplicate almost every
-                    block inside a <code class="px-1.5 py-0.5 rounded text-sm font-mono"
-                        :class="dark ? 'bg-zinc-800 text-brand' : 'bg-brand/10 text-brand-dark'">@media (prefers-color-scheme: dark)</code>
-                    query.</p>
-                <p>The <code class="px-1.5 py-0.5 rounded text-sm font-mono"
-                        :class="dark ? 'bg-zinc-800 text-brand' : 'bg-brand/10 text-brand-dark'">light-dark(light_value, dark_value)</code>
-                    function replaces that pattern. You declare the property once, give it two situational values, and
-                    let CSS handle the switch instantly via the root color-scheme. It cuts CSS duplication in half.</p>
-            </div>
-
-            <div class="rounded-xl border overflow-hidden"
-                :class="dark ? 'border-[#1e1e24] bg-[#111113]' : 'border-gray-200 bg-white'">
-                <div class="p-6 text-center border-b" :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
-                    <button @click="ldMode='light'"
-                        class="px-4 py-1.5 rounded-l-lg text-sm font-semibold border-y border-l"
-                        :class="ldMode==='light' ? 'bg-brand text-white border-brand' : 'bg-gray-100 text-gray-600 border-gray-300'">Light</button><button
-                        @click="ldMode='dark'" class="px-4 py-1.5 rounded-r-lg text-sm font-semibold border"
-                        :class="ldMode==='dark' ? 'bg-zinc-800 text-white border-zinc-800' : 'bg-white text-gray-600 border-gray-300'">Dark</button>
-
-                    <div class="mt-6 p-6 rounded-xl transition-all duration-300 w-64 mx-auto"
-                        :class="ldMode==='light' ? 'ld-card-light' : 'ld-card-dark'">
-                        <p class="font-bold">Card Title</p>
+                    <div class="demo">
+                        <div class="fluid-box">
+                            <p>Responsive text that fluidly scales</p>
+                        </div>
+                        <div class="demo-code">h2 { font-size: clamp(1.2rem, 4vw + 1rem, 3rem); }</div>
                     </div>
-                </div>
-                <div class="p-6 bg-[#18181b]">
-                    <div class="code-block border border-[#27272a]">
-                        <pre><code>:root { color-scheme: light dark; }
+
+                    <h2>5. light-dark() Function — Stop Theme Duplication</h2>
+                    <p>Implementing dark mode usually results in bloated CSS because you have to duplicate almost every block inside a <code>@media (prefers-color-scheme: dark)</code> query.</p>
+                    <p>The <code>light-dark(light_value, dark_value)</code> function replaces that pattern. You declare the property once, give it two situational values, and let CSS handle the switch instantly via the root color-scheme. It cuts CSS duplication in half.</p>
+
+                    <div class="demo" x-data="{ ldMode: 'light' }">
+                        <div style="text-align:center;">
+                            <div class="seg">
+                                <button @click="ldMode='light'" :aria-pressed="ldMode==='light'">Light</button>
+                                <button @click="ldMode='dark'" :aria-pressed="ldMode==='dark'">Dark</button>
+                            </div>
+                            <div class="ld-card" :class="ldMode">
+                                <p style="margin:0;">Card Title</p>
+                            </div>
+                        </div>
+                        <div class="demo-code">:root { color-scheme: light dark; }
 .card {
   background: light-dark(#fff, #1a1a2e);
   color: light-dark(#1a1a1a, #eee);
   border: 1px solid light-dark(#e0e0e0, #333);
-}</code></pre>
+}</div>
+                    </div>
+
+                    <h2>The Bigger Point</h2>
+                    <p>Modern CSS is incredibly capable. Every bit of state, animation, or structural reflow you can offload from JavaScript to pure CSS means a smaller bundle, better browser optimization, and fewer lifecycle hook bugs to manage in your JS frameworks.</p>
+                    <p>Next time you reflexively start writing JS logic for UI presentation, pause and ask:</p>
+                    <blockquote>"Can CSS already do this?"</blockquote>
+                    <p>Because increasingly, the answer is <strong>yes</strong>.</p>
+
+                    <div class="callout">
+                        <svg class="callout-icon" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <div>
+                            <h3>Inspiration &amp; Credit</h3>
+                            <p>The core topics and examples in this post were directly inspired by an excellent presentation by <a href="https://x.com/LeahTCodes" target="_blank" rel="noopener">Leah (@LeahTCodes)</a> at the <a href="https://laracon.eu/" target="_blank" rel="noopener">Laracon EU 2026</a> event today. Highly recommend checking out her work on bridging the gap between design and logic!</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- Closing -->
-        <div class="mt-16 pt-10 border-t space-y-6 max-w-3xl border-gray-200"
-            :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
-            <h3 class="text-2xl font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">The Bigger Point</h3>
-            <div class="text-base space-y-4 leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>Modern CSS is incredibly capable. Every bit of state, animation, or structural reflow you can offload
-                    from JavaScript to pure CSS means a smaller bundle, better browser optimization, and fewer lifecycle
-                    hook bugs to manage in your JS frameworks.</p>
-                <p>Next time you reflexively start writing JS logic for UI presentation, pause and ask:</p>
-                <blockquote class="border-l-4 border-brand pl-5 py-2 text-lg font-medium italic"
-                    :class="dark ? 'text-zinc-300' : 'text-zinc-800'">"Can CSS already do this?"</blockquote>
-                <p>Because increasingly, the answer is <strong
-                        :class="dark ? 'text-brand' : 'text-brand-dark'">yes</strong>.</p>
-            </div>
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
 
-            <!-- Inspiration Callout -->
-            <div class="mt-8 px-6 py-5 rounded-2xl border flex gap-4 items-start"
-                :class="dark ? 'border-brand/20 bg-[#111113]' : 'border-brand/10 bg-gray-50'">
-                <div class="mt-1 flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center"
-                    :class="dark ? 'bg-[#18181b] text-brand' : 'bg-white shadow-sm text-brand-dark'">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/modern-css-replacing-javascript/&text=Modern CSS Is Replacing Your JavaScript" target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/modern-css-replacing-javascript/" target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
                 </div>
-                <div>
-                    <h3 class="font-bold text-base mb-1" :class="dark ? 'text-white' : 'text-zinc-900'">Inspiration &
-                        Credit</h3>
-                    <p class="text-sm leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">The core topics
-                        and examples in this post were directly inspired by an excellent presentation by <a
-                            href="https://x.com/LeahTCodes" target="_blank" rel="noopener"
-                            class="text-brand hover:underline font-semibold">Leah (@LeahTCodes)</a> at the <a
-                            href="https://laracon.eu/" target="_blank" rel="noopener"
-                            class="text-brand hover:underline font-bold">Laracon EU 2026</a> event today. Highly
-                        recommend checking out her work on bridging the gap between design and logic!</p>
-                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
             </div>
-        </div>
-
-        <!-- Visitor Counter -->
-        <a href="https://smallcounter.com" target="_blank" rel="noopener" title="Visitor Counter"
-            class="fixed top-1/2 left-5 transform -translate-x-1/2 -translate-y-1/2 -rotate-90 z-50 flex items-center gap-2 py-2 pl-3 pr-2.5 rounded-xl backdrop-blur-md shadow-lg group"
-            :class="dark
-                ? 'bg-[#111113]/80 border-[#1e1e24] text-zinc-500 hover:text-brand hover:border-brand/40 hover:shadow-[0_4px_24px_rgba(99,102,241,0.18)]'
-                : 'bg-white/80 border-gray-300 text-zinc-400 hover:text-brand-dark hover:border-brand/30 hover:shadow-[0_4px_20px_rgba(99,102,241,0.12)]'">
-            <!-- Eye icon -->
-            <svg class="w-3 h-3 shrink-0 text-brand group-hover:scale-110 transition-transform duration-300" fill="none"
-                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                <circle cx="12" cy="12" r="3" />
-            </svg>
-            <!-- Counter image -->
-            <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="visitor count"
-                class="h-2.5 w-auto transition-all duration-300"
-                :class="dark ? 'opacity-70 group-hover:opacity-100' : 'opacity-60 group-hover:opacity-90 invert'">
-            <!-- Label -->
-            <span class="font-mono text-[9px] font-medium tracking-widest uppercase whitespace-nowrap leading-none">
-                visitors
-            </span>
-        </a>
-
-        <!-- Comments Section -->
-        <div class="mt-20 pt-10 border-t border-gray-200 dark:border-[#1e1e24] max-w-3xl mx-auto">
-            <h3 class="text-2xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">Discussion</h3>
-            <div id="comments-container"></div>
-            <script>
-                // Initialize utterances and listen for theme changes
-                const initComments = () => {
-                    if (document.querySelector('.utterances-frame')) return;
-                    const theme = document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
-                    let script = document.createElement('script');
-                    script.src = 'https://utteranc.es/client.js';
-                    script.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
-                    script.setAttribute('issue-term', 'pathname');
-                    script.setAttribute('label', 'comment');
-                    script.setAttribute('theme', theme);
-                    script.setAttribute('crossorigin', 'anonymous');
-                    script.async = true;
-                    document.getElementById('comments-container').appendChild(script);
-                };
-                setTimeout(initComments, 300);
-                const observer = new MutationObserver((mutations) => {
-                    mutations.forEach((mutation) => {
-                        if (mutation.attributeName === 'class') {
-                            const isDark = document.documentElement.classList.contains('dark');
-                            const message = { type: 'set-theme', theme: isDark ? 'github-dark' : 'github-light' };
-                            const iframe = document.querySelector('.utterances-frame');
-                            if (iframe) iframe.contentWindow.postMessage(message, 'https://utteranc.es');
-                        }
-                    });
-                });
-                observer.observe(document.documentElement, { attributes: true });
-            </script>
-        </div>
-    </main>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter" title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤ Sponsor</a>
+            </div>
+        </footer>
+    </div>
 
     <script>
-        function blogApp() {
-            return {
-                dark: true,
-                activeTab: 0,
-                tabs: [
-                    { label: ':has()' },
-                    { label: 'Container Queries' },
-                    { label: 'Popover & Anchor' },
-                    { label: 'clamp()' },
-                    { label: 'light-dark()' }
-                ],
-                init() {
-                    const saved = localStorage.getItem('theme');
-                    if (saved === 'light') this.dark = false;
-                    this.$watch('dark', val => {
-                        document.documentElement.classList.toggle('dark', val);
-                        localStorage.setItem('theme', val ? 'dark' : 'light');
-                    });
-                    document.documentElement.classList.toggle('dark', this.dark);
-                },
-                toggleTheme() { this.dark = !this.dark; },
-                exploreWithAI(platform) {
-                    const url = window.location.href;
-                    const prompt = encodeURIComponent(`Please summarize this technical blog post and highlight the key takeaways: ${url}`);
-                    let aiUrl = '';
-                    if (platform === 'chatgpt') aiUrl = `https://chatgpt.com/?q=${prompt}`;
-                    if (platform === 'claude') aiUrl = `https://claude.ai/new?q=${prompt}`;
-                    if (platform === 'perplexity') aiUrl = `https://www.perplexity.ai/search?q=${prompt}`;
-                    window.open(aiUrl, '_blank');
-                }
+        // theme toggle
+        (function(){
+            const meta=document.querySelector('meta[name="color-scheme"]');
+            const btn=document.getElementById('themeToggle');
+            const root=document.documentElement;
+            function sysDark(){return matchMedia('(prefers-color-scheme: dark)').matches;}
+            function curDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return sysDark();}
+            btn.addEventListener('click',function(){const n=curDark()?'light':'dark';localStorage.setItem('color-scheme',n);meta.content=n;root.dataset.theme=n;});
+        })();
+        // reading progress
+        (function(){
+            const bar=document.getElementById('progress');
+            addEventListener('scroll',function(){const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';},{passive:true});
+        })();
+        // comments (utterances)
+        (function(){
+            function isDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return matchMedia('(prefers-color-scheme: dark)').matches;}
+            function initComments(){
+                if(document.querySelector('.utterances-frame'))return;
+                const s=document.createElement('script');
+                s.src='https://utteranc.es/client.js';
+                s.setAttribute('repo','theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term','pathname');
+                s.setAttribute('label','comment');
+                s.setAttribute('theme', isDark()?'github-dark':'github-light');
+                s.setAttribute('crossorigin','anonymous');
+                s.async=true;
+                document.getElementById('comments-container').appendChild(s);
             }
-        }
+            setTimeout(initComments,300);
+            document.getElementById('themeToggle').addEventListener('click',function(){
+                const f=document.querySelector('.utterances-frame');
+                if(f)f.contentWindow.postMessage({type:'set-theme',theme:isDark()?'github-dark':'github-light'},'https://utteranc.es');
+            });
+        })();
     </script>
 </body>
 

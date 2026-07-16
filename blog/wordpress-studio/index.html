@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" class="dark" x-data="blogApp()" x-init="init()">
+<html lang="en">
 
 <head>
     <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
-<!-- End Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
     <link rel="llms" href="/llms.txt">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
     <title>WordPress Studio: Fast Local Development Solution</title>
     <meta name="description"
         content="Discover Automattic's new desktop app for WordPress local development. No Docker, no MySQL, just PHP via WebAssembly and SQLite.">
@@ -33,97 +34,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="twitter:image" content="https://sagarpansuriya.in/blog/wordpress-studio/cover.png">
     <meta name="twitter:creator" content="@frontendbysagar">
 
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="apple-touch-icon" href="/favicon.png">
-    <meta name="msapplication-TileColor" content="#6366f1">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
-                    colors: { brand: { DEFAULT: '#6366f1', dark: '#4f46e5' } }
-                }
-            }
-        }
-    </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <style>
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background-image: radial-gradient(circle, rgba(99, 102, 241, .12) 1px, transparent 1px);
-            background-size: 24px 24px;
-            pointer-events: none;
-        }
-
-        .code-block {
-            background: #1e1e2e;
-            color: #cdd6f4;
-            border-radius: 8px;
-            padding: 16px;
-            overflow-x: auto;
-            font-size: 13px;
-            line-height: 1.6;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .tab-btn {
-            transition: all .2s;
-        }
-
-        .tab-btn.active {
-            color: #6366f1;
-            border-color: #6366f1;
-            background: rgba(99, 102, 241, .08);
-        }
-
-        .panel-header-feature {
-            background: #f0fdf4;
-            color: #15803d;
-            border-bottom: 2px solid #bbf7d0;
-        }
-
-        .dark .panel-header-feature {
-            background: #0f2c1c;
-            color: #86efac;
-            border-color: #1a4a2a;
-        }
-        
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .screenshot-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .screenshot-card {
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255,255,255,0.02);
-            transition: transform 0.3s ease;
-        }
-
-        .screenshot-card:hover {
-            transform: scale(1.02);
-        }
-    </style>
-
     <!-- BlogPosting Structured Data for AI Search -->
     <script type="application/ld+json">
 {
@@ -135,7 +45,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         },
         "headline": "WordPress Studio: The Fast, Dependency-Free Local Development Revolution",
         "description": "Discover Automattic's new desktop app for WordPress local development. No Docker, no MySQL, just PHP via WebAssembly and SQLite.",
-        "image": "https://sagarpansuriya.in/blog/wordpress-studio/cover.svg",
+        "image": "https://sagarpansuriya.in/blog/wordpress-studio/cover.png",
         "author": {
                 "@type": "Person",
                 "name": "Sagar Pansuriya",
@@ -172,361 +82,347 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         "url": "https://sagarpansuriya.in/blog/wordpress-studio/"
 }
     </script>
-</head>
 
-<body class="min-h-screen relative overflow-x-hidden transition-colors duration-400"
-    :class="dark ? 'bg-[#09090b] text-zinc-300' : 'bg-[#f4f4f5] text-zinc-700'">
-    <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-    <div class="fixed rounded-full pointer-events-none z-0 w-[400px] h-[400px] -top-24 -left-24 blur-[100px]"
-        :class="dark ? 'bg-brand/10 opacity-50' : 'bg-brand/5 opacity-30'"></div>
-
-        <header class="sticky top-0 z-50 backdrop-blur-xl border-b transition-colors bg-[#09090b]/80 border-zinc-800/50"
-        :class="dark ? 'bg-[#09090b]/80 border-zinc-800/50' : 'bg-white/80 border-zinc-200/50'">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-            <a href="/blog/" class="flex items-center gap-2 text-sm font-bold hover:text-brand transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                Dev Guides
-            </a>
-            <span class="text-zinc-400 dark:text-zinc-700">/</span>
-            <a href="/blog/?category=WordPress" class="px-2.5 py-0.5 rounded-full bg-brand/10 text-brand text-xs font-semibold hover:bg-brand/20 transition-all">WordPress</a>
-        </div>
-            <div class="flex items-center gap-4">
-                <button @click="toggleTheme()" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg x-show="dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
-                    <svg x-show="!dark" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
-                </button>
-                <button @click="exploreWithAI('chatgpt')" title="Explore with AI" class="p-2 rounded-xl border border-[var(--border-ui)] hover:bg-brand/5 transition-all text-zinc-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <main class="relative z-10 max-w-4xl mx-auto px-6 py-12">
-        <div class="mb-12 text-left max-w-3xl mx-auto">
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-8"
-                :class="dark ? 'text-white' : 'text-zinc-900'">WordPress Studio: The Fast, Dependency-Free Local Development Revolution</h1>
-
-            <!-- Author Info & Meta -->
-            <div class="flex flex-wrap items-center gap-4 text-sm font-medium mb-10"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <div class="flex items-center gap-4">
-                    <img src="/profile.jpg" alt="Sagar Pansuriya"
-                        class="w-12 h-12 rounded-full object-cover border-2 shadow-sm"
-                        :class="dark ? 'border-[#27272a]' : 'border-white'">
-                    <div>
-                        <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener"
-                            class="block hover:text-brand transition-colors text-base"
-                            :class="dark ? 'text-zinc-200' : 'text-zinc-900'">Sagar Pansuriya</a>
-                        <span class="text-xs font-normal" :class="dark ? 'text-zinc-500' : 'text-zinc-500'">Technical
-                            Lead & Frontend Architect</span>
-                    </div>
-                </div>
-                <div class="hidden sm:block w-px h-10" :class="dark ? 'bg-[#27272a]' : 'bg-gray-300'"></div>
-                <div class="flex items-center gap-4 text-sm">
-                    <time datetime="2026-03-31" class="text-brand">Mar 31, 2026</time>
-                    <span>·</span>
-                    <span
-                        class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider bg-brand/10 text-brand px-2.5 py-1 rounded">10
-                        min read</span>
-                </div>
-            </div>
-
-            <!-- Explore Post -->
-            <div class="flex items-center gap-4 py-4 mb-8 border-y border-gray-200 transition-colors" :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
-                <img src="cover.png" alt="WordPress Studio Cover" class="w-full h-auto aspect-video object-cover">
-            </div>
-
-            
-            <!-- Explore with AI Section -->
-            <div class="flex flex-col md:flex-row items-center justify-between gap-6 py-6 mb-10 border-y transition-colors"
-                :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
-                <div class="max-w-md text-left">
-                    <h3 class="text-lg font-bold mb-1 flex items-center gap-2 !mt-0" :class="dark ? 'text-white' : 'text-zinc-900'">
-                        <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                        Explore with AI
-                    </h3>
-                    <p class="text-xs opacity-70">
-                        Want a quick summary or have specific questions about this post? Use your favorite AI agent.
-                    </p>
-                </div>
-                <div class="flex flex-wrap justify-center gap-3">
-                    <button @click="exploreWithAI('chatgpt')" 
-                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
-                        <span class="w-4 h-4 flex items-center justify-center bg-[#10a37f] rounded text-white text-[8px]">GPT</span>
-                        ChatGPT
-                    </button>
-                    <button @click="exploreWithAI('claude')" 
-                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-sm font-semibold">
-                        <span class="w-4 h-4 flex items-center justify-center bg-[#d97757] rounded text-white text-[8px]">C</span>
-                        Claude
-                    </button>
-                    <button @click="exploreWithAI('perplexity')" 
-                        class="px-4 py-2 rounded-xl bg-white/5 border border-[var(--border-ui)] hover:border-brand hover:bg-brand/10 transition-all flex items-center gap-2 text-xs font-semibold">
-                        <span class="w-4 h-4 flex items-center justify-center bg-[#20b2aa] rounded text-white text-[8px]">P</span>
-                        Perplexity
-                    </button>
-                </div>
-            </div>
-
-            <p class="text-lg leading-relaxed mb-8" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">Local development has traditionally been a bit of a hurdle—Docker, MAMP, or local server setups often feel heavy and prone to configuration drifts. Enter <strong>WordPress Studio</strong>: a free, open-source desktop application from Automattic that redefines local development speed using WebAssembly (WASM) and SQLite.</p>
-        </div>
-
-        <div class="sticky top-[53px] z-40 -mx-6 px-6 py-3 backdrop-blur-xl border-b mb-10 overflow-x-auto scrollbar-hide"
-            :class="dark ? 'bg-[#09090b]/90 border-[#1e1e24]' : 'bg-[#f4f4f5]/90 border-gray-300'">
-            <div class="flex gap-2">
-                <template x-for="(tab, i) in tabs" :key="i">
-                    <button @click="activeTab = i"
-                        class="tab-btn px-4 py-2 rounded-lg font-mono text-xs font-semibold whitespace-nowrap border"
-                        :class="activeTab === i ? 'active border-brand/30' : (dark ? 'border-transparent text-zinc-500' : 'border-transparent text-zinc-500 bg-white shadow-sm duration-150')"
-                        x-text="tab.label"></button>
-                </template>
-            </div>
-        </div>
-
-        <!-- Architecture -->
-        <section x-show="activeTab === 0" x-transition.opacity>
-            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">1. The WebAssembly Engine</h2>
-            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>Studio is built on <strong>WordPress Playground</strong>. Instead of running a virtualized Linux server or a local MySQL instance, it runs PHP directly in the browser/app context via WebAssembly and uses SQLite for the database.</p>
-                <p>This means your local site starts in <strong>less than a second</strong>. No background processes running when you're not using it, and zero system dependencies to manage.</p>
-            </div>
-
-            <div class="rounded-xl border overflow-hidden mb-8"
-                :class="dark ? 'border-[#1e1e24] bg-[#111113]' : 'border-gray-200 bg-white'">
-                <div class="p-6">
-                    <div class="panel-header-feature rounded-t-lg px-4 py-2 font-mono text-xs font-bold uppercase">
-                        Tech Stack Comparison</div>
-                    <div class="p-4 rounded-b-lg border border-t-0"
-                        :class="dark ? 'border-[#27272a] bg-[#18181b]' : 'border-gray-200 bg-gray-50'">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                            <div class="p-3 border rounded border-gray-700 bg-black/20">
-                                <h4 class="font-bold mb-2 text-brand">Traditional</h4>
-                                <ul class="space-y-1">
-                                    <li>• Docker Containers</li>
-                                    <li>• MySQL / MariaDB</li>
-                                    <li>• Apache / Nginx</li>
-                                    <li>• Local Domains / Hosts</li>
-                                </ul>
-                            </div>
-                            <div class="p-3 border rounded border-indigo-500/30 bg-indigo-500/5">
-                                <h4 class="font-bold mb-2 text-indigo-400">WP Studio</h4>
-                                <ul class="space-y-1">
-                                    <li>• PHP via WASM</li>
-                                    <li>• SQLite</li>
-                                    <li>• Instant Runtime</li>
-                                    <li>• Studio Sync</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features -->
-        <section x-show="activeTab === 1" x-transition.opacity style="display: none;">
-            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">2. Key Features</h2>
-            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <ul class="list-disc pl-5 space-y-4">
-                    <li><strong>Studio Sync:</strong> Push and pull changes between your local site and a live WordPress.com or Pressable site (requires Business plan).</li>
-                    <li><strong>Preview Sites:</strong> Generate a temporary, shareable URL to show your local work to clients or teammates instantly.</li>
-                    <li><strong>Built-in AI Assistant:</strong> A dedicated AI inside the app to help you generate content, fix code, or answer WordPress questions.</li>
-                    <li><strong>Blueprints:</strong> Start new sites with pre-defined configurations, plugins, and themes.</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Visual Walkthrough -->
-        <section x-show="activeTab === 2" x-transition.opacity style="display: none;">
-            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">3. App Interface</h2>
-            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>The interface is clean and native. Here's a quick look at what it offers:</p>
-            </div>
-            
-            <div class="screenshot-grid">
-                <div class="screenshot-card p-4 flex flex-col items-center">
-                    <img src="https://raw.githubusercontent.com/Automattic/studio/trunk/docs/assets/wordpress-studio-main.png" alt="WordPress Studio Dashboard" class="w-full aspect-video object-cover rounded mb-3 shadow-lg">
-                    <span class="text-xs font-medium">Simple Site List</span>
-                </div>
-                <div class="screenshot-card p-4 flex flex-col items-center">
-                    <img src="https://raw.githubusercontent.com/Automattic/studio/trunk/docs/assets/wordpress-studio-ai-assistant.png" alt="WordPress Studio AI Assistant" class="w-full aspect-video object-cover rounded mb-3 shadow-lg">
-                    <span class="text-xs font-medium">One-click Login</span>
-                </div>
-                <div class="screenshot-card p-4 flex flex-col items-center">
-                    <img src="https://raw.githubusercontent.com/Automattic/studio/trunk/docs/assets/wordpress-studio-sync.png" alt="WordPress Studio Sync Settings" class="w-full aspect-video object-cover rounded mb-3 shadow-lg">
-                    <span class="text-xs font-medium">Remote Connectivity</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Video Tutorial -->
-        <section x-show="activeTab === 3" x-transition.opacity style="display: none;">
-            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">4. Video Walkthroughs</h2>
-            <div class="prose-content mb-12 space-y-8 text-base leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>Want to see WordPress Studio in action? Explore these high-level tours and deep dives from the WordPress team:</p>
-                
-                <!-- Video 1 -->
-                <div>
-                    <h3 class="text-lg font-bold mb-4 text-brand/90">Official Studio Overview</h3>
-                    <div class="aspect-video rounded-2xl overflow-hidden bg-black shadow-xl mb-4 border border-white/5">
-                        <iframe 
-                            width="100%" 
-                            height="100%" 
-                            src="https://www.youtube.com/embed/wxBXWmo2oV0?si=YXzg4zC-INFHzs-E" 
-                            title="WordPress Studio Overview" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                    <div class="text-center">
-                        <a href="https://www.youtube.com/watch?v=wxBXWmo2oV0" target="_blank" class="inline-flex items-center gap-2 text-brand font-bold hover:underline">
-                            Watch Part 1 on YouTube
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 6l6 6-6 6" stroke-width="2"></path></svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Video 2 -->
-                <div class="pt-8 border-t border-white/5">
-                    <h3 class="text-lg font-bold mb-4 text-brand/90">Studio Feature Deep Dive</h3>
-                    <div class="aspect-video rounded-2xl overflow-hidden bg-black shadow-xl mb-4 border border-white/5">
-                        <iframe 
-                            width="100%" 
-                            height="100%" 
-                            src="https://www.youtube.com/embed/2MV17Qzj_T0" 
-                            title="WordPress Studio Key Features" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                    <div class="text-center">
-                        <a href="https://www.youtube.com/watch?v=2MV17Qzj_T0" target="_blank" class="inline-flex items-center gap-2 text-brand font-bold hover:underline">
-                            Watch Part 2 on YouTube
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 6l6 6-6 6" stroke-width="2"></path></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Get Started -->
-        <section x-show="activeTab === 4" x-transition.opacity style="display: none;">
-            <h2 class="text-2xl font-bold mb-4" :class="dark ? 'text-white' : 'text-zinc-900'">5. Get Started Today</h2>
-            <div class="prose-content mb-8 space-y-4 text-base leading-relaxed max-w-3xl"
-                :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>WordPress Studio is available for macOS (Intel and Apple Silicon) and Windows. It's completely free and open source.</p>
-                
-                <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="https://developer.wordpress.com/studio/" target="_blank" class="px-8 py-3.5 bg-brand text-white font-bold rounded-xl transition-transform hover:scale-105 shadow-xl shadow-brand/30 text-center">
-                        Download Now
-                    </a>
-                    <a href="https://github.com/Automattic/studio" target="_blank" class="px-8 py-3.5 border border-zinc-700 font-bold rounded-xl transition-colors hover:bg-zinc-800 text-center">
-                        View on GitHub
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Closing -->
-        <div class="mt-16 pt-10 border-t space-y-6 max-w-3xl border-gray-200"
-            :class="dark ? 'border-[#1e1e24]' : 'border-gray-200'">
-            <h3 class="text-2xl font-bold" :class="dark ? 'text-white' : 'text-zinc-900'">Why It Matters</h3>
-            <div class="text-base space-y-4 leading-relaxed" :class="dark ? 'text-zinc-400' : 'text-zinc-600'">
-                <p>WordPress Studio isn't just another tool; it's a fundamental shift in how we think about the WordPress runtime. By leveraging technologies like WASM and SQLite, Automattic has eliminated the "it works on my machine" friction while making developer onboarding near-instant.</p>
-                <p>Whether you're a freelancer testing a quick plugin or a developer building a complex theme, Studio provides a frictionless sandbox that stays out of your way.</p>
-            </div>
-        </div>
-
-        <!-- Comments Section -->
-        <div class="mt-20 pt-10 border-t border-gray-200 dark:border-[#1e1e24] max-w-3xl mx-auto">
-            <h3 class="text-2xl font-bold mb-6" :class="dark ? 'text-white' : 'text-zinc-900'">Discussion</h3>
-            <div id="comments-container"></div>
-            <script>
-                const initComments = () => {
-                    if (document.querySelector('.utterances-frame')) return;
-                    const theme = document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
-                    let script = document.createElement('script');
-                    script.src = 'https://utteranc.es/client.js';
-                    script.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
-                    script.setAttribute('issue-term', 'pathname');
-                    script.setAttribute('label', 'comment');
-                    script.setAttribute('theme', theme);
-                    script.setAttribute('crossorigin', 'anonymous');
-                    script.async = true;
-                    document.getElementById('comments-container').appendChild(script);
-                };
-                setTimeout(initComments, 300);
-                const observer = new MutationObserver((mutations) => {
-                    mutations.forEach((mutation) => {
-                        if (mutation.attributeName === 'class') {
-                            const isDark = document.documentElement.classList.contains('dark');
-                            const message = { type: 'set-theme', theme: isDark ? 'github-dark' : 'github-light' };
-                            const iframe = document.querySelector('.utterances-frame');
-                            if (iframe) iframe.contentWindow.postMessage(message, 'https://utteranc.es');
-                        }
-                    });
-                });
-                observer.observe(document.documentElement, { attributes: true });
-            </script>
-        </div>
-    </main>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script>
-        function blogApp() {
-            return {
-                dark: true,
-                activeTab: 0,
-                tabs: [
-                    { label: 'Architecture' },
-                    { label: 'Features' },
-                    { label: 'Interface' },
-                    { label: 'Video Tour' },
-                    { label: 'Get Started' }
-                ],
-                init() {
-                    const saved = localStorage.getItem('theme');
-                    if (saved === 'light') this.dark = false;
-                    this.$watch('dark', val => {
-                        document.documentElement.classList.toggle('dark', val);
-                        localStorage.setItem('theme', val ? 'dark' : 'light');
-                    });
-                    document.documentElement.classList.toggle('dark', this.dark);
-                    
-                    document.querySelectorAll('.ai-launch').forEach(btn => {
-                        btn.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            const pageUrl = window.location.href;
-                            const pageTitle = document.querySelector('h1')?.innerText || document.title;
-                            const prompt = `Summarize this post: ${pageTitle} - ${pageUrl}`;
-                            let target = '';
-                            switch (btn.dataset.ai) {
-                                case 'chatgpt': target = `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`; break;
-                                case 'gemini': target = `https://gemini.google.com/app?q=${encodeURIComponent(prompt)}`; break;
-                                case 'claude': target = `https://claude.ai/new?q=${encodeURIComponent(prompt)}`; break;
-                                case 'perplexity': target = `https://www.perplexity.ai/search?q=${encodeURIComponent(prompt)}`; break;
-                            }
-                            if (target) window.open(target, '_blank');
-                        });
-                    });
-                },
-                toggleTheme() { this.dark = !this.dark; }, exploreWithAI(platform) { const url = window.location.href; const prompt = encodeURIComponent(`Please summarize this technical blog post and highlight the key takeaways: ${url}`); let aiUrl = ''; if (platform === 'chatgpt') aiUrl = `https://chatgpt.com/?q=${prompt}`; if (platform === 'claude') aiUrl = `https://claude.ai/new?q=${prompt}`; if (platform === 'perplexity') aiUrl = `https://www.perplexity.ai/search?q=${prompt}`; window.open(aiUrl, '_blank'); }
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
             }
         }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6; --paper-d: #0e0e0f;
+            --panel-l: #f1efe9; --panel-d: #17171a;
+            --code-l: #f4f2ec; --code-d: #131316;
+            --ink-l: #1a1a1a; --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b; --muted-d: #8f8d88;
+            --line-l: #e2ded4; --line-d: #262629;
+            --accent-l: #5b5bd6; --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+        :root[data-theme="light"] { color-scheme: light; }
+        :root[data-theme="dark"] { color-scheme: dark; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scrollbar-gutter: stable; }
+        body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+        a { color: inherit; }
+        .wrap { max-width: 46rem; margin-inline: auto; padding: clamp(1.25rem, 4vw, 2rem); }
+
+        .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem 0; }
+        .brand { font-family: var(--mono); font-size: 0.8rem; text-decoration: none; color: var(--ink); }
+        .brand b { color: var(--accent); }
+        .top-nav { display: flex; gap: clamp(0.9rem, 3vw, 1.6rem); align-items: center; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; }
+        .top-nav a { text-decoration: none; color: var(--muted); padding-block: 0.35rem; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
+        .top-nav a:hover, .top-nav a[aria-current] { color: var(--ink); border-color: var(--accent); }
+        .theme-toggle { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.7rem; cursor: pointer; transition: color .2s, border-color .2s; }
+        .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
+
+        .post-cat { display:inline-block; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); text-decoration:none; margin-top: 2.5rem; }
+        .post-title { font-family: var(--serif); font-weight: 600; font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem); line-height: 1.08; letter-spacing: -0.02em; margin: 0.75rem 0 1.25rem; }
+        .post-meta { display:flex; flex-wrap:wrap; align-items:center; gap: 0.75rem 1rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
+        .post-meta img { width: 2.25rem; height: 2.25rem; border-radius: 50%; object-fit: cover; }
+        .post-meta a { color: var(--ink); text-decoration: none; }
+        .post-meta a:hover { color: var(--accent); }
+        .post-meta .sep { color: var(--line); }
+        .post-cover { margin: 2rem 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+        .post-cover img { display:block; width: 100%; height: auto; }
+
+        .prose { font-family: var(--serif); font-size: 1.2rem; line-height: 1.75; color: var(--ink); }
+        .prose > *:first-child { margin-top: 0; }
+        .prose p { margin: 0 0 1.4rem; }
+        .prose h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem); line-height: 1.2; letter-spacing: -0.01em; margin: 2.6rem 0 1rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+        .prose h3 { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; margin: 2rem 0 0.75rem; }
+        .prose h4 { font-family: var(--sans); font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 1.8rem 0 0.6rem; }
+        .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); }
+        .prose a:hover { border-bottom-color: var(--accent); }
+        .prose ul, .prose ol { margin: 0 0 1.4rem; padding-left: 1.4rem; }
+        .prose li { margin-bottom: 0.5rem; }
+        .prose li::marker { color: var(--accent); }
+        .prose strong { font-weight: 700; color: var(--ink); }
+        .prose em { font-style: italic; }
+        .prose blockquote { margin: 1.6rem 0; padding: 0.4rem 0 0.4rem 1.25rem; border-left: 2px solid var(--accent); color: var(--muted); font-style: italic; }
+        .prose img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; margin: 1.6rem 0; }
+        .prose hr { border: none; border-top: 1px solid var(--line); margin: 2.5rem 0; }
+
+        .prose :not(pre) > code { font-family: var(--mono); font-size: 0.86em; background: var(--code-bg); border: 1px solid var(--line); border-radius: 5px; padding: 0.1em 0.4em; color: var(--ink); }
+        .prose pre, pre.code-block { font-family: var(--mono); font-size: 0.82rem; line-height: 1.6; background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; overflow-x: auto; margin: 1.6rem 0; color: var(--ink); }
+        .prose pre code, pre.code-block code { font-family: var(--mono); background: none; border: none; padding: 0; font-size: inherit; color: inherit; white-space: pre; }
+
+        .prose table { width: 100%; border-collapse: collapse; margin: 1.6rem 0; font-family: var(--sans); font-size: 0.95rem; display: block; overflow-x: auto; }
+        .prose th, .prose td { text-align: left; padding: 0.65rem 0.85rem; border: 1px solid var(--line); vertical-align: top; }
+        .prose th { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--panel); }
+
+        /* media: screenshots + video embeds */
+        .shots { display:grid; grid-template-columns: 1fr; gap:1.25rem; margin:1.6rem 0; }
+        .shots figure { margin:0; }
+        .shots img { margin:0; }
+        .shots figcaption { font-family:var(--mono); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-top:0.5rem; }
+        @media (min-width: 40rem) { .shots { grid-template-columns: repeat(3, 1fr); } }
+        .video { margin:1.6rem 0; }
+        .video .frame { position:relative; aspect-ratio:16/9; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:#000; }
+        .video iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+        .video p { margin:0.75rem 0 0; }
+        .btn-row { display:flex; flex-wrap:wrap; gap:0.75rem; margin:1.6rem 0; }
+        .btn-row a { font-family:var(--mono); font-size:0.8rem; text-decoration:none; border-radius:8px; padding:0.6rem 1.2rem; border:1px solid var(--line); }
+        .btn-row a.primary { background:var(--accent); color:var(--paper); border-color:var(--accent); }
+        .btn-row a:hover { border-color:var(--accent); }
+
+        .comments { margin-top: 3rem; }
+        .comments h2 { font-family: var(--serif); font-weight: 600; font-size: 1.6rem; border-top: 1px solid var(--line); padding-top: 1.4rem; margin: 0 0 1rem; }
+
+        .post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display:flex; flex-wrap:wrap; gap: 1rem; justify-content: space-between; align-items:center; }
+        .post-footer a.back { font-family: var(--mono); font-size: 0.75rem; text-decoration:none; color: var(--accent); }
+        .share { display:flex; gap: 0.5rem; }
+        .share a { font-family: var(--mono); font-size: 0.72rem; text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.7rem; }
+        .share a:hover { color: var(--accent); border-color: var(--accent); }
+
+        #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--accent); z-index: 100; transition: width .1s linear; }
+
+        footer.site { border-top: 1px solid var(--line); margin-top: 3rem; padding-block: 2rem; display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
+        footer.site a { color: var(--muted); text-decoration:none; }
+        footer.site a:hover { color: var(--accent); }
+        .footer-links { display:flex; flex-wrap:wrap; gap:1rem; }
+
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } #progress { transition: none; } }
+    
+        .counter { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .counter img { height: 0.7rem; width: auto; opacity: 0.7; }
+        :root[data-theme="light"] .counter img { filter: invert(1); }
+        .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
+        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
+
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=WordPress">§ WordPress</a>
+                <h1 class="post-title">WordPress Studio: The Fast, Dependency-Free Local Development Revolution</h1>
+                <div class="post-meta">
+                    <img src="/profile.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-03-31">Mar 31, 2026</time>
+                    <span class="sep">·</span>
+                    <span>10 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="WordPress Studio Cover"></div>
+
+                <div class="prose">
+                    <p>Local development has traditionally been a bit of a hurdle—Docker, MAMP, or local server setups often feel heavy and prone to configuration drifts. Enter <strong>WordPress Studio</strong>: a free, open-source desktop application from Automattic that redefines local development speed using WebAssembly (WASM) and SQLite.</p>
+
+                    <h2>1. The WebAssembly Engine</h2>
+                    <p>Studio is built on <strong>WordPress Playground</strong>. Instead of running a virtualized Linux server or a local MySQL instance, it runs PHP directly in the browser/app context via WebAssembly and uses SQLite for the database.</p>
+                    <p>This means your local site starts in <strong>less than a second</strong>. No background processes running when you're not using it, and zero system dependencies to manage.</p>
+
+                    <h4>Tech Stack Comparison</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Traditional</th>
+                                <th>WP Studio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Docker Containers</td>
+                                <td>PHP via WASM</td>
+                            </tr>
+                            <tr>
+                                <td>MySQL / MariaDB</td>
+                                <td>SQLite</td>
+                            </tr>
+                            <tr>
+                                <td>Apache / Nginx</td>
+                                <td>Instant Runtime</td>
+                            </tr>
+                            <tr>
+                                <td>Local Domains / Hosts</td>
+                                <td>Studio Sync</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2>2. Key Features</h2>
+                    <ul>
+                        <li><strong>Studio Sync:</strong> Push and pull changes between your local site and a live WordPress.com or Pressable site (requires Business plan).</li>
+                        <li><strong>Preview Sites:</strong> Generate a temporary, shareable URL to show your local work to clients or teammates instantly.</li>
+                        <li><strong>Built-in AI Assistant:</strong> A dedicated AI inside the app to help you generate content, fix code, or answer WordPress questions.</li>
+                        <li><strong>Blueprints:</strong> Start new sites with pre-defined configurations, plugins, and themes.</li>
+                    </ul>
+
+                    <h2>3. App Interface</h2>
+                    <p>The interface is clean and native. Here's a quick look at what it offers:</p>
+                    <div class="shots">
+                        <figure>
+                            <img src="https://raw.githubusercontent.com/Automattic/studio/trunk/docs/assets/wordpress-studio-main.png" alt="WordPress Studio Dashboard">
+                            <figcaption>Simple Site List</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="https://raw.githubusercontent.com/Automattic/studio/trunk/docs/assets/wordpress-studio-ai-assistant.png" alt="WordPress Studio AI Assistant">
+                            <figcaption>One-click Login</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="https://raw.githubusercontent.com/Automattic/studio/trunk/docs/assets/wordpress-studio-sync.png" alt="WordPress Studio Sync Settings">
+                            <figcaption>Remote Connectivity</figcaption>
+                        </figure>
+                    </div>
+
+                    <h2>4. Video Walkthroughs</h2>
+                    <p>Want to see WordPress Studio in action? Explore these high-level tours and deep dives from the WordPress team:</p>
+
+                    <h3>Official Studio Overview</h3>
+                    <div class="video">
+                        <div class="frame">
+                            <iframe
+                                src="https://www.youtube.com/embed/wxBXWmo2oV0?si=YXzg4zC-INFHzs-E"
+                                title="WordPress Studio Overview"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <p><a href="https://www.youtube.com/watch?v=wxBXWmo2oV0" target="_blank" rel="noopener">Watch Part 1 on YouTube →</a></p>
+                    </div>
+
+                    <h3>Studio Feature Deep Dive</h3>
+                    <div class="video">
+                        <div class="frame">
+                            <iframe
+                                src="https://www.youtube.com/embed/2MV17Qzj_T0"
+                                title="WordPress Studio Key Features"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <p><a href="https://www.youtube.com/watch?v=2MV17Qzj_T0" target="_blank" rel="noopener">Watch Part 2 on YouTube →</a></p>
+                    </div>
+
+                    <h2>5. Get Started Today</h2>
+                    <p>WordPress Studio is available for macOS (Intel and Apple Silicon) and Windows. It's completely free and open source.</p>
+                    <div class="btn-row">
+                        <a class="primary" href="https://developer.wordpress.com/studio/" target="_blank" rel="noopener">Download Now</a>
+                        <a href="https://github.com/Automattic/studio" target="_blank" rel="noopener">View on GitHub</a>
+                    </div>
+
+                    <h3>Why It Matters</h3>
+                    <p>WordPress Studio isn't just another tool; it's a fundamental shift in how we think about the WordPress runtime. By leveraging technologies like WASM and SQLite, Automattic has eliminated the "it works on my machine" friction while making developer onboarding near-instant.</p>
+                    <p>Whether you're a freelancer testing a quick plugin or a developer building a complex theme, Studio provides a frictionless sandbox that stays out of your way.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/wordpress-studio/&text=WordPress Studio: Fast Local Development Solution" target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/wordpress-studio/" target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter" title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤ Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function(){
+            const meta=document.querySelector('meta[name="color-scheme"]');
+            const btn=document.getElementById('themeToggle');
+            const root=document.documentElement;
+            function sysDark(){return matchMedia('(prefers-color-scheme: dark)').matches;}
+            function curDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return sysDark();}
+            btn.addEventListener('click',function(){const n=curDark()?'light':'dark';localStorage.setItem('color-scheme',n);meta.content=n;root.dataset.theme=n;});
+        })();
+        // reading progress
+        (function(){
+            const bar=document.getElementById('progress');
+            addEventListener('scroll',function(){const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';},{passive:true});
+        })();
+        // comments (utterances)
+        (function(){
+            function isDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return matchMedia('(prefers-color-scheme: dark)').matches;}
+            function initComments(){
+                if(document.querySelector('.utterances-frame'))return;
+                const s=document.createElement('script');
+                s.src='https://utteranc.es/client.js';
+                s.setAttribute('repo','theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term','pathname');
+                s.setAttribute('label','comment');
+                s.setAttribute('theme', isDark()?'github-dark':'github-light');
+                s.setAttribute('crossorigin','anonymous');
+                s.async=true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments,300);
+            document.getElementById('themeToggle').addEventListener('click',function(){
+                const f=document.querySelector('.utterances-frame');
+                if(f)f.contentWindow.postMessage({type:'set-theme',theme:isDark()?'github-dark':'github-light'},'https://utteranc.es');
+            });
+        })();
     </script>
 </body>
 
