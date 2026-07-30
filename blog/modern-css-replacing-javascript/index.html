@@ -201,6 +201,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } #progress { transition: none; } }
+    
+        /* mobile-header-fix */
+        html, body { overflow-x: hidden; }
+        .topbar { flex-wrap: wrap; row-gap: 0.75rem; }
+        .brand { white-space: nowrap; }
+        .top-nav { flex-wrap: wrap; }
+        @media (max-width: 30rem) {
+            .topbar { align-items: flex-start; }
+            .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
+        }
+
     </style>
 
     <!-- BlogPosting Structured Data for AI Search -->

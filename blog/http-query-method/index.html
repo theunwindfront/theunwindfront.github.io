@@ -176,6 +176,17 @@
         .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
         .sponsor:hover { color: light-dark(#a13, #fab) !important; }
 
+    
+        /* mobile-header-fix */
+        html, body { overflow-x: hidden; }
+        .topbar { flex-wrap: wrap; row-gap: 0.75rem; }
+        .brand { white-space: nowrap; }
+        .top-nav { flex-wrap: wrap; }
+        @media (max-width: 30rem) {
+            .topbar { align-items: flex-start; }
+            .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
+        }
+
     </style>
 </head>
 
