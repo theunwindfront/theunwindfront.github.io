@@ -163,6 +163,10 @@
             .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
         }
 
+    
+        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
+        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
     </style>
     <script type="application/ld+json">
     {
@@ -260,8 +264,7 @@
                             <canvas x-ref="jarvisCanvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
 
                             <!-- Output Overlay -->
-                            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:2rem;pointer-events:none;transition:opacity .3s;"
-                                 :style="outputText ? 'opacity:1' : 'opacity:0'">
+                            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:2rem;pointer-events:none;transition:opacity .3s;" :style="outputText ? 'opacity:1' : 'opacity:0'">
                                 <div style="background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);padding:1.5rem;border-radius:1rem;border:1px solid rgba(99,102,241,0.3);box-shadow:0 0 30px rgba(99,102,241,0.2);max-width:32rem;text-align:center;transition:transform .5s;">
                                      <p style="color:#fff;font-family:var(--mono);font-size:1.1rem;font-weight:700;line-height:1.6;margin:0;" x-text="outputText"></p>
                                 </div>
@@ -271,20 +274,15 @@
                         <!-- Input Area -->
                         <div style="padding:1.5rem;">
                             <div style="display:flex;gap:1rem;">
-                                <input type="text" x-model="inputText" @keydown.enter="generateResponse()"
-                                    placeholder="Ask the neural net something..."
-                                    style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:0.75rem;padding:0.75rem 1rem;color:#fff;font-family:var(--mono);font-size:0.875rem;outline:none;">
+                                <input type="text" x-model="inputText" @keydown.enter="generateResponse()" placeholder="Ask the neural net something..." style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:0.75rem;padding:0.75rem 1rem;color:#fff;font-family:var(--mono);font-size:0.875rem;outline:none;">
 
-                                <button @click="generateResponse()"
-                                    style="padding:0.75rem 1.5rem;border-radius:0.75rem;background:#6366f1;color:#fff;font-weight:700;letter-spacing:0.02em;border:none;cursor:pointer;display:flex;align-items:center;gap:0.5rem;transition:all .2s;"
-                                    :disabled="isThinking || !inputText.trim()"
-                                    :style="(isThinking || !inputText.trim()) ? 'opacity:0.5;cursor:not-allowed' : ''">
+                                <button @click="generateResponse()" style="padding:0.75rem 1.5rem;border-radius:0.75rem;background:#6366f1;color:#fff;font-weight:700;letter-spacing:0.02em;border:none;cursor:pointer;display:flex;align-items:center;gap:0.5rem;transition:all .2s;" :disabled="isThinking || !inputText.trim()" :style="(isThinking || !inputText.trim()) ? 'opacity:0.5;cursor:not-allowed' : ''">
 
                                     <span x-show="!isThinking">Initialize</span>
                                     <span x-show="isThinking" style="animation:pulse 1.5s ease-in-out infinite;">Processing...</span>
 
-                                    <svg x-show="!isThinking" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    <svg x-show="!isThinking" width="16" height="16" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                     </svg>
                                 </button>
                             </div>
@@ -550,3 +548,4 @@
 </body>
 
 </html>
+<!-- mark:techlinked -->

@@ -212,14 +212,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
         }
 
+    
+        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
+        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
     </style>
 </head>
 
 <body>
     <div id="progress"></div>
     <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
     <div class="wrap">
@@ -250,33 +253,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div class="post-cover"><img src="cover.png" alt="NativePHP Android Cover"></div>
 
                 <div class="prose">
-                    <p>NativePHP has been making waves by taking PHP out of the browser and putting it onto the desktop. But with the recent introduction of <strong>NativePHP Mobile</strong>, a massive new challenge emerged: the mobile compilation cycle.</p>
+                    <p><a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> has been making waves by taking <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> out of the browser and putting it onto the desktop. But with the recent introduction of <strong><a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> Mobile</strong>, a massive new challenge emerged: the mobile compilation cycle.</p>
 
                     <p>If you've ever built a mobile app, you know the pain. Tweak a UI component, recompile the app, wait for the iOS Simulator or Android Emulator to boot, and navigate back to your screen just to see if your padding was correct. It’s agonizing.</p>
 
-                    <p>But deep within the <code>nativephp/mobile-air</code> codebase lies a hidden gem—a fascinating architectural mechanism designed to solve this exact problem. It's called <strong>Jump Hybrid Mode</strong>, and it completely rethinks how PHP communicates with a mobile device during development.</p>
+                    <p>But deep within the <code>nativephp/mobile-air</code> codebase lies a hidden gem—a fascinating architectural mechanism designed to solve this exact problem. It's called <strong>Jump Hybrid Mode</strong>, and it completely rethinks how <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> communicates with a mobile device during development.</p>
 
                     <hr>
 
                     <h2>The Problem with Native Execution</h2>
 
-                    <p>When a NativePHP app runs in production on a mobile device, a compiled PHP binary runs directly on the phone. To allow PHP to talk to the device's native APIs (like the camera, secure storage, or haptics), NativePHP uses a custom C extension. This extension exposes functions like <code>nativephp_call()</code> to bridge the gap between PHP and native Swift/Kotlin code.</p>
+                    <p>When a <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> app runs in production on a mobile device, a compiled <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> binary runs directly on the phone. To allow <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> to talk to the device's native APIs (like the camera, secure storage, or haptics), <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> uses a custom C extension. This extension exposes functions like <code>nativephp_call()</code> to bridge the gap between <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> and native Swift/Kotlin code.</p>
 
-                    <p>But during development, copying your entire Laravel app over to a simulator and recompiling the native shell every time you change a Blade view would kill developer velocity.</p>
+                    <p>But during development, copying your entire <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> app over to a simulator and recompiling the native shell every time you change a Blade view would kill developer velocity.</p>
 
-                    <p>To get around this, the NativePHP team built the <strong>JumpBridge</strong>.</p>
+                    <p>To get around this, the <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> team built the <strong>JumpBridge</strong>.</p>
 
                     <h2>Enter the JumpBridge</h2>
 
                     <p>If I look inside <code>src/JumpBridge.php</code> and <code>src/jump_bridge_functions.php</code> in the <code>mobile-air</code> codebase, I can see exactly how they bypassed the compilation cycle.</p>
 
-                    <p>In "Jump" mode, <strong>PHP doesn't run on your mobile device at all.</strong> Instead, your Laravel application runs locally on your development machine (just like a normal web app), while the native UI shell runs on the simulator.</p>
+                    <p>In "Jump" mode, <strong><a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> doesn't run on your mobile device at all.</strong> Instead, your <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> application runs locally on your development machine (just like a normal web app), while the native UI shell runs on the simulator.</p>
 
-                    <p>But if PHP is running on your Mac, and the native APIs are running on the iPhone Simulator, how does PHP trigger a native device feature?</p>
+                    <p>But if <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> is running on your Mac, and the native APIs are running on the iPhone Simulator, how does <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> trigger a native device feature?</p>
 
                     <h3>The Pure-PHP Polyfill</h3>
 
-                    <p>The magic starts in <code>jump_bridge_functions.php</code>. If the NativePHP C extension isn't loaded (which is the case on your local machine), NativePHP injects a pure-PHP fallback implementation of the core bridge functions:</p>
+                    <p>The magic starts in <code>jump_bridge_functions.php</code>. If the <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> C extension isn't loaded (which is the case on your local machine), <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> injects a pure-PHP fallback implementation of the core bridge functions:</p>
 
                     <pre class="code-block"><code class="language-php">if (! function_exists('nativephp_call')) {
     function nativephp_call(string $method, string $params = '{}'): ?string
@@ -308,12 +311,12 @@ $response = $this->readResponse();</code></pre>
 
                     <p>Here is the full lifecycle of a native call in Jump Mode:</p>
                     <ol>
-                        <li>Your Laravel controller calls <code>Camera::getPhoto()</code>.</li>
+                        <li>Your <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> controller calls <code>Camera::getPhoto()</code>.</li>
                         <li>The <code>JumpBridge</code> intercepts this call, wraps it in JSON, and fires it over a TCP socket to a local WebSocket relay server.</li>
                         <li>The relay server instantly forwards that JSON over a WebSocket to the mobile simulator.</li>
                         <li>The simulator reads the JSON, executes the native Swift/Kotlin camera code, and sends the result back through the WebSocket.</li>
                         <li>The relay server pushes the result back through the TCP socket.</li>
-                        <li>The <code>JumpBridge</code> decodes the result and hands it back to your PHP script synchronously.</li>
+                        <li>The <code>JumpBridge</code> decodes the result and hands it back to your <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> script synchronously.</li>
                     </ol>
 
                     <h3>Solving the TCP Stream Problem: Length-Prefixed Framing</h3>
@@ -339,13 +342,13 @@ $length = $unpacked[1];
 // Read exactly $length bytes to construct the full JSON
 return $this->readExact($length);</code></pre>
 
-                    <p>This ensures that even over a flaky local network connection, the PHP script and the mobile device never truncate or mangle the JSON payloads.</p>
+                    <p>This ensures that even over a flaky local network connection, the <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> script and the mobile device never truncate or mangle the JSON payloads.</p>
 
                     <h2>The Hot-Reloading Magic</h2>
 
-                    <p>Because the PHP process stays entirely resident on your local machine, NativePHP achieves an incredibly fast hot-reloading experience.</p>
+                    <p>Because the <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> process stays entirely resident on your local machine, <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> achieves an incredibly fast hot-reloading experience.</p>
 
-                    <p>If I look at <code>nativephp_element_wait_event()</code> in the bridge file, I can see how NativePHP forces a re-render when you save a file. The device monitors for changes and sends back an event type of <code>15</code> (<code>EVENT_HOT_RELOAD</code>).</p>
+                    <p>If I look at <code>nativephp_element_wait_event()</code> in the bridge file, I can see how <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> forces a re-render when you save a file. The device monitors for changes and sends back an event type of <code>15</code> (<code>EVENT_HOT_RELOAD</code>).</p>
 
                     <pre class="code-block"><code class="language-php">if (($decoded['type'] ?? -1) === 15) { // EVENT_HOT_RELOAD
     // ... debounce logic ...
@@ -361,11 +364,11 @@ return $this->readExact($length);</code></pre>
     return null; // loop continues → render() picks up fresh views
 }</code></pre>
 
-                    <p>When you hit save in your editor, the bridge simply deletes the compiled Blade views (<code>storage/framework/views/*.php</code>) and tells the long-running PHP process to loop again. No restarting PHP. No recompiling Swift. No rebuilding the app. It just dynamically flushes the cache and re-renders the new UI instantly.</p>
+                    <p>When you hit save in your editor, the bridge simply deletes the compiled Blade views (<code>storage/framework/views/*.php</code>) and tells the long-running <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> process to loop again. No restarting PHP. No recompiling Swift. No rebuilding the app. It just dynamically flushes the cache and re-renders the new UI instantly.</p>
 
                     <h3>The Ingenious Hot-Reload Debouncer</h3>
 
-                    <p>There’s one subtle issue with file watchers: hitting <code>Cmd+S</code> or <code>Ctrl+S</code> often triggers multiple filesystem events in rapid succession (e.g., an OS might fire a "modify" and "change" event within milliseconds). If the device forwarded every single event, the PHP application would furiously delete and re-compile Blade views multiple times per second, causing lag or race conditions.</p>
+                    <p>There’s one subtle issue with file watchers: hitting <code>Cmd+S</code> or <code>Ctrl+S</code> often triggers multiple filesystem events in rapid succession (e.g., an OS might fire a "modify" and "change" event within milliseconds). If the device forwarded every single event, the <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> application would furiously delete and re-compile Blade views multiple times per second, causing lag or race conditions.</p>
 
                     <p>To prevent this, <code>nativephp_element_wait_event</code> employs a clever static debounce timer directly inside the function:</p>
 
@@ -378,13 +381,13 @@ if ($now - $lastHotReload < 2) {
 }
 $lastHotReload = $now;</code></pre>
 
-                    <p>Because PHP processes in NativePHP Mobile use a long-running execution loop (similar to Laravel Octane), static variables maintain their state across loop iterations. By utilizing <code>static $lastHotReload</code>, the bridge simply ignores any subsequent hot reload events that happen within two seconds of the first one.</p>
+                    <p>Because <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> processes in <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> Mobile use a long-running execution loop (similar to <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> Octane), static variables maintain their state across loop iterations. By utilizing <code>static $lastHotReload</code>, the bridge simply ignores any subsequent hot reload events that happen within two seconds of the first one.</p>
 
                     <h2>Conclusion</h2>
 
-                    <p>The JumpBridge is a brilliant piece of engineering. By decoupling the PHP execution environment from the native mobile shell during development, NativePHP allows developers to maintain the rapid, sub-second feedback loop of web development while still building true, native mobile applications.</p>
+                    <p>The JumpBridge is a brilliant piece of engineering. By decoupling the <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> execution environment from the native mobile shell during development, <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> allows developers to maintain the rapid, sub-second feedback loop of web development while still building true, native mobile applications.</p>
 
-                    <p>It’s hidden mechanisms like these that make NativePHP such a powerful tool for modern PHP developers looking to conquer the mobile frontier.</p>
+                    <p>It’s hidden mechanisms like these that make <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> such a powerful tool for modern <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> developers looking to conquer the mobile frontier.</p>
                 </div>
 
                 <div class="post-footer">
@@ -436,3 +439,4 @@ $lastHotReload = $now;</code></pre>
 </body>
 
 </html>
+<!-- mark:techlinked -->

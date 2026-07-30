@@ -226,6 +226,10 @@
             .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
         }
 
+    
+        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
+        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
     </style>
 </head>
 
@@ -261,10 +265,10 @@
                 <div class="post-cover"><img src="cover.png" alt="WordPress Studio Cover"></div>
 
                 <div class="prose">
-                    <p>Local development has traditionally been a bit of a hurdle—Docker, MAMP, or local server setups often feel heavy and prone to configuration drifts. Enter <strong>WordPress Studio</strong>: a free, open-source desktop application from Automattic that redefines local development speed using WebAssembly (WASM) and SQLite.</p>
+                    <p>Local development has traditionally been a bit of a hurdle—Docker, MAMP, or local server setups often feel heavy and prone to configuration drifts. Enter <strong><a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> Studio</strong>: a free, open-source desktop application from Automattic that redefines local development speed using WebAssembly (WASM) and SQLite.</p>
 
                     <h2>1. The WebAssembly Engine</h2>
-                    <p>Studio is built on <strong>WordPress Playground</strong>. Instead of running a virtualized Linux server or a local MySQL instance, it runs PHP directly in the browser/app context via WebAssembly and uses SQLite for the database.</p>
+                    <p>Studio is built on <strong><a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> Playground</strong>. Instead of running a virtualized Linux server or a local MySQL instance, it runs <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> directly in the browser/app context via WebAssembly and uses SQLite for the database.</p>
                     <p>This means your local site starts in <strong>less than a second</strong>. No background processes running when you're not using it, and zero system dependencies to manage.</p>
 
                     <h4>Tech Stack Comparison</h4>
@@ -278,7 +282,7 @@
                         <tbody>
                             <tr>
                                 <td>Docker Containers</td>
-                                <td>PHP via WASM</td>
+                                <td><a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> via WASM</td>
                             </tr>
                             <tr>
                                 <td>MySQL / MariaDB</td>
@@ -299,7 +303,7 @@
                     <ul>
                         <li><strong>Studio Sync:</strong> Push and pull changes between your local site and a live WordPress.com or Pressable site (requires Business plan).</li>
                         <li><strong>Preview Sites:</strong> Generate a temporary, shareable URL to show your local work to clients or teammates instantly.</li>
-                        <li><strong>Built-in AI Assistant:</strong> A dedicated AI inside the app to help you generate content, fix code, or answer WordPress questions.</li>
+                        <li><strong>Built-in AI Assistant:</strong> A dedicated AI inside the app to help you generate content, fix code, or answer <a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> questions.</li>
                         <li><strong>Blueprints:</strong> Start new sites with pre-defined configurations, plugins, and themes.</li>
                     </ul>
 
@@ -321,17 +325,12 @@
                     </div>
 
                     <h2>4. Video Walkthroughs</h2>
-                    <p>Want to see WordPress Studio in action? Explore these high-level tours and deep dives from the WordPress team:</p>
+                    <p>Want to see <a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> Studio in action? Explore these high-level tours and deep dives from the <a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> team:</p>
 
                     <h3>Official Studio Overview</h3>
                     <div class="video">
                         <div class="frame">
-                            <iframe
-                                src="https://www.youtube.com/embed/wxBXWmo2oV0?si=YXzg4zC-INFHzs-E"
-                                title="WordPress Studio Overview"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen>
+                            <iframe src="https://www.youtube.com/embed/wxBXWmo2oV0?si=YXzg4zC-INFHzs-E" title="WordPress Studio Overview" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
                             </iframe>
                         </div>
                         <p><a href="https://www.youtube.com/watch?v=wxBXWmo2oV0" target="_blank" rel="noopener">Watch Part 1 on YouTube →</a></p>
@@ -340,26 +339,21 @@
                     <h3>Studio Feature Deep Dive</h3>
                     <div class="video">
                         <div class="frame">
-                            <iframe
-                                src="https://www.youtube.com/embed/2MV17Qzj_T0"
-                                title="WordPress Studio Key Features"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen>
+                            <iframe src="https://www.youtube.com/embed/2MV17Qzj_T0" title="WordPress Studio Key Features" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
                             </iframe>
                         </div>
                         <p><a href="https://www.youtube.com/watch?v=2MV17Qzj_T0" target="_blank" rel="noopener">Watch Part 2 on YouTube →</a></p>
                     </div>
 
                     <h2>5. Get Started Today</h2>
-                    <p>WordPress Studio is available for macOS (Intel and Apple Silicon) and Windows. It's completely free and open source.</p>
+                    <p><a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> Studio is available for macOS (Intel and Apple Silicon) and Windows. It's completely free and open source.</p>
                     <div class="btn-row">
                         <a class="primary" href="https://developer.wordpress.com/studio/" target="_blank" rel="noopener">Download Now</a>
                         <a href="https://github.com/Automattic/studio" target="_blank" rel="noopener">View on GitHub</a>
                     </div>
 
                     <h3>Why It Matters</h3>
-                    <p>WordPress Studio isn't just another tool; it's a fundamental shift in how we think about the WordPress runtime. By leveraging technologies like WASM and SQLite, Automattic has eliminated the "it works on my machine" friction while making developer onboarding near-instant.</p>
+                    <p><a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> Studio isn't just another tool; it's a fundamental shift in how we think about the <a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> runtime. By leveraging technologies like WASM and SQLite, Automattic has eliminated the "it works on my machine" friction while making developer onboarding near-instant.</p>
                     <p>Whether you're a freelancer testing a quick plugin or a developer building a complex theme, Studio provides a frictionless sandbox that stays out of your way.</p>
                 </div>
 
@@ -438,3 +432,4 @@
 </body>
 
 </html>
+<!-- mark:techlinked -->

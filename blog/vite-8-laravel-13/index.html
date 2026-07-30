@@ -213,6 +213,10 @@
             .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
         }
 
+    
+        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
+        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
     </style>
 </head>
 
@@ -248,10 +252,10 @@
                 <div class="post-cover"><img src="cover.png" alt="Vite 8 and Laravel 13 Integration"></div>
 
                 <div class="prose">
-                    <p>The year 2026 has brought us the most significant leap in the Laravel ecosystem yet. With the release of <strong>Laravel 13</strong>, the framework has fully embraced <strong>Vite 8</strong> as its engine, delivering a开发 experience that feels almost instantaneous. Today, we're diving deep into how this combination redefines full-stack development.</p>
+                    <p>The year 2026 has brought us the most significant leap in the <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> ecosystem yet. With the release of <strong><a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13</strong>, the framework has fully embraced <strong><a href="https://vite.dev" target="_blank" rel="noopener" class="techlink">Vite</a> 8</strong> as its engine, delivering a开发 experience that feels almost instantaneous. Today, we're diving deep into how this combination redefines full-stack development.</p>
 
                     <h2>1. Instantaneous HMR & Build Speeds</h2>
-                    <p>Vite 8 introduces the <strong>Rust-based Oxide engine</strong> as the default, making hot module replacement (HMR) truly instant, even in massive Laravel projects. We're talking sub-5ms updates for Blade, Volt, and React components.</p>
+                    <p><a href="https://vite.dev" target="_blank" rel="noopener" class="techlink">Vite</a> 8 introduces the <strong>Rust-based Oxide engine</strong> as the default, making hot module replacement (HMR) truly instant, even in massive <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> projects. We're talking sub-5ms updates for Blade, Volt, and <a href="https://react.dev" target="_blank" rel="noopener" class="techlink">React</a> components.</p>
                     <p><strong>vite.config.js — Optimization</strong></p>
                     <pre class="code-block"><code>import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
@@ -267,7 +271,7 @@ export default defineConfig({
 });</code></pre>
 
                     <h2>2. The New Environment API</h2>
-                    <p>Vite 8's Environment API allows Laravel to manage frontend and backend assets with a unified configuration. This simplifies SSR (Server-Side Rendering) setup and ensures that your <code>.env</code> variables are handled securely across the entire stack.</p>
+                    <p><a href="https://vite.dev" target="_blank" rel="noopener" class="techlink">Vite</a> 8's Environment API allows <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> to manage frontend and backend assets with a unified configuration. This simplifies SSR (Server-Side Rendering) setup and ensures that your <code>.env</code> variables are handled securely across the entire stack.</p>
                     <p><strong>Secure Env Injection</strong></p>
                     <pre class="code-block"><code>// Vite 8 auto-injects Laravel app variables
 const apiUrl = import.meta.env.VITE_LARAVEL_API_URL;
@@ -275,8 +279,8 @@ const isProd = import.meta.env.PROD;
 
 console.log(`Connected to: ${apiUrl}`);</code></pre>
 
-                    <h2>3. Tailwind CSS v4 & CSS-First Config</h2>
-                    <p>Laravel 13 ships with Tailwind CSS v4, which moves configuration into your CSS files using the <code>@theme</code> directive. This eliminates the need for a separate <code>tailwind.config.js</code> and allows for faster build times and better IDE support.</p>
+                    <h2>3. <a href="https://tailwindcss.com" target="_blank" rel="noopener" class="techlink">Tailwind CSS</a> v4 & CSS-First Config</h2>
+                    <p><a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13 ships with <a href="https://tailwindcss.com" target="_blank" rel="noopener" class="techlink">Tailwind CSS</a> v4, which moves configuration into your CSS files using the <code>@theme</code> directive. This eliminates the need for a separate <code>tailwind.config.js</code> and allows for faster build times and better IDE support.</p>
                     <pre class="code-block"><code>/* resources/css/app.css */
 @import "tailwindcss";
 
@@ -286,8 +290,8 @@ console.log(`Connected to: ${apiUrl}`);</code></pre>
     --shadow-premium: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }</code></pre>
 
-                    <h2>4. Flux UI: The Ultimate Laravel Library</h2>
-                    <p>Flux is the new standard UI library for Livewire. It provides high-performance, accessible components that look production-ready out of the box. With Laravel 13, Flux components are more deeply integrated, allowing for seamless attribute forwarding and state sharing.</p>
+                    <h2>4. Flux UI: The Ultimate <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> Library</h2>
+                    <p>Flux is the new standard UI library for Livewire. It provides high-performance, accessible components that look production-ready out of the box. With <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13, Flux components are more deeply integrated, allowing for seamless attribute forwarding and state sharing.</p>
                     <pre class="code-block"><code>&lt;flux:modal name="user-profile" class="max-w-lg"&gt;
     &lt;flux:heading&gt;Edit Profile&lt;/flux:heading&gt;
     &lt;flux:subheading&gt;Update your personal information.&lt;/flux:subheading&gt;
@@ -297,16 +301,16 @@ console.log(`Connected to: ${apiUrl}`);</code></pre>
 &lt;/flux:modal&gt;</code></pre>
 
                     <h2>5. One-Click Cloud Deployment</h2>
-                    <p>Vite 8 and Laravel 13 include built-in support for zero-config deployments to major cloud providers. Whether it's Vercel, Netlify, or AWS, the asset pipeline is automatically optimized for the target environment, ensuring the best possible performance for your users.</p>
+                    <p><a href="https://vite.dev" target="_blank" rel="noopener" class="techlink">Vite</a> 8 and <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13 include built-in support for zero-config deployments to major cloud providers. Whether it's Vercel, Netlify, or AWS, the asset pipeline is automatically optimized for the target environment, ensuring the best possible performance for your users.</p>
 
                     <h3>Why This Matters</h3>
-                    <p>In the fast-paced world of web development, build tools can often become a bottleneck. By bringing Vite 8's extreme performance into the heart of Laravel 13, Taylor Otwell and the team have removed those barriers once and for all.</p>
-                    <p>We are no longer just "coding"; we are crafting experiences with real-time feedback that matches the speed of our thoughts. This update is a huge win for productivity and for the future of the PHP ecosystem.</p>
+                    <p>In the fast-paced world of web development, build tools can often become a bottleneck. By bringing <a href="https://vite.dev" target="_blank" rel="noopener" class="techlink">Vite</a> 8's extreme performance into the heart of <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13, Taylor Otwell and the team have removed those barriers once and for all.</p>
+                    <p>We are no longer just "coding"; we are crafting experiences with real-time feedback that matches the speed of our thoughts. This update is a huge win for productivity and for the future of the <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> ecosystem.</p>
                     <p>If you haven't upgraded yet, now is the time to feel the speed.</p>
 
                     <div class="callout">
                         <h3>Start Your Upgrade</h3>
-                        <p>Read the official Laravel 13 migration guide and experience Vite 8 in action today.</p>
+                        <p>Read the official <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13 migration guide and experience <a href="https://vite.dev" target="_blank" rel="noopener" class="techlink">Vite</a> 8 in action today.</p>
                         <a class="btn" href="https://laravel.com/docs/13.x/upgrade">View Migration Guide →</a>
                     </div>
                 </div>
@@ -386,3 +390,4 @@ console.log(`Connected to: ${apiUrl}`);</code></pre>
 </body>
 
 </html>
+<!-- mark:techlinked -->

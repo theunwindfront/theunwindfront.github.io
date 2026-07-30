@@ -439,13 +439,16 @@
             .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
         }
 
+    
+        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
+        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
     </style>
 </head>
 
 <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="wrap">
         <header class="topbar">
@@ -668,7 +671,7 @@
                 <h2 class="section-title" id="os-h">Built in the open</h2>
                 <p class="os-note">
                     Most of the work above ships as open source across the
-                    <a href="https://nativephp.com" target="_blank" rel="noopener">NativePHP</a> and Laravel ecosystems.
+                    <a href="https://nativephp.com" target="_blank" rel="noopener">NativePHP</a> and <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> ecosystems.
                     Browse the repositories on <a href="https://github.com/theunwindfront" target="_blank" rel="noopener">github.com/theunwindfront</a>,
                     or support ongoing maintenance via
                     <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener">GitHub Sponsors</a>.
@@ -733,3 +736,4 @@
 </body>
 
 </html>
+<!-- mark:techlinked -->

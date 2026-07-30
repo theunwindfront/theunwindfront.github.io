@@ -212,6 +212,10 @@
             .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
         }
 
+    
+        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
+        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
     </style>
 </head>
 
@@ -248,7 +252,7 @@
 
                 <div class="prose">
                     <h2>Introduction</h2>
-                    <p>SEO plugins in WordPress often claim to support advanced features like Markdown for AI, but many overlook the importance of properly handling HTTP Accept headers. This oversight can lead to compatibility issues, reduced performance, and missed opportunities for optimization in modern frameworks like Bedrock and Sage from Roots — and even in full-stack frameworks like Laravel.</p>
+                    <p>SEO plugins in <a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> often claim to support advanced features like Markdown for AI, but many overlook the importance of properly handling HTTP Accept headers. This oversight can lead to compatibility issues, reduced performance, and missed opportunities for optimization in modern frameworks like <a href="https://roots.io/bedrock/" target="_blank" rel="noopener" class="techlink">Bedrock</a> and <a href="https://roots.io/sage/" target="_blank" rel="noopener" class="techlink">Sage</a> from Roots — and even in full-stack frameworks like Laravel.</p>
 
                     <h2>What is Markdown for AI?</h2>
                     <p>Markdown for AI refers to structuring content in Markdown format so that AI-driven tools and search engines can better parse, understand, and present information. It enhances readability, improves semantic structure, and supports rich snippets in search results.</p>
@@ -270,7 +274,7 @@
                     <pre class="code-block"><code># Request Markdown output from a WordPress or Laravel site
 curl -H "Accept: text/markdown" https://example.com/post/hello-world</code></pre>
 
-                    <h3>2. WordPress Plugin Hook Example</h3>
+                    <h3>2. <a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> Plugin Hook Example</h3>
                     <pre class="code-block"><code>add_filter('the_content', function($content) {
     if (strpos($_SERVER['HTTP_ACCEPT'], 'text/markdown') !== false) {
         // Convert HTML content to Markdown
@@ -299,7 +303,7 @@ class PostController
     }
 }</code></pre>
 
-                    <h2>Laravel PHP Support for Markdown Features</h2>
+                    <h2><a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> Support for Markdown Features</h2>
 
                     <h3>Middleware for Accept Header</h3>
                     <pre class="code-block"><code>namespace App\Http\Middleware;
@@ -346,20 +350,20 @@ class ArticleController extends Controller
     }
 }</code></pre>
 
-                    <h2>Bedrock/Sage vs. Laravel: Markdown for AI Support</h2>
+                    <h2>Bedrock/Sage vs. <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a>: Markdown for AI Support</h2>
                     <table class="comparison-table">
                         <thead>
                             <tr>
                                 <th>Feature / Approach</th>
-                                <th>Bedrock & Sage (WordPress Roots)</th>
-                                <th>Laravel (PHP Framework)</th>
+                                <th><a href="https://roots.io/bedrock/" target="_blank" rel="noopener" class="techlink">Bedrock</a> & <a href="https://roots.io/sage/" target="_blank" rel="noopener" class="techlink">Sage</a> (<a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> Roots)</th>
+                                <th><a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> (<a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> Framework)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><strong>Core Philosophy</strong></td>
-                                <td>Modernized WordPress stack with Composer, clean theming, semantic markup</td>
-                                <td>Full-stack PHP framework with MVC, middleware, and service providers</td>
+                                <td>Modernized <a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> stack with Composer, clean theming, semantic markup</td>
+                                <td>Full-stack <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> framework with MVC, middleware, and service providers</td>
                             </tr>
                             <tr>
                                 <td><strong>Accept Header Handling</strong></td>
@@ -383,8 +387,8 @@ class ArticleController extends Controller
                             </tr>
                             <tr>
                                 <td><strong>Developer Workflow</strong></td>
-                                <td>Hooks/controllers integrated into WordPress ecosystem</td>
-                                <td>Middleware/controllers integrated into Laravel lifecycle</td>
+                                <td>Hooks/controllers integrated into <a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> ecosystem</td>
+                                <td>Middleware/controllers integrated into <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> lifecycle</td>
                             </tr>
                             <tr>
                                 <td><strong>Example Code</strong></td>
@@ -398,12 +402,12 @@ class ArticleController extends Controller
                     <ul>
                         <li><strong>Respect Accept Headers:</strong> Ensure plugins and apps deliver content in the requested format.</li>
                         <li><strong>Validate Markdown Output:</strong> Confirm that AI tools and crawlers receive proper Markdown.</li>
-                        <li><strong>Test in Bedrock/Sage & Laravel:</strong> Verify behavior in both ecosystems.</li>
+                        <li><strong>Test in Bedrock/Sage & <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a>:</strong> Verify behavior in both ecosystems.</li>
                         <li><strong>Monitor SEO Impact:</strong> Track how structured content affects search rankings.</li>
                     </ul>
 
                     <h2>Conclusion</h2>
-                    <p>For WordPress developers, Laravel engineers, and SEO professionals, true Markdown for AI support requires more than marketing claims. Respecting Accept headers is a technical necessity that ensures compatibility, enhances SEO, and unlocks the full potential of frameworks like Bedrock, Sage, and Laravel.</p>
+                    <p>For <a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> developers, <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> engineers, and SEO professionals, true Markdown for AI support requires more than marketing claims. Respecting Accept headers is a technical necessity that ensures compatibility, enhances SEO, and unlocks the full potential of frameworks like <a href="https://roots.io/bedrock/" target="_blank" rel="noopener" class="techlink">Bedrock</a>, <a href="https://roots.io/sage/" target="_blank" rel="noopener" class="techlink">Sage</a>, and Laravel.</p>
                     <p>By adopting these practices, plugins and applications can deliver on their promises and empower sites to perform better in both search and AI-driven contexts.</p>
                 </div>
 
@@ -482,3 +486,4 @@ class ArticleController extends Controller
 </body>
 
 </html>
+<!-- mark:techlinked -->

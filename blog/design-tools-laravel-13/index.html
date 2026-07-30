@@ -216,6 +216,10 @@
             .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
         }
 
+    
+        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
+        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
     </style>
 </head>
 
@@ -254,23 +258,23 @@
                     <section>
                         <h2>1. Core UI/UX Design Principles</h2>
                         <p>
-                            Before touching a single tool, understanding fundamental design principles is essential. These aren't abstract art-school theories — they directly influence how users perceive your Laravel application's quality.
+                            Before touching a single tool, understanding fundamental design principles is essential. These aren't abstract art-school theories — they directly influence how users perceive your <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> application's quality.
                         </p>
                         <ul>
                             <li>
-                                <strong>Consistency:</strong> Elements like buttons, typography, and spacing should remain uniform across the platform. This reduces cognitive load for the user. In Laravel, this maps directly to <strong>reusable Blade components</strong> — design once, use everywhere.
+                                <strong>Consistency:</strong> Elements like buttons, typography, and spacing should remain uniform across the platform. This reduces cognitive load for the user. In <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a>, this maps directly to <strong>reusable Blade components</strong> — design once, use everywhere.
                             </li>
                             <li>
-                                <strong>Visual Hierarchy:</strong> Use size, color, and contrast to guide the user's eye to the most critical information first (e.g., primary calls to action vs. secondary links). Laravel's layout system and component slots make implementing this hierarchy in code trivial.
+                                <strong>Visual Hierarchy:</strong> Use size, color, and contrast to guide the user's eye to the most critical information first (e.g., primary calls to action vs. secondary links). <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a>'s layout system and component slots make implementing this hierarchy in code trivial.
                             </li>
                             <li>
-                                <strong>Accessibility (a11y):</strong> Ensure your application is usable by everyone. This means proper ARIA labels, semantic HTML, and adhering to WCAG contrast ratios. Laravel 13's new starter kits ship with accessibility best practices baked in.
+                                <strong>Accessibility (a11y):</strong> Ensure your application is usable by everyone. This means proper ARIA labels, semantic HTML, and adhering to WCAG contrast ratios. <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13's new starter kits ship with accessibility best practices baked in.
                             </li>
                             <li>
-                                <strong>Mobile-First Approach:</strong> Start designing for the smallest screen and progressively enhance the layout. With Laravel 13 embracing Tailwind CSS 4, responsive design is a first-class citizen from day one.
+                                <strong>Mobile-First Approach:</strong> Start designing for the smallest screen and progressively enhance the layout. With <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13 embracing <a href="https://tailwindcss.com" target="_blank" rel="noopener" class="techlink">Tailwind CSS</a> 4, responsive design is a first-class citizen from day one.
                             </li>
                             <li>
-                                <strong>Feedback & Micro-interactions:</strong> Users need instant visual feedback. Button hover states, loading spinners, toast notifications — these micro-interactions are what make an app feel polished. Livewire and Alpine.js handle these effortlessly in the Laravel stack.
+                                <strong>Feedback & Micro-interactions:</strong> Users need instant visual feedback. Button hover states, loading spinners, toast notifications — these micro-interactions are what make an app feel polished. <a href="https://livewire.laravel.com" target="_blank" rel="noopener" class="techlink">Livewire</a> and <a href="https://alpinejs.dev" target="_blank" rel="noopener" class="techlink">Alpine.js</a> handle these effortlessly in the <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> stack.
                             </li>
                         </ul>
                     </section>
@@ -278,37 +282,37 @@
                     <section>
                         <h2>2. Free Tools to Manage Web & Mobile Design</h2>
                         <p>
-                            You don't need expensive licenses to create premium designs. The open-source and free-tier ecosystems are incredibly robust right now. Here are five essential tools every Laravel developer should know:
+                            You don't need expensive licenses to create premium designs. The open-source and free-tier ecosystems are incredibly robust right now. Here are five essential tools every <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> developer should know:
                         </p>
 
                         <h3>1. Penpot / Figma</h3>
-                        <p>While <strong>Figma</strong> is the industry standard with a generous free tier, <strong>Penpot</strong> is an excellent open-source alternative. Both allow for vector-based UI design, interactive prototyping, and seamless handoff to developers. Export your design tokens (colors, spacing, typography) and feed them directly into your Laravel project's Tailwind config.</p>
+                        <p>While <strong>Figma</strong> is the industry standard with a generous free tier, <strong>Penpot</strong> is an excellent open-source alternative. Both allow for vector-based UI design, interactive prototyping, and seamless handoff to developers. Export your design tokens (colors, spacing, typography) and feed them directly into your <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> project's Tailwind config.</p>
 
                         <h3>2. Coolors.co</h3>
-                        <p>A highly intuitive, free color palette generator. It helps you quickly discover visually pleasing color schemes, export them as CSS variables or Tailwind config values, and verify their contrast ratios for WCAG accessibility compliance — critical for enterprise Laravel apps.</p>
+                        <p>A highly intuitive, free color palette generator. It helps you quickly discover visually pleasing color schemes, export them as CSS variables or Tailwind config values, and verify their contrast ratios for WCAG accessibility compliance — critical for enterprise <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> apps.</p>
 
                         <h3>3. Phosphor Icons / Heroicons</h3>
-                        <p>Open-source icon families for modern interfaces. <strong>Heroicons</strong> (by the Tailwind team) integrates perfectly with Laravel's Blade ecosystem via <code>blade-heroicons</code> package. Phosphor provides thousands of consistent SVG icons in multiple weights.</p>
+                        <p>Open-source icon families for modern interfaces. <strong>Heroicons</strong> (by the Tailwind team) integrates perfectly with <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a>'s Blade ecosystem via <code>blade-heroicons</code> package. Phosphor provides thousands of consistent SVG icons in multiple weights.</p>
 
                         <h3>4. Google Fonts & Fontsource</h3>
-                        <p>Typography sets the tone. <strong>Fontsource</strong> lets you install Google Fonts via npm for self-hosting, ensuring optimal loading performance. Laravel 13's Vite 6 integration handles font bundling seamlessly with zero extra configuration.</p>
+                        <p>Typography sets the tone. <strong>Fontsource</strong> lets you install Google Fonts via npm for self-hosting, ensuring optimal loading performance. <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13's <a href="https://vite.dev" target="_blank" rel="noopener" class="techlink">Vite</a> 6 integration handles font bundling seamlessly with zero extra configuration.</p>
 
                         <h3>5. Storybook / Histoire</h3>
-                        <p>Component documentation tools that let you develop and test UI components in isolation. <strong>Histoire</strong> is particularly great for Vue-based Laravel projects. Build your component library visually, share it with designers for sign-off, and then deploy the exact same components in your Laravel views. This bridges the gap between "what was designed" and "what was built."</p>
+                        <p>Component documentation tools that let you develop and test UI components in isolation. <strong>Histoire</strong> is particularly great for Vue-based <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> projects. Build your component library visually, share it with designers for sign-off, and then deploy the exact same components in your <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> views. This bridges the gap between "what was designed" and "what was built."</p>
                     </section>
 
                     <section>
-                        <h2>3. What's New in Laravel 13 for Design-Driven Development</h2>
+                        <h2>3. What's New in <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13 for Design-Driven Development</h2>
                         <p>
-                            Laravel 13 introduces several features that make the connection between design and development tighter than ever. Here's a breakdown of the key features and how they impact your design workflow:
+                            <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13 introduces several features that make the connection between design and development tighter than ever. Here's a breakdown of the key features and how they impact your design workflow:
                         </p>
 
                         <h3>🚀 Redesigned Starter Kits</h3>
                         <p>
-                            Laravel 13 ships with completely overhauled starter kits. The new <strong>React, Vue, and Livewire starter kits</strong> provide a beautifully designed authentication scaffold out of the box — login, registration, password reset, email verification, and profile management pages that actually look production-ready from day one.
+                            <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13 ships with completely overhauled starter kits. The new <strong><a href="https://react.dev" target="_blank" rel="noopener" class="techlink">React</a>, Vue, and <a href="https://livewire.laravel.com" target="_blank" rel="noopener" class="techlink">Livewire</a> starter kits</strong> provide a beautifully designed authentication scaffold out of the box — login, registration, password reset, email verification, and profile management pages that actually look production-ready from day one.
                         </p>
                         <p>
-                            Unlike previous versions where Breeze/Jetstream gave you functional but bland starter pages, Laravel 13's starters are built with <strong>Tailwind CSS v4</strong> and include polished dark mode support, responsive layouts, and smooth transitions. You get a design system, not just a boilerplate.
+                            Unlike previous versions where Breeze/Jetstream gave you functional but bland starter pages, <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13's starters are built with <strong><a href="https://tailwindcss.com" target="_blank" rel="noopener" class="techlink">Tailwind CSS</a> v4</strong> and include polished dark mode support, responsive layouts, and smooth transitions. You get a design system, not just a boilerplate.
                         </p>
                         <pre class="code-block"><code># Scaffold a new Laravel 13 project with the Livewire starter
 laravel new my-app --using=livewire
@@ -316,9 +320,9 @@ laravel new my-app --using=livewire
 # Or with React + Inertia
 laravel new my-app --using=react</code></pre>
 
-                        <h3>🎨 Tailwind CSS v4 Integration</h3>
+                        <h3>🎨 <a href="https://tailwindcss.com" target="_blank" rel="noopener" class="techlink">Tailwind CSS</a> v4 Integration</h3>
                         <p>
-                            Laravel 13 ships with <strong>Tailwind CSS v4</strong> as the default styling framework. This is a massive upgrade for design-to-code workflows. Key changes include:
+                            <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13 ships with <strong><a href="https://tailwindcss.com" target="_blank" rel="noopener" class="techlink">Tailwind CSS</a> v4</strong> as the default styling framework. This is a massive upgrade for design-to-code workflows. Key changes include:
                         </p>
                         <ul>
                             <li><strong>CSS-first configuration:</strong> No more <code>tailwind.config.js</code>. Design tokens are defined directly in CSS using <code>@theme</code> directive.</li>
@@ -335,9 +339,9 @@ laravel new my-app --using=react</code></pre>
     --breakpoint-xs: 475px;
 }</code></pre>
 
-                        <h3>⚡ Livewire Flux UI Components</h3>
+                        <h3>⚡ <a href="https://livewire.laravel.com" target="_blank" rel="noopener" class="techlink">Livewire</a> Flux UI Components</h3>
                         <p>
-                            The Laravel ecosystem now includes <strong>Flux</strong>, a beautifully designed UI component library built specifically for Livewire. It provides pre-built, design-ready components like modals, dropdowns, tables, forms, and navigation — all following modern design patterns.
+                            The <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> ecosystem now includes <strong>Flux</strong>, a beautifully designed UI component library built specifically for Livewire. It provides pre-built, design-ready components like modals, dropdowns, tables, forms, and navigation — all following modern design patterns.
                         </p>
                         <p>
                             This is where design principles meet code directly. Instead of writing custom CSS for every dropdown or modal, you use Flux components that are already designed with proper accessibility, keyboard navigation, focus traps, and smooth animations.
@@ -358,10 +362,10 @@ laravel new my-app --using=react</code></pre>
 
                         <h3>📦 Single-File Components with Volt</h3>
                         <p>
-                            <strong>Volt</strong> introduces single-file Livewire components — your PHP logic and Blade template live in the same file. This is a game-changer for design-driven development because designers and developers can see the complete picture in one place.
+                            <strong>Volt</strong> introduces single-file <a href="https://livewire.laravel.com" target="_blank" rel="noopener" class="techlink">Livewire</a> components — your <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> logic and Blade template live in the same file. This is a game-changer for design-driven development because designers and developers can see the complete picture in one place.
                         </p>
                         <p>
-                            When iterating on a component's design, there's no switching between a PHP class file and a Blade template. The component is self-contained, making it easy to prototype, review, and refine rapidly.
+                            When iterating on a component's design, there's no switching between a <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> class file and a Blade template. The component is self-contained, making it easy to prototype, review, and refine rapidly.
                         </p>
                         <pre class="code-block"><code>&lt;?php
 use function Livewire\Volt\{state, computed};
@@ -386,31 +390,31 @@ $filteredUsers = computed(function () {
     &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 
-                        <h3>🔧 Vite 6 & Asset Pipeline</h3>
+                        <h3>🔧 <a href="https://vite.dev" target="_blank" rel="noopener" class="techlink">Vite</a> 6 & Asset Pipeline</h3>
                         <p>
-                            Laravel 13 upgrades to <strong>Vite 6</strong> with the Environment API for faster dev server startup and hot module replacement (HMR). For design workflows this means:
+                            <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13 upgrades to <strong><a href="https://vite.dev" target="_blank" rel="noopener" class="techlink">Vite</a> 6</strong> with the Environment API for faster dev server startup and hot module replacement (HMR). For design workflows this means:
                         </p>
                         <ul>
                             <li><strong>Instant CSS updates:</strong> Change a color variable in your CSS and see it reflected in the browser in milliseconds — no page reload.</li>
                             <li><strong>Optimized font loading:</strong> Self-hosted fonts via Fontsource are automatically tree-shaken and bundled.</li>
-                            <li><strong>Image optimization:</strong> Vite plugins for automatic WebP/AVIF conversion keep your design assets lightweight without manual compression.</li>
+                            <li><strong>Image optimization:</strong> <a href="https://vite.dev" target="_blank" rel="noopener" class="techlink">Vite</a> plugins for automatic WebP/AVIF conversion keep your design assets lightweight without manual compression.</li>
                         </ul>
                     </section>
 
                     <section>
                         <h2>4. The Design → Development Pipeline</h2>
                         <p>
-                            Here's how a modern design-to-development workflow looks with Laravel 13:
+                            Here's how a modern design-to-development workflow looks with <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13:
                         </p>
 
                         <h3>Step 1: Design Tokens → Tailwind Config</h3>
                         <p>
-                            Extract your design tokens from Figma (colors, spacing, border-radius, shadows, typography) and map them directly into your Tailwind v4 <code>@theme</code> block. This is your single source of truth. When a designer updates the primary color in Figma, you update one CSS variable and the entire Laravel app reflects it.
+                            Extract your design tokens from Figma (colors, spacing, border-radius, shadows, typography) and map them directly into your Tailwind v4 <code>@theme</code> block. This is your single source of truth. When a designer updates the primary color in Figma, you update one CSS variable and the entire <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> app reflects it.
                         </p>
 
                         <h3>Step 2: Wireframes → Blade Components</h3>
                         <p>
-                            Every UI element in your wireframe should map to a reusable Blade component. Laravel 13's anonymous components with attribute forwarding make this incredibly clean:
+                            Every UI element in your wireframe should map to a reusable Blade component. <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13's anonymous components with attribute forwarding make this incredibly clean:
                         </p>
                         <pre class="code-block"><code>&lt;!-- resources/views/components/card.blade.php --&gt;
 @props(['variant' => 'default', 'padding' => 'md'])
@@ -434,7 +438,7 @@ $filteredUsers = computed(function () {
 
                         <h3>Step 3: API-First for Mobile Consistency</h3>
                         <p>
-                            If you're building a mobile app alongside your web app (Flutter, React Native, or NativePHP), Laravel 13 acts as the centralized backend. Use <strong>Laravel Sanctum</strong> for authentication and <strong>API Resources</strong> to ensure response schemas match your mobile UI components. The design language (colors, icons, spacing) stays consistent because both web and mobile clients consume the same data structure while following your shared Figma design system.
+                            If you're building a mobile app alongside your web app (Flutter, <a href="https://react.dev" target="_blank" rel="noopener" class="techlink">React</a> Native, or <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a>), <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13 acts as the centralized backend. Use <strong><a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> Sanctum</strong> for authentication and <strong>API Resources</strong> to ensure response schemas match your mobile UI components. The design language (colors, icons, spacing) stays consistent because both web and mobile clients consume the same data structure while following your shared Figma design system.
                         </p>
                         <pre class="code-block"><code>// app/Http/Resources/ProjectResource.php
 class ProjectResource extends JsonResource
@@ -457,17 +461,17 @@ class ProjectResource extends JsonResource
                     <section>
                         <h2>5. Bridging the Culture Gap</h2>
                         <p>
-                            The real challenge isn't tools or frameworks — it's communication between designers and developers. Here are practical ways to bridge the gap in your Laravel team:
+                            The real challenge isn't tools or frameworks — it's communication between designers and developers. Here are practical ways to bridge the gap in your <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> team:
                         </p>
                         <ul>
                             <li>
                                 <strong>Shared vocabulary:</strong> When your designer says "8px spacing," your developer should know that's <code>space-2</code> in Tailwind. Document this translation in your project wiki.
                             </li>
                             <li>
-                                <strong>Design reviews in code:</strong> Deploy preview environments (Laravel Forge, Vercel, Coolify) for every pull request. Designers review running code, not static screenshots.
+                                <strong>Design reviews in code:</strong> Deploy preview environments (<a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> Forge, Vercel, Coolify) for every pull request. Designers review running code, not static screenshots.
                             </li>
                             <li>
-                                <strong>Component inventory:</strong> Maintain a living component library. Use Laravel's Blade component system as the source of truth — if a component doesn't exist in your <code>resources/views/components/</code> directory, it shouldn't exist in the Figma file either.
+                                <strong>Component inventory:</strong> Maintain a living component library. Use <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a>'s Blade component system as the source of truth — if a component doesn't exist in your <code>resources/views/components/</code> directory, it shouldn't exist in the Figma file either.
                             </li>
                             <li>
                                 <strong>Pixel-perfect isn't the goal:</strong> The goal is design <em>intent</em>. A button that's 2px different in padding is fine; a button that doesn't communicate urgency through color and hierarchy is a failure.
@@ -478,7 +482,7 @@ class ProjectResource extends JsonResource
                     <section>
                         <h2>Summary</h2>
                         <p>
-                            Laravel 13 is the most design-aware version of Laravel yet. With Tailwind CSS v4 as the default, Flux UI components for Livewire, single-file Volt components, redesigned starter kits, and Vite 6 for instant feedback loops — the framework is purpose-built for teams that care about both beautiful design <em>and</em> powerful backend logic.
+                            <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13 is the most design-aware version of <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> yet. With <a href="https://tailwindcss.com" target="_blank" rel="noopener" class="techlink">Tailwind CSS</a> v4 as the default, Flux UI components for <a href="https://livewire.laravel.com" target="_blank" rel="noopener" class="techlink">Livewire</a>, single-file Volt components, redesigned starter kits, and <a href="https://vite.dev" target="_blank" rel="noopener" class="techlink">Vite</a> 6 for instant feedback loops — the framework is purpose-built for teams that care about both beautiful design <em>and</em> powerful backend logic.
                         </p>
                         <p>
                             Pair these framework capabilities with free tools like Figma, Coolors, and Heroicons, and you have a complete design-to-deployment pipeline that costs nothing but delivers enterprise-grade quality. The gap between "what the designer envisioned" and "what the developer shipped" has never been smaller.
@@ -486,7 +490,7 @@ class ProjectResource extends JsonResource
                     </section>
 
                     <blockquote>
-                        "Great applications aren't just coded; they are designed. Laravel 13 makes bridging that gap seamless."
+                        "Great applications aren't just coded; they are designed. <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> 13 makes bridging that gap seamless."
                     </blockquote>
                 </div>
 
@@ -572,3 +576,4 @@ class ProjectResource extends JsonResource
 </body>
 
 </html>
+<!-- mark:techlinked -->

@@ -214,6 +214,10 @@
             .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
         }
 
+    
+        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
+        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
     </style>
 </head>
 
@@ -252,8 +256,8 @@
                     <p>Raise your hand if you despise writing HTML emails natively. The archaic <code>&lt;table&gt;</code> nesting, writing the same inline CSS repeatedly, and guessing what works in Outlook versus Apple Mail... It is a true developer nightmare.</p>
                     <p>Enter <strong>Maizzle</strong>. Maizzle is a framework for building responsive HTML emails using modern tools instead of writing messy email-safe HTML by hand.</p>
 
-                    <h2>→ build emails with Tailwind CSS</h2>
-                    <p>Who said CSS frameworks are just for websites? Maizzle uses Tailwind CSS directly in your template code, so you can rapidly design beautiful HTML emails. You code entirely utility-first using standard HTML elements.</p>
+                    <h2>→ build emails with <a href="https://tailwindcss.com" target="_blank" rel="noopener" class="techlink">Tailwind CSS</a></h2>
+                    <p>Who said CSS frameworks are just for websites? Maizzle uses <a href="https://tailwindcss.com" target="_blank" rel="noopener" class="techlink">Tailwind CSS</a> directly in your template code, so you can rapidly design beautiful HTML emails. You code entirely utility-first using standard HTML elements.</p>
                     <p>Modifiers like hover states (<code>hover:bg-blue-500</code>) and responsive queries (<code>sm:w-full</code>) work perfectly out of the box, drastically reducing context switching between styles and markup.</p>
 
                     <img src="tailwind.png" alt="Tailwind CSS with Maizzle">
@@ -311,7 +315,7 @@ maizzle build production</code></pre>
                     <img src="inbox.png" alt="Email Delivery">
 
                     <h3>Stop Hand Coding Nested Tables</h3>
-                    <p>The time savings from using Tailwind CSS inside your email templates and letting a build engine like Maizzle do the post-processing natively are astronomically high.</p>
+                    <p>The time savings from using <a href="https://tailwindcss.com" target="_blank" rel="noopener" class="techlink">Tailwind CSS</a> inside your email templates and letting a build engine like Maizzle do the post-processing natively are astronomically high.</p>
                     <p>Take back your time, eliminate the headache of Outlook 2013 compatibility, and deliver emails faster. Go check out <a href="https://maizzle.com" target="_blank">maizzle.com</a> and happy building!</p>
                 </div>
 
@@ -390,3 +394,4 @@ maizzle build production</code></pre>
 </body>
 
 </html>
+<!-- mark:techlinked -->

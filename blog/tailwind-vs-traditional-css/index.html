@@ -211,6 +211,10 @@
             .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
         }
 
+    
+        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
+        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
     </style>
 </head>
 
@@ -247,7 +251,7 @@
 
                 <div class="prose">
                     <h2>The "Inline Styles" Critique</h2>
-                    <p>Whenever Tailwind CSS is brought up in developer circles, there's a predictable piece of criticism that almost always surfaces: <em>"Isn't this just inline styles?"</em></p>
+                    <p>Whenever <a href="https://tailwindcss.com" target="_blank" rel="noopener" class="techlink">Tailwind CSS</a> is brought up in developer circles, there's a predictable piece of criticism that almost always surfaces: <em>"Isn't this just inline styles?"</em></p>
                     <p>For developers who spent the last decade adhering to strict separation of concerns—keeping HTML cleanly structural and CSS purely stylistic—looking at a Tailwind markup filled with <code>flex items-center justify-between p-4 bg-white rounded-lg shadow-md</code> feels like a massive step backward.</p>
                     <p>But to understand why Tailwind isn't just inline styles, we first need to look at why we separated CSS from HTML in the first place.</p>
 
@@ -307,7 +311,7 @@
 
                     <h2>Rethinking Separation of Concerns</h2>
                     <p>Tailwind forces us to rethink what we are actually separating. The traditional approach attempted to separate the <em>language</em> (HTML vs CSS). Tailwind argues that the HTML and CSS of a specific UI component are intrinsically linked—they are the same concern.</p>
-                    <p>The true separation of concerns shouldn't be between HTML and CSS files, but rather between <strong>components</strong>. In a modern JavaScript framework (like React, Vue, or Alpine), the component is the boundary. The structure (HTML), presentation (Tailwind classes), and logic (JS) live together in a single file, neatly encapsulated and isolated from the rest of the application.</p>
+                    <p>The true separation of concerns shouldn't be between HTML and CSS files, but rather between <strong>components</strong>. In a modern JavaScript framework (like <a href="https://react.dev" target="_blank" rel="noopener" class="techlink">React</a>, Vue, or Alpine), the component is the boundary. The structure (HTML), presentation (Tailwind classes), and logic (JS) live together in a single file, neatly encapsulated and isolated from the rest of the application.</p>
 
                     <h2>Conclusion</h2>
                     <p>Applying composable utility classes to HTML elements isn't a return to the messy days of inline styles. It's the evolution of styling architecture. By providing a constrained design system directly in your markup, Tailwind eliminates naming fatigue, prevents global CSS side effects, and allows you to build user interfaces faster than ever before.</p>
@@ -388,3 +392,4 @@
 </body>
 
 </html>
+<!-- mark:techlinked -->

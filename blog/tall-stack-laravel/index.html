@@ -218,6 +218,10 @@
             .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
         }
 
+    
+        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
+        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
     </style>
 </head>
 
@@ -254,29 +258,29 @@
 
                 <div class="prose">
                     <h2>What is the TALL Stack?</h2>
-                    <p>The <strong>TALL stack</strong> is a modern ecosystem for building web applications using Laravel with minimal JavaScript complexity. It allows you to create fast, interactive, and modern web applications while staying within the comfortable world of PHP and Blade.</p>
+                    <p>The <strong>TALL stack</strong> is a modern ecosystem for building web applications using <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> with minimal JavaScript complexity. It allows you to create fast, interactive, and modern web applications while staying within the comfortable world of <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> and Blade.</p>
                     <ul class="stack-strip">
                         <li><a href="https://tailwindcss.com" target="_blank" rel="noopener">
-                            <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg viewbox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M100 0C73.333 0 56.667 13.333 50 40c10-13.333 21.667-18.333 35-15 7.607 1.9 13.044 7.422 19.063 13.53C113.867 48.48 125.215 60 150 60c26.667 0 43.333-13.333 50-40-10 13.333-21.667 18.333-35 15-7.607-1.9-13.044-7.422-19.063-13.53C136.133 11.52 124.785 0 100 0ZM50 60C23.333 60 6.667 73.333 0 100c10-13.333 21.667-18.333 35-15 7.607 1.904 13.044 7.422 19.063 13.53C63.867 108.48 75.215 120 100 120c26.667 0 43.333-13.333 50-40-10 13.333-21.667 18.333-35 15-7.607-1.9-13.044-7.422-19.063-13.53C86.133 71.52 74.785 60 50 60Z" fill="#38BDF8"></path>
                             </svg>
                             <span>Tailwind</span>
                         </a></li>
                         <li><a href="https://alpinejs.dev" target="_blank" rel="noopener">
-                            <svg viewBox="0 0 200 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg viewbox="0 0 200 92" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M155.556 0 200 44.25l-44.444 44.249-44.445-44.25L155.556 0Z" fill="#77C1D2"></path>
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="m44.444 0 92.139 91.735H47.694L0 44.249 44.444 0Z" fill="#2D3441"></path>
                             </svg>
                             <span>Alpine.js</span>
                         </a></li>
                         <li><a href="https://laravel.com" target="_blank" rel="noopener">
-                            <svg viewBox="0 0 200 206" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg viewbox="0 0 200 206" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M199.887 46.582c.074.275.112.558.113.842v44.198a3.226 3.226 0 0 1-1.619 2.796l-37.093 21.358v42.333a3.231 3.231 0 0 1-1.611 2.796l-77.428 44.576c-.177.101-.37.166-.564.234-.072.024-.14.069-.217.089a3.254 3.254 0 0 1-1.652 0c-.088-.024-.169-.073-.253-.105-.178-.065-.363-.121-.532-.218L1.619 160.905A3.23 3.23 0 0 1 0 158.109V25.514c0-.29.04-.572.113-.845.024-.093.08-.178.113-.27.06-.17.116-.343.205-.5.06-.105.149-.19.222-.286.092-.129.177-.262.285-.374.093-.093.214-.162.319-.242.117-.097.221-.202.354-.278h.004L40.323.43a3.23 3.23 0 0 1 3.222 0l38.708 22.288h.008c.13.08.238.181.355.274.104.08.221.153.314.242.113.116.193.25.29.378.068.097.161.181.217.286.093.161.145.33.21.5.032.092.088.177.113.274.074.274.112.557.112.842v82.817l32.256-18.575V47.42c0-.282.04-.568.112-.838.029-.096.081-.18.113-.274.065-.169.121-.342.21-.5.06-.104.149-.188.217-.285.097-.129.177-.262.29-.375.093-.092.21-.16.314-.241.121-.097.226-.202.355-.278h.004l38.712-22.289a3.224 3.224 0 0 1 3.222 0l38.708 22.289c.137.08.241.18.362.274.101.08.218.153.31.241.113.117.194.25.29.379.073.097.162.181.218.286.093.157.145.33.209.5.037.092.089.177.113.273Zm-6.34 43.175V53.003l-13.545 7.8-18.714 10.775v36.754l32.263-18.575h-.004Zm-38.707 66.487v-36.778l-18.408 10.514-52.564 30.002v37.125l70.972-40.863ZM6.453 31.094v125.15l70.963 40.859v-37.117l-37.073-20.983-.012-.008-.016-.008c-.125-.073-.23-.177-.346-.266-.101-.081-.218-.145-.306-.234l-.009-.012c-.104-.1-.177-.225-.265-.338-.081-.109-.178-.202-.242-.314l-.004-.012c-.073-.121-.117-.266-.17-.403-.052-.121-.12-.234-.152-.363v-.004c-.04-.153-.049-.314-.065-.471-.016-.121-.048-.242-.048-.363V49.668l-18.71-10.78-13.545-7.79v-.004ZM41.938 6.948 9.687 25.515 41.93 44.08l32.247-18.57L41.93 6.948h.008ZM58.71 122.817l18.71-10.771V31.094l-13.546 7.798L45.16 49.668v80.952l13.55-7.803Zm99.356-93.959-32.247 18.566 32.247 18.567 32.243-18.57-32.243-18.563Zm-3.226 42.72-18.714-10.776-13.546-7.799v36.754l18.71 10.772 13.55 7.803V71.578Zm-74.202 82.825 47.299-27.006 23.644-13.494-32.223-18.554-37.1 21.361-33.815 19.469 32.195 18.224Z" fill="#FF2D20"></path>
                             </svg>
                             <span>Laravel</span>
                         </a></li>
                         <li><a href="https://livewire.laravel.com" target="_blank" rel="noopener">
-                            <svg viewBox="0 0 200 228" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg viewbox="0 0 200 228" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M189.821 151.122c-3.708 5.607-6.525 12.514-14.065 12.514-12.688 0-13.374-19.565-26.069-19.565-12.695 0-12.009 19.565-24.698 19.565-12.688 0-13.374-19.565-26.07-19.565-12.695 0-12.009 19.565-24.697 19.565-12.688 0-13.374-19.565-26.07-19.565-12.695 0-12.009 19.565-24.697 19.565-3.988 0-6.79-1.932-9.152-4.582C5.223 143.253 0 124.737 0 104.941 0 46.984 44.772 0 100 0s100 46.984 100 104.941c0 16.571-3.66 32.246-10.179 46.181Z" fill="#FB70A9"></path>
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M168.182 161.546c26.205-38.985 26.883-82.227 2.031-129.728C188.634 50.69 200 76.587 200 105.162c0 16.509-3.794 32.124-10.55 46.007-3.844 5.586-6.764 12.467-14.579 12.467-2.674 0-4.834-.806-6.689-2.09Z" fill="#E24CA6"></path>
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M94.639 131.119c34.775 0 49.417-20.174 49.417-48.824s-22.125-55.022-49.417-55.022c-27.293 0-49.417 26.372-49.417 55.022s14.642 48.824 49.417 48.824Z" fill="#fff"></path>
@@ -289,7 +293,7 @@
 
                     <h2>Why the TALL Stack Exists</h2>
                     <p>Traditionally, building a modern "reactive" app required managing two separate systems: a complex JavaScript frontend (React/Vue/Angular) and a backend API (Laravel/Rails/Node). This meant double the logic, complex build systems, and constant API maintenance.</p>
-                    <p>The TALL stack simplifies this by letting Laravel handle <strong>both frontend behavior and backend logic together</strong>. Result? Faster development, less JavaScript to manage, and a significantly simpler codebase.</p>
+                    <p>The TALL stack simplifies this by letting <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> handle <strong>both frontend behavior and backend logic together</strong>. Result? Faster development, less JavaScript to manage, and a significantly simpler codebase.</p>
 
                     <h2>The 4 Pillars</h2>
 
@@ -311,12 +315,12 @@
 &lt;/div&gt;</code></pre>
 
                     <h3><a href="https://laravel.com" target="_blank" rel="noopener">3. Laravel (The Engine)</a></h3>
-                    <p>The PHP framework for Web Artisans. It handles the heavy lifting: routing, database management with <strong>Eloquent ORM</strong>, authentication, queues, and robust business logic.</p>
-                    <p>In the TALL stack, Laravel acts as the "Source of Truth". Every piece of data your frontend displays or updates is securely processed by Laravel's middleware and controllers. It also provides <strong>Blade</strong>, the templating engine that serves as the home for your Livewire and Alpine.js code.</p>
-                    <p><em>Laravel is the core foundation that ties everything together with a focus on developer happiness and clean code.</em></p>
+                    <p>The <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> framework for Web Artisans. It handles the heavy lifting: routing, database management with <strong>Eloquent ORM</strong>, authentication, queues, and robust business logic.</p>
+                    <p>In the TALL stack, <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> acts as the "Source of Truth". Every piece of data your frontend displays or updates is securely processed by <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a>'s middleware and controllers. It also provides <strong>Blade</strong>, the templating engine that serves as the home for your <a href="https://livewire.laravel.com" target="_blank" rel="noopener" class="techlink">Livewire</a> and <a href="https://alpinejs.dev" target="_blank" rel="noopener" class="techlink">Alpine.js</a> code.</p>
+                    <p><em><a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> is the core foundation that ties everything together with a focus on developer happiness and clean code.</em></p>
 
                     <h3><a href="https://livewire.laravel.com" target="_blank" rel="noopener">4. Livewire (The Magic)</a></h3>
-                    <p>A full-stack framework for Laravel that makes building dynamic interfaces simple, without leaving the comfort of Laravel.</p>
+                    <p>A full-stack framework for <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> that makes building dynamic interfaces simple, without leaving the comfort of Laravel.</p>
                     <pre class="code-block"><code>// PHP Component
 public $count = 0;
 public function increment() { $this->count++; }
@@ -326,20 +330,20 @@ public function increment() { $this->count++; }
 &lt;span&gt;{{ $count }}&lt;/span&gt;</code></pre>
 
                     <h2>How All 4 Work Together</h2>
-                    <h4>Step 1: Laravel</h4>
+                    <h4>Step 1: <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a></h4>
                     <p>Handles the database, authentication, and core business routes.</p>
-                    <h4>Step 2: Livewire</h4>
-                    <p>Connects your UI events directly to PHP methods on the server.</p>
-                    <h4>Step 3: Alpine.js</h4>
+                    <h4>Step 2: <a href="https://livewire.laravel.com" target="_blank" rel="noopener" class="techlink">Livewire</a></h4>
+                    <p>Connects your UI events directly to <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> methods on the server.</p>
+                    <h4>Step 3: <a href="https://alpinejs.dev" target="_blank" rel="noopener" class="techlink">Alpine.js</a></h4>
                     <p>Manages local UI state (modals, dropdowns) without hitting the server.</p>
                     <h4>Step 4: Tailwind</h4>
                     <p>Wraps everything in a beautiful, responsive, and consistent design.</p>
 
                     <h2>Benefits Summary</h2>
                     <ul>
-                        <li><strong>Faster Development:</strong> Build full-stack features in hours, not days. No more context switching between JS and PHP files.</li>
-                        <li><strong>Less JS:</strong> Keep your logic in PHP where it belongs. This makes debugging much simpler as most errors are caught by PHP's robust error handling.</li>
-                        <li><strong>Reactive UI:</strong> Feels like a SPA (Single Page Application), but you write standard Laravel Blade views.</li>
+                        <li><strong>Faster Development:</strong> Build full-stack features in hours, not days. No more context switching between JS and <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> files.</li>
+                        <li><strong>Less JS:</strong> Keep your logic in <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> where it belongs. This makes debugging much simpler as most errors are caught by <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a>'s robust error handling.</li>
+                        <li><strong>Reactive UI:</strong> Feels like a SPA (Single Page Application), but you write standard <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> Blade views.</li>
                     </ul>
 
                     <h2>The "Filament" Connection</h2>
@@ -363,14 +367,14 @@ public function increment() { $this->count++; }
                     </ul>
 
                     <h2>Getting Started</h2>
-                    <p>The best way to start is with the official Laravel installer or by using a starter kit like Jetstream.</p>
+                    <p>The best way to start is with the official <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> installer or by using a starter kit like Jetstream.</p>
                     <pre class="code-block"><code># Install Laravel with TALL stack options
 laravel new my-app --pest --tall
 
 # Or install Livewire into an existing project
 composer require livewire/livewire</code></pre>
 
-                    <blockquote>"The TALL stack lets you build modern, interactive web apps using Laravel without needing complex JavaScript frameworks."</blockquote>
+                    <blockquote>"The TALL stack lets you build modern, interactive web apps using <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> without needing complex JavaScript frameworks."</blockquote>
                 </div>
 
                 <section class="comments" aria-label="Discussion">
@@ -448,3 +452,4 @@ composer require livewire/livewire</code></pre>
 </body>
 
 </html>
+<!-- mark:techlinked -->

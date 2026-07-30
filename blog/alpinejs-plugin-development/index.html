@@ -177,6 +177,10 @@
             .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
         }
 
+    
+        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
+        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
     </style>
 
     <!-- BlogPosting Structured Data for AI Search -->
@@ -347,8 +351,8 @@
 
                 <div class="prose">
 
-                    <h2>The Power of the Alpine.js Plugin API</h2>
-                    <p>Alpine.js is beloved for its simplicity. With a handful of directives like <code>x-data</code>, <code>x-bind</code>, and <code>x-on</code>, you can build dynamic, interactive interfaces without leaving your HTML. However, as your application grows, you often need to reuse complex behavior or integrate external libraries. This is where Alpine's robust plugin API comes in.</p>
+                    <h2>The Power of the <a href="https://alpinejs.dev" target="_blank" rel="noopener" class="techlink">Alpine.js</a> Plugin API</h2>
+                    <p><a href="https://alpinejs.dev" target="_blank" rel="noopener" class="techlink">Alpine.js</a> is beloved for its simplicity. With a handful of directives like <code>x-data</code>, <code>x-bind</code>, and <code>x-on</code>, you can build dynamic, interactive interfaces without leaving your HTML. However, as your application grows, you often need to reuse complex behavior or integrate external libraries. This is where Alpine's robust plugin API comes in.</p>
 
                     <p>By writing a custom plugin, you gain direct access to Alpine's internal engine, allowing you to define:</p>
                     <ul>
@@ -377,10 +381,10 @@ export default function (Alpine) {
 
                     <p>Now, let's explore three creative plugin ideas that solve common frontend challenges.</p>
 
-                    <hr />
+                    <hr/>
 
                     <h2>Idea 1: Reactive State Storage Binding (<code>$localStore</code>)</h2>
-                    <p>While Alpine.js has an official <code>$persist</code> plugin, building your own custom reactive store hook allows you to control exactly how storage events synchronization behaves across browser tabs, specify customizable serializers, or automatically clear expired cache.</p>
+                    <p>While <a href="https://alpinejs.dev" target="_blank" rel="noopener" class="techlink">Alpine.js</a> has an official <code>$persist</code> plugin, building your own custom reactive store hook allows you to control exactly how storage events synchronization behaves across browser tabs, specify customizable serializers, or automatically clear expired cache.</p>
 
                     <p>Here is an implementation of a custom <code>$localStore</code> magic helper. It registers a reactive variable that syncs to <code>localStorage</code>, but also listens to the window's <code>storage</code> event so that changes in other tabs instantly update the UI.</p>
 
@@ -456,7 +460,7 @@ export default function (Alpine) {
                         <p>Hello, <span x-text="username.value"></span>!</p>
                     </div>
 
-                    <hr />
+                    <hr/>
 
                     <h2>Idea 2: Custom Keyboard Shortcuts (<code>x-shortcut</code>)</h2>
                     <p>Handling key combinations (like <code>Ctrl + K</code> or <code>Cmd + Enter</code>) usually involves cluttering your components with complex event listeners or writing manual key code mappings. We can abstract this logic into a declarative directive: <code>x-shortcut</code>.</p>
@@ -517,7 +521,7 @@ export default function (Alpine) {
                         </div>
                     </div>
 
-                    <hr />
+                    <hr/>
 
                     <h2>Idea 3: Constraints-Based Form Validation (<code>x-validate</code>)</h2>
                     <p>Standard form validation packages are often heavy and force you to rewrite rules in JavaScript that already exist in HTML5 (like <code>required</code>, <code>type="email"</code>, or <code>min="5"</code>). Let's build a plugin that leverages the browser's native Validation API, exposing reactive validation states to Alpine.</p>
@@ -591,10 +595,10 @@ export default function (Alpine) {
                         </form>
                     </div>
 
-                    <hr />
+                    <hr/>
 
                     <h2>Conclusion</h2>
-                    <p>Custom Alpine.js plugins are an excellent way to keep your templates clean while maintaining high code reusability. Whether you're wrapping native browser features like the Constraint Validation and Storage APIs, or listening to keyboard events globally, the plugin API provides a powerful way to organize your front-end architecture. The next time you find yourself writing repetitive <code>x-init</code> code or creating complex custom event dispatchers, consider bundling that logic into a custom Alpine.js plugin instead!</p>
+                    <p>Custom <a href="https://alpinejs.dev" target="_blank" rel="noopener" class="techlink">Alpine.js</a> plugins are an excellent way to keep your templates clean while maintaining high code reusability. Whether you're wrapping native browser features like the Constraint Validation and Storage APIs, or listening to keyboard events globally, the plugin API provides a powerful way to organize your front-end architecture. The next time you find yourself writing repetitive <code>x-init</code> code or creating complex custom event dispatchers, consider bundling that logic into a custom <a href="https://alpinejs.dev" target="_blank" rel="noopener" class="techlink">Alpine.js</a> plugin instead!</p>
                 </div>
 
                 <section class="comments" aria-label="Discussion">
@@ -674,3 +678,4 @@ export default function (Alpine) {
 </body>
 
 </html>
+<!-- mark:techlinked -->

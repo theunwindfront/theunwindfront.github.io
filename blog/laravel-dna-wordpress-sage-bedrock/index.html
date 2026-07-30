@@ -218,14 +218,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
         }
 
+    
+        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
+        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
     </style>
 </head>
 
 <body>
     <div id="progress"></div>
     <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
     <div class="wrap">
@@ -256,19 +259,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div class="post-cover"><img src="cover.png" alt="Integrated Tech Stack"></div>
 
                 <div class="prose">
-                    <p>A masterclass in transforming the world's most versatile CMS into a production-ready application framework using Sage, Bedrock, and Acorn.</p>
+                    <p>A masterclass in transforming the world's most versatile CMS into a production-ready application framework using <a href="https://roots.io/sage/" target="_blank" rel="noopener" class="techlink">Sage</a>, <a href="https://roots.io/bedrock/" target="_blank" rel="noopener" class="techlink">Bedrock</a>, and Acorn.</p>
 
                     <h2>I. The Architecture Philosophy</h2>
-                    <p>Standard WordPress development often leads to <strong>"Technical Debt"</strong>. Manual plugin updates, business logic inside <code>functions.php</code>, and credentials sitting in the web root make projects fragile. For agencies building for enterprise clients, this isn't enough.</p>
-                    <p>The <strong>Roots Ecosystem</strong> (specifically Bedrock and Sage) introduces the 12-factor application methodology to WordPress. We are not just building websites; we are building <strong>scalable digital products</strong>.</p>
+                    <p>Standard <a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> development often leads to <strong>"Technical Debt"</strong>. Manual plugin updates, business logic inside <code>functions.php</code>, and credentials sitting in the web root make projects fragile. For agencies building for enterprise clients, this isn't enough.</p>
+                    <p>The <strong>Roots Ecosystem</strong> (specifically <a href="https://roots.io/bedrock/" target="_blank" rel="noopener" class="techlink">Bedrock</a> and <a href="https://roots.io/sage/" target="_blank" rel="noopener" class="techlink">Sage</a>) introduces the 12-factor application methodology to WordPress. We are not just building websites; we are building <strong>scalable digital products</strong>.</p>
 
                     <div class="panel">
                         <h3>Why this stack?</h3>
                         <ul>
                             <li><strong>Dependency Reliability:</strong> Manage plugins and WP core via Composer.</li>
                             <li><strong>Environment Parity:</strong> Ensure your local, staging, and production environments are identical via <code>.env</code>.</li>
-                            <li><strong>Developer Happiness:</strong> Use modern tools like Blade, Vite, and Tailwind CSS.</li>
-                            <li><strong>Security:</strong> Isolate WordPress from the web root and hide sensitive configurations.</li>
+                            <li><strong>Developer Happiness:</strong> Use modern tools like Blade, <a href="https://vite.dev" target="_blank" rel="noopener" class="techlink">Vite</a>, and Tailwind CSS.</li>
+                            <li><strong>Security:</strong> Isolate <a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> from the web root and hide sensitive configurations.</li>
                         </ul>
                     </div>
 
@@ -277,23 +280,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                     <h3>Prerequisites</h3>
                     <ul>
-                        <li><strong>PHP 8.2+</strong> — Required for Acorn 4 compatibility.</li>
-                        <li><strong>Composer</strong> — Global installation for PHP dependencies.</li>
-                        <li><strong>Node.js & Yarn</strong> — Essential for the Vite-powered Sage 10.</li>
+                        <li><strong><a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> 8.2+</strong> — Required for Acorn 4 compatibility.</li>
+                        <li><strong>Composer</strong> — Global installation for <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> dependencies.</li>
+                        <li><strong>Node.js & Yarn</strong> — Essential for the Vite-powered <a href="https://roots.io/sage/" target="_blank" rel="noopener" class="techlink">Sage</a> 10.</li>
                         <li><strong>WP-CLI</strong> — Command-line control of WordPress.</li>
                     </ul>
 
                     <p><strong>Recommendation:</strong> Use <a href="https://localwp.com" target="_blank" rel="noopener">LocalWP</a> for a GUI-driven setup, or <a href="https://laravel.com/docs/valet" target="_blank" rel="noopener">Laravel Valet</a> for an ultra-fast terminal workflow.</p>
 
-                    <h2>III. Implementing Bedrock</h2>
-                    <p>Bedrock is our project skeleton. It replaces the traditional WordPress directory structure with one that is professional and secure.</p>
+                    <h2>III. Implementing <a href="https://roots.io/bedrock/" target="_blank" rel="noopener" class="techlink">Bedrock</a></h2>
+                    <p><a href="https://roots.io/bedrock/" target="_blank" rel="noopener" class="techlink">Bedrock</a> is our project skeleton. It replaces the traditional <a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> directory structure with one that is professional and secure.</p>
 
                     <pre class="code-block"><code># Install Bedrock
 composer create-project roots/bedrock my-project-name</code></pre>
 
-                    <h3>Key Modifications by Bedrock</h3>
+                    <h3>Key Modifications by <a href="https://roots.io/bedrock/" target="_blank" rel="noopener" class="techlink">Bedrock</a></h3>
                     <ul>
-                        <li><strong><code>web/wp/</code></strong>: WordPress core is isolated here.</li>
+                        <li><strong><code>web/wp/</code></strong>: <a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> core is isolated here.</li>
                         <li><strong><code>web/app/</code></strong>: Equivalent to <code>wp-content</code>.</li>
                         <li><strong><code>.env</code></strong>: All database and salt configurations live here.</li>
                         <li><strong><code>config/</code></strong>: Site-wide configuration logic.</li>
@@ -305,23 +308,23 @@ DB_USER='database_user'
 DB_PASSWORD='database_password'
 WP_HOME='https://my-site.test'</code></pre>
 
-                    <h2>IV. The Sage 10 & Laravel DNA</h2>
-                    <p>This is where the magic happens. Sage is our starter theme, but with <strong>Acorn</strong> integrated, it becomes a mini-Laravel application. It brings the concepts of modern frontend development right into the WordPress ecosystem.</p>
+                    <h2>IV. The <a href="https://roots.io/sage/" target="_blank" rel="noopener" class="techlink">Sage</a> 10 & <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> DNA</h2>
+                    <p>This is where the magic happens. <a href="https://roots.io/sage/" target="_blank" rel="noopener" class="techlink">Sage</a> is our starter theme, but with <strong>Acorn</strong> integrated, it becomes a mini-Laravel application. It brings the concepts of modern frontend development right into the <a href="https://wordpress.org" target="_blank" rel="noopener" class="techlink">WordPress</a> ecosystem.</p>
 
                     <pre class="code-block"><code># Navigate to themes and install Sage
 cd web/app/themes
 composer create-project roots/sage my-theme-name</code></pre>
 
                     <h3>Blade Components: Higher Abstraction</h3>
-                    <p>Stop writing loops. Start writing components. Sage allows you to create high-reusable UI elements exactly like in Laravel. This separation of concerns is the hallmark of professional projects.</p>
+                    <p>Stop writing loops. Start writing components. <a href="https://roots.io/sage/" target="_blank" rel="noopener" class="techlink">Sage</a> allows you to create high-reusable UI elements exactly like in Laravel. This separation of concerns is the hallmark of professional projects.</p>
                     <pre class="code-block"><code># Example Component (resources/views/components/hero.blade.php)
 &lt;section class="bg-brand py-20 text-white"&gt;
   &lt;h1&gt;{{ $title }}&lt;/h1&gt;
   &lt;div&gt;{{ $slot }}&lt;/div&gt;
 &lt;/section&gt;</code></pre>
 
-                    <h2>V. Deep Laravel Ecosystem Integration</h2>
-                    <p>The true power of this stack is its adoption of the <strong>Laravel Framework's</strong> core concepts. This isn't just about syntax; it's about the entire architectural ecosystem.</p>
+                    <h2>V. Deep <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> Ecosystem Integration</h2>
+                    <p>The true power of this stack is its adoption of the <strong><a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> Framework's</strong> core concepts. This isn't just about syntax; it's about the entire architectural ecosystem.</p>
 
                     <div class="panel">
                         <h4>Service Container</h4>
@@ -332,8 +335,8 @@ composer create-project roots/sage my-theme-name</code></pre>
                         <p>Register your custom services, bind interfaces to implementations, and manage your custom configuration logic in a Laravel-standard way.</p>
                     </div>
 
-                    <h3>Acorn: The Laravel Bridge</h3>
-                    <p>Acorn is what boots the Laravel ecosystem. It allows you to use <strong>Dependency Injection</strong> in your View Composers, just like you would in a Laravel Controller.</p>
+                    <h3>Acorn: The <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> Bridge</h3>
+                    <p>Acorn is what boots the <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> ecosystem. It allows you to use <strong>Dependency Injection</strong> in your View Composers, just like you would in a <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> Controller.</p>
                     <pre class="code-block"><code># app/View/Composers/Post.php
 public function __construct(protected WeatherService $weather) {}
 
@@ -449,3 +452,4 @@ wp acorn make:component     # Create a new Blade component</code></pre>
 </body>
 
 </html>
+<!-- mark:techlinked -->
