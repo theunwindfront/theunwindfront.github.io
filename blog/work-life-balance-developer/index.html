@@ -3,11 +3,14 @@
 
 <head>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
     <!-- End Google Tag Manager -->
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
     <link rel="llms" href="/llms.txt">
@@ -22,7 +25,8 @@
     <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="og:title" content="Work-Life Balance as a Developer: Returning with Renewed Energy">
-    <meta property="og:description" content="Balancing work and personal life as a developer isn’t easy, but taking a step back to support family makes both life and progress stronger.">
+    <meta property="og:description"
+        content="Balancing work and personal life as a developer isn’t easy, but taking a step back to support family makes both life and progress stronger.">
     <meta property="og:image" content="https://sagarpansuriya.in/blog/work-life-balance-developer/cover.png">
     <meta property="og:url" content="https://sagarpansuriya.in/blog/work-life-balance-developer/">
     <meta property="og:site_name" content="The Unwind Method">
@@ -30,7 +34,8 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Work-Life Balance as a Developer: Returning with Renewed Energy">
-    <meta name="twitter:description" content="Balancing work and personal life as a developer isn’t easy, but taking a step back to support family makes both life and progress stronger.">
+    <meta name="twitter:description"
+        content="Balancing work and personal life as a developer isn’t easy, but taking a step back to support family makes both life and progress stronger.">
     <meta name="twitter:image" content="https://sagarpansuriya.in/blog/work-life-balance-developer/cover.png">
     <meta name="twitter:creator" content="@frontendbysagar">
 
@@ -63,7 +68,7 @@
                 "url": "https://sagarpansuriya.in/",
                 "logo": {
                         "@type": "ImageObject",
-                        "url": "https://sagarpansuriya.in/favicon.png"
+                        "url": "https://sagarpansuriya.in/favicon.jpg"
                 }
         },
         "datePublished": "2026-04-08",
@@ -82,14 +87,16 @@
 }
     </script>
 
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="apple-touch-icon" href="/favicon.png">
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
     <meta name="msapplication-TileColor" content="#5b5bd6">
     <meta name="theme-color" content="#5b5bd6">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
     <script>
         {
@@ -104,13 +111,20 @@
     <style>
         :root {
             color-scheme: light dark;
-            --paper-l: #faf9f6; --paper-d: #0e0e0f;
-            --panel-l: #f1efe9; --panel-d: #17171a;
-            --code-l: #f4f2ec; --code-d: #131316;
-            --ink-l: #1a1a1a; --ink-d: #e8e6e1;
-            --muted-l: #6b6b6b; --muted-d: #8f8d88;
-            --line-l: #e2ded4; --line-d: #262629;
-            --accent-l: #5b5bd6; --accent-d: #8f8fef;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
             --paper: light-dark(var(--paper-l), var(--paper-d));
             --panel: light-dark(var(--panel-l), var(--panel-d));
             --code-bg: light-dark(var(--code-l), var(--code-d));
@@ -123,104 +137,516 @@
             --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
             accent-color: var(--accent);
         }
-        :root[data-theme="light"] { color-scheme: light; }
-        :root[data-theme="dark"] { color-scheme: dark; }
-        *, *::before, *::after { box-sizing: border-box; }
-        html { scrollbar-gutter: stable; }
-        body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
-        a { color: inherit; }
-        .wrap { max-width: 46rem; margin-inline: auto; padding: clamp(1.25rem, 4vw, 2rem); }
 
-        .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem 0; }
-        .brand { font-family: var(--mono); font-size: 0.8rem; text-decoration: none; color: var(--ink); }
-        .brand b { color: var(--accent); }
-        .top-nav { display: flex; gap: clamp(0.9rem, 3vw, 1.6rem); align-items: center; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; }
-        .top-nav a { text-decoration: none; color: var(--muted); padding-block: 0.35rem; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
-        .top-nav a:hover, .top-nav a[aria-current] { color: var(--ink); border-color: var(--accent); }
-        .theme-toggle { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.7rem; cursor: pointer; transition: color .2s, border-color .2s; }
-        .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
-
-        .post-cat { display:inline-block; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); text-decoration:none; margin-top: 2.5rem; }
-        .post-title { font-family: var(--serif); font-weight: 600; font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem); line-height: 1.08; letter-spacing: -0.02em; margin: 0.75rem 0 1.25rem; }
-        .post-meta { display:flex; flex-wrap:wrap; align-items:center; gap: 0.75rem 1rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
-        .post-meta img { width: 2.25rem; height: 2.25rem; border-radius: 50%; object-fit: cover; }
-        .post-meta a { color: var(--ink); text-decoration: none; }
-        .post-meta a:hover { color: var(--accent); }
-        .post-meta .sep { color: var(--line); }
-        .post-cover { margin: 2rem 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
-        .post-cover img { display:block; width: 100%; height: auto; }
-
-        .prose { font-family: var(--serif); font-size: 1.2rem; line-height: 1.75; color: var(--ink); }
-        .prose > *:first-child { margin-top: 0; }
-        .prose p { margin: 0 0 1.4rem; }
-        .prose h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem); line-height: 1.2; letter-spacing: -0.01em; margin: 2.6rem 0 1rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
-        .prose h3 { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; margin: 2rem 0 0.75rem; }
-        .prose h4 { font-family: var(--sans); font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 1.8rem 0 0.6rem; }
-        .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); }
-        .prose a:hover { border-bottom-color: var(--accent); }
-        .prose ul, .prose ol { margin: 0 0 1.4rem; padding-left: 1.4rem; }
-        .prose li { margin-bottom: 0.5rem; }
-        .prose li::marker { color: var(--accent); }
-        .prose strong { font-weight: 700; color: var(--ink); }
-        .prose em { font-style: italic; }
-        .prose blockquote { margin: 1.6rem 0; padding: 0.4rem 0 0.4rem 1.25rem; border-left: 2px solid var(--accent); color: var(--muted); font-style: italic; }
-        .prose img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; margin: 1.6rem 0; }
-        .prose hr { border: none; border-top: 1px solid var(--line); margin: 2.5rem 0; }
-
-        .prose :not(pre) > code { font-family: var(--mono); font-size: 0.86em; background: var(--code-bg); border: 1px solid var(--line); border-radius: 5px; padding: 0.1em 0.4em; color: var(--ink); }
-        .prose pre, pre.code-block { font-family: var(--mono); font-size: 0.82rem; line-height: 1.6; background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; overflow-x: auto; margin: 1.6rem 0; color: var(--ink); }
-        .prose pre code, pre.code-block code { font-family: var(--mono); background: none; border: none; padding: 0; font-size: inherit; color: inherit; white-space: pre; }
-
-        .prose table { width: 100%; border-collapse: collapse; margin: 1.6rem 0; font-family: var(--sans); font-size: 0.95rem; display: block; overflow-x: auto; }
-        .prose th, .prose td { text-align: left; padding: 0.65rem 0.85rem; border: 1px solid var(--line); vertical-align: top; }
-        .prose th { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--panel); }
-
-        .comments { margin-top: 3rem; }
-        .comments h2 { font-family: var(--serif); font-weight: 600; font-size: 1.6rem; border-top: 1px solid var(--line); padding-top: 1.4rem; margin: 0 0 1rem; }
-
-        .post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display:flex; flex-wrap:wrap; gap: 1rem; justify-content: space-between; align-items:center; }
-        .post-footer a.back { font-family: var(--mono); font-size: 0.75rem; text-decoration:none; color: var(--accent); }
-        .share { display:flex; gap: 0.5rem; }
-        .share a { font-family: var(--mono); font-size: 0.72rem; text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.7rem; }
-        .share a:hover { color: var(--accent); border-color: var(--accent); }
-
-        #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--accent); z-index: 100; transition: width .1s linear; }
-
-        footer.site { border-top: 1px solid var(--line); margin-top: 3rem; padding-block: 2rem; display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
-        footer.site a { color: var(--muted); text-decoration:none; }
-        footer.site a:hover { color: var(--accent); }
-        .footer-links { display:flex; flex-wrap:wrap; gap:1rem; }
-
-        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
-        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } #progress { transition: none; } }
-    
-        .counter { display: inline-flex; align-items: center; gap: 0.45rem; }
-        .counter img { height: 0.7rem; width: auto; opacity: 0.7; }
-        :root[data-theme="light"] .counter img { filter: invert(1); }
-        .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
-        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
-
-    
-        /* mobile-header-fix */
-        html, body { overflow-x: hidden; }
-        .topbar { flex-wrap: wrap; row-gap: 0.75rem; }
-        .brand { white-space: nowrap; }
-        .top-nav { flex-wrap: wrap; }
-        @media (max-width: 30rem) {
-            .topbar { align-items: flex-start; }
-            .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
+        :root[data-theme="light"] {
+            color-scheme: light;
         }
 
-    
-        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
-        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
 
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
     </style>
 </head>
 
 <body>
     <div id="progress"></div>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="wrap">
         <header class="topbar">
@@ -230,7 +656,8 @@
                 <a href="/showcase/">Work</a>
                 <a href="/talks/">Talks</a>
                 <a href="/cv/">CV</a>
-                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">Theme</button>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
             </nav>
         </header>
 
@@ -239,8 +666,9 @@
                 <a class="post-cat" href="/blog/?category=Design Strategy">§ Design Strategy</a>
                 <h1 class="post-title">Work-Life Balance as a Developer: Returning with Renewed Energy</h1>
                 <div class="post-meta">
-                    <img src="/profile.jpg" alt="Sagar Pansuriya">
-                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar Pansuriya</a>
+                    <img src="/profile.png" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
                     <span class="sep">·</span>
                     <time datetime="2026-04-08">Apr 08, 2026</time>
                     <span class="sep">·</span>
@@ -250,42 +678,73 @@
                 <div class="post-cover"><img src="cover.png" alt="Work-Life Balance Illustration"></div>
 
                 <div class="prose">
-                    <p>For the past two weeks, I haven’t shipped any new features. If you follow my work closely, that might seem unusual. But instead of diving into code, fixing bugs, or launching new capabilities, I made the conscious choice to step back.</p>
+                    <p>For the past two weeks, I haven’t shipped any new features. If you follow my work closely, that
+                        might seem unusual. But instead of diving into code, fixing bugs, or launching new capabilities,
+                        I made the conscious choice to step back.</p>
                     <p>I focused entirely on supporting my family’s health and helping them through a tough time.</p>
 
                     <h2>The Reality of the Grind</h2>
-                    <p>As developers, it's incredibly easy to get caught up in the constant cycle of building and shipping. The tech world moves fast, and there's a lingering feeling that if we stop for even a moment, we might fall behind. Our worth often feels tied to our GitHub contributions graph or our latest deployment.</p>
-                    <p>Balancing work and personal life as a developer isn't easy. The lines blur when your office is your laptop, and the endless pursuit of learning new frameworks, optimizing code, and chasing deadlines can quickly become all-consuming.</p>
+                    <p>As developers, it's incredibly easy to get caught up in the constant cycle of building and
+                        shipping. The tech world moves fast, and there's a lingering feeling that if we stop for even a
+                        moment, we might fall behind. Our worth often feels tied to our GitHub contributions graph or
+                        our latest deployment.</p>
+                    <p>Balancing work and personal life as a developer isn't easy. The lines blur when your office is
+                        your laptop, and the endless pursuit of learning new frameworks, optimizing code, and chasing
+                        deadlines can quickly become all-consuming.</p>
 
                     <h2>Finding True Balance</h2>
-                    <p>However, when family pulls you away, it gives you immediate clarity. Life outside the IDE matters more than any pull request or milestone. Being present for my loved ones during a challenging time was not just necessary; it was a grounding reminder of what truly fuels us.</p>
-                    <p>The code will always be there, waiting for us to come back to it. Our families, our health, and our well-being are finite and fragile. Protecting them requires intentional choices.</p>
+                    <p>However, when family pulls you away, it gives you immediate clarity. Life outside the IDE matters
+                        more than any pull request or milestone. Being present for my loved ones during a challenging
+                        time was not just necessary; it was a grounding reminder of what truly fuels us.</p>
+                    <p>The code will always be there, waiting for us to come back to it. Our families, our health, and
+                        our well-being are finite and fragile. Protecting them requires intentional choices.</p>
 
-                    <blockquote>"You have power over your mind - not outside events. Realize this, and you will find strength." — Marcus Aurelius</blockquote>
+                    <blockquote>"You have power over your mind - not outside events. Realize this, and you will find
+                        strength." — Marcus Aurelius</blockquote>
 
-                    <p>When the storm hits, our first instinct is often to panic. The bugs pile up, the servers struggle, and your personal life simultaneously demands your immediate presence. But stoic philosophy reminds us that stressing out doesn't fix the code, nor does it heal a family member. The most powerful tool a developer—and a person—can possess is a calm, unwavering mind in the face of chaos. By pausing, breathing, and focusing only on what we can control, we stop merely reacting and start smoothly navigating through the hardship. Never give up; just take a step back and let the dust settle.</p>
+                    <p>When the storm hits, our first instinct is often to panic. The bugs pile up, the servers
+                        struggle, and your personal life simultaneously demands your immediate presence. But stoic
+                        philosophy reminds us that stressing out doesn't fix the code, nor does it heal a family member.
+                        The most powerful tool a developer—and a person—can possess is a calm, unwavering mind in the
+                        face of chaos. By pausing, breathing, and focusing only on what we can control, we stop merely
+                        reacting and start smoothly navigating through the hardship. Never give up; just take a step
+                        back and let the dust settle.</p>
 
                     <h2>Books That Kept Me Grounded</h2>
-                    <p>During these two weeks, when staring at a code editor wasn't an option, reading provided a much-needed mental anchor. If you ever find yourself needing a mindset shift or struggling to keep your calm, I highly recommend these reads:</p>
+                    <p>During these two weeks, when staring at a code editor wasn't an option, reading provided a
+                        much-needed mental anchor. If you ever find yourself needing a mindset shift or struggling to
+                        keep your calm, I highly recommend these reads:</p>
                     <ul>
                         <li>
-                            <a href="https://en.wikipedia.org/wiki/Meditations" target="_blank" rel="noopener">Meditations by Marcus Aurelius</a>
-                            <p>The ultimate journal on stoicism. It teaches you how to detach from chaos, remain calm, and focus on your inner resilience when things go wrong.</p>
+                            <a href="https://en.wikipedia.org/wiki/Meditations" target="_blank"
+                                rel="noopener">Meditations by Marcus Aurelius</a>
+                            <p>The ultimate journal on stoicism. It teaches you how to detach from chaos, remain calm,
+                                and focus on your inner resilience when things go wrong.</p>
                         </li>
                         <li>
-                            <a href="https://ryanholiday.net/the-obstacle-is-the-way/" target="_blank" rel="noopener">The Obstacle Is the Way by Ryan Holiday</a>
-                            <p>A masterclass in turning adversity into an advantage. It reminds us that the hardest moments are exactly what shape us and make us stronger.</p>
+                            <a href="https://ryanholiday.net/the-obstacle-is-the-way/" target="_blank"
+                                rel="noopener">The Obstacle Is the Way by Ryan Holiday</a>
+                            <p>A masterclass in turning adversity into an advantage. It reminds us that the hardest
+                                moments are exactly what shape us and make us stronger.</p>
                         </li>
                         <li>
-                            <a href="https://calnewport.com/deep-work/" target="_blank" rel="noopener">Deep Work by Cal Newport</a>
-                            <p>While inherently about focus and productivity, its underlying message beautifully reinforces the necessity of drawing strict boundaries between work and the rest of our lives.</p>
+                            <a href="https://calnewport.com/deep-work/" target="_blank" rel="noopener">Deep Work by Cal
+                                Newport</a>
+                            <p>While inherently about focus and productivity, its underlying message beautifully
+                                reinforces the necessity of drawing strict boundaries between work and the rest of our
+                                lives.</p>
                         </li>
                     </ul>
 
                     <h2>Returning with Renewed Energy</h2>
-                    <p>Things are running more smoothly now. My family is doing better, and with peace of mind restored, I am ready to jump back into my editor.</p>
-                    <p>Because I allowed myself the time away without guilt, I'm returning not just refreshed, but with a renewed sense of purpose and energy. I’m excited to deliver something fresh and innovative.</p>
-                    <p>Finding harmony between the glowing screen and the real world is challenging, but that balance is exactly what makes both our lives and our progress stronger. Keep building, but don't forget to pause and take care of what really matters.</p>
+                    <p>Things are running more smoothly now. My family is doing better, and with peace of mind restored,
+                        I am ready to jump back into my editor.</p>
+                    <p>Because I allowed myself the time away without guilt, I'm returning not just refreshed, but with
+                        a renewed sense of purpose and energy. I’m excited to deliver something fresh and innovative.
+                    </p>
+                    <p>Finding harmony between the glowing screen and the real world is challenging, but that balance is
+                        exactly what makes both our lives and our progress stronger. Keep building, but don't forget to
+                        pause and take care of what really matters.</p>
                 </div>
 
                 <section class="comments" aria-label="Discussion">
@@ -296,8 +755,10 @@
                 <div class="post-footer">
                     <a class="back" href="/blog/">← All articles</a>
                     <div class="share">
-                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/work-life-balance-developer/&text=Work-Life Balance as a Developer: Returning with Renewed Energy" target="_blank" rel="noopener">Share on X</a>
-                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/work-life-balance-developer/" target="_blank" rel="noopener">LinkedIn</a>
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/work-life-balance-developer/&text=Work-Life Balance as a Developer: Returning with Renewed Energy"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/work-life-balance-developer/"
+                            target="_blank" rel="noopener">LinkedIn</a>
                     </div>
                 </div>
             </article>
@@ -314,49 +775,51 @@
                 <a href="/privacy-policy/snake-reborn/">Privacy</a>
             </div>
             <div class="footer-links">
-                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter" title="Visitor Counter">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
                     <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
                     <span>visitors</span>
                 </a>
-                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤ Sponsor</a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
             </div>
         </footer>
     </div>
 
     <script>
         // theme toggle
-        (function(){
-            const meta=document.querySelector('meta[name="color-scheme"]');
-            const btn=document.getElementById('themeToggle');
-            const root=document.documentElement;
-            function sysDark(){return matchMedia('(prefers-color-scheme: dark)').matches;}
-            function curDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return sysDark();}
-            btn.addEventListener('click',function(){const n=curDark()?'light':'dark';localStorage.setItem('color-scheme',n);meta.content=n;root.dataset.theme=n;});
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
         })();
         // reading progress
-        (function(){
-            const bar=document.getElementById('progress');
-            addEventListener('scroll',function(){const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';},{passive:true});
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
         })();
         // comments (utterances)
-        (function(){
-            function isDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return matchMedia('(prefers-color-scheme: dark)').matches;}
-            function initComments(){
-                if(document.querySelector('.utterances-frame'))return;
-                const s=document.createElement('script');
-                s.src='https://utteranc.es/client.js';
-                s.setAttribute('repo','theunwindfront/theunwindfront.github.io');
-                s.setAttribute('issue-term','pathname');
-                s.setAttribute('label','comment');
-                s.setAttribute('theme', isDark()?'github-dark':'github-light');
-                s.setAttribute('crossorigin','anonymous');
-                s.async=true;
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
                 document.getElementById('comments-container').appendChild(s);
             }
-            setTimeout(initComments,300);
-            document.getElementById('themeToggle').addEventListener('click',function(){
-                const f=document.querySelector('.utterances-frame');
-                if(f)f.contentWindow.postMessage({type:'set-theme',theme:isDark()?'github-dark':'github-light'},'https://utteranc.es');
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
             });
         })();
     </script>

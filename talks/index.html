@@ -33,7 +33,7 @@
     <meta property="og:title" content="Talks & Presentations | Sagar Pansuriya">
     <meta property="og:description"
         content="A collection of talks I've delivered at Laravel meetups and community events.">
-    <meta property="og:image" content="https://sagarpansuriya.in/profile.jpg">
+    <meta property="og:image" content="https://sagarpansuriya.in/profile.png">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
@@ -41,15 +41,15 @@
     <meta name="twitter:title" content="Talks & Presentations | Sagar Pansuriya">
     <meta name="twitter:description"
         content="A collection of talks I've delivered at Laravel meetups and community events.">
-    <meta name="twitter:image" content="https://sagarpansuriya.in/profile.jpg">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/profile.png">
     <meta name="twitter:creator" content="@frontendbysagar">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://sagarpansuriya.in/talks/">
 
     <!-- Favicon and Icons -->
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="apple-touch-icon" href="/favicon.png">
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -86,12 +86,18 @@
     <style>
         :root {
             color-scheme: light dark;
-            --paper-l: #faf9f6; --paper-d: #0e0e0f;
-            --panel-l: #f1efe9; --panel-d: #17171a;
-            --ink-l: #1a1a1a; --ink-d: #e8e6e1;
-            --muted-l: #6b6b6b; --muted-d: #8f8d88;
-            --line-l: #e2ded4; --line-d: #262629;
-            --accent-l: #5b5bd6; --accent-d: #8f8fef;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
             --paper: light-dark(var(--paper-l), var(--paper-d));
             --panel: light-dark(var(--panel-l), var(--panel-d));
             --ink: light-dark(var(--ink-l), var(--ink-d));
@@ -104,77 +110,361 @@
             --measure: 46rem;
             accent-color: var(--accent);
         }
-        :root[data-theme="light"] { color-scheme: light; }
-        :root[data-theme="dark"] { color-scheme: dark; }
-        *, *::before, *::after { box-sizing: border-box; }
-        html { scrollbar-gutter: stable; }
-        body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: clamp(1rem, 0.96rem + 0.2vw, 1.075rem); line-height: 1.7; -webkit-font-smoothing: antialiased; }
-        a { color: inherit; }
-        .wrap { max-width: var(--measure); margin-inline: auto; padding: clamp(1.25rem, 4vw, 2rem); }
 
-        .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem 0; }
-        .brand { font-family: var(--mono); font-size: 0.8rem; text-decoration: none; color: var(--ink); }
-        .brand b { color: var(--accent); }
-        .top-nav { display: flex; gap: clamp(0.9rem, 3vw, 1.6rem); align-items: center; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; }
-        .top-nav a { text-decoration: none; color: var(--muted); padding-block: 0.35rem; border-bottom: 1px solid transparent; transition: color 0.2s ease, border-color 0.2s ease; }
-        .top-nav a:hover, .top-nav a[aria-current] { color: var(--ink); border-color: var(--accent); }
-        .theme-toggle { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.7rem; cursor: pointer; transition: color 0.2s ease, border-color 0.2s ease; }
-        .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
-
-        .hero { padding-block: clamp(2rem, 6vw, 3.5rem) 0; }
-        .eyebrow { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); display: flex; align-items: baseline; gap: 0.6rem; margin: 0 0 1.5rem; }
-        .eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--line); transform: translateY(-0.25em); }
-        h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(2rem, 1.4rem + 3vw, 3rem); line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 0.75rem; }
-        .lede { color: var(--muted); max-width: 40rem; margin: 0; }
-
-        section { margin-block: clamp(3rem, 8vw, 5rem); }
-
-        .talks { list-style: none; margin: 0; padding: 0; }
-        .talk { display: grid; grid-template-columns: 9rem 1fr; gap: 1.25rem; padding-block: 1.75rem; border-top: 1px solid var(--line); transition: border-color 0.2s ease; }
-        .talk:last-child { border-bottom: 1px solid var(--line); }
-        .talk:hover { border-top-color: var(--accent); }
-        .talk:last-child:hover { border-bottom-color: var(--accent); }
-        .talk .meta { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); padding-top: 0.35rem; }
-        .talk .meta .date { display: block; color: var(--ink); }
-        .talk .meta .event { display: block; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-top: 0.35rem; }
-        .talk .topic { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); margin: 0 0 0.5rem; }
-        .talk h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(1.25rem, 1rem + 1vw, 1.6rem); line-height: 1.2; letter-spacing: -0.01em; margin: 0 0 0.6rem; }
-        .talk .desc { color: var(--muted); margin: 0 0 1rem; }
-        .talk .link { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--mono); font-size: 0.74rem; text-decoration: none; color: var(--accent); border-bottom: 1px solid transparent; padding-bottom: 1px; transition: border-color 0.2s ease; }
-        .talk .link:hover { border-bottom-color: currentColor; }
-        @media (max-width: 34rem) { .talk { grid-template-columns: 1fr; gap: 0.6rem; } .talk .meta { padding-top: 0; } }
-
-        footer { border-top: 1px solid var(--line); margin-top: clamp(3rem, 8vw, 5rem); padding-block: 2rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
-        footer a { color: var(--muted); text-decoration: none; }
-        footer a:hover { color: var(--accent); }
-        .footer-links { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
-        .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
-        .counter { display: inline-flex; align-items: center; gap: 0.4rem; }
-        .counter img { height: 0.7rem; width: auto; opacity: 0.7; }
-
-        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
-        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
-    
-        /* mobile-header-fix */
-        html, body { overflow-x: hidden; }
-        .topbar { flex-wrap: wrap; row-gap: 0.75rem; }
-        .brand { white-space: nowrap; }
-        .top-nav { flex-wrap: wrap; }
-        @media (max-width: 30rem) {
-            .topbar { align-items: flex-start; }
-            .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
+        :root[data-theme="light"] {
+            color-scheme: light;
         }
 
-    
-        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
-        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
 
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            font-size: clamp(1rem, 0.96rem + 0.2vw, 1.075rem);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: var(--measure);
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .hero {
+            padding-block: clamp(2rem, 6vw, 3.5rem) 0;
+        }
+
+        .eyebrow {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--accent);
+            display: flex;
+            align-items: baseline;
+            gap: 0.6rem;
+            margin: 0 0 1.5rem;
+        }
+
+        .eyebrow::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--line);
+            transform: translateY(-0.25em);
+        }
+
+        h1 {
+            font-family: var(--serif);
+            font-weight: 500;
+            font-size: clamp(2rem, 1.4rem + 3vw, 3rem);
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin: 0 0 0.75rem;
+        }
+
+        .lede {
+            color: var(--muted);
+            max-width: 40rem;
+            margin: 0;
+        }
+
+        section {
+            margin-block: clamp(3rem, 8vw, 5rem);
+        }
+
+        .talks {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .talk {
+            display: grid;
+            grid-template-columns: 9rem 1fr;
+            gap: 1.25rem;
+            padding-block: 1.75rem;
+            border-top: 1px solid var(--line);
+            transition: border-color 0.2s ease;
+        }
+
+        .talk:last-child {
+            border-bottom: 1px solid var(--line);
+        }
+
+        .talk:hover {
+            border-top-color: var(--accent);
+        }
+
+        .talk:last-child:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .talk .meta {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-top: 0.35rem;
+        }
+
+        .talk .meta .date {
+            display: block;
+            color: var(--ink);
+        }
+
+        .talk .meta .event {
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-top: 0.35rem;
+        }
+
+        .talk .topic {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--muted);
+            margin: 0 0 0.5rem;
+        }
+
+        .talk h2 {
+            font-family: var(--serif);
+            font-weight: 500;
+            font-size: clamp(1.25rem, 1rem + 1vw, 1.6rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 0 0 0.6rem;
+        }
+
+        .talk .desc {
+            color: var(--muted);
+            margin: 0 0 1rem;
+        }
+
+        .talk .link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--mono);
+            font-size: 0.74rem;
+            text-decoration: none;
+            color: var(--accent);
+            border-bottom: 1px solid transparent;
+            padding-bottom: 1px;
+            transition: border-color 0.2s ease;
+        }
+
+        .talk .link:hover {
+            border-bottom-color: currentColor;
+        }
+
+        @media (max-width: 34rem) {
+            .talk {
+                grid-template-columns: 1fr;
+                gap: 0.6rem;
+            }
+
+            .talk .meta {
+                padding-top: 0;
+            }
+        }
+
+        footer {
+            border-top: 1px solid var(--line);
+            margin-top: clamp(3rem, 8vw, 5rem);
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
     </style>
 </head>
 
 <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
     <div class="wrap">
@@ -185,7 +475,8 @@
                 <a href="/showcase/">Work</a>
                 <a href="/talks/" aria-current="page">Talks</a>
                 <a href="/cv/">CV</a>
-                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">Theme</button>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
             </nav>
         </header>
 
@@ -193,7 +484,8 @@
             <section class="hero" aria-labelledby="talks-title">
                 <p class="eyebrow"><span>&sect; Talks</span> Speaking</p>
                 <h1 id="talks-title">Talks &amp; Presentations</h1>
-                <p class="lede">A collection of talks I've delivered at <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> meetups and community events.</p>
+                <p class="lede">A collection of talks I've delivered at <a href="https://laravel.com" target="_blank"
+                        rel="noopener" class="techlink">Laravel</a> meetups and community events.</p>
             </section>
 
             <section aria-labelledby="list-h">
@@ -202,26 +494,39 @@
                     <li class="talk">
                         <div class="meta">
                             <span class="date">07 June, 2026</span>
-                            <span class="event"><a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> Meetup</span>
+                            <span class="event"><a href="https://laravel.com" target="_blank" rel="noopener"
+                                    class="techlink">Laravel</a> Meetup</span>
                         </div>
                         <div>
-                            <p class="topic">Talk · <a href="https://tailwindcss.com" target="_blank" rel="noopener" class="techlink">Tailwind CSS</a></p>
-                            <h2>Build a Real <a href="https://tailwindcss.com" target="_blank" rel="noopener" class="techlink">Tailwind CSS</a> V4 Plugin : Fluid Scale</h2>
-                            <p class="desc">A hands-on walkthrough of building a production-grade <a href="https://tailwindcss.com" target="_blank" rel="noopener" class="techlink">Tailwind CSS</a> v4 plugin — Fluid Scale — from first principles to a published package.</p>
-                            <a class="link" href="https://sagarpansuriya.in/laravel-meetup-june-2026/" target="_blank" rel="noopener">Read the recap &rarr;</a>
+                            <p class="topic">Talk · <a href="https://tailwindcss.com" target="_blank" rel="noopener"
+                                    class="techlink">Tailwind CSS</a></p>
+                            <h2>Build a Real <a href="https://tailwindcss.com" target="_blank" rel="noopener"
+                                    class="techlink">Tailwind CSS</a> V4 Plugin : Fluid Scale</h2>
+                            <p class="desc">A hands-on walkthrough of building a production-grade <a
+                                    href="https://tailwindcss.com" target="_blank" rel="noopener"
+                                    class="techlink">Tailwind CSS</a> v4 plugin — Fluid Scale — from first principles to
+                                a published package.</p>
+                            <a class="link" href="https://sagarpansuriya.in/laravel-meetup-june-2026/" target="_blank"
+                                rel="noopener">Read the recap &rarr;</a>
                         </div>
                     </li>
 
                     <li class="talk">
                         <div class="meta">
                             <span class="date">19 September, 2025</span>
-                            <span class="event"><a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> Community Meetup</span>
+                            <span class="event"><a href="https://laravel.com" target="_blank" rel="noopener"
+                                    class="techlink">Laravel</a> Community Meetup</span>
                         </div>
                         <div>
                             <p class="topic">Talk · Accessibility</p>
-                            <h2>Designing for Accessibility In <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> Frontend</h2>
-                            <p class="desc">Practical patterns for building accessible interfaces in <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> frontends — semantics, focus management, and inclusive design that ships.</p>
-                            <a class="link" href="https://canva.link/30z02j83nh65ans" target="_blank" rel="noopener">View slides &rarr;</a>
+                            <h2>Designing for Accessibility In <a href="https://laravel.com" target="_blank"
+                                    rel="noopener" class="techlink">Laravel</a> Frontend</h2>
+                            <p class="desc">Practical patterns for building accessible interfaces in <a
+                                    href="https://laravel.com" target="_blank" rel="noopener"
+                                    class="techlink">Laravel</a> frontends — semantics, focus management, and inclusive
+                                design that ships.</p>
+                            <a class="link" href="https://canva.link/30z02j83nh65ans" target="_blank"
+                                rel="noopener">View slides &rarr;</a>
                         </div>
                     </li>
                 </ol>
@@ -239,11 +544,13 @@
                 <a href="/privacy-policy/snake-reborn/">Privacy</a>
             </div>
             <div class="footer-links">
-                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter" title="Visitor Counter">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
                     <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
                     <span>visitors</span>
                 </a>
-                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤ Sponsor</a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
             </div>
         </footer>
     </div>

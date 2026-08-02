@@ -25,21 +25,23 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Architecture Journal | The Unwind Method — Sagar Pansuriya">
-    <meta property="og:description" content="Engineering-led insights on scaling digital systems. Deep dives into Laravel DNA, performance engineering, and modern frontend architecture.">
-    <meta property="og:image" content="https://sagarpansuriya.in/profile.jpg">
+    <meta property="og:description"
+        content="Engineering-led insights on scaling digital systems. Deep dives into Laravel DNA, performance engineering, and modern frontend architecture.">
+    <meta property="og:image" content="https://sagarpansuriya.in/profile.png">
     <meta property="og:url" content="https://sagarpansuriya.in/blog/">
     <meta property="og:site_name" content="The Unwind Method">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="The Unwind Method — Sagar Pansuriya">
-    <meta name="twitter:description" content="Dive into the world of frontend development, Laravel, and modern web architectures. Articles by Sagar Pansuriya.">
-    <meta name="twitter:image" content="https://sagarpansuriya.in/profile.jpg">
+    <meta name="twitter:description"
+        content="Dive into the world of frontend development, Laravel, and modern web architectures. Articles by Sagar Pansuriya.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/profile.png">
     <meta name="twitter:creator" content="@frontendbysagar">
 
     <link rel="canonical" href="https://sagarpansuriya.in/blog/">
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="apple-touch-icon" href="/favicon.png">
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
     <meta name="msapplication-TileColor" content="#5b5bd6">
 
     <!-- Blog Collection Structured Data for AI Search -->
@@ -122,12 +124,23 @@
         }
 
         /* Manual override branch (JS sets data-theme + meta) */
-        :root[data-theme="light"] { color-scheme: light; }
-        :root[data-theme="dark"] { color-scheme: dark; }
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
 
-        *, *::before, *::after { box-sizing: border-box; }
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
 
-        html { scrollbar-gutter: stable; }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
 
         body {
             margin: 0;
@@ -140,7 +153,9 @@
             text-rendering: optimizeLegibility;
         }
 
-        a { color: inherit; }
+        a {
+            color: inherit;
+        }
 
         .wrap {
             max-width: var(--measure);
@@ -164,7 +179,10 @@
             text-decoration: none;
             color: var(--ink);
         }
-        .brand b { color: var(--accent); }
+
+        .brand b {
+            color: var(--accent);
+        }
 
         .top-nav {
             display: flex;
@@ -175,6 +193,7 @@
             text-transform: uppercase;
             letter-spacing: 0.14em;
         }
+
         .top-nav a {
             text-decoration: none;
             color: var(--muted);
@@ -182,7 +201,12 @@
             border-bottom: 1px solid transparent;
             transition: color 0.2s ease, border-color 0.2s ease;
         }
-        .top-nav a:hover, .top-nav a[aria-current] { color: var(--ink); border-color: var(--accent); }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
 
         .theme-toggle {
             font-family: var(--mono);
@@ -197,10 +221,16 @@
             cursor: pointer;
             transition: color 0.2s ease, border-color 0.2s ease;
         }
-        .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
 
         /* ---- Section scaffolding ---- */
-        section { margin-block: clamp(3rem, 8vw, 5rem); }
+        section {
+            margin-block: clamp(3rem, 8vw, 5rem);
+        }
 
         .eyebrow {
             font-family: var(--mono);
@@ -213,6 +243,7 @@
             gap: 0.6rem;
             margin: 0 0 1.5rem;
         }
+
         .eyebrow::after {
             content: "";
             flex: 1;
@@ -231,8 +262,13 @@
         }
 
         /* ---- Hero ---- */
-        .hero { padding-block: clamp(2.5rem, 8vw, 4.5rem) 0; }
-        .hero .eyebrow { margin-bottom: 1.25rem; }
+        .hero {
+            padding-block: clamp(2.5rem, 8vw, 4.5rem) 0;
+        }
+
+        .hero .eyebrow {
+            margin-bottom: 1.25rem;
+        }
 
         h1 {
             font-family: var(--serif);
@@ -242,7 +278,11 @@
             letter-spacing: -0.02em;
             margin: 0 0 1.25rem;
         }
-        h1 .accent { color: var(--accent); font-style: italic; }
+
+        h1 .accent {
+            color: var(--accent);
+            font-style: italic;
+        }
 
         .lede {
             font-size: clamp(1.05rem, 1rem + 0.4vw, 1.2rem);
@@ -250,16 +290,23 @@
             max-width: 42rem;
             margin: 0;
         }
-        .lede strong { color: var(--ink); font-weight: 600; }
+
+        .lede strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
 
         /* ---- Controls (filters + search) ---- */
-        .controls { margin-block: clamp(2.25rem, 6vw, 3.25rem); }
+        .controls {
+            margin-block: clamp(2.25rem, 6vw, 3.25rem);
+        }
 
         .search-field {
             position: relative;
             margin-bottom: 1.5rem;
             max-width: 30rem;
         }
+
         .search-field svg {
             position: absolute;
             left: 0.85rem;
@@ -270,6 +317,7 @@
             color: var(--muted);
             pointer-events: none;
         }
+
         .search-field input {
             width: 100%;
             font: inherit;
@@ -280,14 +328,22 @@
             background: var(--panel);
             color: var(--ink);
         }
-        .search-field input::placeholder { color: var(--muted); }
-        .search-field input:focus { outline: none; border-color: var(--accent); }
+
+        .search-field input::placeholder {
+            color: var(--muted);
+        }
+
+        .search-field input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
 
         .filters {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
         }
+
         .filter-btn {
             font-family: var(--mono);
             font-size: 0.7rem;
@@ -301,7 +357,12 @@
             cursor: pointer;
             transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
         }
-        .filter-btn:hover { color: var(--ink); border-color: var(--accent); }
+
+        .filter-btn:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
         .filter-btn[aria-pressed="true"] {
             color: light-dark(#fff, #0e0e0f);
             background: var(--accent);
@@ -309,10 +370,24 @@
         }
 
         /* ---- Article index list ---- */
-        .index { list-style: none; margin: 0; padding: 0; }
-        .index li { border-top: 1px solid var(--line); }
-        .index li:last-child { border-bottom: 1px solid var(--line); }
-        .index li[hidden] { display: none; }
+        .index {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .index li {
+            border-top: 1px solid var(--line);
+        }
+
+        .index li:last-child {
+            border-bottom: 1px solid var(--line);
+        }
+
+        .index li[hidden] {
+            display: none;
+        }
+
         .index a {
             display: grid;
             grid-template-columns: 1fr auto;
@@ -323,7 +398,12 @@
             text-decoration: none;
             transition: background 0.15s ease, padding-inline 0.15s ease;
         }
-        .index a:hover { background: var(--panel); padding-inline: 0.75rem; }
+
+        .index a:hover {
+            background: var(--panel);
+            padding-inline: 0.75rem;
+        }
+
         .index .title {
             font-family: var(--serif);
             font-size: 1.3rem;
@@ -331,7 +411,11 @@
             grid-column: 1;
             transition: color 0.15s ease;
         }
-        .index a:hover .title { color: var(--accent); }
+
+        .index a:hover .title {
+            color: var(--accent);
+        }
+
         .index .cat {
             font-family: var(--mono);
             font-size: 0.64rem;
@@ -343,6 +427,7 @@
             white-space: nowrap;
             padding-top: 0.25rem;
         }
+
         .index .desc {
             grid-column: 1 / -1;
             font-size: 0.92rem;
@@ -350,6 +435,7 @@
             margin: 0;
             max-width: 46rem;
         }
+
         .index .meta {
             grid-column: 1 / -1;
             font-family: var(--mono);
@@ -359,11 +445,26 @@
             color: var(--muted);
             margin-top: 0.15rem;
         }
-        .index .meta .sep { opacity: 0.5; margin-inline: 0.4rem; }
+
+        .index .meta .sep {
+            opacity: 0.5;
+            margin-inline: 0.4rem;
+        }
+
         @media (max-width: 34rem) {
-            .index a { grid-template-columns: 1fr; }
-            .index .cat { grid-column: 1; grid-row: auto; padding-top: 0; }
-            .index .title { font-size: 1.15rem; }
+            .index a {
+                grid-template-columns: 1fr;
+            }
+
+            .index .cat {
+                grid-column: 1;
+                grid-row: auto;
+                padding-top: 0;
+            }
+
+            .index .title {
+                font-size: 1.15rem;
+            }
         }
 
         /* ---- Empty state ---- */
@@ -372,8 +473,20 @@
             padding: clamp(3rem, 10vw, 5rem) 1rem;
             color: var(--muted);
         }
-        .empty h3 { font-family: var(--serif); font-weight: 500; font-size: 1.4rem; color: var(--ink); margin: 0 0 0.5rem; }
-        .empty p { margin: 0 0 1.25rem; font-size: 0.95rem; }
+
+        .empty h3 {
+            font-family: var(--serif);
+            font-weight: 500;
+            font-size: 1.4rem;
+            color: var(--ink);
+            margin: 0 0 0.5rem;
+        }
+
+        .empty p {
+            margin: 0 0 1.25rem;
+            font-size: 0.95rem;
+        }
+
         .empty button {
             font-family: var(--mono);
             font-size: 0.72rem;
@@ -387,7 +500,11 @@
             cursor: pointer;
             transition: color 0.2s ease, border-color 0.2s ease;
         }
-        .empty button:hover { color: var(--ink); border-color: var(--accent); }
+
+        .empty button:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
 
         .result-count {
             font-family: var(--mono);
@@ -413,55 +530,144 @@
             letter-spacing: 0.06em;
             color: var(--muted);
         }
-        footer a { color: var(--muted); text-decoration: none; }
-        footer a:hover { color: var(--accent); }
-        .footer-links { display: flex; flex-wrap: wrap; gap: 1rem; }
+
+        footer a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
         .sponsor {
             border: 1px dashed light-dark(#d99, #c77);
             color: light-dark(#c25, #f79);
             border-radius: 999px;
             padding: 0.3rem 0.8rem;
         }
-        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
 
         /* ---- Entrance ---- */
-        .reveal { opacity: 0; transform: translateY(10px); animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; }
-        @keyframes rise { to { opacity: 1; transform: none; } }
+        .reveal {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+        }
 
-        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+        @keyframes rise {
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
 
         @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { animation: none !important; transition: none !important; }
-            .reveal { opacity: 1; transform: none; }
-        }
-    
-        .counter { display: inline-flex; align-items: center; gap: 0.45rem; }
-        .counter img { height: 0.7rem; width: auto; opacity: 0.7; }
-        :root[data-theme="light"] .counter img { filter: invert(1); }
-        .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
-        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
 
-    
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
         /* mobile-header-fix */
-        html, body { overflow-x: hidden; }
-        .topbar { flex-wrap: wrap; row-gap: 0.75rem; }
-        .brand { white-space: nowrap; }
-        .top-nav { flex-wrap: wrap; }
-        @media (max-width: 30rem) {
-            .topbar { align-items: flex-start; }
-            .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
+        html,
+        body {
+            overflow-x: hidden;
         }
 
-    
-        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
-        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
 
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
     </style>
 </head>
 
 <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="wrap">
         <header class="topbar">
@@ -471,7 +677,8 @@
                 <a href="/showcase/">Work</a>
                 <a href="/talks/">Talks</a>
                 <a href="/cv/">CV</a>
-                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">Theme</button>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
             </nav>
         </header>
 
@@ -482,7 +689,8 @@
                 <h1 id="hero-title">Architecture <span class="accent">Journal</span></h1>
                 <p class="lede">
                     Engineering-led insights on scaling digital systems. Deep dives into
-                    <strong><a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> DNA</strong>, performance engineering, and modern frontend architecture.
+                    <strong><a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a>
+                        DNA</strong>, performance engineering, and modern frontend architecture.
                 </p>
             </section>
 
@@ -490,10 +698,11 @@
             <section class="controls" aria-label="Filter articles">
                 <div class="search-field">
                     <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                        <circle cx="11" cy="11" r="7"/>
-                        <path d="M21 21l-4.35-4.35"/>
+                        <circle cx="11" cy="11" r="7" />
+                        <path d="M21 21l-4.35-4.35" />
                     </svg>
-                    <input type="search" id="searchInput" placeholder="Search articles…" aria-label="Search articles by title or description" autocomplete="off">
+                    <input type="search" id="searchInput" placeholder="Search articles…"
+                        aria-label="Search articles by title or description" autocomplete="off">
                 </div>
                 <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
             </section>
@@ -523,11 +732,13 @@
                 <a href="/privacy-policy/snake-reborn/">Privacy</a>
             </div>
             <div class="footer-links">
-                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter" title="Visitor Counter">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
                     <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
                     <span>visitors</span>
                 </a>
-                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤ Sponsor</a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
             </div>
         </footer>
     </div>
@@ -538,14 +749,21 @@
         <a href="/blog/http-query-method/">Meet HTTP QUERY: The Safe, Cacheable Method We've Been Waiting For</a>
         <a href="/blog/alpinejs-plugin-development/">Alpine.js Plugins: Extending the Alpine Core</a>
         <a href="/blog/tailwind-vs-traditional-css/">Tailwind CSS: Rethinking Separation of Concerns</a>
-        <a href="/blog/nativephp-jumpbridge-hybrid-mode/">Uncovering NativePHP's Hidden Gem: The JumpBridge Hybrid Mode</a>
-        <a href="/blog/how-llm-models-work-jarvis-visualization/">How LLMs Work (Explained Like You're 5... With a Jarvis Playground)</a>
-        <a href="/blog/notebooklm-interactive-website/">Turn NotebookLM Sources into Interactive Websites in Minutes (Zero Code)</a>
+        <a href="/blog/nativephp-jumpbridge-hybrid-mode/">Uncovering NativePHP's Hidden Gem: The JumpBridge Hybrid
+            Mode</a>
+        <a href="/blog/how-llm-models-work-jarvis-visualization/">How LLMs Work (Explained Like You're 5... With a
+            Jarvis Playground)</a>
+        <a href="/blog/notebooklm-interactive-website/">Turn NotebookLM Sources into Interactive Websites in Minutes
+            (Zero Code)</a>
         <a href="/blog/ai-agents-customer-journey/">How AI Agents Are Changing the Customer Journey</a>
-        <a href="/blog/gemini-3-5-flash-capabilities-workings/">Deep Dive into Gemini 3.5 Flash: Architecture, Capabilities, and Developer Use Cases</a>
-        <a href="/blog/wordpress-7-release-date-features/">WordPress 7.0: AI, Real-Time Collaboration, and the Future of the Web</a>
-        <a href="/blog/claude-code-context-hygiene/">Why Your Claude Code Sessions Get Dumber Over Time (And How to Fix It)</a>
-        <a href="/blog/markdown-for-ai-wordpress-laravel-seo/">Markdown for AI and Accept Headers in WordPress SEO Plugins & Laravel</a>
+        <a href="/blog/gemini-3-5-flash-capabilities-workings/">Deep Dive into Gemini 3.5 Flash: Architecture,
+            Capabilities, and Developer Use Cases</a>
+        <a href="/blog/wordpress-7-release-date-features/">WordPress 7.0: AI, Real-Time Collaboration, and the Future of
+            the Web</a>
+        <a href="/blog/claude-code-context-hygiene/">Why Your Claude Code Sessions Get Dumber Over Time (And How to Fix
+            It)</a>
+        <a href="/blog/markdown-for-ai-wordpress-laravel-seo/">Markdown for AI and Accept Headers in WordPress SEO
+            Plugins & Laravel</a>
         <a href="/blog/laravel-dna-wordpress-sage-bedrock/">The Laravel DNA in WordPress: Powering Sage & Bedrock</a>
         <a href="/blog/work-life-balance-developer/">Work-Life Balance as a Developer: Returning with Renewed Energy</a>
         <a href="/blog/wordpress-studio/">WordPress Studio: The Fast, Dependency-Free Local Development Revolution</a>
@@ -555,7 +773,8 @@
         <a href="/blog/nativephp-android-research-fixes/">NativePHP on Android: Mastering JNI & v3.1.0 Binaries</a>
         <a href="/blog/shoogle-shadcn-search-engine/">Shoogle: The Search Engine for shadcn/ui Blocks</a>
         <a href="/blog/tall-stack-laravel/">Simple TALL Stack Explanation for Modern Laravel Apps</a>
-        <a href="/blog/modern-css-replacing-javascript/">Modern CSS Is Replacing Your JavaScript (And You Didn't Notice)</a>
+        <a href="/blog/modern-css-replacing-javascript/">Modern CSS Is Replacing Your JavaScript (And You Didn't
+            Notice)</a>
     </div>
 
     <script>

@@ -34,7 +34,7 @@
     <meta property="og:title" content="Engineered Reliability | Sagar Pansuriya Showcase">
     <meta property="og:description"
         content="Explore a curated showcase of high-performance mobile apps, NativePHP plugins, and production-scale web architectures built for maximum reliability.">
-    <meta property="og:image" content="https://sagarpansuriya.in/profile.jpg">
+    <meta property="og:image" content="https://sagarpansuriya.in/profile.png">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
@@ -42,15 +42,15 @@
     <meta name="twitter:title" content="Engineered Reliability | Sagar Pansuriya Showcase">
     <meta name="twitter:description"
         content="Explore a curated showcase of high-performance mobile apps, NativePHP plugins, and production-scale web architectures built for maximum reliability.">
-    <meta name="twitter:image" content="https://sagarpansuriya.in/profile.jpg">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/profile.png">
     <meta name="twitter:creator" content="@frontendbysagar">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://sagarpansuriya.in/showcase/">
 
     <!-- Favicon and Icons -->
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="apple-touch-icon" href="/favicon.png">
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -120,12 +120,23 @@
         }
 
         /* Manual override branch (JS sets data-theme + meta) */
-        :root[data-theme="light"] { color-scheme: light; }
-        :root[data-theme="dark"] { color-scheme: dark; }
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
 
-        *, *::before, *::after { box-sizing: border-box; }
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
 
-        html { scrollbar-gutter: stable; }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
 
         body {
             margin: 0;
@@ -138,7 +149,9 @@
             text-rendering: optimizeLegibility;
         }
 
-        a { color: inherit; }
+        a {
+            color: inherit;
+        }
 
         .wrap {
             max-width: var(--measure);
@@ -162,7 +175,10 @@
             text-decoration: none;
             color: var(--ink);
         }
-        .brand b { color: var(--accent); }
+
+        .brand b {
+            color: var(--accent);
+        }
 
         .top-nav {
             display: flex;
@@ -173,6 +189,7 @@
             text-transform: uppercase;
             letter-spacing: 0.14em;
         }
+
         .top-nav a {
             text-decoration: none;
             color: var(--muted);
@@ -180,7 +197,12 @@
             border-bottom: 1px solid transparent;
             transition: color 0.2s ease, border-color 0.2s ease;
         }
-        .top-nav a:hover, .top-nav a[aria-current] { color: var(--ink); border-color: var(--accent); }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
 
         .theme-toggle {
             font-family: var(--mono);
@@ -195,10 +217,16 @@
             cursor: pointer;
             transition: color 0.2s ease, border-color 0.2s ease;
         }
-        .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
 
         /* ---- Section scaffolding ---- */
-        section { margin-block: clamp(3rem, 8vw, 5rem); }
+        section {
+            margin-block: clamp(3rem, 8vw, 5rem);
+        }
 
         .eyebrow {
             font-family: var(--mono);
@@ -211,6 +239,7 @@
             gap: 0.6rem;
             margin: 0 0 1.5rem;
         }
+
         .eyebrow::after {
             content: "";
             flex: 1;
@@ -229,9 +258,13 @@
         }
 
         /* ---- Hero ---- */
-        .hero { padding-block: clamp(2.5rem, 8vw, 4.5rem) 0; }
+        .hero {
+            padding-block: clamp(2.5rem, 8vw, 4.5rem) 0;
+        }
 
-        .hero .eyebrow { margin-bottom: 1.25rem; }
+        .hero .eyebrow {
+            margin-bottom: 1.25rem;
+        }
 
         h1 {
             font-family: var(--serif);
@@ -241,7 +274,11 @@
             letter-spacing: -0.02em;
             margin: 0 0 1rem;
         }
-        h1 .accent { color: var(--accent); font-style: italic; }
+
+        h1 .accent {
+            color: var(--accent);
+            font-style: italic;
+        }
 
         .lede {
             font-size: clamp(1.05rem, 1rem + 0.4vw, 1.2rem);
@@ -249,13 +286,33 @@
             max-width: 44rem;
             margin: 0;
         }
-        .lede strong { color: var(--ink); font-weight: 600; }
-        .lede a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
-        .lede a:hover { border-color: currentColor; }
+
+        .lede strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .lede a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+        }
+
+        .lede a:hover {
+            border-color: currentColor;
+        }
 
         /* ---- Project cards ---- */
-        .work { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
-        .work > li { border-bottom: 1px solid var(--line); }
+        .work {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .work>li {
+            border-bottom: 1px solid var(--line);
+        }
 
         .card {
             display: block;
@@ -264,7 +321,11 @@
             padding: 1.9rem 0.5rem;
             transition: background 0.18s ease, padding-inline 0.18s ease;
         }
-        .card:hover { background: var(--panel); padding-inline: 1rem; }
+
+        .card:hover {
+            background: var(--panel);
+            padding-inline: 1rem;
+        }
 
         .card-head {
             display: flex;
@@ -273,11 +334,13 @@
             gap: 0.6rem 1rem;
             margin-bottom: 1.1rem;
         }
+
         .card-num {
             font-family: var(--mono);
             font-size: 0.72rem;
             color: var(--muted);
         }
+
         .card-title {
             font-family: var(--serif);
             font-weight: 500;
@@ -287,7 +350,11 @@
             margin: 0;
             flex: 1 1 auto;
         }
-        .card:hover .card-title { color: var(--accent); }
+
+        .card:hover .card-title {
+            color: var(--accent);
+        }
+
         .card-tag {
             font-family: var(--mono);
             font-size: 0.66rem;
@@ -306,9 +373,14 @@
             gap: 1.25rem 1.75rem;
             margin-bottom: 1.1rem;
         }
+
         @media (max-width: 40rem) {
-            .card-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
         }
+
         .card-grid dt {
             font-family: var(--mono);
             font-size: 0.64rem;
@@ -317,8 +389,18 @@
             color: var(--accent);
             margin: 0 0 0.35rem;
         }
-        .card-grid dd { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.55; }
-        .card-grid dd.impact { color: var(--ink); font-weight: 500; }
+
+        .card-grid dd {
+            margin: 0;
+            font-size: 0.92rem;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        .card-grid dd.impact {
+            color: var(--ink);
+            font-weight: 500;
+        }
 
         .card-cta {
             font-family: var(--mono);
@@ -330,8 +412,14 @@
             align-items: center;
             gap: 0.45rem;
         }
-        .card-cta .arr { transition: transform 0.18s ease; }
-        .card:hover .card-cta .arr { transform: translateX(3px); }
+
+        .card-cta .arr {
+            transition: transform 0.18s ease;
+        }
+
+        .card:hover .card-cta .arr {
+            transform: translateX(3px);
+        }
 
         /* ---- Vision / CTA ---- */
         .vision {
@@ -341,6 +429,7 @@
             padding: clamp(1.75rem, 5vw, 3rem);
             text-align: center;
         }
+
         .vision h2 {
             font-family: var(--serif);
             font-weight: 500;
@@ -349,8 +438,17 @@
             letter-spacing: -0.01em;
             margin: 0 0 0.75rem;
         }
-        .vision h2 .accent { color: var(--accent); font-style: italic; }
-        .vision p { color: var(--muted); max-width: 34rem; margin: 0 auto 1.75rem; }
+
+        .vision h2 .accent {
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        .vision p {
+            color: var(--muted);
+            max-width: 34rem;
+            margin: 0 auto 1.75rem;
+        }
 
         .btn {
             font-family: var(--mono);
@@ -365,14 +463,24 @@
             cursor: pointer;
             display: inline-block;
         }
-        .btn:hover { border-color: var(--accent); }
-        .btn:active { transform: translateY(1px); }
+
+        .btn:hover {
+            border-color: var(--accent);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
         .btn.primary {
             background: var(--accent);
             border-color: var(--accent);
             color: light-dark(#fff, #0e0e0f);
         }
-        .btn.primary:hover { filter: brightness(1.05); }
+
+        .btn.primary:hover {
+            filter: brightness(1.05);
+        }
 
         /* ---- Open source note ---- */
         .os-note {
@@ -381,8 +489,16 @@
             color: var(--muted);
             line-height: 1.9;
         }
-        .os-note a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
-        .os-note a:hover { border-color: currentColor; }
+
+        .os-note a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+        }
+
+        .os-note a:hover {
+            border-color: currentColor;
+        }
 
         /* ---- Footer ---- */
         footer {
@@ -399,56 +515,148 @@
             letter-spacing: 0.06em;
             color: var(--muted);
         }
-        footer a { color: var(--muted); text-decoration: none; }
-        footer a:hover { color: var(--accent); }
-        .footer-links { display: flex; flex-wrap: wrap; gap: 1rem; }
+
+        footer a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
         .sponsor {
             border: 1px dashed light-dark(#d99, #c77);
             color: light-dark(#c25, #f79);
             border-radius: 999px;
             padding: 0.3rem 0.8rem;
         }
-        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
 
         /* ---- Entrance ---- */
-        .reveal { opacity: 0; transform: translateY(10px); animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; }
-        .reveal:nth-child(2) { animation-delay: 0.06s; }
-        @keyframes rise { to { opacity: 1; transform: none; } }
+        .reveal {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+        }
 
-        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+        .reveal:nth-child(2) {
+            animation-delay: 0.06s;
+        }
+
+        @keyframes rise {
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
 
         @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { animation: none !important; transition: none !important; }
-            .reveal { opacity: 1; transform: none; }
-        }
-    
-        .counter { display: inline-flex; align-items: center; gap: 0.45rem; }
-        .counter img { height: 0.7rem; width: auto; opacity: 0.7; }
-        :root[data-theme="light"] .counter img { filter: invert(1); }
-        .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
-        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
 
-    
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
         /* mobile-header-fix */
-        html, body { overflow-x: hidden; }
-        .topbar { flex-wrap: wrap; row-gap: 0.75rem; }
-        .brand { white-space: nowrap; }
-        .top-nav { flex-wrap: wrap; }
-        @media (max-width: 30rem) {
-            .topbar { align-items: flex-start; }
-            .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
+        html,
+        body {
+            overflow-x: hidden;
         }
 
-    
-        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
-        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
 
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
     </style>
 </head>
 
 <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="wrap">
         <header class="topbar">
@@ -458,7 +666,8 @@
                 <a href="/showcase/" aria-current="page">Work</a>
                 <a href="/talks/">Talks</a>
                 <a href="/cv/">CV</a>
-                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">Theme</button>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
             </nav>
         </header>
 
@@ -483,7 +692,8 @@
                 <ul class="work">
                     <!-- Snake Reborn -->
                     <li>
-                        <a class="card" href="https://play.google.com/store/apps/details?id=com.snakereborn.app" target="_blank" rel="noopener">
+                        <a class="card" href="https://play.google.com/store/apps/details?id=com.snakereborn.app"
+                            target="_blank" rel="noopener">
                             <div class="card-head">
                                 <span class="card-num">01</span>
                                 <h3 class="card-title">Snake Reborn</h3>
@@ -496,11 +706,13 @@
                                 </div>
                                 <div>
                                     <dt>Architecture</dt>
-                                    <dd>Engineered a frame-independent game-loop rendering logic using optimized canvas layers.</dd>
+                                    <dd>Engineered a frame-independent game-loop rendering logic using optimized canvas
+                                        layers.</dd>
                                 </div>
                                 <div>
                                     <dt>Impact</dt>
-                                    <dd class="impact">Consistent 60FPS achieved; successful production launch on Google Play.</dd>
+                                    <dd class="impact">Consistent 60FPS achieved; successful production launch on Google
+                                        Play.</dd>
                                 </div>
                             </dl>
                             <span class="card-cta">View case study <span class="arr">&rarr;</span></span>
@@ -509,7 +721,8 @@
 
                     <!-- NativePHP Audio -->
                     <li>
-                        <a class="card" href="https://nativephp.com/plugins/theunwindfront/nativephp-audio" target="_blank" rel="noopener">
+                        <a class="card" href="https://nativephp.com/plugins/theunwindfront/nativephp-audio"
+                            target="_blank" rel="noopener">
                             <div class="card-head">
                                 <span class="card-num">02</span>
                                 <h3 class="card-title">NativePHP Audio</h3>
@@ -518,15 +731,18 @@
                             <dl class="card-grid">
                                 <div>
                                     <dt>Challenge</dt>
-                                    <dd>No native-level audio control existed for mobile PHP applications (Android/iOS).</dd>
+                                    <dd>No native-level audio control existed for mobile PHP applications (Android/iOS).
+                                    </dd>
                                 </div>
                                 <div>
                                     <dt>Architecture</dt>
-                                    <dd>Architected a bridge between low-level OS audio APIs and PHP background worker threads.</dd>
+                                    <dd>Architected a bridge between low-level OS audio APIs and PHP background worker
+                                        threads.</dd>
                                 </div>
                                 <div>
                                     <dt>Impact</dt>
-                                    <dd class="impact">Official ecosystem plugin status; enabling playback for 2,000+ mobile builds.</dd>
+                                    <dd class="impact">Official ecosystem plugin status; enabling playback for 2,000+
+                                        mobile builds.</dd>
                                 </div>
                             </dl>
                             <span class="card-cta">View impact <span class="arr">&rarr;</span></span>
@@ -548,11 +764,13 @@
                                 </div>
                                 <div>
                                     <dt>Architecture</dt>
-                                    <dd>Designed an interactive, browser-based execution sandbox with real-time feedback loops.</dd>
+                                    <dd>Designed an interactive, browser-based execution sandbox with real-time feedback
+                                        loops.</dd>
                                 </div>
                                 <div>
                                     <dt>Impact</dt>
-                                    <dd class="impact">Reduced ecosystem onboarding time by 70%; 1st interactive lab in the niche.</dd>
+                                    <dd class="impact">Reduced ecosystem onboarding time by 70%; 1st interactive lab in
+                                        the niche.</dd>
                                 </div>
                             </dl>
                             <span class="card-cta">Open case study <span class="arr">&rarr;</span></span>
@@ -561,7 +779,8 @@
 
                     <!-- PenguinUI Arena -->
                     <li>
-                        <a class="card" href="https://sagarpansuriya.in/PenguinUI-Arena/" target="_blank" rel="noopener">
+                        <a class="card" href="https://sagarpansuriya.in/PenguinUI-Arena/" target="_blank"
+                            rel="noopener">
                             <div class="card-head">
                                 <span class="card-num">04</span>
                                 <h3 class="card-title">PenguinUI Arena</h3>
@@ -570,15 +789,18 @@
                             <dl class="card-grid">
                                 <div>
                                     <dt>Challenge</dt>
-                                    <dd>Bridge the gap between theoretical frontend knowledge and implementation through interactive gamification.</dd>
+                                    <dd>Bridge the gap between theoretical frontend knowledge and implementation through
+                                        interactive gamification.</dd>
                                 </div>
                                 <div>
                                     <dt>Architecture</dt>
-                                    <dd>Built a real-time CSS/JS rendering engine with gamified quiz logic and hot-swap token management.</dd>
+                                    <dd>Built a real-time CSS/JS rendering engine with gamified quiz logic and hot-swap
+                                        token management.</dd>
                                 </div>
                                 <div>
                                     <dt>Impact</dt>
-                                    <dd class="impact">2x faster learning curve for frontend teams; scaled as a community-driven educational platform.</dd>
+                                    <dd class="impact">2x faster learning curve for frontend teams; scaled as a
+                                        community-driven educational platform.</dd>
                                 </div>
                             </dl>
                             <span class="card-cta">Go to case study <span class="arr">&rarr;</span></span>
@@ -587,7 +809,8 @@
 
                     <!-- Tailwind CSS Fluid Scale Plugin -->
                     <li>
-                        <a class="card" href="https://github.com/theunwindfront/tailwindcss-fluid-scale" target="_blank" rel="noopener">
+                        <a class="card" href="https://github.com/theunwindfront/tailwindcss-fluid-scale" target="_blank"
+                            rel="noopener">
                             <div class="card-head">
                                 <span class="card-num">05</span>
                                 <h3 class="card-title">Fluid Scale</h3>
@@ -596,11 +819,13 @@
                             <dl class="card-grid">
                                 <div>
                                     <dt>Challenge</dt>
-                                    <dd>Implement a fluid scaling utility for responsive design without media queries.</dd>
+                                    <dd>Implement a fluid scaling utility for responsive design without media queries.
+                                    </dd>
                                 </div>
                                 <div>
                                     <dt>Architecture</dt>
-                                    <dd>Plugin leverages Tailwind's plugin API, generating CSS custom properties for fluid values.</dd>
+                                    <dd>Plugin leverages Tailwind's plugin API, generating CSS custom properties for
+                                        fluid values.</dd>
                                 </div>
                                 <div>
                                     <dt>Impact</dt>
@@ -613,7 +838,8 @@
 
                     <!-- Laravel Blade Variants Plugin -->
                     <li>
-                        <a class="card" href="https://github.com/theunwindfront/laravel-blade-variants" target="_blank" rel="noopener">
+                        <a class="card" href="https://github.com/theunwindfront/laravel-blade-variants" target="_blank"
+                            rel="noopener">
                             <div class="card-head">
                                 <span class="card-num">06</span>
                                 <h3 class="card-title">Blade Variants</h3>
@@ -648,15 +874,18 @@
                             <dl class="card-grid">
                                 <div>
                                     <dt>Challenge</dt>
-                                    <dd>Enforce WCAG 2.1 contrast guidelines at build-time to guarantee UI accessibility.</dd>
+                                    <dd>Enforce WCAG 2.1 contrast guidelines at build-time to guarantee UI
+                                        accessibility.</dd>
                                 </div>
                                 <div>
                                     <dt>Architecture</dt>
-                                    <dd>CLI parser that scans templates, extracts background/text utility combinations, and audits relative luminance.</dd>
+                                    <dd>CLI parser that scans templates, extracts background/text utility combinations,
+                                        and audits relative luminance.</dd>
                                 </div>
                                 <div>
                                     <dt>Impact</dt>
-                                    <dd class="impact">Catches contrast errors before deployment, ensuring seamless accessibility compliance.</dd>
+                                    <dd class="impact">Catches contrast errors before deployment, ensuring seamless
+                                        accessibility compliance.</dd>
                                 </div>
                             </dl>
                             <span class="card-cta">Try interactive demo <span class="arr">&rarr;</span></span>
@@ -671,10 +900,14 @@
                 <h2 class="section-title" id="os-h">Built in the open</h2>
                 <p class="os-note">
                     Most of the work above ships as open source across the
-                    <a href="https://nativephp.com" target="_blank" rel="noopener">NativePHP</a> and <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> ecosystems.
-                    Browse the repositories on <a href="https://github.com/theunwindfront" target="_blank" rel="noopener">github.com/theunwindfront</a>,
+                    <a href="https://nativephp.com" target="_blank" rel="noopener">NativePHP</a> and <a
+                        href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a>
+                    ecosystems.
+                    Browse the repositories on <a href="https://github.com/theunwindfront" target="_blank"
+                        rel="noopener">github.com/theunwindfront</a>,
                     or support ongoing maintenance via
-                    <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener">GitHub Sponsors</a>.
+                    <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener">GitHub
+                        Sponsors</a>.
                 </p>
             </section>
 
@@ -702,11 +935,13 @@
                 <a href="/privacy-policy/snake-reborn/">Privacy</a>
             </div>
             <div class="footer-links">
-                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter" title="Visitor Counter">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
                     <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
                     <span>visitors</span>
                 </a>
-                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤ Sponsor</a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
             </div>
         </footer>
     </div>

@@ -3,11 +3,14 @@
 
 <head>
     <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
     <!-- End Google Tag Manager -->
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
     <link rel="llms" href="/llms.txt">
@@ -35,14 +38,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="twitter:image" content="https://sagarpansuriya.in/blog/nativephp-android-research-fixes/cover.jpg">
     <meta name="twitter:creator" content="@frontendbysagar">
 
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="apple-touch-icon" href="/favicon.png">
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
     <meta name="msapplication-TileColor" content="#5b5bd6">
     <meta name="theme-color" content="#5b5bd6">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
     <!-- BlogPosting Structured Data for AI Search -->
     <script type="application/ld+json">
@@ -73,7 +78,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 "url": "https://sagarpansuriya.in/",
                 "logo": {
                         "@type": "ImageObject",
-                        "url": "https://sagarpansuriya.in/favicon.png"
+                        "url": "https://sagarpansuriya.in/favicon.jpg"
                 }
         },
         "datePublished": "2026-03-20",
@@ -105,13 +110,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <style>
         :root {
             color-scheme: light dark;
-            --paper-l: #faf9f6; --paper-d: #0e0e0f;
-            --panel-l: #f1efe9; --panel-d: #17171a;
-            --code-l: #f4f2ec; --code-d: #131316;
-            --ink-l: #1a1a1a; --ink-d: #e8e6e1;
-            --muted-l: #6b6b6b; --muted-d: #8f8d88;
-            --line-l: #e2ded4; --line-d: #262629;
-            --accent-l: #5b5bd6; --accent-d: #8f8fef;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
             --paper: light-dark(var(--paper-l), var(--paper-d));
             --panel: light-dark(var(--panel-l), var(--panel-d));
             --code-bg: light-dark(var(--code-l), var(--code-d));
@@ -124,113 +136,548 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
             accent-color: var(--accent);
         }
-        :root[data-theme="light"] { color-scheme: light; }
-        :root[data-theme="dark"] { color-scheme: dark; }
-        *, *::before, *::after { box-sizing: border-box; }
-        html { scrollbar-gutter: stable; }
-        body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
-        a { color: inherit; }
-        .wrap { max-width: 46rem; margin-inline: auto; padding: clamp(1.25rem, 4vw, 2rem); }
 
-        .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem 0; }
-        .brand { font-family: var(--mono); font-size: 0.8rem; text-decoration: none; color: var(--ink); }
-        .brand b { color: var(--accent); }
-        .top-nav { display: flex; gap: clamp(0.9rem, 3vw, 1.6rem); align-items: center; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; }
-        .top-nav a { text-decoration: none; color: var(--muted); padding-block: 0.35rem; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
-        .top-nav a:hover, .top-nav a[aria-current] { color: var(--ink); border-color: var(--accent); }
-        .theme-toggle { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.7rem; cursor: pointer; transition: color .2s, border-color .2s; }
-        .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
-
-        .post-cat { display:inline-block; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); text-decoration:none; margin-top: 2.5rem; }
-        .post-title { font-family: var(--serif); font-weight: 600; font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem); line-height: 1.08; letter-spacing: -0.02em; margin: 0.75rem 0 1.25rem; }
-        .post-meta { display:flex; flex-wrap:wrap; align-items:center; gap: 0.75rem 1rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
-        .post-meta img { width: 2.25rem; height: 2.25rem; border-radius: 50%; object-fit: cover; }
-        .post-meta a { color: var(--ink); text-decoration: none; }
-        .post-meta a:hover { color: var(--accent); }
-        .post-meta .sep { color: var(--line); }
-        .post-cover { margin: 2rem 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
-        .post-cover img { display:block; width: 100%; height: auto; }
-
-        .prose { font-family: var(--serif); font-size: 1.2rem; line-height: 1.75; color: var(--ink); }
-        .prose > *:first-child { margin-top: 0; }
-        .prose p { margin: 0 0 1.4rem; }
-        .prose h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem); line-height: 1.2; letter-spacing: -0.01em; margin: 2.6rem 0 1rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
-        .prose h3 { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; margin: 2rem 0 0.75rem; }
-        .prose h4 { font-family: var(--sans); font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 1.8rem 0 0.6rem; }
-        .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); }
-        .prose a:hover { border-bottom-color: var(--accent); }
-        .prose ul, .prose ol { margin: 0 0 1.4rem; padding-left: 1.4rem; }
-        .prose li { margin-bottom: 0.5rem; }
-        .prose li::marker { color: var(--accent); }
-        .prose strong { font-weight: 700; color: var(--ink); }
-        .prose em { font-style: italic; }
-        .prose blockquote { margin: 1.6rem 0; padding: 0.4rem 0 0.4rem 1.25rem; border-left: 2px solid var(--accent); color: var(--muted); font-style: italic; }
-        .prose img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; margin: 1.6rem 0; }
-        .prose hr { border: none; border-top: 1px solid var(--line); margin: 2.5rem 0; }
-
-        .prose :not(pre) > code { font-family: var(--mono); font-size: 0.86em; background: var(--code-bg); border: 1px solid var(--line); border-radius: 5px; padding: 0.1em 0.4em; color: var(--ink); }
-        .prose pre, pre.code-block { font-family: var(--mono); font-size: 0.82rem; line-height: 1.6; background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; overflow-x: auto; margin: 1.6rem 0; color: var(--ink); }
-        .prose pre code, pre.code-block code { font-family: var(--mono); background: none; border: none; padding: 0; font-size: inherit; color: inherit; white-space: pre; }
-
-        .prose table { width: 100%; border-collapse: collapse; margin: 1.6rem 0; font-family: var(--sans); font-size: 0.95rem; display: block; overflow-x: auto; }
-        .prose th, .prose td { text-align: left; padding: 0.65rem 0.85rem; border: 1px solid var(--line); vertical-align: top; }
-        .prose th { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--panel); }
-
-        /* neutral callout panel (restyled from the original colored panels) */
-        .prose .panel { margin: 1.6rem 0; padding: 1.25rem; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
-        .prose .panel > *:first-child { margin-top: 0; }
-        .prose .panel > *:last-child { margin-bottom: 0; }
-        .prose .panel .panel-label { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin: 0 0 0.6rem; }
-        .prose .panel h3 { margin-top: 0; }
-
-        .comments { margin-top: 3rem; }
-        .comments h2 { font-family: var(--serif); font-weight: 600; font-size: 1.6rem; border-top: 1px solid var(--line); padding-top: 1.4rem; margin: 0 0 1rem; }
-
-        .post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display:flex; flex-wrap:wrap; gap: 1rem; justify-content: space-between; align-items:center; }
-        .post-footer a.back { font-family: var(--mono); font-size: 0.75rem; text-decoration:none; color: var(--accent); }
-        .share { display:flex; gap: 0.5rem; }
-        .share a { font-family: var(--mono); font-size: 0.72rem; text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.7rem; }
-        .share a:hover { color: var(--accent); border-color: var(--accent); }
-
-        #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--accent); z-index: 100; transition: width .1s linear; }
-
-        footer.site { border-top: 1px solid var(--line); margin-top: 3rem; padding-block: 2rem; display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
-        footer.site a { color: var(--muted); text-decoration:none; }
-        footer.site a:hover { color: var(--accent); }
-        .footer-links { display:flex; flex-wrap:wrap; gap:1rem; }
-
-        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
-        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } #progress { transition: none; } }
-    
-        .counter { display: inline-flex; align-items: center; gap: 0.45rem; }
-        .counter img { height: 0.7rem; width: auto; opacity: 0.7; }
-        :root[data-theme="light"] .counter img { filter: invert(1); }
-        .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
-        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
-
-    
-        /* mobile-header-fix */
-        html, body { overflow-x: hidden; }
-        .topbar { flex-wrap: wrap; row-gap: 0.75rem; }
-        .brand { white-space: nowrap; }
-        .top-nav { flex-wrap: wrap; }
-        @media (max-width: 30rem) {
-            .topbar { align-items: flex-start; }
-            .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
+        :root[data-theme="light"] {
+            color-scheme: light;
         }
 
-    
-        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
-        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
 
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* neutral callout panel (restyled from the original colored panels) */
+        .prose .panel {
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+        }
+
+        .prose .panel>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose .panel>*:last-child {
+            margin-bottom: 0;
+        }
+
+        .prose .panel .panel-label {
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin: 0 0 0.6rem;
+        }
+
+        .prose .panel h3 {
+            margin-top: 0;
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
     </style>
 </head>
 
 <body>
     <div id="progress"></div>
     <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
     <div class="wrap">
         <header class="topbar">
@@ -240,7 +687,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <a href="/showcase/">Work</a>
                 <a href="/talks/">Talks</a>
                 <a href="/cv/">CV</a>
-                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">Theme</button>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
             </nav>
         </header>
 
@@ -249,8 +697,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <a class="post-cat" href="/blog/?category=NativePHP">§ NativePHP</a>
                 <h1 class="post-title">NativePHP on Android: The Missing Research & Fixes</h1>
                 <div class="post-meta">
-                    <img src="/profile.jpg" alt="Sagar Pansuriya">
-                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar Pansuriya</a>
+                    <img src="/profile.png" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
                     <span class="sep">·</span>
                     <time datetime="2026-03-20">Mar 20, 2026</time>
                     <span class="sep">·</span>
@@ -260,10 +709,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <div class="post-cover"><img src="cover.jpg" alt="NativePHP Android Cover"></div>
 
                 <div class="prose">
-                    <p>Running <a href="https://nativephp.com" target="_blank" rel="noopener">NativePHP</a> on Android is an exciting frontier, but the bridge between a <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> app and a native APK is paved with technical landmines. After days of deep research, I've documented every critical fix—from environment pathing on Windows to mastering the Kotlin bridge architecture. Let's dive into the details.</p>
+                    <p>Running <a href="https://nativephp.com" target="_blank" rel="noopener">NativePHP</a> on Android
+                        is an exciting frontier, but the bridge between a <a href="https://laravel.com" target="_blank"
+                            rel="noopener" class="techlink">Laravel</a> app and a native APK is paved with technical
+                        landmines. After days of deep research, I've documented every critical fix—from environment
+                        pathing on Windows to mastering the Kotlin bridge architecture. Let's dive into the details.</p>
 
                     <h2>What's New in v3.1: The Binary Revolution</h2>
-                    <p><a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> 3.1.0 marks a pivotal shift in how the Android runtime is delivered. The ecosystem has evolved from static binary bundles to a <strong>Dynamic Manifest Hub</strong>, significantly reducing build friction and future-proofing the platform.</p>
+                    <p><a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a>
+                        3.1.0 marks a pivotal shift in how the Android runtime is delivered. The ecosystem has evolved
+                        from static binary bundles to a <strong>Dynamic Manifest Hub</strong>, significantly reducing
+                        build friction and future-proofing the platform.</p>
 
                     <table>
                         <thead>
@@ -280,7 +736,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 <td>Dynamic Manifest Hub</td>
                             </tr>
                             <tr>
-                                <td><a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> Versions</td>
+                                <td><a href="https://www.php.net" target="_blank" rel="noopener"
+                                        class="techlink">PHP</a> Versions</td>
                                 <td>Manual Selection (8.2/8.3)</td>
                                 <td>Auto-Sync (8.3/8.4/8.5)</td>
                             </tr>
@@ -303,28 +760,57 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     </table>
 
                     <h3>ZTS & Background Workers</h3>
-                    <p>v3.1 ships with <strong>Thread-Safe (ZTS) <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a></strong>, enabling dedicated background queue workers for non-blocking UI operations.</p>
+                    <p>v3.1 ships with <strong>Thread-Safe (ZTS) <a href="https://www.php.net" target="_blank"
+                                rel="noopener" class="techlink">PHP</a></strong>, enabling dedicated background queue
+                        workers for non-blocking UI operations.</p>
 
                     <h3>Android 8+ Support</h3>
-                    <p>Static linking improvements have dropped the minimum support from Android 13 (API 33) down to <strong>Android 8 (API 26)</strong>.</p>
+                    <p>Static linking improvements have dropped the minimum support from Android 13 (API 33) down to
+                        <strong>Android 8 (API 26)</strong>.
+                    </p>
 
                     <h3>Persistent Runtime</h3>
-                    <p>Boot <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> once and reuse the kernel. Response times drop from ~200ms to <strong>5-30ms</strong> — a 10x performance leap.</p>
+                    <p>Boot <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a>
+                        once and reuse the kernel. Response times drop from ~200ms to <strong>5-30ms</strong> — a 10x
+                        performance leap.</p>
 
                     <h3>Slim ICU Support</h3>
-                    <p>Optional ICU support now only adds <strong>10-15MB</strong> to the app size, making Filament integration viable on both iOS and Android.</p>
+                    <p>Optional ICU support now only adds <strong>10-15MB</strong> to the app size, making Filament
+                        integration viable on both iOS and Android.</p>
 
                     <h3>The Binary Lifecycle: How It Works</h3>
                     <ol>
-                        <li><strong>The Artisan Trigger.</strong> When you run <code>native:run android</code>, the <code>BinaryProvider</code> service kicks in. It captures your local <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> version (e.g., 8.3) and selects the corresponding Android architecture target.</li>
-                        <li><strong>Manifest Resolution.</strong> The tool fetches the encrypted <code>versions.json</code> from <code>bin.nativephp.com</code>. It verifies hashes and resolves the direct download link for the optimized <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> binary bundle.</li>
-                        <li><strong>Local Extraction.</strong> The binary bundle (containing <code>libphp.a</code> and <code>libphp_wrapper.so</code>) is downloaded and unpacked into the <code>nativephp/binaries</code> directory, acting as a local source of truth.</li>
-                        <li><strong>Gradle Linking.</strong> During the Kotlin compilation phase, Gradle maps the project's <code>jniLibs</code> to the binaries folder. This bundles the native <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> engine directly into the ultimate APK.</li>
-                        <li><strong>Runtime Execution.</strong> On app launch, the Android JVM loads the JNI wrapper. This initiates the <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> process, bootstraps your <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> kernel in the background, and prepares the WebView bridge.</li>
+                        <li><strong>The Artisan Trigger.</strong> When you run <code>native:run android</code>, the
+                            <code>BinaryProvider</code> service kicks in. It captures your local <a
+                                href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a>
+                            version (e.g., 8.3) and selects the corresponding Android architecture target.
+                        </li>
+                        <li><strong>Manifest Resolution.</strong> The tool fetches the encrypted
+                            <code>versions.json</code> from <code>bin.nativephp.com</code>. It verifies hashes and
+                            resolves the direct download link for the optimized <a href="https://www.php.net"
+                                target="_blank" rel="noopener" class="techlink">PHP</a> binary bundle.
+                        </li>
+                        <li><strong>Local Extraction.</strong> The binary bundle (containing <code>libphp.a</code> and
+                            <code>libphp_wrapper.so</code>) is downloaded and unpacked into the
+                            <code>nativephp/binaries</code> directory, acting as a local source of truth.
+                        </li>
+                        <li><strong>Gradle Linking.</strong> During the Kotlin compilation phase, Gradle maps the
+                            project's <code>jniLibs</code> to the binaries folder. This bundles the native <a
+                                href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a>
+                            engine directly into the ultimate APK.</li>
+                        <li><strong>Runtime Execution.</strong> On app launch, the Android JVM loads the JNI wrapper.
+                            This initiates the <a href="https://www.php.net" target="_blank" rel="noopener"
+                                class="techlink">PHP</a> process, bootstraps your <a href="https://laravel.com"
+                                target="_blank" rel="noopener" class="techlink">Laravel</a> kernel in the background,
+                            and prepares the WebView bridge.</li>
                     </ol>
 
                     <h3>Code & Project Structure</h3>
-                    <p>Version 3.1 introduces a standardized path for mobile binaries within the <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> project root. This structure allows the Kotlin build process to reliably locate the <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> runtime without relying on system-wide environment variables.</p>
+                    <p>Version 3.1 introduces a standardized path for mobile binaries within the <a
+                            href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a>
+                        project root. This structure allows the Kotlin build process to reliably locate the <a
+                            href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> runtime
+                        without relying on system-wide environment variables.</p>
 
                     <pre class="code-block"><code># New v3.1 Binary Structure
 project-root/
@@ -338,7 +824,8 @@ project-root/
 └── config/
   └── nativephp.php    # Runtime configuration</code></pre>
 
-                    <p>The <code>BinaryProvider</code> logic now performs a check against the remote manifest before every build. You can control this behavior in your <code>config/nativephp.php</code>:</p>
+                    <p>The <code>BinaryProvider</code> logic now performs a check against the remote manifest before
+                        every build. You can control this behavior in your <code>config/nativephp.php</code>:</p>
                     <pre class="code-block"><code>// config/nativephp.php
 return [
     'runtime' => [
@@ -353,32 +840,65 @@ return [
 
                     <h3>Key Benefits & Use Cases</h3>
                     <h4>Zero-Config Sync</h4>
-                    <p>No more "version mismatch" errors. v3.1 ensures your Android binary always matches your host <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> version by default.</p>
+                    <p>No more "version mismatch" errors. v3.1 ensures your Android binary always matches your host <a
+                            href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> version
+                        by default.</p>
                     <h4>Instant Patching</h4>
-                    <p>The Core team can now push critical JNI or <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> security fixes through the manifest without requiring a full composer update.</p>
+                    <p>The Core team can now push critical JNI or <a href="https://www.php.net" target="_blank"
+                            rel="noopener" class="techlink">PHP</a> security fixes through the manifest without
+                        requiring a full composer update.</p>
 
                     <ul>
-                        <li><strong>Case Study: Multi-Lingual Apps.</strong> For projects requiring full <strong>Unicode (ICU)</strong> support, the <code>--with-icu</code> flag simplifies what used to be a complex manual compilation process.</li>
-                        <li><strong>Offline Hybrid Builds.</strong> The new <code>nativephp/binaries</code> cache enables high-performance build cycles for developers on spotty connections or in isolated CI environments.</li>
+                        <li><strong>Case Study: Multi-Lingual Apps.</strong> For projects requiring full <strong>Unicode
+                                (ICU)</strong> support, the <code>--with-icu</code> flag simplifies what used to be a
+                            complex manual compilation process.</li>
+                        <li><strong>Offline Hybrid Builds.</strong> The new <code>nativephp/binaries</code> cache
+                            enables high-performance build cycles for developers on spotty connections or in isolated CI
+                            environments.</li>
                     </ul>
 
                     <h3>Pro Tips & Optimization</h3>
                     <p>To get the most out of the v3.1 binary system, consider these advanced strategies:</p>
                     <ul>
-                        <li><strong>Reduce APK Size:</strong> By default, development builds may bundle multiple architectures. In production, ensure you target only <code>arm64-v8a</code> to trim down the final bundle weight.</li>
-                        <li><strong>Forcing a Re-sync:</strong> If your local binary cache becomes corrupted, use <code>php artisan native:run android --force</code> to bypass the cache and force a fresh manifest download.</li>
-                        <li><strong>Version Pinning:</strong> In team environments, explicitly set your <code>php_version</code> in <code>config/nativephp.php</code> to ensure every developer and CI runner uses the exact same binary hash.</li>
-                        <li><strong>Extension Limits:</strong> The v3.1 binaries come pre-compiled with core <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> extensions (PDO, MBString, OpenSSL). If you need specialized headers, ensure you've selected the <code>--with-icu</code> variant.</li>
+                        <li><strong>Reduce APK Size:</strong> By default, development builds may bundle multiple
+                            architectures. In production, ensure you target only <code>arm64-v8a</code> to trim down the
+                            final bundle weight.</li>
+                        <li><strong>Forcing a Re-sync:</strong> If your local binary cache becomes corrupted, use
+                            <code>php artisan native:run android --force</code> to bypass the cache and force a fresh
+                            manifest download.
+                        </li>
+                        <li><strong>Version Pinning:</strong> In team environments, explicitly set your
+                            <code>php_version</code> in <code>config/nativephp.php</code> to ensure every developer and
+                            CI runner uses the exact same binary hash.
+                        </li>
+                        <li><strong>Extension Limits:</strong> The v3.1 binaries come pre-compiled with core <a
+                                href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a>
+                            extensions (PDO, MBString, OpenSSL). If you need specialized headers, ensure you've selected
+                            the <code>--with-icu</code> variant.</li>
                     </ul>
 
                     <h2>1. The Windows Environment & Context Loss</h2>
-                    <p>The primary friction point for <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> on Windows is <strong>Shell Context Inheritance</strong>. When running <code>php artisan native:run android</code>, the <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> process spawns an Artisan command, which in turn invokes a Node.js compiler, eventually shelling out to Gradle. During these nested executions, standard Windows User PATHs often fail to propagate to the inner-most shell.</p>
-                    <p>Furthermore, standard OpenJDK distributions (like those from Oracle or Microsoft) often conflict with the specific Gradle 8.x requirements of the <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> mobile core. Android Studio bundles a specific <strong>Java Bytecode Runtime (JBR)</strong> optimized for its own build tools.</p>
-                    <p><strong>The Fix: Persistence via Wrapper.</strong> I discovered that manually setting the <code>JAVA_HOME</code> to the Android Studio JBR and explicitly prepending the <code>platform-tools</code> to the path within a dedicated batch session ensures that every subprocess (Artisan, Node, Gradle) shares the exact same binary context.</p>
+                    <p>The primary friction point for <a href="https://nativephp.com" target="_blank" rel="noopener"
+                            class="techlink">NativePHP</a> on Windows is <strong>Shell Context Inheritance</strong>.
+                        When running <code>php artisan native:run android</code>, the <a href="https://www.php.net"
+                            target="_blank" rel="noopener" class="techlink">PHP</a> process spawns an Artisan command,
+                        which in turn invokes a Node.js compiler, eventually shelling out to Gradle. During these nested
+                        executions, standard Windows User PATHs often fail to propagate to the inner-most shell.</p>
+                    <p>Furthermore, standard OpenJDK distributions (like those from Oracle or Microsoft) often conflict
+                        with the specific Gradle 8.x requirements of the <a href="https://nativephp.com" target="_blank"
+                            rel="noopener" class="techlink">NativePHP</a> mobile core. Android Studio bundles a specific
+                        <strong>Java Bytecode Runtime (JBR)</strong> optimized for its own build tools.
+                    </p>
+                    <p><strong>The Fix: Persistence via Wrapper.</strong> I discovered that manually setting the
+                        <code>JAVA_HOME</code> to the Android Studio JBR and explicitly prepending the
+                        <code>platform-tools</code> to the path within a dedicated batch session ensures that every
+                        subprocess (Artisan, Node, Gradle) shares the exact same binary context.
+                    </p>
 
                     <div class="panel">
                         <p class="panel-label">Problem — Silent path failures</p>
-                        <p><em>Builds fail with "cannot find adb" or "unsupported java version" even if they work in your main terminal.</em></p>
+                        <p><em>Builds fail with "cannot find adb" or "unsupported java version" even if they work in
+                                your main terminal.</em></p>
                         <pre class="code-block"><code># Typical Gradle Error on Windows:
 FAILURE: Build failed with an exception.
 * What went wrong:
@@ -398,14 +918,31 @@ php artisan native:run android</code></pre>
                     </div>
 
                     <h2>2. The JNI Binary Mystery & Extraction Fix</h2>
-                    <p><a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a>'s mobile core uses a custom-compiled <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> binary for Android (compiled for <code>arm64-v8a</code>, <code>x86_64</code>, etc.). This binary is wrapped in a Java Native Interface (JNI) library called <code>libphp_wrapper.so</code>. Without this file, the Java-side <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> bridge cannot initialize.</p>
-                    <p>On Windows, I identified that the automated extraction script often fails silently if 7-Zip isn't correctly configured in the <code>.env</code>, or if the Windows file system prevents the creation of <strong>symlinks</strong> (common in `.so` library bundles). This leaves the <code>jniLibs</code> directory empty, causing an instant <code>UnsatisfiedLinkError</code> on app launch.</p>
-                    <p><strong>The Technical Fix:</strong> You must manually inject these libraries into the Android source structure. Gradle expects these in a very specific hierarchy to bundle them into the final APK properly.</p>
+                    <p><a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a>'s
+                        mobile core uses a custom-compiled <a href="https://www.php.net" target="_blank" rel="noopener"
+                            class="techlink">PHP</a> binary for Android (compiled for <code>arm64-v8a</code>,
+                        <code>x86_64</code>, etc.). This binary is wrapped in a Java Native Interface (JNI) library
+                        called <code>libphp_wrapper.so</code>. Without this file, the Java-side <a
+                            href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> bridge
+                        cannot initialize.
+                    </p>
+                    <p>On Windows, I identified that the automated extraction script often fails silently if 7-Zip isn't
+                        correctly configured in the <code>.env</code>, or if the Windows file system prevents the
+                        creation of <strong>symlinks</strong> (common in `.so` library bundles). This leaves the
+                        <code>jniLibs</code> directory empty, causing an instant <code>UnsatisfiedLinkError</code> on
+                        app launch.
+                    </p>
+                    <p><strong>The Technical Fix:</strong> You must manually inject these libraries into the Android
+                        source structure. Gradle expects these in a very specific hierarchy to bundle them into the
+                        final APK properly.</p>
 
                     <div class="panel">
                         <p class="panel-label">Step 1: Define Extraction Engine</p>
-                        <p>Add this to your project <code>.env</code> to allow <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> to handle the extraction manually:</p>
-                        <pre class="code-block"><code>NATIVEPHP_7ZIP_LOCATION='C:\ProgramData\chocolatey\tools\7z.exe'</code></pre>
+                        <p>Add this to your project <code>.env</code> to allow <a href="https://nativephp.com"
+                                target="_blank" rel="noopener" class="techlink">NativePHP</a> to handle the extraction
+                            manually:</p>
+                        <pre
+                            class="code-block"><code>NATIVEPHP_7ZIP_LOCATION='C:\ProgramData\chocolatey\tools\7z.exe'</code></pre>
                     </div>
 
                     <div class="panel">
@@ -419,13 +956,28 @@ nativephp/android/app/src/main/jniLibs/
                     </div>
 
                     <h2>3. Understanding the JNI Bridge Architecture</h2>
-                    <p><a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> Mobile employs a <strong>Reflection-based Bridge</strong>. When your <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> code calls <code>Haptics::vibrate()</code>, it sends a payload to the Java layer. The Java layer then looks for a registered function descriptor to execute. This is where most developers fail: they try to manually register bridges in a <code>BridgeRegistration.kt</code> file.</p>
-                    <p><strong>The Reflection Landmine:</strong> <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a>'s build tool automatically scans your plugin's Kotlin files and generates its <em>own</em> registration class called <code>PluginBridgeFunctionRegistration.kt</code>. If you create your own registration file, the Kotlin compiler will crash due to <strong>duplicate receiver type definitions</strong>.</p>
-                    <p><strong>The Solution:</strong> You must follow the <strong>Factory Pattern</strong>. Your Kotlin function must be a static method that takes an Android <code>Context</code> and returns a <code>BridgeFunction</code> object implementation. This strict return type is what the auto-generator uses to map properties.</p>
+                    <p><a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a>
+                        Mobile employs a <strong>Reflection-based Bridge</strong>. When your <a
+                            href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> code
+                        calls <code>Haptics::vibrate()</code>, it sends a payload to the Java layer. The Java layer then
+                        looks for a registered function descriptor to execute. This is where most developers fail: they
+                        try to manually register bridges in a <code>BridgeRegistration.kt</code> file.</p>
+                    <p><strong>The Reflection Landmine:</strong> <a href="https://nativephp.com" target="_blank"
+                            rel="noopener" class="techlink">NativePHP</a>'s build tool automatically scans your plugin's
+                        Kotlin files and generates its <em>own</em> registration class called
+                        <code>PluginBridgeFunctionRegistration.kt</code>. If you create your own registration file, the
+                        Kotlin compiler will crash due to <strong>duplicate receiver type definitions</strong>.
+                    </p>
+                    <p><strong>The Solution:</strong> You must follow the <strong>Factory Pattern</strong>. Your Kotlin
+                        function must be a static method that takes an Android <code>Context</code> and returns a
+                        <code>BridgeFunction</code> object implementation. This strict return type is what the
+                        auto-generator uses to map properties.
+                    </p>
 
                     <div class="panel">
                         <p class="panel-label">Problem — Manual registration</p>
-                        <p><em>Results in "Collision between BridgeRegistration and AutoGen" error during build.</em></p>
+                        <p><em>Results in "Collision between BridgeRegistration and AutoGen" error during build.</em>
+                        </p>
                         <pre class="code-block"><code>// WRONG: Adding this manual file
 // nativephp/android/.../BridgeRegistration.kt
 register("haptics", ::vibrate)</code></pre>
@@ -445,10 +997,21 @@ object : BridgeFunction {
 }</code></pre>
                     </div>
 
-                    <h2>4. Bypassing the <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> Cleanup Cycle</h2>
-                    <p>One of the biggest obstacles to technical debugging in <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> Mobile is the <strong>Automated Cleanup Cycle</strong>. When the Artisan command fails, it often wipes the <code>storage/app/native-build</code> directory to prevent state corruption. This means the very logs you need to see why Kotlin failed are deleted before you can read them.</p>
-                    <p><strong>The Research:</strong> To debug properly, you must move into the generated Android project directory and run the Gradle build manually. This reveals errors that Artisan suppresses, such as library version conflicts or ProGuard obfuscation failures.</p>
-                    <p>Additionally, use <strong>ADB Logcat</strong> to catch runtime issues. Since your <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> code runs on a bridge, errors often won't show in the terminal—they will appear in the Android system logs as JNI exceptions.</p>
+                    <h2>4. Bypassing the <a href="https://nativephp.com" target="_blank" rel="noopener"
+                            class="techlink">NativePHP</a> Cleanup Cycle</h2>
+                    <p>One of the biggest obstacles to technical debugging in <a href="https://nativephp.com"
+                            target="_blank" rel="noopener" class="techlink">NativePHP</a> Mobile is the
+                        <strong>Automated Cleanup Cycle</strong>. When the Artisan command fails, it often wipes the
+                        <code>storage/app/native-build</code> directory to prevent state corruption. This means the very
+                        logs you need to see why Kotlin failed are deleted before you can read them.
+                    </p>
+                    <p><strong>The Research:</strong> To debug properly, you must move into the generated Android
+                        project directory and run the Gradle build manually. This reveals errors that Artisan
+                        suppresses, such as library version conflicts or ProGuard obfuscation failures.</p>
+                    <p>Additionally, use <strong>ADB Logcat</strong> to catch runtime issues. Since your <a
+                            href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> code runs
+                        on a bridge, errors often won't show in the terminal—they will appear in the Android system logs
+                        as JNI exceptions.</p>
 
                     <div class="panel">
                         <p class="panel-label">Advanced Debugging Workflow</p>
@@ -461,7 +1024,11 @@ adb logcat *:E | grep "NativePHP"</code></pre>
                     </div>
 
                     <h2>5. Stabilizing the Haptic Plugin</h2>
-                    <p>My research culminated in the development of a production-ready Haptic Feedback Plugin for <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> Mobile. The final fix involved removing all manual receivers and relying purely on the <code>BridgeFunction</code> interface implementations.</p>
+                    <p>My research culminated in the development of a production-ready Haptic Feedback Plugin for <a
+                            href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a>
+                        Mobile. The final fix involved removing all manual receivers and relying purely on the
+                        <code>BridgeFunction</code> interface implementations.
+                    </p>
                     <div class="panel">
                         <h3>Final Verdict:</h3>
                         <ul>
@@ -472,8 +1039,17 @@ adb logcat *:E | grep "NativePHP"</code></pre>
                     </div>
 
                     <h2>The Bottom Line</h2>
-                    <p><a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> on Android is ready for prime time, provided you understand the low-level bridge architecture. By mastering these five research areas, you can bring the power of <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> to billions of Android devices with high-performance native plugins.</p>
-                    <p>If you're looking to build professional-grade applications or need expert assistance with complex integrations, you can explore specialized <a href="https://acquaintsoft.com/services/laravel-development-service" target="_blank" rel="noopener">Laravel development services</a> or <a href="https://acquaintsoft.com/hire-laravel-developers" target="_blank" rel="noopener">hire Laravel developers</a> from Acquaint Softtech to accelerate your project.</p>
+                    <p><a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> on
+                        Android is ready for prime time, provided you understand the low-level bridge architecture. By
+                        mastering these five research areas, you can bring the power of <a href="https://laravel.com"
+                            target="_blank" rel="noopener" class="techlink">Laravel</a> to billions of Android devices
+                        with high-performance native plugins.</p>
+                    <p>If you're looking to build professional-grade applications or need expert assistance with complex
+                        integrations, you can explore specialized <a
+                            href="https://acquaintsoft.com/services/laravel-development-service" target="_blank"
+                            rel="noopener">Laravel development services</a> or <a
+                            href="https://acquaintsoft.com/hire-laravel-developers" target="_blank" rel="noopener">hire
+                            Laravel developers</a> from Acquaint Softtech to accelerate your project.</p>
                     <blockquote>"The bridge is the most critical part of the cross-platform experience."</blockquote>
                 </div>
 
@@ -485,8 +1061,10 @@ adb logcat *:E | grep "NativePHP"</code></pre>
                 <div class="post-footer">
                     <a class="back" href="/blog/">← All articles</a>
                     <div class="share">
-                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/nativephp-android-research-fixes/&text=NativePHP on Android: The Missing Research & Fixes" target="_blank" rel="noopener">Share on X</a>
-                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/nativephp-android-research-fixes/" target="_blank" rel="noopener">LinkedIn</a>
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/nativephp-android-research-fixes/&text=NativePHP on Android: The Missing Research & Fixes"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/nativephp-android-research-fixes/"
+                            target="_blank" rel="noopener">LinkedIn</a>
                     </div>
                 </div>
             </article>
@@ -503,49 +1081,51 @@ adb logcat *:E | grep "NativePHP"</code></pre>
                 <a href="/privacy-policy/snake-reborn/">Privacy</a>
             </div>
             <div class="footer-links">
-                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter" title="Visitor Counter">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
                     <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
                     <span>visitors</span>
                 </a>
-                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤ Sponsor</a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
             </div>
         </footer>
     </div>
 
     <script>
         // theme toggle
-        (function(){
-            const meta=document.querySelector('meta[name="color-scheme"]');
-            const btn=document.getElementById('themeToggle');
-            const root=document.documentElement;
-            function sysDark(){return matchMedia('(prefers-color-scheme: dark)').matches;}
-            function curDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return sysDark();}
-            btn.addEventListener('click',function(){const n=curDark()?'light':'dark';localStorage.setItem('color-scheme',n);meta.content=n;root.dataset.theme=n;});
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
         })();
         // reading progress
-        (function(){
-            const bar=document.getElementById('progress');
-            addEventListener('scroll',function(){const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';},{passive:true});
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
         })();
         // comments (utterances)
-        (function(){
-            function isDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return matchMedia('(prefers-color-scheme: dark)').matches;}
-            function initComments(){
-                if(document.querySelector('.utterances-frame'))return;
-                const s=document.createElement('script');
-                s.src='https://utteranc.es/client.js';
-                s.setAttribute('repo','theunwindfront/theunwindfront.github.io');
-                s.setAttribute('issue-term','pathname');
-                s.setAttribute('label','comment');
-                s.setAttribute('theme', isDark()?'github-dark':'github-light');
-                s.setAttribute('crossorigin','anonymous');
-                s.async=true;
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
                 document.getElementById('comments-container').appendChild(s);
             }
-            setTimeout(initComments,300);
-            document.getElementById('themeToggle').addEventListener('click',function(){
-                const f=document.querySelector('.utterances-frame');
-                if(f)f.contentWindow.postMessage({type:'set-theme',theme:isDark()?'github-dark':'github-light'},'https://utteranc.es');
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
             });
         })();
     </script>

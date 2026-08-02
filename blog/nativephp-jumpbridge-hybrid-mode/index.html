@@ -3,11 +3,14 @@
 
 <head>
     <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
     <!-- End Google Tag Manager -->
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
     <link rel="llms" href="/llms.txt">
@@ -35,14 +38,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="twitter:image" content="https://sagarpansuriya.in/blog/nativephp-jumpbridge-hybrid-mode/cover.png">
     <meta name="twitter:creator" content="@frontendbysagar">
 
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="apple-touch-icon" href="/favicon.png">
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
     <meta name="msapplication-TileColor" content="#5b5bd6">
     <meta name="theme-color" content="#5b5bd6">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
     <!-- BlogPosting Structured Data for AI Search -->
     <script type="application/ld+json">
@@ -73,7 +78,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 "url": "https://sagarpansuriya.in/",
                 "logo": {
                         "@type": "ImageObject",
-                        "url": "https://sagarpansuriya.in/favicon.png"
+                        "url": "https://sagarpansuriya.in/favicon.jpg"
                 }
         },
         "datePublished": "2026-03-20",
@@ -105,13 +110,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <style>
         :root {
             color-scheme: light dark;
-            --paper-l: #faf9f6; --paper-d: #0e0e0f;
-            --panel-l: #f1efe9; --panel-d: #17171a;
-            --code-l: #f4f2ec; --code-d: #131316;
-            --ink-l: #1a1a1a; --ink-d: #e8e6e1;
-            --muted-l: #6b6b6b; --muted-d: #8f8d88;
-            --line-l: #e2ded4; --line-d: #262629;
-            --accent-l: #5b5bd6; --accent-d: #8f8fef;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
             --paper: light-dark(var(--paper-l), var(--paper-d));
             --panel: light-dark(var(--panel-l), var(--panel-d));
             --code-bg: light-dark(var(--code-l), var(--code-d));
@@ -124,106 +136,518 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
             accent-color: var(--accent);
         }
-        :root[data-theme="light"] { color-scheme: light; }
-        :root[data-theme="dark"] { color-scheme: dark; }
-        *, *::before, *::after { box-sizing: border-box; }
-        html { scrollbar-gutter: stable; }
-        body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
-        a { color: inherit; }
-        .wrap { max-width: 46rem; margin-inline: auto; padding: clamp(1.25rem, 4vw, 2rem); }
 
-        .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem 0; }
-        .brand { font-family: var(--mono); font-size: 0.8rem; text-decoration: none; color: var(--ink); }
-        .brand b { color: var(--accent); }
-        .top-nav { display: flex; gap: clamp(0.9rem, 3vw, 1.6rem); align-items: center; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; }
-        .top-nav a { text-decoration: none; color: var(--muted); padding-block: 0.35rem; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
-        .top-nav a:hover, .top-nav a[aria-current] { color: var(--ink); border-color: var(--accent); }
-        .theme-toggle { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.7rem; cursor: pointer; transition: color .2s, border-color .2s; }
-        .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
-
-        .post-cat { display:inline-block; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); text-decoration:none; margin-top: 2.5rem; }
-        .post-title { font-family: var(--serif); font-weight: 600; font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem); line-height: 1.08; letter-spacing: -0.02em; margin: 0.75rem 0 1.25rem; }
-        .post-meta { display:flex; flex-wrap:wrap; align-items:center; gap: 0.75rem 1rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
-        .post-meta img { width: 2.25rem; height: 2.25rem; border-radius: 50%; object-fit: cover; }
-        .post-meta a { color: var(--ink); text-decoration: none; }
-        .post-meta a:hover { color: var(--accent); }
-        .post-meta .sep { color: var(--line); }
-        .post-cover { margin: 2rem 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
-        .post-cover img { display:block; width: 100%; height: auto; }
-
-        .prose { font-family: var(--serif); font-size: 1.2rem; line-height: 1.75; color: var(--ink); }
-        .prose > *:first-child { margin-top: 0; }
-        .prose p { margin: 0 0 1.4rem; }
-        .prose h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem); line-height: 1.2; letter-spacing: -0.01em; margin: 2.6rem 0 1rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
-        .prose h3 { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; margin: 2rem 0 0.75rem; }
-        .prose h4 { font-family: var(--sans); font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 1.8rem 0 0.6rem; }
-        .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); }
-        .prose a:hover { border-bottom-color: var(--accent); }
-        .prose ul, .prose ol { margin: 0 0 1.4rem; padding-left: 1.4rem; }
-        .prose li { margin-bottom: 0.5rem; }
-        .prose li::marker { color: var(--accent); }
-        .prose strong { font-weight: 700; color: var(--ink); }
-        .prose em { font-style: italic; }
-        .prose blockquote { margin: 1.6rem 0; padding: 0.4rem 0 0.4rem 1.25rem; border-left: 2px solid var(--accent); color: var(--muted); font-style: italic; }
-        .prose img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; margin: 1.6rem 0; }
-        .prose hr { border: none; border-top: 1px solid var(--line); margin: 2.5rem 0; }
-
-        .prose :not(pre) > code { font-family: var(--mono); font-size: 0.86em; background: var(--code-bg); border: 1px solid var(--line); border-radius: 5px; padding: 0.1em 0.4em; color: var(--ink); }
-        .prose pre, pre.code-block { font-family: var(--mono); font-size: 0.82rem; line-height: 1.6; background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; overflow-x: auto; margin: 1.6rem 0; color: var(--ink); }
-        .prose pre code, pre.code-block code { font-family: var(--mono); background: none; border: none; padding: 0; font-size: inherit; color: inherit; white-space: pre; }
-
-        .prose table { width: 100%; border-collapse: collapse; margin: 1.6rem 0; font-family: var(--sans); font-size: 0.95rem; display: block; overflow-x: auto; }
-        .prose th, .prose td { text-align: left; padding: 0.65rem 0.85rem; border: 1px solid var(--line); vertical-align: top; }
-        .prose th { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--panel); }
-
-        .comments { margin-top: 3rem; }
-        .comments h2 { font-family: var(--serif); font-weight: 600; font-size: 1.6rem; border-top: 1px solid var(--line); padding-top: 1.4rem; margin: 0 0 1rem; }
-
-        .post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display:flex; flex-wrap:wrap; gap: 1rem; justify-content: space-between; align-items:center; }
-        .post-footer a.back { font-family: var(--mono); font-size: 0.75rem; text-decoration:none; color: var(--accent); }
-        .share { display:flex; gap: 0.5rem; }
-        .share a { font-family: var(--mono); font-size: 0.72rem; text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.7rem; }
-        .share a:hover { color: var(--accent); border-color: var(--accent); }
-
-        #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--accent); z-index: 100; transition: width .1s linear; }
-
-        footer.site { border-top: 1px solid var(--line); margin-top: 3rem; padding-block: 2rem; display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
-        footer.site a { color: var(--muted); text-decoration:none; }
-        footer.site a:hover { color: var(--accent); }
-        .footer-links { display:flex; flex-wrap:wrap; gap:1rem; }
-
-        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
-        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } #progress { transition: none; } }
-    
-        .counter { display: inline-flex; align-items: center; gap: 0.45rem; }
-        .counter img { height: 0.7rem; width: auto; opacity: 0.7; }
-        :root[data-theme="light"] .counter img { filter: invert(1); }
-        .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
-        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
-
-    
-        /* mobile-header-fix */
-        html, body { overflow-x: hidden; }
-        .topbar { flex-wrap: wrap; row-gap: 0.75rem; }
-        .brand { white-space: nowrap; }
-        .top-nav { flex-wrap: wrap; }
-        @media (max-width: 30rem) {
-            .topbar { align-items: flex-start; }
-            .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
+        :root[data-theme="light"] {
+            color-scheme: light;
         }
 
-    
-        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
-        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
 
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
     </style>
 </head>
 
 <body>
     <div id="progress"></div>
     <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
     <div class="wrap">
         <header class="topbar">
@@ -233,7 +657,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <a href="/showcase/">Work</a>
                 <a href="/talks/">Talks</a>
                 <a href="/cv/">CV</a>
-                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">Theme</button>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
             </nav>
         </header>
 
@@ -242,8 +667,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <a class="post-cat" href="/blog/?category=NativePHP">§ NativePHP</a>
                 <h1 class="post-title">Uncovering NativePHP's Hidden Gem: The "JumpBridge" Hybrid Mode</h1>
                 <div class="post-meta">
-                    <img src="/profile.jpg" alt="Sagar Pansuriya">
-                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar Pansuriya</a>
+                    <img src="/profile.png" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
                     <span class="sep">·</span>
                     <time datetime="2026-03-20">Mar 20, 2026</time>
                     <span class="sep">·</span>
@@ -253,33 +679,69 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <div class="post-cover"><img src="cover.png" alt="NativePHP Android Cover"></div>
 
                 <div class="prose">
-                    <p><a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> has been making waves by taking <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> out of the browser and putting it onto the desktop. But with the recent introduction of <strong><a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> Mobile</strong>, a massive new challenge emerged: the mobile compilation cycle.</p>
+                    <p><a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> has
+                        been making waves by taking <a href="https://www.php.net" target="_blank" rel="noopener"
+                            class="techlink">PHP</a> out of the browser and putting it onto the desktop. But with the
+                        recent introduction of <strong><a href="https://nativephp.com" target="_blank" rel="noopener"
+                                class="techlink">NativePHP</a> Mobile</strong>, a massive new challenge emerged: the
+                        mobile compilation cycle.</p>
 
-                    <p>If you've ever built a mobile app, you know the pain. Tweak a UI component, recompile the app, wait for the iOS Simulator or Android Emulator to boot, and navigate back to your screen just to see if your padding was correct. It’s agonizing.</p>
+                    <p>If you've ever built a mobile app, you know the pain. Tweak a UI component, recompile the app,
+                        wait for the iOS Simulator or Android Emulator to boot, and navigate back to your screen just to
+                        see if your padding was correct. It’s agonizing.</p>
 
-                    <p>But deep within the <code>nativephp/mobile-air</code> codebase lies a hidden gem—a fascinating architectural mechanism designed to solve this exact problem. It's called <strong>Jump Hybrid Mode</strong>, and it completely rethinks how <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> communicates with a mobile device during development.</p>
+                    <p>But deep within the <code>nativephp/mobile-air</code> codebase lies a hidden gem—a fascinating
+                        architectural mechanism designed to solve this exact problem. It's called <strong>Jump Hybrid
+                            Mode</strong>, and it completely rethinks how <a href="https://www.php.net" target="_blank"
+                            rel="noopener" class="techlink">PHP</a> communicates with a mobile device during
+                        development.</p>
 
                     <hr>
 
                     <h2>The Problem with Native Execution</h2>
 
-                    <p>When a <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> app runs in production on a mobile device, a compiled <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> binary runs directly on the phone. To allow <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> to talk to the device's native APIs (like the camera, secure storage, or haptics), <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> uses a custom C extension. This extension exposes functions like <code>nativephp_call()</code> to bridge the gap between <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> and native Swift/Kotlin code.</p>
+                    <p>When a <a href="https://nativephp.com" target="_blank" rel="noopener"
+                            class="techlink">NativePHP</a> app runs in production on a mobile device, a compiled <a
+                            href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> binary
+                        runs directly on the phone. To allow <a href="https://www.php.net" target="_blank"
+                            rel="noopener" class="techlink">PHP</a> to talk to the device's native APIs (like the
+                        camera, secure storage, or haptics), <a href="https://nativephp.com" target="_blank"
+                            rel="noopener" class="techlink">NativePHP</a> uses a custom C extension. This extension
+                        exposes functions like <code>nativephp_call()</code> to bridge the gap between <a
+                            href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> and
+                        native Swift/Kotlin code.</p>
 
-                    <p>But during development, copying your entire <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> app over to a simulator and recompiling the native shell every time you change a Blade view would kill developer velocity.</p>
+                    <p>But during development, copying your entire <a href="https://laravel.com" target="_blank"
+                            rel="noopener" class="techlink">Laravel</a> app over to a simulator and recompiling the
+                        native shell every time you change a Blade view would kill developer velocity.</p>
 
-                    <p>To get around this, the <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> team built the <strong>JumpBridge</strong>.</p>
+                    <p>To get around this, the <a href="https://nativephp.com" target="_blank" rel="noopener"
+                            class="techlink">NativePHP</a> team built the <strong>JumpBridge</strong>.</p>
 
                     <h2>Enter the JumpBridge</h2>
 
-                    <p>If I look inside <code>src/JumpBridge.php</code> and <code>src/jump_bridge_functions.php</code> in the <code>mobile-air</code> codebase, I can see exactly how they bypassed the compilation cycle.</p>
+                    <p>If I look inside <code>src/JumpBridge.php</code> and <code>src/jump_bridge_functions.php</code>
+                        in the <code>mobile-air</code> codebase, I can see exactly how they bypassed the compilation
+                        cycle.</p>
 
-                    <p>In "Jump" mode, <strong><a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> doesn't run on your mobile device at all.</strong> Instead, your <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> application runs locally on your development machine (just like a normal web app), while the native UI shell runs on the simulator.</p>
+                    <p>In "Jump" mode, <strong><a href="https://www.php.net" target="_blank" rel="noopener"
+                                class="techlink">PHP</a> doesn't run on your mobile device at all.</strong> Instead,
+                        your <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a>
+                        application runs locally on your development machine (just like a normal web app), while the
+                        native UI shell runs on the simulator.</p>
 
-                    <p>But if <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> is running on your Mac, and the native APIs are running on the iPhone Simulator, how does <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> trigger a native device feature?</p>
+                    <p>But if <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> is
+                        running on your Mac, and the native APIs are running on the iPhone Simulator, how does <a
+                            href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> trigger a
+                        native device feature?</p>
 
                     <h3>The Pure-PHP Polyfill</h3>
 
-                    <p>The magic starts in <code>jump_bridge_functions.php</code>. If the <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> C extension isn't loaded (which is the case on your local machine), <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> injects a pure-PHP fallback implementation of the core bridge functions:</p>
+                    <p>The magic starts in <code>jump_bridge_functions.php</code>. If the <a
+                            href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> C
+                        extension isn't loaded (which is the case on your local machine), <a
+                            href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a>
+                        injects a pure-PHP fallback implementation of the core bridge functions:</p>
 
                     <pre class="code-block"><code class="language-php">if (! function_exists('nativephp_call')) {
     function nativephp_call(string $method, string $params = '{}'): ?string
@@ -288,11 +750,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
 }</code></pre>
 
-                    <p>Instead of executing C code, this fallback routes all native requests through the <code>JumpBridge</code> class.</p>
+                    <p>Instead of executing C code, this fallback routes all native requests through the
+                        <code>JumpBridge</code> class.
+                    </p>
 
                     <h3>The TCP Socket Relay</h3>
 
-                    <p>Inside <code>JumpBridge.php</code>, I find that the framework establishes a persistent <strong>TCP socket connection</strong> to a local bridge server (usually running on port 3001 or 3002).</p>
+                    <p>Inside <code>JumpBridge.php</code>, I find that the framework establishes a persistent
+                        <strong>TCP socket connection</strong> to a local bridge server (usually running on port 3001 or
+                        3002).
+                    </p>
 
                     <pre class="code-block"><code class="language-php">// Inside JumpBridge::call()
 $message = json_encode([
@@ -311,28 +778,38 @@ $response = $this->readResponse();</code></pre>
 
                     <p>Here is the full lifecycle of a native call in Jump Mode:</p>
                     <ol>
-                        <li>Your <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> controller calls <code>Camera::getPhoto()</code>.</li>
-                        <li>The <code>JumpBridge</code> intercepts this call, wraps it in JSON, and fires it over a TCP socket to a local WebSocket relay server.</li>
+                        <li>Your <a href="https://laravel.com" target="_blank" rel="noopener"
+                                class="techlink">Laravel</a> controller calls <code>Camera::getPhoto()</code>.</li>
+                        <li>The <code>JumpBridge</code> intercepts this call, wraps it in JSON, and fires it over a TCP
+                            socket to a local WebSocket relay server.</li>
                         <li>The relay server instantly forwards that JSON over a WebSocket to the mobile simulator.</li>
-                        <li>The simulator reads the JSON, executes the native Swift/Kotlin camera code, and sends the result back through the WebSocket.</li>
+                        <li>The simulator reads the JSON, executes the native Swift/Kotlin camera code, and sends the
+                            result back through the WebSocket.</li>
                         <li>The relay server pushes the result back through the TCP socket.</li>
-                        <li>The <code>JumpBridge</code> decodes the result and hands it back to your <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> script synchronously.</li>
+                        <li>The <code>JumpBridge</code> decodes the result and hands it back to your <a
+                                href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a>
+                            script synchronously.</li>
                     </ol>
 
                     <h3>Solving the TCP Stream Problem: Length-Prefixed Framing</h3>
 
-                    <p>One of the notorious challenges of raw TCP sockets is that they are <em>streams</em>, not discrete messages. If the device sends a massive JSON payload (like a base64 encoded photo), the TCP stream might break it into multiple packets.</p>
+                    <p>One of the notorious challenges of raw TCP sockets is that they are <em>streams</em>, not
+                        discrete messages. If the device sends a massive JSON payload (like a base64 encoded photo), the
+                        TCP stream might break it into multiple packets.</p>
 
                     <p>How does <code>JumpBridge</code> know when the JSON message ends?</p>
 
-                    <p>By implementing a classic 4-byte big-endian length-prefixed framing protocol. Before sending any JSON, the bridge prepends a 32-bit integer (<code>pack('N', ...)</code>) representing the exact byte length of the payload:</p>
+                    <p>By implementing a classic 4-byte big-endian length-prefixed framing protocol. Before sending any
+                        JSON, the bridge prepends a 32-bit integer (<code>pack('N', ...)</code>) representing the exact
+                        byte length of the payload:</p>
 
                     <pre class="code-block"><code class="language-php">// Sending data
 $message = json_encode([...]);
 $packed = pack('N', strlen($message)) . $message;
 fwrite($this->socket, $packed);</code></pre>
 
-                    <p>When receiving data, it reads exactly 4 bytes first, unpacks them to find the payload size, and then loops on <code>fread</code> until it receives that exact number of bytes:</p>
+                    <p>When receiving data, it reads exactly 4 bytes first, unpacks them to find the payload size, and
+                        then loops on <code>fread</code> until it receives that exact number of bytes:</p>
 
                     <pre class="code-block"><code class="language-php">// Reading data
 $lengthData = $this->readExact(4);
@@ -342,13 +819,21 @@ $length = $unpacked[1];
 // Read exactly $length bytes to construct the full JSON
 return $this->readExact($length);</code></pre>
 
-                    <p>This ensures that even over a flaky local network connection, the <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> script and the mobile device never truncate or mangle the JSON payloads.</p>
+                    <p>This ensures that even over a flaky local network connection, the <a href="https://www.php.net"
+                            target="_blank" rel="noopener" class="techlink">PHP</a> script and the mobile device never
+                        truncate or mangle the JSON payloads.</p>
 
                     <h2>The Hot-Reloading Magic</h2>
 
-                    <p>Because the <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> process stays entirely resident on your local machine, <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> achieves an incredibly fast hot-reloading experience.</p>
+                    <p>Because the <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a>
+                        process stays entirely resident on your local machine, <a href="https://nativephp.com"
+                            target="_blank" rel="noopener" class="techlink">NativePHP</a> achieves an incredibly fast
+                        hot-reloading experience.</p>
 
-                    <p>If I look at <code>nativephp_element_wait_event()</code> in the bridge file, I can see how <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> forces a re-render when you save a file. The device monitors for changes and sends back an event type of <code>15</code> (<code>EVENT_HOT_RELOAD</code>).</p>
+                    <p>If I look at <code>nativephp_element_wait_event()</code> in the bridge file, I can see how <a
+                            href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a>
+                        forces a re-render when you save a file. The device monitors for changes and sends back an event
+                        type of <code>15</code> (<code>EVENT_HOT_RELOAD</code>).</p>
 
                     <pre class="code-block"><code class="language-php">if (($decoded['type'] ?? -1) === 15) { // EVENT_HOT_RELOAD
     // ... debounce logic ...
@@ -364,13 +849,23 @@ return $this->readExact($length);</code></pre>
     return null; // loop continues → render() picks up fresh views
 }</code></pre>
 
-                    <p>When you hit save in your editor, the bridge simply deletes the compiled Blade views (<code>storage/framework/views/*.php</code>) and tells the long-running <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> process to loop again. No restarting PHP. No recompiling Swift. No rebuilding the app. It just dynamically flushes the cache and re-renders the new UI instantly.</p>
+                    <p>When you hit save in your editor, the bridge simply deletes the compiled Blade views
+                        (<code>storage/framework/views/*.php</code>) and tells the long-running <a
+                            href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> process
+                        to loop again. No restarting PHP. No recompiling Swift. No rebuilding the app. It just
+                        dynamically flushes the cache and re-renders the new UI instantly.</p>
 
                     <h3>The Ingenious Hot-Reload Debouncer</h3>
 
-                    <p>There’s one subtle issue with file watchers: hitting <code>Cmd+S</code> or <code>Ctrl+S</code> often triggers multiple filesystem events in rapid succession (e.g., an OS might fire a "modify" and "change" event within milliseconds). If the device forwarded every single event, the <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> application would furiously delete and re-compile Blade views multiple times per second, causing lag or race conditions.</p>
+                    <p>There’s one subtle issue with file watchers: hitting <code>Cmd+S</code> or <code>Ctrl+S</code>
+                        often triggers multiple filesystem events in rapid succession (e.g., an OS might fire a "modify"
+                        and "change" event within milliseconds). If the device forwarded every single event, the <a
+                            href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a>
+                        application would furiously delete and re-compile Blade views multiple times per second, causing
+                        lag or race conditions.</p>
 
-                    <p>To prevent this, <code>nativephp_element_wait_event</code> employs a clever static debounce timer directly inside the function:</p>
+                    <p>To prevent this, <code>nativephp_element_wait_event</code> employs a clever static debounce timer
+                        directly inside the function:</p>
 
                     <pre class="code-block"><code class="language-php">static $lastHotReload = 0;
 $now = time();
@@ -381,20 +876,37 @@ if ($now - $lastHotReload < 2) {
 }
 $lastHotReload = $now;</code></pre>
 
-                    <p>Because <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> processes in <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> Mobile use a long-running execution loop (similar to <a href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a> Octane), static variables maintain their state across loop iterations. By utilizing <code>static $lastHotReload</code>, the bridge simply ignores any subsequent hot reload events that happen within two seconds of the first one.</p>
+                    <p>Because <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a>
+                        processes in <a href="https://nativephp.com" target="_blank" rel="noopener"
+                            class="techlink">NativePHP</a> Mobile use a long-running execution loop (similar to <a
+                            href="https://laravel.com" target="_blank" rel="noopener" class="techlink">Laravel</a>
+                        Octane), static variables maintain their state across loop iterations. By utilizing
+                        <code>static $lastHotReload</code>, the bridge simply ignores any subsequent hot reload events
+                        that happen within two seconds of the first one.
+                    </p>
 
                     <h2>Conclusion</h2>
 
-                    <p>The JumpBridge is a brilliant piece of engineering. By decoupling the <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> execution environment from the native mobile shell during development, <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> allows developers to maintain the rapid, sub-second feedback loop of web development while still building true, native mobile applications.</p>
+                    <p>The JumpBridge is a brilliant piece of engineering. By decoupling the <a
+                            href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> execution
+                        environment from the native mobile shell during development, <a href="https://nativephp.com"
+                            target="_blank" rel="noopener" class="techlink">NativePHP</a> allows developers to maintain
+                        the rapid, sub-second feedback loop of web development while still building true, native mobile
+                        applications.</p>
 
-                    <p>It’s hidden mechanisms like these that make <a href="https://nativephp.com" target="_blank" rel="noopener" class="techlink">NativePHP</a> such a powerful tool for modern <a href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a> developers looking to conquer the mobile frontier.</p>
+                    <p>It’s hidden mechanisms like these that make <a href="https://nativephp.com" target="_blank"
+                            rel="noopener" class="techlink">NativePHP</a> such a powerful tool for modern <a
+                            href="https://www.php.net" target="_blank" rel="noopener" class="techlink">PHP</a>
+                        developers looking to conquer the mobile frontier.</p>
                 </div>
 
                 <div class="post-footer">
                     <a class="back" href="/blog/">← All articles</a>
                     <div class="share">
-                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/nativephp-jumpbridge-hybrid-mode/&text=Uncovering NativePHP's Hidden Gem: The JumpBridge Hybrid Mode" target="_blank" rel="noopener">Share on X</a>
-                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/nativephp-jumpbridge-hybrid-mode/" target="_blank" rel="noopener">LinkedIn</a>
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/nativephp-jumpbridge-hybrid-mode/&text=Uncovering NativePHP's Hidden Gem: The JumpBridge Hybrid Mode"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/nativephp-jumpbridge-hybrid-mode/"
+                            target="_blank" rel="noopener">LinkedIn</a>
                     </div>
                 </div>
             </article>
@@ -411,29 +923,31 @@ $lastHotReload = $now;</code></pre>
                 <a href="/privacy-policy/snake-reborn/">Privacy</a>
             </div>
             <div class="footer-links">
-                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter" title="Visitor Counter">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
                     <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
                     <span>visitors</span>
                 </a>
-                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤ Sponsor</a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
             </div>
         </footer>
     </div>
 
     <script>
         // theme toggle
-        (function(){
-            const meta=document.querySelector('meta[name="color-scheme"]');
-            const btn=document.getElementById('themeToggle');
-            const root=document.documentElement;
-            function sysDark(){return matchMedia('(prefers-color-scheme: dark)').matches;}
-            function curDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return sysDark();}
-            btn.addEventListener('click',function(){const n=curDark()?'light':'dark';localStorage.setItem('color-scheme',n);meta.content=n;root.dataset.theme=n;});
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
         })();
         // reading progress
-        (function(){
-            const bar=document.getElementById('progress');
-            addEventListener('scroll',function(){const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';},{passive:true});
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
         })();
     </script>
 </body>

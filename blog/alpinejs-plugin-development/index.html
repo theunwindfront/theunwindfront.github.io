@@ -3,11 +3,14 @@
 
 <head>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-5ZMSCJFM');</script>
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
     <!-- End Google Tag Manager -->
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
     <link rel="llms" href="/llms.txt">
@@ -22,7 +25,8 @@
     <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="og:title" content="Alpine.js Plugins: Extending the Alpine Core">
-    <meta property="og:description" content="Learn how to write custom Alpine.js plugins by building three practical extensions: reactive storage, keyboard shortcuts, and lightweight forms validation.">
+    <meta property="og:description"
+        content="Learn how to write custom Alpine.js plugins by building three practical extensions: reactive storage, keyboard shortcuts, and lightweight forms validation.">
     <meta property="og:image" content="https://sagarpansuriya.in/blog/alpinejs-plugin-development/cover.png">
     <meta property="og:url" content="https://sagarpansuriya.in/blog/alpinejs-plugin-development/">
     <meta property="og:site_name" content="The Unwind Method">
@@ -30,18 +34,21 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Alpine.js Plugins: Extending the Alpine Core">
-    <meta name="twitter:description" content="Learn how to write custom Alpine.js plugins by building three practical extensions: reactive storage, keyboard shortcuts, and lightweight forms validation.">
+    <meta name="twitter:description"
+        content="Learn how to write custom Alpine.js plugins by building three practical extensions: reactive storage, keyboard shortcuts, and lightweight forms validation.">
     <meta name="twitter:image" content="https://sagarpansuriya.in/blog/alpinejs-plugin-development/cover.png">
     <meta name="twitter:creator" content="@frontendbysagar">
 
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="apple-touch-icon" href="/favicon.png">
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
     <meta name="msapplication-TileColor" content="#5b5bd6">
     <meta name="theme-color" content="#5b5bd6">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
     <!-- Alpine.js (kept — this post has live interactive demos in the body) -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -59,13 +66,20 @@
     <style>
         :root {
             color-scheme: light dark;
-            --paper-l: #faf9f6; --paper-d: #0e0e0f;
-            --panel-l: #f1efe9; --panel-d: #17171a;
-            --code-l: #f4f2ec; --code-d: #131316;
-            --ink-l: #1a1a1a; --ink-d: #e8e6e1;
-            --muted-l: #6b6b6b; --muted-d: #8f8d88;
-            --line-l: #e2ded4; --line-d: #262629;
-            --accent-l: #5b5bd6; --accent-d: #8f8fef;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
             --paper: light-dark(var(--paper-l), var(--paper-d));
             --panel: light-dark(var(--panel-l), var(--panel-d));
             --code-bg: light-dark(var(--code-l), var(--code-d));
@@ -78,109 +92,604 @@
             --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
             accent-color: var(--accent);
         }
-        :root[data-theme="light"] { color-scheme: light; }
-        :root[data-theme="dark"] { color-scheme: dark; }
-        *, *::before, *::after { box-sizing: border-box; }
-        html { scrollbar-gutter: stable; }
-        body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
-        a { color: inherit; }
-        .wrap { max-width: 46rem; margin-inline: auto; padding: clamp(1.25rem, 4vw, 2rem); }
 
-        .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem 0; }
-        .brand { font-family: var(--mono); font-size: 0.8rem; text-decoration: none; color: var(--ink); }
-        .brand b { color: var(--accent); }
-        .top-nav { display: flex; gap: clamp(0.9rem, 3vw, 1.6rem); align-items: center; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; }
-        .top-nav a { text-decoration: none; color: var(--muted); padding-block: 0.35rem; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
-        .top-nav a:hover, .top-nav a[aria-current] { color: var(--ink); border-color: var(--accent); }
-        .theme-toggle { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 0.3rem 0.7rem; cursor: pointer; transition: color .2s, border-color .2s; }
-        .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
-
-        .post-cat { display:inline-block; font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); text-decoration:none; margin-top: 2.5rem; }
-        .post-title { font-family: var(--serif); font-weight: 600; font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem); line-height: 1.08; letter-spacing: -0.02em; margin: 0.75rem 0 1.25rem; }
-        .post-meta { display:flex; flex-wrap:wrap; align-items:center; gap: 0.75rem 1rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
-        .post-meta img { width: 2.25rem; height: 2.25rem; border-radius: 50%; object-fit: cover; }
-        .post-meta a { color: var(--ink); text-decoration: none; }
-        .post-meta a:hover { color: var(--accent); }
-        .post-meta .sep { color: var(--line); }
-        .post-cover { margin: 2rem 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
-        .post-cover img { display:block; width: 100%; height: auto; }
-
-        .prose { font-family: var(--serif); font-size: 1.2rem; line-height: 1.75; color: var(--ink); }
-        .prose > *:first-child { margin-top: 0; }
-        .prose p { margin: 0 0 1.4rem; }
-        .prose h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem); line-height: 1.2; letter-spacing: -0.01em; margin: 2.6rem 0 1rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
-        .prose h3 { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; margin: 2rem 0 0.75rem; }
-        .prose h4 { font-family: var(--sans); font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 1.8rem 0 0.6rem; }
-        .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); }
-        .prose a:hover { border-bottom-color: var(--accent); }
-        .prose ul, .prose ol { margin: 0 0 1.4rem; padding-left: 1.4rem; }
-        .prose li { margin-bottom: 0.5rem; }
-        .prose li::marker { color: var(--accent); }
-        .prose strong { font-weight: 700; color: var(--ink); }
-        .prose em { font-style: italic; }
-        .prose blockquote { margin: 1.6rem 0; padding: 0.4rem 0 0.4rem 1.25rem; border-left: 2px solid var(--accent); color: var(--muted); font-style: italic; }
-        .prose img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; margin: 1.6rem 0; }
-        .prose hr { border: none; border-top: 1px solid var(--line); margin: 2.5rem 0; }
-
-        .prose :not(pre) > code { font-family: var(--mono); font-size: 0.86em; background: var(--code-bg); border: 1px solid var(--line); border-radius: 5px; padding: 0.1em 0.4em; color: var(--ink); }
-        .prose pre, pre.code-block { font-family: var(--mono); font-size: 0.82rem; line-height: 1.6; background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; overflow-x: auto; margin: 1.6rem 0; color: var(--ink); }
-        .prose pre code, pre.code-block code { font-family: var(--mono); background: none; border: none; padding: 0; font-size: inherit; color: inherit; white-space: pre; }
-
-        .prose table { width: 100%; border-collapse: collapse; margin: 1.6rem 0; font-family: var(--sans); font-size: 0.95rem; display: block; overflow-x: auto; }
-        .prose th, .prose td { text-align: left; padding: 0.65rem 0.85rem; border: 1px solid var(--line); vertical-align: top; }
-        .prose th { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--panel); }
-
-        /* live interactive Alpine demos */
-        .demo{border:1px solid var(--line);border-radius:10px;padding:1.25rem;background:var(--panel);margin:1.6rem 0;}
-        .demo .demo-label{font-family:var(--mono);font-size:0.62rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--accent);display:block;margin-bottom:0.75rem;}
-        .demo input{font-family:var(--sans);font-size:0.95rem;padding:0.5rem 0.7rem;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);width:100%;max-width:22rem;}
-        .demo input.invalid{border-color:#e5484d;}
-        .demo p{font-family:var(--sans);font-size:0.95rem;margin:0.75rem 0 0;color:var(--ink);}
-        .demo kbd{font-family:var(--mono);font-size:0.75rem;background:var(--code-bg);border:1px solid var(--line);border-radius:4px;padding:0.1em 0.4em;}
-        .demo .panel{margin-top:0.75rem;padding:0.7rem 0.9rem;border-radius:8px;background:var(--accent);color:#fff;font-family:var(--sans);font-size:0.9rem;}
-        .demo .err{font-family:var(--sans);font-size:0.78rem;color:#e5484d;margin-top:0.35rem;min-height:1rem;}
-        .demo button{font-family:var(--mono);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;background:var(--accent);color:#fff;border:none;border-radius:6px;padding:0.45rem 0.9rem;cursor:pointer;}
-        .demo .field{margin-bottom:0.9rem;}
-        .demo label{display:block;font-family:var(--sans);font-size:0.85rem;color:var(--muted);margin-bottom:0.35rem;}
-
-        .comments { margin-top: 3rem; }
-        .comments h2 { font-family: var(--serif); font-weight: 600; font-size: 1.6rem; border-top: 1px solid var(--line); padding-top: 1.4rem; margin: 0 0 1rem; }
-
-        .post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display:flex; flex-wrap:wrap; gap: 1rem; justify-content: space-between; align-items:center; }
-        .post-footer a.back { font-family: var(--mono); font-size: 0.75rem; text-decoration:none; color: var(--accent); }
-        .share { display:flex; gap: 0.5rem; }
-        .share a { font-family: var(--mono); font-size: 0.72rem; text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.7rem; }
-        .share a:hover { color: var(--accent); border-color: var(--accent); }
-
-        #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--accent); z-index: 100; transition: width .1s linear; }
-
-        footer.site { border-top: 1px solid var(--line); margin-top: 3rem; padding-block: 2rem; display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; align-items:center; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
-        footer.site a { color: var(--muted); text-decoration:none; }
-        footer.site a:hover { color: var(--accent); }
-        .footer-links { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; }
-        .sponsor { border: 1px dashed light-dark(#d99, #c77); color: light-dark(#c25, #f79); border-radius: 999px; padding: 0.3rem 0.8rem; }
-        .sponsor:hover { color: light-dark(#a13, #fab) !important; }
-        .counter { display: inline-flex; align-items: center; gap: 0.45rem; }
-        .counter img { height: 0.7rem; width: auto; opacity: 0.7; }
-        :root[data-theme="light"] .counter img { filter: invert(1); }
-
-        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
-        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } #progress { transition: none; } }
-    
-        /* mobile-header-fix */
-        html, body { overflow-x: hidden; }
-        .topbar { flex-wrap: wrap; row-gap: 0.75rem; }
-        .brand { white-space: nowrap; }
-        .top-nav { flex-wrap: wrap; }
-        @media (max-width: 30rem) {
-            .topbar { align-items: flex-start; }
-            .top-nav { width: 100%; gap: 0.75rem 1.1rem; }
+        :root[data-theme="light"] {
+            color-scheme: light;
         }
 
-    
-        .techlink { color: inherit; text-decoration: none; border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent); }
-        .techlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
 
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* live interactive Alpine demos */
+        .demo {
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.25rem;
+            background: var(--panel);
+            margin: 1.6rem 0;
+        }
+
+        .demo .demo-label {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+
+        .demo input {
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            padding: 0.5rem 0.7rem;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            background: var(--paper);
+            color: var(--ink);
+            width: 100%;
+            max-width: 22rem;
+        }
+
+        .demo input.invalid {
+            border-color: #e5484d;
+        }
+
+        .demo p {
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            margin: 0.75rem 0 0;
+            color: var(--ink);
+        }
+
+        .demo kbd {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 0.1em 0.4em;
+        }
+
+        .demo .panel {
+            margin-top: 0.75rem;
+            padding: 0.7rem 0.9rem;
+            border-radius: 8px;
+            background: var(--accent);
+            color: #fff;
+            font-family: var(--sans);
+            font-size: 0.9rem;
+        }
+
+        .demo .err {
+            font-family: var(--sans);
+            font-size: 0.78rem;
+            color: #e5484d;
+            margin-top: 0.35rem;
+            min-height: 1rem;
+        }
+
+        .demo button {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.45rem 0.9rem;
+            cursor: pointer;
+        }
+
+        .demo .field {
+            margin-bottom: 0.9rem;
+        }
+
+        .demo label {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 0.35rem;
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
     </style>
 
     <!-- BlogPosting Structured Data for AI Search -->
@@ -212,7 +721,7 @@
                 "url": "https://sagarpansuriya.in/",
                 "logo": {
                         "@type": "ImageObject",
-                        "url": "https://sagarpansuriya.in/favicon.png"
+                        "url": "https://sagarpansuriya.in/favicon.jpg"
                 }
         },
         "datePublished": "2026-06-30",
@@ -319,7 +828,8 @@
 <body>
     <div id="progress"></div>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
     <div class="wrap">
@@ -330,7 +840,8 @@
                 <a href="/showcase/">Work</a>
                 <a href="/talks/">Talks</a>
                 <a href="/cv/">CV</a>
-                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">Theme</button>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
             </nav>
         </header>
 
@@ -339,8 +850,9 @@
                 <a class="post-cat" href="/blog/?category=AlpineJS">§ AlpineJS</a>
                 <h1 class="post-title">Alpine.js Plugins: Extending the Alpine Core</h1>
                 <div class="post-meta">
-                    <img src="/profile.jpg" alt="Sagar Pansuriya">
-                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar Pansuriya</a>
+                    <img src="/profile.png" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
                     <span class="sep">·</span>
                     <time datetime="2026-06-30">June 30, 2026</time>
                     <span class="sep">·</span>
@@ -351,20 +863,34 @@
 
                 <div class="prose">
 
-                    <h2>The Power of the <a href="https://alpinejs.dev" target="_blank" rel="noopener" class="techlink">Alpine.js</a> Plugin API</h2>
-                    <p><a href="https://alpinejs.dev" target="_blank" rel="noopener" class="techlink">Alpine.js</a> is beloved for its simplicity. With a handful of directives like <code>x-data</code>, <code>x-bind</code>, and <code>x-on</code>, you can build dynamic, interactive interfaces without leaving your HTML. However, as your application grows, you often need to reuse complex behavior or integrate external libraries. This is where Alpine's robust plugin API comes in.</p>
+                    <h2>The Power of the <a href="https://alpinejs.dev" target="_blank" rel="noopener"
+                            class="techlink">Alpine.js</a> Plugin API</h2>
+                    <p><a href="https://alpinejs.dev" target="_blank" rel="noopener" class="techlink">Alpine.js</a> is
+                        beloved for its simplicity. With a handful of directives like <code>x-data</code>,
+                        <code>x-bind</code>, and <code>x-on</code>, you can build dynamic, interactive interfaces
+                        without leaving your HTML. However, as your application grows, you often need to reuse complex
+                        behavior or integrate external libraries. This is where Alpine's robust plugin API comes in.
+                    </p>
 
-                    <p>By writing a custom plugin, you gain direct access to Alpine's internal engine, allowing you to define:</p>
+                    <p>By writing a custom plugin, you gain direct access to Alpine's internal engine, allowing you to
+                        define:</p>
                     <ul>
-                        <li><strong>Custom Directives:</strong> Modify the DOM, listen to events, or bind reactive state using prefix attributes (e.g., <code>x-validate</code>).</li>
-                        <li><strong>Magic Properties:</strong> Expose helper variables or utilities with a dollar sign prefix (e.g., <code>$clipboard</code>).</li>
-                        <li><strong>Global Stores:</strong> Manage shared state across multiple disconnected components.</li>
+                        <li><strong>Custom Directives:</strong> Modify the DOM, listen to events, or bind reactive state
+                            using prefix attributes (e.g., <code>x-validate</code>).</li>
+                        <li><strong>Magic Properties:</strong> Expose helper variables or utilities with a dollar sign
+                            prefix (e.g., <code>$clipboard</code>).</li>
+                        <li><strong>Global Stores:</strong> Manage shared state across multiple disconnected components.
+                        </li>
                     </ul>
 
-                    <p>Let's look at how to hook into the plugin system and explore three practical plugin ideas you can build for your next project.</p>
+                    <p>Let's look at how to hook into the plugin system and explore three practical plugin ideas you can
+                        build for your next project.</p>
 
                     <h2>How Alpine.plugin() Works</h2>
-                    <p>Under the hood, registering a plugin is simple. You call <code>Alpine.plugin(yourPluginFunction)</code> before calling <code>Alpine.start()</code>. Your plugin function receives a single parameter: the global <code>Alpine</code> object.</p>
+                    <p>Under the hood, registering a plugin is simple. You call
+                        <code>Alpine.plugin(yourPluginFunction)</code> before calling <code>Alpine.start()</code>. Your
+                        plugin function receives a single parameter: the global <code>Alpine</code> object.
+                    </p>
 
                     <pre class="code-block"><code>// basic-plugin.js
 export default function (Alpine) {
@@ -381,12 +907,19 @@ export default function (Alpine) {
 
                     <p>Now, let's explore three creative plugin ideas that solve common frontend challenges.</p>
 
-                    <hr/>
+                    <hr />
 
                     <h2>Idea 1: Reactive State Storage Binding (<code>$localStore</code>)</h2>
-                    <p>While <a href="https://alpinejs.dev" target="_blank" rel="noopener" class="techlink">Alpine.js</a> has an official <code>$persist</code> plugin, building your own custom reactive store hook allows you to control exactly how storage events synchronization behaves across browser tabs, specify customizable serializers, or automatically clear expired cache.</p>
+                    <p>While <a href="https://alpinejs.dev" target="_blank" rel="noopener"
+                            class="techlink">Alpine.js</a> has an official <code>$persist</code> plugin, building your
+                        own custom reactive store hook allows you to control exactly how storage events synchronization
+                        behaves across browser tabs, specify customizable serializers, or automatically clear expired
+                        cache.</p>
 
-                    <p>Here is an implementation of a custom <code>$localStore</code> magic helper. It registers a reactive variable that syncs to <code>localStorage</code>, but also listens to the window's <code>storage</code> event so that changes in other tabs instantly update the UI.</p>
+                    <p>Here is an implementation of a custom <code>$localStore</code> magic helper. It registers a
+                        reactive variable that syncs to <code>localStorage</code>, but also listens to the window's
+                        <code>storage</code> event so that changes in other tabs instantly update the UI.
+                    </p>
 
                     <pre class="code-block"><code>export default function (Alpine) {
     Alpine.magic('localStore', (el, { cleanup }) => {
@@ -460,10 +993,12 @@ export default function (Alpine) {
                         <p>Hello, <span x-text="username.value"></span>!</p>
                     </div>
 
-                    <hr/>
+                    <hr />
 
                     <h2>Idea 2: Custom Keyboard Shortcuts (<code>x-shortcut</code>)</h2>
-                    <p>Handling key combinations (like <code>Ctrl + K</code> or <code>Cmd + Enter</code>) usually involves cluttering your components with complex event listeners or writing manual key code mappings. We can abstract this logic into a declarative directive: <code>x-shortcut</code>.</p>
+                    <p>Handling key combinations (like <code>Ctrl + K</code> or <code>Cmd + Enter</code>) usually
+                        involves cluttering your components with complex event listeners or writing manual key code
+                        mappings. We can abstract this logic into a declarative directive: <code>x-shortcut</code>.</p>
 
                     <pre class="code-block"><code>export default function (Alpine) {
     Alpine.directive('shortcut', (el, { expression, modifiers }, { evaluateLater, cleanup }) => {
@@ -521,10 +1056,14 @@ export default function (Alpine) {
                         </div>
                     </div>
 
-                    <hr/>
+                    <hr />
 
                     <h2>Idea 3: Constraints-Based Form Validation (<code>x-validate</code>)</h2>
-                    <p>Standard form validation packages are often heavy and force you to rewrite rules in JavaScript that already exist in HTML5 (like <code>required</code>, <code>type="email"</code>, or <code>min="5"</code>). Let's build a plugin that leverages the browser's native Validation API, exposing reactive validation states to Alpine.</p>
+                    <p>Standard form validation packages are often heavy and force you to rewrite rules in JavaScript
+                        that already exist in HTML5 (like <code>required</code>, <code>type="email"</code>, or
+                        <code>min="5"</code>). Let's build a plugin that leverages the browser's native Validation API,
+                        exposing reactive validation states to Alpine.
+                    </p>
 
                     <pre class="code-block"><code>export default function (Alpine) {
     Alpine.directive('validate', (el, { modifiers }, { evaluateLater, cleanup }) => {
@@ -595,10 +1134,17 @@ export default function (Alpine) {
                         </form>
                     </div>
 
-                    <hr/>
+                    <hr />
 
                     <h2>Conclusion</h2>
-                    <p>Custom <a href="https://alpinejs.dev" target="_blank" rel="noopener" class="techlink">Alpine.js</a> plugins are an excellent way to keep your templates clean while maintaining high code reusability. Whether you're wrapping native browser features like the Constraint Validation and Storage APIs, or listening to keyboard events globally, the plugin API provides a powerful way to organize your front-end architecture. The next time you find yourself writing repetitive <code>x-init</code> code or creating complex custom event dispatchers, consider bundling that logic into a custom <a href="https://alpinejs.dev" target="_blank" rel="noopener" class="techlink">Alpine.js</a> plugin instead!</p>
+                    <p>Custom <a href="https://alpinejs.dev" target="_blank" rel="noopener"
+                            class="techlink">Alpine.js</a> plugins are an excellent way to keep your templates clean
+                        while maintaining high code reusability. Whether you're wrapping native browser features like
+                        the Constraint Validation and Storage APIs, or listening to keyboard events globally, the plugin
+                        API provides a powerful way to organize your front-end architecture. The next time you find
+                        yourself writing repetitive <code>x-init</code> code or creating complex custom event
+                        dispatchers, consider bundling that logic into a custom <a href="https://alpinejs.dev"
+                            target="_blank" rel="noopener" class="techlink">Alpine.js</a> plugin instead!</p>
                 </div>
 
                 <section class="comments" aria-label="Discussion">
@@ -609,8 +1155,10 @@ export default function (Alpine) {
                 <div class="post-footer">
                     <a class="back" href="/blog/">← All articles</a>
                     <div class="share">
-                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/alpinejs-plugin-development/&text=Alpine.js Plugins: Extending the Alpine Core" target="_blank" rel="noopener">Share on X</a>
-                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/alpinejs-plugin-development/" target="_blank" rel="noopener">LinkedIn</a>
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/alpinejs-plugin-development/&text=Alpine.js Plugins: Extending the Alpine Core"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/alpinejs-plugin-development/"
+                            target="_blank" rel="noopener">LinkedIn</a>
                     </div>
                 </div>
             </article>
@@ -627,51 +1175,57 @@ export default function (Alpine) {
                 <a href="/privacy-policy/snake-reborn/">Privacy</a>
             </div>
             <div class="footer-links">
-                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter" title="Visitor Counter">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
                     <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
                     <span>visitors</span>
                 </a>
-                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤ Sponsor</a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
             </div>
         </footer>
     </div>
 
-    <style>[x-cloak]{display:none !important;}</style>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 
     <script>
         // theme toggle
-        (function(){
-            const meta=document.querySelector('meta[name="color-scheme"]');
-            const btn=document.getElementById('themeToggle');
-            const root=document.documentElement;
-            function sysDark(){return matchMedia('(prefers-color-scheme: dark)').matches;}
-            function curDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return sysDark();}
-            btn.addEventListener('click',function(){const n=curDark()?'light':'dark';localStorage.setItem('color-scheme',n);meta.content=n;root.dataset.theme=n;});
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
         })();
         // reading progress
-        (function(){
-            const bar=document.getElementById('progress');
-            addEventListener('scroll',function(){const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';},{passive:true});
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
         })();
         // comments (utterances)
-        (function(){
-            function isDark(){const p=localStorage.getItem('color-scheme');if(p==='dark')return true;if(p==='light')return false;return matchMedia('(prefers-color-scheme: dark)').matches;}
-            function initComments(){
-                if(document.querySelector('.utterances-frame'))return;
-                const s=document.createElement('script');
-                s.src='https://utteranc.es/client.js';
-                s.setAttribute('repo','theunwindfront/theunwindfront.github.io');
-                s.setAttribute('issue-term','pathname');
-                s.setAttribute('label','comment');
-                s.setAttribute('theme', isDark()?'github-dark':'github-light');
-                s.setAttribute('crossorigin','anonymous');
-                s.async=true;
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
                 document.getElementById('comments-container').appendChild(s);
             }
-            setTimeout(initComments,300);
-            document.getElementById('themeToggle').addEventListener('click',function(){
-                const f=document.querySelector('.utterances-frame');
-                if(f)f.contentWindow.postMessage({type:'set-theme',theme:isDark()?'github-dark':'github-light'},'https://utteranc.es');
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
             });
         })();
     </script>
