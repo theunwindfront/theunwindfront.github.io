@@ -51,10 +51,12 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [Designing for Accessibility In Laravel Frontend](https://canva.link/30z02j83nh65ans)
 
 ### Open Source Plugins
+- [Navcrate Menu Manager](https://wordpress.org/plugins/navcrate-menu-manager/)
 - [Tailwind CSS Fluid Scale](https://github.com/theunwindfront/tailwindcss-fluid-scale)
 - [Laravel Blade Variants](https://github.com/theunwindfront/laravel-blade-variants)
 
 ### Key Guides
+- [Navcrate Menu Manager](https://sagarpansuriya.in/blog/navcrate-menu-manager/)
 - [Why Frontend Architecture is Crucial (Even Without Design Skills)](https://sagarpansuriya.in/blog/frontend-tech-without-design-skills/)
 - [Web Architecture: Scalability with Simplicity](https://sagarpansuriya.in/blog/web-architecture-scalability-simplicity/)
 - [NotebookLM to Interactive Website](https://sagarpansuriya.in/blog/notebooklm-interactive-website/)

@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
+        <loc>https://sagarpansuriya.in/blog/navcrate-menu-manager/</loc>
+        <lastmod>2026-09-02</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://sagarpansuriya.in/blog/frontend-tech-without-design-skills/</loc>
         <lastmod>2026-08-02</lastmod>
         <changefreq>monthly</changefreq>
