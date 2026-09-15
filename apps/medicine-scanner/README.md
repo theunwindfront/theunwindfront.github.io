@@ -1,15 +1,20 @@
 # ઔષધિ (Aushadhi)
 
-Product scanner. Photograph a product, get a Gujarati answer grounded in your
-own product catalogue PDF, with page citations. Works for pharma and for
-agrochemicals (technical name, % strength, EC/SC/WP/WG formulation codes).
+Counter tool for dealers. A customer walks in with a competitor's product; the
+dealer photographs it and the app finds the equivalent in their own catalogue
+PDF, with the page number and price to quote.
 
-Names in the answer come from the **PDF**, not the photo: if the label says
-TOLFERA and the book lists UNIFY TOLFERA, the answer says UNIFY TOLFERA and
-notes what the photo showed.
+Matching is by **technical name, strength and formulation** — not brand, since
+brands differ between companies. Tolfenpyrad 15% EC matches Tolfenpyrad 15% EC
+whether it is sold as TOLFERA or TUFFAN.
 
-The PDF, the API key, and all scan history stay in the browser on the device.
-Only the images being identified leave it.
+The answer separates the two clearly: the customer's product as read from the
+photo, and the catalogue equivalent with its page citation. When the catalogue
+has no product with that technical, it says so rather than suggesting a
+near-miss — recommending the wrong agrochemical is worse than no answer.
+
+The PDF, the API key, and all scan history stay on the device. Only the images
+being identified leave it.
 
 ## How it works
 
