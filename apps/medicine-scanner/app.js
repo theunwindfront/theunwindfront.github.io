@@ -437,14 +437,38 @@ function lookup(source, searchText, limit = MAX_PAGES_SENT) {
 
     const ranked = [...score].sort((a, b) => b[1] - a[1]);
 
-    /* Drop weak tail matches: a page scoring a fraction of the best one is
-       noise, and sending it costs tokens while distracting the model. */
+    /* The dealer needs options, not just the single best hit: if the exact
+       equivalent is out of stock or priced wrong, they want the next closest
+       product to offer. So keep a looser tail than a pure "best match" search
+       would — the model then labels each one as exact or partial. */
     const top = ranked[0][1];
-    const best = ranked.filter(([, v]) => v >= top * 0.25)
+    const best = ranked.filter(([, v]) => v >= top * 0.12)
         .slice(0, limit).map(([n]) => n);
 
     return source.pages.filter((p) => best.includes(p.page))
         .sort((a, b) => a.page - b.page);
+}
+
+/* Products sharing the customer's category or crop, for when nothing shares
+   its technical. A dealer can still offer "same job, different chemistry"
+   rather than turning the customer away. */
+function similarPages(source, searchText, exclude = [], limit = 4) {
+    if (!source?.pages?.length) return [];
+
+    /* Category and use words carry the "what is it for" signal. */
+    const KIND = /insecticide|fungicide|herbicide|miticide|acaricide|nematicide|plant growth|pgr|bio|organic|antibiotic|analgesic|antacid|antifungal/gi;
+    const wanted = new Set((searchText.match(KIND) || []).map((w) => w.toLowerCase().trim())
+        .filter(Boolean));
+    if (!wanted.size) return [];
+
+    const out = [];
+    for (const p of source.pages) {
+        if (!p.text || exclude.includes(p.page)) continue;
+        const low = p.text.toLowerCase();
+        if ([...wanted].some((w) => low.includes(w))) out.push(p);
+        if (out.length >= limit) break;
+    }
+    return out;
 }
 
 /* Pick the pages most likely to contain the product, so we send a
@@ -595,7 +619,16 @@ const SYSTEM = `તમે ડીલર/વેપારી માટે પ્ર
 - **મેચ:** સંપૂર્ણ મેચ / આંશિક મેચ / મળી નથી — કારણ સાથે
 
 ### બીજા વિકલ્પો
-(બુકમાં બીજી સમકક્ષ પ્રોડક્ટ હોય તો, નહીં તો "બીજો વિકલ્પ નથી")`;
+આપેલાં પાનાંમાંથી બીજી મળતી આવતી પ્રોડક્ટ ક્રમમાં બતાવો (વધુમાં વધુ ૩):
+
+1. **બ્રાન્ડ** — ટેકનિકલ — પૅક — MRP (પાનું N) — મેચ: સંપૂર્ણ/આંશિક/સમાન કામ
+2. …
+
+ક્રમ આ રીતે રાખો: પહેલાં સરખું ટેકનિકલ, પછી સરખી ટકાવારી, પછી એક જ
+કૅટેગરી (દા.ત. બંને Insecticide) ની પ્રોડક્ટ.
+"સમાન કામ" એટલે ટેકનિકલ જુદું પણ કામ એક જ — તેમાં સ્પષ્ટ લખો કે ટેકનિકલ
+જુદું છે. બુકમાં કશું મળતું ન આવે તો "બીજો વિકલ્પ નથી" લખો.
+ક્યારેય એવી પ્રોડક્ટ ન બતાવો જે આપેલાં પાનાંમાં નથી.`;
 
 async function callVision({ messages, signal, attempt = 0, onRetry }) {
     /* Proxy mode keeps the key server-side; otherwise call Gemini directly. */
@@ -792,9 +825,17 @@ async function runScan() {
         /* With label text we search the index and send only what matches —
            this is what keeps a 150-page book cheap. Without it (small book,
            single pass) we send the book itself. */
-        const pages = labelText
+        let pages = labelText
             ? relevantPages(state.source, labelText)
             : bookSlice(state.source);
+
+        /* Add same-category products so the dealer always has something to
+           offer, even when no product shares the exact technical. */
+        if (labelText) {
+            const also = similarPages(state.source, labelText,
+                pages.map((p) => p.page));
+            if (also.length) pages = [...pages, ...also].sort((a, b) => a.page - b.page);
+        }
         const bookImages = pageImages(pages);
         const parts2 = [{
             type: 'text',

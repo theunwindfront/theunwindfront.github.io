@@ -1,17 +1,23 @@
 # ઔષધિ (Aushadhi)
 
 Counter tool for dealers. A customer walks in with a competitor's product; the
-dealer photographs it and the app finds the equivalent in their own catalogue
-PDF, with the page number and price to quote.
+dealer photographs it and the app searches their own catalogue PDF for what to
+sell instead — with page numbers and prices to quote.
 
-Matching is by **technical name, strength and formulation** — not brand, since
-brands differ between companies. Tolfenpyrad 15% EC matches Tolfenpyrad 15% EC
-whether it is sold as TOLFERA or TUFFAN.
+The answer has three parts:
 
-The answer separates the two clearly: the customer's product as read from the
-photo, and the catalogue equivalent with its page citation. When the catalogue
-has no product with that technical, it says so rather than suggesting a
-near-miss — recommending the wrong agrochemical is worse than no answer.
+1. **The customer's product**, read from the photo.
+2. **The equivalent in our catalogue** — matched on technical name, strength
+   and formulation rather than brand, since brands differ between companies.
+   Tolfenpyrad 15% EC matches Tolfenpyrad 15% EC whether it is sold as TOLFERA
+   or TUFFAN. Labelled exact match, partial match, or not found.
+3. **Other options** — up to three ranked alternatives with brand, technical,
+   pack, MRP and page. Same-technical products rank first, then same category,
+   so there is always something to offer even when nothing matches exactly.
+
+Anything with a different technical is labelled as such. When the catalogue has
+no equivalent the app says so plainly instead of pushing a near-miss —
+recommending the wrong agrochemical is worse than no answer.
 
 The PDF, the API key, and all scan history stay on the device. Only the images
 being identified leave it.
