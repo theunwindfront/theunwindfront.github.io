@@ -1,0 +1,32 @@
+{
+  "name": "ઔષધિ — USP પ્રોડક્ટ સ્કેનર",
+  "short_name": "ઔષધિ",
+  "description": "કેમેરાથી પ્રોડક્ટ સ્કેન કરો અને USP બુક પ્રમાણે ગુજરાતીમાં માહિતી મેળવો.",
+  "start_url": "/showcase/aushadhi/",
+  "scope": "/showcase/aushadhi/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#faf9f6",
+  "theme_color": "#5b5bd6",
+  "lang": "gu",
+  "dir": "ltr",
+  "categories": [
+    "medical",
+    "productivity",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "/favicon.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}

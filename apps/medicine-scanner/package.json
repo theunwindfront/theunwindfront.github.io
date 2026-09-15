@@ -1,0 +1,15 @@
+{
+  "name": "aushadhi",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Aushadhi \u2014 USP product scanner. Camera in, Gujarati answer out. All data stays on device.",
+  "scripts": {
+    "build": "node build.mjs",
+    "preview": "node build.mjs --serve",
+    "deploy": "node build.mjs --out ../../showcase/aushadhi --base /showcase/aushadhi/"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
+}

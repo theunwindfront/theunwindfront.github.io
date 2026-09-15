@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="gu">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="color-scheme" content="light dark">
+    <title>ઔષધિ — USP પ્રોડક્ટ સ્કેનર</title>
+    <meta name="description" content="કેમેરાથી પ્રોડક્ટ સ્કેન કરો અને USP PDF માંથી ગુજરાતીમાં માહિતી મેળવો.">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://sagarpansuriya.in/apps/medicine-scanner/">
+    <meta name="theme-color" content="#5b5bd6">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ઔષધિ">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+            } catch (e) { }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Gujarati:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="wrap">
+        <header class="topbar">
+            <span class="brand">ઔષધિ <span class="brand-mark">Aushadhi</span></span>
+            <nav class="nav">
+                <button type="button" class="ghost-btn" id="historyBtn" aria-haspopup="dialog">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" width="16" height="16">
+                        <path d="M12 8v5l3 2M3 12a9 9 0 1 0 2.6-6.4M3 4v4h4" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span>ઇતિહાસ</span>
+                </button>
+                <button type="button" class="ghost-btn" id="settingsBtn" aria-haspopup="dialog">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" width="16" height="16">
+                        <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2" />
+                        <path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 7 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7H1a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 2.6 7a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H7a1.6 1.6 0 0 0 1-1.5V1a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V7a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"
+                            fill="none" stroke="currentColor" stroke-width="1.6" transform="scale(0.86) translate(2 2)" />
+                    </svg>
+                    <span>સેટિંગ</span>
+                </button>
+                <button type="button" class="ghost-btn" id="themeBtn" aria-label="થીમ બદલો">
+                    <span id="themeIcon" aria-hidden="true">◐</span>
+                </button>
+            </nav>
+        </header>
+
+        <main>
+            <h1 class="app-title">ઔષધિ</h1>
+            <p class="app-sub">પ્રોડક્ટનો ફોટો લો — USP બુક પ્રમાણે ગુજરાતીમાં જવાબ મળશે.</p>
+
+            <!-- Setup banner: shown until key + PDF are ready -->
+            <section id="setupBanner" class="banner" hidden>
+                <p class="banner-title">શરૂ કરતા પહેલાં</p>
+                <ul class="banner-list">
+                    <li id="stepKey" class="step"><span class="dot"></span>API કી ઉમેરો</li>
+                    <li id="stepPdf" class="step"><span class="dot"></span>USP PDF અપલોડ કરો</li>
+                </ul>
+                <button type="button" class="primary-btn" id="openSetup">સેટઅપ ખોલો</button>
+            </section>
+
+            <!-- Capture -->
+            <section class="card" aria-labelledby="capHead">
+                <h2 id="capHead" class="card-head">ફોટો પાડો</h2>
+                <div class="shots">
+                    <label class="shot" for="frontInput">
+                        <input type="file" id="frontInput" accept="image/*" capture="environment" hidden>
+                        <div class="shot-inner" id="frontSlot">
+                            <span class="shot-icon" aria-hidden="true">▣</span>
+                            <span class="shot-label">આગળનો ભાગ</span>
+                        </div>
+                    </label>
+                    <label class="shot" for="backInput">
+                        <input type="file" id="backInput" accept="image/*" capture="environment" hidden>
+                        <div class="shot-inner" id="backSlot">
+                            <span class="shot-icon" aria-hidden="true">▤</span>
+                            <span class="shot-label">પાછળનો ભાગ</span>
+                        </div>
+                    </label>
+                </div>
+                <button type="button" class="primary-btn big" id="scanBtn" disabled>
+                    <span id="scanLabel">ઓળખો</span>
+                </button>
+                <p class="hint" id="scanHint">બંને બાજુના ફોટા આપવાથી પરિણામ વધુ સચોટ મળે છે.</p>
+            </section>
+
+            <!-- Result -->
+            <section class="card result-card" id="resultCard" hidden aria-live="polite">
+                <div class="result-head">
+                    <h2 class="card-head">પરિણામ</h2>
+                    <button type="button" class="ghost-btn small" id="copyBtn">નકલ કરો</button>
+                </div>
+                <div class="result-body" id="resultBody"></div>
+                <div class="sources" id="sources" hidden>
+                    <p class="sources-head">સ્રોત — USP PDF</p>
+                    <div id="sourceList"></div>
+                </div>
+            </section>
+
+            <!-- Chat -->
+            <section class="card chat-card" id="chatCard" hidden>
+                <h2 class="card-head">વધુ પૂછો</h2>
+                <div class="chat-log" id="chatLog" aria-live="polite"></div>
+                <div class="chat-attach" id="chatAttach" hidden>
+                    <img id="chatAttachImg" alt="જોડેલો ફોટો">
+                    <button type="button" class="chip-x" id="chatAttachClear" aria-label="ફોટો કાઢો">×</button>
+                </div>
+                <form class="chat-form" id="chatForm">
+                    <label class="attach-btn" for="chatImage" aria-label="ફોટો જોડો">
+                        <input type="file" id="chatImage" accept="image/*" hidden>
+                        <svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20">
+                            <path d="M21 15V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10M8.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM3 16l5-4 4 3M18 14v7M15 18h6"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </label>
+                    <input type="text" id="chatInput" placeholder="પ્રશ્ન લખો…" autocomplete="off">
+                    <button type="submit" class="send-btn" id="chatSend" aria-label="મોકલો">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20">
+                            <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </form>
+            </section>
+        </main>
+
+        <footer class="site">
+            <p><strong>ઔષધિ</strong> · ડેટા ફક્ત તમારા ફોનમાં સચવાય છે, ક્યાંય અપલોડ થતો નથી</p>
+        </footer>
+    </div>
+
+    <!-- Settings dialog -->
+    <dialog id="settingsDlg" closedby="any">
+        <form method="dialog" class="dlg-head">
+            <h2>સેટિંગ</h2>
+            <button value="close" class="chip-x" aria-label="બંધ કરો">×</button>
+        </form>
+        <div class="dlg-body">
+            <section class="field">
+                <h3>૧. AI મોડેલ</h3>
+                <p class="field-note">મફત વિકલ્પોમાંથી પસંદ કરો.</p>
+                <select id="providerSel">
+                    <option value="builtin">Chrome બિલ્ટ-ઇન AI (કી વગર)</option>
+                    <option value="gemini">Google Gemini</option>
+                    <option value="groq">Groq — Llama 4 Scout</option>
+                    <option value="openrouter">OpenRouter</option>
+                </select>
+                <p class="field-note tiny" id="modelNote"></p>
+            </section>
+
+            <section class="field" id="keyField">
+                <h3>API કી</h3>
+                <p class="field-note" id="keyNote"></p>
+                <div class="key-row">
+                    <input type="password" id="apiKey" placeholder="કી અહીં પેસ્ટ કરો" autocomplete="off"
+                        spellcheck="false">
+                    <button type="button" class="ghost-btn small" id="keyReveal" aria-label="કી બતાવો">◉</button>
+                </div>
+                <p class="field-note tiny">કી ફક્ત આ ફોનમાં સચવાય છે, ક્યાંય મોકલાતી નથી.</p>
+            </section>
+
+            <section class="field">
+                <h3>૨. USP પ્રોડક્ટ PDF</h3>
+                <p class="field-note">એક વાર અપલોડ કરો — કાયમ માટે સચવાઈ જશે.</p>
+                <label class="upload-zone" for="pdfInput" id="pdfZone">
+                    <input type="file" id="pdfInput" accept="application/pdf" hidden>
+                    <span id="pdfZoneText">PDF પસંદ કરો</span>
+                </label>
+                <div class="pdf-status" id="pdfStatus" hidden>
+                    <span id="pdfName"></span>
+                    <button type="button" class="ghost-btn small" id="pdfRemove">કાઢો</button>
+                </div>
+                <progress id="pdfProgress" max="100" value="0" hidden></progress>
+            </section>
+
+            <button type="button" class="primary-btn" id="saveSettings">સાચવો</button>
+        </div>
+    </dialog>
+
+    <!-- History dialog -->
+    <dialog id="historyDlg" closedby="any">
+        <form method="dialog" class="dlg-head">
+            <h2>ઇતિહાસ</h2>
+            <button value="close" class="chip-x" aria-label="બંધ કરો">×</button>
+        </form>
+        <div class="dlg-body">
+            <div id="historyList" class="history-list"></div>
+            <button type="button" class="ghost-btn danger" id="clearHistory">બધું કાઢી નાખો</button>
+        </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs" type="module"></script>
+    <script src="app.js" type="module"></script>
+</body>
+
+</html>
