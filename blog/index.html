@@ -1041,8 +1041,16 @@
                 .replace(/"/g, '&quot;');
         }
 
+        // Scheduled posts stay out of the listing until their date arrives.
+        // The Actions workflow clears the flag server-side; this is the
+        // client-side guard for the window between cron runs.
+        const livePosts = posts.filter(post =>
+            !post.scheduled ||
+            (post.publishDate && Date.parse(post.publishDate) <= Date.now())
+        );
+
         function renderPosts() {
-            postList.innerHTML = posts.map(post => `
+            postList.innerHTML = livePosts.map(post => `
                 <li data-category="${escapeHtml(post.category)}"
                     data-title="${escapeHtml(post.title.toLowerCase())}"
                     data-excerpt="${escapeHtml(post.excerpt.toLowerCase())}">
