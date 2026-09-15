@@ -301,9 +301,86 @@ function buildIndex(pages) {
     return Object.fromEntries([...index].map(([t, set]) => [t, [...set]]));
 }
 
-/* Words worth indexing: 3+ characters, not pure noise. */
+/* Words that appear on every pharma page and so identify nothing. */
+const STOP = new Set([
+    'tablet', 'tablets', 'capsule', 'capsules', 'strip', 'pack', 'packs',
+    'mfg', 'exp', 'batch', 'mrp', 'inclusive', 'taxes', 'storage', 'store',
+    'below', 'protect', 'light', 'moisture', 'keep', 'reach', 'children',
+    'schedule', 'prescription', 'registered', 'trademark', 'marketed',
+    'manufactured', 'india', 'limited', 'ltd', 'pvt', 'private', 'company',
+    'page', 'usp', 'product', 'book', 'name', 'salt', 'company', 'each',
+    'contains', 'composition', 'dosage', 'use', 'uses', 'rate', 'price',
+    'number', 'code', 'ref', 'reference', 'category', 'the', 'and', 'for',
+    'with', 'this', 'that', 'from', 'per',
+]);
+
+/* Normalise a token so the same drug matches across spelling variants.
+
+   Medicine text is noisy: OCR reads O as 0 and l as 1, strengths appear as
+   "650mg", "650 mg" and "650MG", and plurals come and go. Folding all of
+   that into one form is what makes the lookup actually hit. */
+function normalize(w) {
+    let t = w.toLowerCase()
+        .replace(/[0o]/g, '0')     // DOLO / DOL0 / D0L0 → the same key
+        .replace(/[1il]/g, '1')    // AZILIDE / AZ1L1DE
+        .replace(/[5s]/g, '5');    // 5UN / SUN
+    if (t.length > 4 && t.endsWith('s')) t = t.slice(0, -1);
+    return t;
+}
+
+/* Tokens worth indexing, with strengths split out so "650mg" also matches
+   a page that writes "650 mg". */
 function terms(text) {
-    return new Set((text.toLowerCase().match(/[\p{L}\p{N}]{3,}/gu) || []));
+    const out = new Set();
+    const raw = text.toLowerCase().match(/[\p{L}\p{N}]+/gu) || [];
+
+    const FORM_CODES = new Set(['ec', 'sc', 'wp', 'wg', 'sl', 'sg', 'sp',
+        'cs', 'od', 'ew', 'fs', 'me', 'ze', 'gr', 'dp']);
+
+    for (const w of raw) {
+        if (FORM_CODES.has(w)) { out.add(w); continue; }
+        if (w.length < 3 || STOP.has(w)) continue;
+        out.add(normalize(w));
+
+        /* "650mg" → also index "650" and "mg650" so spacing never matters. */
+        const m = w.match(/^(\d+)\s*(mg|ml|mcg|gm|g|kg|iu|ltr|lt|l)$/);
+        if (m) { out.add(m[1]); out.add(m[2] + m[1]); }
+    }
+
+    /* Agrochemicals are identified by strength + formulation code, e.g.
+       "15% EC", "17.8% SL", "75% WP". Capture those as single keys so
+       TOLFERA 15% EC cannot be confused with CYPERUNI 10% EC. */
+    const form = text.toLowerCase();
+    for (const m of form.matchAll(/(\d+(?:\.\d+)?)\s*%\s*(ec|sc|wp|wg|sl|sg|sp|cs|od|ew|fs|me|ze|gr|dp)\b/g)) {
+        out.add(m[1] + '%' + m[2]);   // "15%ec"
+        out.add(m[1] + 'pct');        // "15pct"
+        out.add(m[2]);                // "ec"
+    }
+    /* A bare percentage still carries signal on its own. */
+    for (const m of form.matchAll(/(\d+(?:\.\d+)?)\s*%/g)) out.add(m[1] + 'pct');
+
+    /* Adjacent pairs catch multi-word names like "pan d" or "dolo 650". */
+    const words = raw.filter((w) => w.length >= 3 && !STOP.has(w));
+    for (let i = 0; i < words.length - 1; i++) {
+        out.add(normalize(words[i]) + '~' + normalize(words[i + 1]));
+    }
+    return out;
+}
+
+/* Edit distance, capped: cheap enough to run over candidate terms only. */
+function close(a, b, max = 1) {
+    if (a === b) return true;
+    if (Math.abs(a.length - b.length) > max) return false;
+
+    let i = 0, j = 0, edits = 0;
+    while (i < a.length && j < b.length) {
+        if (a[i] === b[j]) { i++; j++; continue; }
+        if (++edits > max) return false;
+        if (a.length > b.length) i++;
+        else if (a.length < b.length) j++;
+        else { i++; j++; }
+    }
+    return edits + (a.length - i) + (b.length - j) <= max;
 }
 
 /* Pages matching these search terms, via the prebuilt index. */
@@ -311,18 +388,53 @@ function lookup(source, searchText, limit = MAX_PAGES_SENT) {
     const idx = source?.index;
     if (!idx) return null;
 
+    const total = source.pages.length || 1;
+    const keys = Object.keys(idx);
     const score = new Map();
+    const hitTerms = new Map();   // page -> distinct terms matched
+
+    const credit = (n, weight, term) => {
+        score.set(n, (score.get(n) || 0) + weight);
+        if (!hitTerms.has(n)) hitTerms.set(n, new Set());
+        hitTerms.get(n).add(term);
+    };
+
     for (const t of terms(searchText)) {
-        const pages = idx[t];
+        let pages = idx[t];
+        let penalty = 1;
+
+        /* Nothing exact — try a near-spelling. This is what rescues OCR
+           slips like DOL0 for DOLO, or a missing letter in a long salt name. */
+        if (!pages && t.length >= 5) {
+            const near = keys.find((k) => k.length >= 5 && close(k, t));
+            if (near) { pages = idx[near]; penalty = 0.6; }
+        }
         if (!pages) continue;
-        /* A term on few pages is a stronger signal than a common one. */
-        const weight = 1 + 1 / pages.length;
-        for (const n of pages) score.set(n, (score.get(n) || 0) + weight);
+
+        /* Rarer terms identify a product; terms on many pages do not.
+           (Classic IDF — a brand name on 1 page far outweighs a word on 50.) */
+        const idf = Math.log(1 + total / pages.length);
+        /* A two-word phrase ("dolo~650") is a much stronger signal. */
+        const phrase = t.includes('~') ? 2.5 : 1;
+
+        for (const n of pages) credit(n, idf * phrase * penalty, t);
     }
     if (!score.size) return null;
 
-    const best = [...score].sort((a, b) => b[1] - a[1]).slice(0, limit)
-        .map(([n]) => n);
+    /* A page matching several different terms beats one matching the same
+       common word repeatedly, so scale by how many distinct terms landed. */
+    for (const [n, set] of hitTerms) {
+        score.set(n, score.get(n) * (1 + Math.log(set.size)));
+    }
+
+    const ranked = [...score].sort((a, b) => b[1] - a[1]);
+
+    /* Drop weak tail matches: a page scoring a fraction of the best one is
+       noise, and sending it costs tokens while distracting the model. */
+    const top = ranked[0][1];
+    const best = ranked.filter(([, v]) => v >= top * 0.25)
+        .slice(0, limit).map(([n]) => n);
+
     return source.pages.filter((p) => best.includes(p.page))
         .sort((a, b) => a.page - b.page);
 }
@@ -437,23 +549,34 @@ function sourceBlock(pages) {
 /* ---------------------------------------------------------------
    Model calls
 ---------------------------------------------------------------- */
-const SYSTEM = `તમે એક અનુભવી ફાર્મા પ્રોડક્ટ સહાયક છો.
-તમને USP પ્રોડક્ટ બુકના અમુક પાનાં અને પ્રોડક્ટના ફોટા આપવામાં આવે છે.
+const SYSTEM = `તમે પ્રોડક્ટ કૅટલોગ સહાયક છો. તમને કંપનીની પ્રોડક્ટ બુકનાં
+પાનાં અને પ્રોડક્ટના ફોટા આપવામાં આવે છે. તમારું કામ ફોટાની પ્રોડક્ટ બુકમાં
+શોધીને બુક પ્રમાણેની વિગત આપવાનું છે.
 
-નિયમો:
-1. જવાબ ફક્ત અને ફક્ત ગુજરાતીમાં આપો.
-2. ફોટામાં દેખાતું નામ, સોલ્ટ, કંપની, બેચ, MRP વાંચો.
-3. આપેલા પાનાં સાથે મેળવીને પ્રોડક્ટ ઓળખો.
-4. જે માહિતી પાનાંમાં ન હોય તે ધારી ન લો — સ્પષ્ટ લખો કે "બુકમાં મળી નથી".
+સૌથી અગત્યનો નિયમ — નામ બુકમાંથી લો:
+• "પ્રોડક્ટ" માં બુકના પાનામાં જે નામ લખ્યું હોય તે જ લખો, અક્ષરશઃ.
+• ફોટા પરનું નામ ફક્ત શોધવા માટે વાપરો, જવાબમાં નહીં.
+• ફોટા અને બુકનું નામ જુદું હોય તો બુકનું નામ મુખ્ય રાખો અને કૌંસમાં લખો
+  કે ફોટા પર શું છે. દા.ત. **પ્રોડક્ટ:** UNIFY TOLFERA (ફોટા પર: TOLFERA)
+• બુકમાં પ્રોડક્ટ ન મળે તો સ્પષ્ટ લખો "બુકમાં આ પ્રોડક્ટ મળી નથી" અને
+  ફોટાની વિગત અલગથી આપો. ખોટું નામ ન બનાવો.
+
+બીજા નિયમો:
+1. જવાબ ફક્ત ગુજરાતીમાં આપો. પ્રોડક્ટનાં નામ/ટેકનિકલ નામ મૂળ સ્વરૂપે રાખો.
+2. ફોટામાં દેખાતું નામ, ટેકનિકલ/સોલ્ટ, ટકાવારી, ફોર્મ્યુલેશન (EC/SC/WP/WG/SL),
+   કંપની, પૅક સાઇઝ, MRP વાંચો — અને તેને બુકના પાના સાથે મેળવો.
+3. મેળવતી વખતે ટેકનિકલ નામ અને ટકાવારી પર ભાર આપો (દા.ત. Tolfenpyrad 15% EC),
+   કારણ કે એક જ ટેકનિકલ જુદી બ્રાન્ડમાં આવે છે.
+4. જે માહિતી પાનાંમાં ન હોય તે ધારી ન લો — લખો "બુકમાં મળી નથી".
 5. દરેક દાવા પછી કૌંસમાં પાનાનો નંબર લખો, દા.ત. (પાનું 12).
-6. કોઈ તબીબી સલાહ ન આપો — ફક્ત બુકમાં જે છે તે માહિતી આપો.
+6. કોઈ સલાહ ન આપો — ફક્ત બુકમાં જે છે તે માહિતી આપો.
 
 ફોર્મેટ:
 ### ઓળખ
-- **પ્રોડક્ટ:** …
-- **સોલ્ટ:** …
+- **પ્રોડક્ટ:** (બુક પ્રમાણેનું નામ) (પાનું N)
+- **ટેકનિકલ/સોલ્ટ:** …
 - **કંપની:** …
-- **પેક:** …
+- **પૅક:** …
 - **MRP:** …
 
 ### બુક પ્રમાણે વિગત

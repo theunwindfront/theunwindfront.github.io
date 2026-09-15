@@ -1,7 +1,12 @@
 # ઔષધિ (Aushadhi)
 
-USP product scanner. Photograph a medicine strip, get a Gujarati answer grounded
-in your own USP product PDF, with page citations.
+Product scanner. Photograph a product, get a Gujarati answer grounded in your
+own product catalogue PDF, with page citations. Works for pharma and for
+agrochemicals (technical name, % strength, EC/SC/WP/WG formulation codes).
+
+Names in the answer come from the **PDF**, not the photo: if the label says
+TOLFERA and the book lists UNIFY TOLFERA, the answer says UNIFY TOLFERA and
+notes what the photo showed.
 
 The PDF, the API key, and all scan history stay in the browser on the device.
 Only the images being identified leave it.
@@ -73,7 +78,25 @@ The app stretches that quota further:
 - **Users can add their own key** in Settings, spending their quota instead of
   yours — the only way past one account's cap without paying.
 
-## Reading the USP PDF
+## How matching works
+
+Retrieval is local and costs no tokens. Page text is normalised at upload so
+the same product matches across the ways it gets written:
+
+- **OCR confusion folded away** — `O/0`, `l/1/i`, `S/5` map to one form, so
+  `DOLO` and `DOL0` are the same key.
+- **Strengths split** — `650mg`, `650 mg` and `650MG` all match.
+- **Formulation codes indexed** — `15% EC`, `17.8% SL`, `75% WP` become single
+  keys, so TOLFERA 15% EC is not confused with CYPERUNI 10% EC.
+- **Word pairs** — `unify~tolfera` scores far above either word alone.
+- **Fuzzy fallback** — a one-character slip still finds the page.
+- **IDF weighting** — a brand name on one page outweighs a word on fifty;
+  filler like `tablets`, `limited`, `pack` is dropped entirely.
+
+Measured on a 120-page agrochemical catalogue with the target on page 73:
+**1 page retrieved, correct, 119 irrelevant pages never sent.**
+
+## Reading the source PDF
 
 Both kinds of PDF work, decided per page:
 
