@@ -196,6 +196,10 @@ function readImage(file, maxSide = 1280) {
 /* ---------------------------------------------------------------
    PDF → searchable page index (NotebookLM-style grounding source)
 ---------------------------------------------------------------- */
+/* Below this many characters a page is treated as image-only (a scan), so we
+   keep a rendered picture of it for the vision model to read. */
+const TEXT_FLOOR = 60;
+
 async function indexPdf(file, onProgress) {
     const pdfjsLib = window.pdfjsLib ||
         await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs');
@@ -204,24 +208,67 @@ async function indexPdf(file, onProgress) {
 
     const buf = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+
     const pages = [];
+    let scanned = 0;
+
     for (let i = 1; i <= pdf.numPages; i++) {
         const page = await pdf.getPage(i);
+
         const tc = await page.getTextContent();
         const text = tc.items.map((it) => it.str).join(' ').replace(/\s+/g, ' ').trim();
-        if (text) pages.push({ page: i, text });
+
+        /* A page with little or no text is a scan — render it so the vision
+           model can read it later. Text pages stay text-only: far smaller,
+           and searching them is what makes lookup fast. */
+        const thin = text.length < TEXT_FLOOR;
+        const entry = { page: i, text };
+        if (thin) {
+            entry.image = await renderPage(page, 1000);
+            scanned++;
+        }
+        if (text || entry.image) pages.push(entry);
+
         onProgress?.(Math.round((i / pdf.numPages) * 100));
     }
-    return { name: file.name, pages, addedAt: Date.now() };
+
+    return { name: file.name, pages, addedAt: Date.now(), scanned };
+}
+
+/* Render one PDF page to a JPEG data URL. */
+async function renderPage(page, maxSide = 1000) {
+    const base = page.getViewport({ scale: 1 });
+    const scale = Math.min(2, maxSide / Math.max(base.width, base.height));
+    const viewport = page.getViewport({ scale });
+
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.ceil(viewport.width);
+    canvas.height = Math.ceil(viewport.height);
+    const ctx = canvas.getContext('2d');
+
+    /* White ground: PDFs assume paper, and transparency reads as black. */
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    await page.render({ canvasContext: ctx, viewport }).promise;
+    return canvas.toDataURL('image/jpeg', 0.75);
 }
 
 /* Pick the pages most likely to contain the product, so we send a
    focused slice of the book instead of the whole thing. */
 function relevantPages(source, terms, limit = 6) {
     if (!source?.pages?.length) return [];
+
+    const textPages = source.pages.filter((p) => p.text);
+    const imagePages = source.pages.filter((p) => p.image);
     const toks = terms.toLowerCase().match(/[\p{L}\p{N}]{3,}/gu) || [];
+
+    /* No usable text anywhere (a fully scanned book): send page pictures. */
+    if (!textPages.length) return imagePages.slice(0, Math.min(limit, 4));
+
     if (!toks.length) return source.pages.slice(0, limit);
-    const scored = source.pages.map((p) => {
+
+    const scored = textPages.map((p) => {
         const lower = p.text.toLowerCase();
         let score = 0;
         for (const t of new Set(toks)) {
@@ -230,15 +277,30 @@ function relevantPages(source, terms, limit = 6) {
         }
         return { ...p, score };
     });
+
     const hit = scored.filter((p) => p.score > 0).sort((a, b) => b.score - a.score);
-    return (hit.length ? hit : scored).slice(0, limit);
+    const out = (hit.length ? hit : scored).slice(0, limit);
+
+    /* Text search found nothing — the answer may be on a scanned page, so
+       include a few page images for the model to look at. */
+    if (!hit.length && imagePages.length) {
+        out.push(...imagePages.slice(0, 3));
+    }
+    return out;
 }
+
+/* Page images to attach to a request, capped to keep the payload sane. */
+const pageImages = (pages, max = 3) =>
+    pages.filter((p) => p.image).slice(0, max);
 
 const clip = (t, n = 2600) => (t.length > n ? t.slice(0, n) + '…' : t);
 
 function sourceBlock(pages) {
     if (!pages.length) return '(કોઈ સ્રોત નથી)';
-    return pages.map((p) => `[પાનું ${p.page}]\n${clip(p.text)}`).join('\n\n---\n\n');
+    return pages.map((p) => p.text
+        ? `[પાનું ${p.page}]\n${clip(p.text)}`
+        : `[પાનું ${p.page}] — આ પાનું ચિત્ર તરીકે જોડેલું છે, તેને વાંચો.`
+    ).join('\n\n---\n\n');
 }
 
 /* ---------------------------------------------------------------
@@ -288,6 +350,10 @@ async function callVision({ messages, signal }) {
         }
     }
 
+    /* Preferred path: the proxy holds the key server-side, so nothing is
+       needed here and this works on every browser and device. */
+    if (CONFIG.proxyUrl) return callProxy({ messages, signal });
+
     /* Images need a hosted vision model. */
     const visionProvider = state.provider === 'builtin'
         ? (CONFIG.provider || 'gemini')
@@ -334,6 +400,34 @@ async function callVision({ messages, signal }) {
     const text = p.shape === 'gemini'
         ? j.candidates?.[0]?.content?.parts?.map((x) => x.text).filter(Boolean).join('')
         : j.choices?.[0]?.message?.content;
+    if (!text) throw new Error('જવાબ ખાલી આવ્યો.');
+    return text;
+}
+
+/* Talk to the Worker. The key lives there, never here. */
+async function callProxy({ messages, signal }) {
+    let r;
+    try {
+        r = await fetch(CONFIG.proxyUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            signal,
+            body: JSON.stringify(toGemini(messages)),
+        });
+    } catch {
+        throw new Error('સર્વર સાથે જોડાણ થયું નહીં. ઇન્ટરનેટ તપાસો.');
+    }
+
+    if (!r.ok) {
+        let msg = '';
+        try { msg = (await r.json()).error || ''; } catch { }
+        if (r.status === 429) throw new Error(msg || 'મર્યાદા પૂરી થઈ. થોડી વાર પછી પ્રયત્ન કરો.');
+        throw new Error(msg || `સર્વર ભૂલ (${r.status}).`);
+    }
+
+    const j = await r.json();
+    const text = j.candidates?.[0]?.content?.parts
+        ?.map((x) => x.text).filter(Boolean).join('');
     if (!text) throw new Error('જવાબ ખાલી આવ્યો.');
     return text;
 }
@@ -400,6 +494,11 @@ function imgPart(img) {
     return { type: 'image_url', image_url: { url: `data:${img.mime};base64,${img.b64}` } };
 }
 
+/* A data URL that is already complete (rendered PDF page). */
+function imgPartRaw(dataUrl) {
+    return { type: 'image_url', image_url: { url: dataUrl } };
+}
+
 /* ---------------------------------------------------------------
    Scan flow
 ---------------------------------------------------------------- */
@@ -433,14 +532,21 @@ async function runScan() {
 
         /* Pass 2 — answer, grounded in the matching PDF pages. */
         const pages = relevantPages(state.source, labelText);
+        const bookImages = pageImages(pages);
         const parts2 = [{
             type: 'text',
             text: `USP બુકના સંબંધિત પાનાં:\n\n${sourceBlock(pages)}\n\n`
                 + `ફોટામાંથી વાંચેલું લખાણ:\n${labelText}\n\n`
+                + (bookImages.length
+                    ? `નીચે પહેલાં પ્રોડક્ટના ફોટા છે, પછી બુકનાં પાનાંનાં ચિત્રો `
+                      + `(પાનું ${bookImages.map((p) => p.page).join(', ')}).\n\n`
+                    : '')
                 + `હવે ઉપરના ફોર્મેટમાં પ્રોડક્ટ ઓળખો.`,
         }];
         if (state.front) parts2.push(imgPart(state.front));
         if (state.back) parts2.push(imgPart(state.back));
+        /* Scanned book pages travel as pictures the model can read. */
+        for (const bp of bookImages) parts2.push(imgPartRaw(bp.image));
 
         const answer = await callVision({
             messages: [
@@ -477,8 +583,11 @@ function showResult(text, pages) {
     const list = show.length ? show : pages.slice(0, 3);
 
     if (list.length) {
-        $('sourceList').innerHTML = list.map((p) =>
-            `<div class="src"><b>પાનું ${p.page}</b><br>${esc(clip(p.text, 240))}</div>`).join('');
+        $('sourceList').innerHTML = list.map((p) => p.text
+            ? `<div class="src"><b>પાનું ${p.page}</b><br>${esc(clip(p.text, 240))}</div>`
+            : `<div class="src"><b>પાનું ${p.page}</b>` +
+              (p.image ? `<img class="src-img" src="${p.image}" alt="પાનું ${p.page}" loading="lazy">` : '') +
+              `</div>`).join('');
         $('sources').hidden = false;
     }
 }
@@ -506,10 +615,22 @@ async function sendChat(e) {
         const extra = relevantPages(state.source, q, 4);
         const msgs = [...state.chat];
         if (extra.length) {
-            msgs.splice(1, 0, {
-                role: 'system',
-                content: `આ પ્રશ્ન માટે સંબંધિત પાનાં:\n${sourceBlock(extra)}`,
-            });
+            const pics = pageImages(extra, 2);
+            if (pics.length) {
+                /* Scanned pages have to be seen, so send them as content. */
+                msgs.splice(1, 0, {
+                    role: 'user',
+                    content: [
+                        { type: 'text', text: `સંબંધિત પાનાં:\n${sourceBlock(extra)}` },
+                        ...pics.map((p) => imgPartRaw(p.image)),
+                    ],
+                });
+            } else {
+                msgs.splice(1, 0, {
+                    role: 'system',
+                    content: `આ પ્રશ્ન માટે સંબંધિત પાનાં:\n${sourceBlock(extra)}`,
+                });
+            }
         }
         const reply = await callVision({ messages: msgs });
         bubble.innerHTML = mdToHtml(reply);
@@ -547,7 +668,7 @@ async function saveHistory(answer, pages, labelText) {
         at: Date.now(),
         name: name.replace(/[*_`]/g, ''),
         answer,
-        pages: pages.map((p) => ({ page: p.page, text: clip(p.text, 400) })),
+        pages: pages.map((p) => ({ page: p.page, text: clip(p.text || '', 400) })),
         thumb: state.front?.dataUrl || state.back?.dataUrl || '',
     });
 }
@@ -599,13 +720,18 @@ async function syncProviderUi() {
     }
 
     const note = $('modelNote');
-    if (sel === 'builtin') {
+    if (CONFIG.proxyUrl) {
+        const ok = sel === 'builtin' && await builtinReady();
+        note.textContent = ok
+            ? 'લખેલા પ્રશ્ન ફોનમાં જ ચાલે છે; ફોટો સર્વર પર ઓળખાય છે. કી જરૂરી નથી.'
+            : 'સર્વર દ્વારા ચાલે છે — કોઈ કી જરૂરી નથી.';
+    } else if (sel === 'builtin') {
         const ok = await builtinReady();
         note.textContent = ok
             ? (canScan()
                 ? 'લખેલા પ્રશ્ન ફોનમાં જ ચાલે છે. ફોટો ઓળખવા માટે ઓનલાઇન મોડેલ વપરાય છે.'
                 : 'લખેલા પ્રશ્ન ફોનમાં જ ચાલે છે. ફોટો ઓળખવાની સુવિધા બંધ છે.')
-            : 'આ બ્રાઉઝરમાં બિલ્ટ-ઇન AI નથી (Chrome 138+ જોઈએ).';
+            : 'આ બ્રાઉઝરમાં બિલ્ટ-ઇન AI નથી (Chrome 138+ જોઈએ). સર્વર સેટ કરો.';
     } else {
         note.textContent = state.apiKey ? '' : 'આ મોડેલ માટે કી સેટ થયેલી નથી.';
     }
@@ -620,7 +746,7 @@ async function builtinReady() {
 }
 
 /* Photo identification needs a hosted vision model, so it needs a key. */
-const canScan = () => !!state.apiKey;
+const canScan = () => !!CONFIG.proxyUrl || !!state.apiKey;
 
 function refreshSetup() {
     const needKey = CONFIG.allowUserKey && !state.apiKey && state.provider !== 'builtin';
@@ -633,7 +759,9 @@ function refreshSetup() {
 
     if (hasPdf) {
         $('pdfStatus').hidden = false;
-        $('pdfName').textContent = `${state.source.name} — ${state.source.pages.length} પાનાં`;
+        const sc = state.source.scanned || 0;
+        $('pdfName').textContent = `${state.source.name} — ${state.source.pages.length} પાનાં`
+            + (sc ? ` (${sc} ચિત્ર)` : '');
         $('pdfZoneText').textContent = 'બીજી PDF પસંદ કરો';
     } else {
         $('pdfStatus').hidden = true;
@@ -740,10 +868,12 @@ async function boot() {
         $('pdfZoneText').textContent = 'વાંચી રહ્યું છે…';
         try {
             const src = await indexPdf(file, (p) => { bar.value = p; });
-            if (!src.pages.length) throw new Error('PDF માં લખાણ મળ્યું નહીં (સ્કેન કરેલી PDF હોઈ શકે).');
+            if (!src.pages.length) throw new Error('આ PDF વાંચી શકાઈ નહીં.');
             state.source = src;
             await put('source', src, 'default');
-            toast(`${src.pages.length} પાનાં સચવાયાં.`);
+            toast(src.scanned
+                ? `${src.pages.length} પાનાં સચવાયાં (${src.scanned} સ્કેન કરેલાં).`
+                : `${src.pages.length} પાનાં સચવાયાં.`);
         } catch (err) {
             toast(err.message);
         } finally {

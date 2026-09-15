@@ -299,6 +299,15 @@ img { max-width: 100%; display: block; }
 
 .src b { color: var(--ink); font-family: var(--mono); font-size: .72rem; font-weight: 500; }
 
+.src-img {
+    width: 100%;
+    max-width: 260px;
+    margin-top: 8px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #fff;
+}
+
 /* ---------- chat ---------- */
 .chat-log { display: grid; gap: 10px; margin-bottom: 12px; max-height: 420px; overflow-y: auto; }
 .chat-log:empty { display: none; }

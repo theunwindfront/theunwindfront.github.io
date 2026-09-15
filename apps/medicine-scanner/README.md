@@ -3,54 +3,52 @@
 USP product scanner. Photograph a medicine strip, get a Gujarati answer grounded
 in your own USP product PDF, with page citations.
 
-Everything — API key, the PDF, and scan history — stays in the browser on the
-device. Nothing is uploaded anywhere except the images sent to the model you pick.
+The PDF and all scan history stay in the browser on the device. With the proxy
+deployed there is no API key in the app at all; only the images being identified
+leave the device.
 
 ## How it works
 
-1. **Source once.** The client uploads the USP PDF a single time. `pdf.js` extracts
-   the text per page and the index is stored in IndexedDB, so it reloads
-   automatically on every launch and survives restarts.
+1. **Source once.** The client uploads the USP PDF a single time. `pdf.js` reads
+   each page — text where there is text, a rendered image where there is not —
+   and the index is stored in IndexedDB, so it reloads automatically on every
+   launch and survives restarts.
 2. **Scan.** Front/back photos are downscaled to 1280px and sent to a vision
    model. Pass one reads the label text verbatim; pass two answers using only the
-   PDF pages that match that text.
+   PDF pages that match it — including page images when those pages are scans.
 3. **Cite.** Every claim carries a page number, and the quoted source text is
    shown under the answer.
 4. **Chat.** Follow-up questions reuse the same source, and can include a photo.
 
-## Models
+## Models — no key for users
 
-Users are never asked for a key. Two paths, chosen automatically:
+Deploy the proxy in [`worker/`](worker/) and the app needs no key anywhere in
+the browser, on any device. See [`worker/README.md`](worker/README.md).
 
-| Need | Model | Key | Network |
-| --- | --- | --- | --- |
-| Typed questions (default) | Chrome built-in Gemini Nano | none | none — on-device |
-| Photo identification | Gemini 2.0 Flash (or Groq / OpenRouter) | preset in `config.js` | yes |
+| Need | Where it runs | Key in browser |
+| --- | --- | --- |
+| Typed questions, desktop Chrome 138+ | on-device Gemini Nano | none |
+| Typed questions, everywhere else | proxy → Gemini | none |
+| Photo identification | proxy → Gemini | none |
 
-Chrome's built-in model is text-only, so photos need a hosted vision model.
-Leave `apiKey` empty and the app still works for typed questions — photo
-scanning simply stays disabled with a message saying so.
+Chrome's built-in model is **desktop-only and text-only** — it does not exist on
+Chrome for Android or iOS. It is used opportunistically to save proxy quota, and
+everything falls back to the proxy when it is absent, so phones work normally.
 
-Requires Chrome 138+ for the on-device path; otherwise everything falls back to
-the hosted model.
+Without a proxy the app can still run a key straight from `config.js`, but that
+key is readable in DevTools by anyone. Use it only for local testing.
 
-## Setting the key
+## Reading the USP PDF
 
-Edit [`config.js`](config.js), then build:
+Both kinds of PDF work, decided per page:
 
-```js
-export const CONFIG = {
-    preferBuiltinForText: true,   // typed questions run on-device
-    provider: 'gemini',           // 'gemini' | 'groq' | 'openrouter'
-    apiKey: 'AIza…',              // free-tier key
-    allowUserKey: false,          // true shows a key field in Settings
-};
-```
+- **Pages with text** are indexed as text. Lookup is a local search, so matching
+  is instant and costs nothing.
+- **Pages without text** (scans, photographed books, product images) are
+  rendered to JPEG and sent to the vision model to read directly.
 
-> **A key in a client-side app is public.** Anyone can read it in DevTools.
-> Use a free-tier key with no billing attached, cap its quota in the provider
-> console, and rotate it if usage spikes. For a public deployment at scale,
-> move the key behind a serverless proxy and point `provider.url` at it.
+A page under 60 characters counts as a scan. Citations show the page text, or a
+thumbnail of the page itself when it is an image.
 
 ## Build
 
@@ -70,8 +68,9 @@ the live site. `dist/` is gitignored; `showcase/aushadhi/` is committed.
 
 ## Notes
 
-- A **text-based** PDF is required. A scanned/photographed PDF has no extractable
-  text and will be rejected — run OCR on it first.
+- Scanned PDFs work — pages with no text layer are rendered and read by the
+  vision model. Text pages are still faster and cheaper, so prefer a text-based
+  PDF when you have one.
 - Browsers cannot read a fixed folder on the device (no such API on mobile). The
   one-time upload into IndexedDB is the equivalent.
 - The app states that it reports only what the book says and gives no medical

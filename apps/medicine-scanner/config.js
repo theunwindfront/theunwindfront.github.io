@@ -1,33 +1,28 @@
 /* Build-time configuration.
  *
- * Put your key below, then run `npm run build`. End users never see a key
- * prompt — the app works the moment it opens.
+ * The recommended setup needs NO key in this file and NO key from users:
+ * deploy the Worker in ./worker, put your Gemini key there as a secret, and
+ * paste its URL into proxyUrl below. The key then lives on the server and is
+ * never visible in the browser.
  *
- * ── Read this before shipping ──────────────────────────────────────────
- * A key in a client-side app IS PUBLIC. Anyone can read it in DevTools.
- * That is an accepted trade for a frictionless app, but protect yourself:
- *   • use a FREE-TIER key, never one attached to billing
- *   • set a quota cap in the provider console
- *   • rotate the key if usage spikes
- * If this app is ever public-facing at scale, move the key behind a
- * serverless proxy instead (see README).
- * ──────────────────────────────────────────────────────────────────────
- *
- * Gemini key:  https://aistudio.google.com/apikey   (free tier)
- * Groq key:    https://console.groq.com/keys        (free tier, faster)
+ * See ./worker/README.md for the five-minute deploy.
  */
 
 export const CONFIG = {
-    /* Text questions run on Chrome's built-in Gemini Nano — on-device, no key,
-       no network. Set false to send text to the vision provider instead. */
+    /* Your deployed Worker, e.g. 'https://aushadhi-api.<you>.workers.dev'.
+       Set this and the app works on every browser and device with no key
+       anywhere in the client. */
+    proxyUrl: '',
+
+    /* Use Chrome's on-device model for typed questions when it exists
+       (desktop Chrome 138+). Saves proxy quota; ignored elsewhere.
+       Photos always need the proxy or a key — Nano cannot read images. */
     preferBuiltinForText: true,
 
-    /* Photos need a vision model; Gemini Nano cannot read images.
-       'gemini' | 'groq' | 'openrouter' */
-    provider: 'gemini',
-
-    /* Key for the provider above. Leave '' and photo scanning stays disabled
-       while text questions still work with no key at all. */
+    /* ── Fallbacks, only used when proxyUrl is empty ──────────────────
+       Direct-to-provider mode. A key here IS PUBLIC — readable in DevTools.
+       Use a free-tier key with a quota cap, or better, use the proxy. */
+    provider: 'gemini',   /* 'gemini' | 'groq' | 'openrouter' */
     apiKey: '',
 
     /* true shows a key field in Settings so users can supply their own. */
