@@ -199,7 +199,18 @@ async function indexPdf(file, onProgress) {
         onProgress?.(Math.round((i / pdf.numPages) * 100));
     }
 
-    return { name: file.name, pages, addedAt: Date.now(), scanned };
+    /* Index once, here — every later scan searches this instead of sending
+       the book to the model. Costs nothing but a moment of local work. */
+    const index = buildIndex(pages);
+
+    return {
+        name: file.name,
+        pages,
+        index,
+        addedAt: Date.now(),
+        scanned,
+        terms: Object.keys(index).length,
+    };
 }
 
 /* Render one PDF page to a JPEG data URL. */
@@ -221,19 +232,136 @@ async function renderPage(page, maxSide = 1000) {
     return canvas.toDataURL('image/jpeg', 0.75);
 }
 
+/* Read scanned pages once, so a picture-only book becomes searchable.
+
+   A fully scanned 150-page book has no text to index, which would leave every
+   scan guessing from a handful of page images. Instead we OCR each page ONCE
+   here, at upload, and index the result. That costs one request per page up
+   front — then every later scan is as cheap as a text PDF.
+
+   Pages are read in small batches to stay under the per-minute rate limit. */
+const OCR_BATCH = 4;
+
+async function ocrPages(pages, onProgress) {
+    const todo = pages.filter((p) => p.image && !p.text);
+    if (!todo.length) return 0;
+
+    let done = 0;
+    for (let i = 0; i < todo.length; i += OCR_BATCH) {
+        const batch = todo.slice(i, i + OCR_BATCH);
+
+        await Promise.all(batch.map(async (p) => {
+            try {
+                p.text = (await callVision({
+                    messages: [{
+                        role: 'user',
+                        content: [
+                            { type: 'text', text: 'Transcribe all text in this page exactly. Text only, no commentary.' },
+                            imgPartRaw(p.image),
+                        ],
+                    }],
+                })).trim();
+                p.ocr = true;
+            } catch {
+                /* A page that fails to read stays an image; it can still be
+                   sent to the model directly later. */
+            }
+            onProgress?.(++done, todo.length);
+        }));
+    }
+    return todo.filter((p) => p.ocr).length;
+}
+
+/* Build a lookup index once, at upload time.
+
+   This is what makes a 150-page book affordable: the index is computed here,
+   locally, and every later scan searches it instead of sending pages to the
+   model. Indexing costs no tokens at all — it is plain text processing.
+
+   For each page we keep the distinctive terms (brand names, salts, strengths)
+   with the page numbers they appear on, so a lookup is a map hit rather than
+   a scan of the whole book. */
+function buildIndex(pages) {
+    const index = new Map();   // term -> Set of page numbers
+
+    for (const p of pages) {
+        if (!p.text) continue;
+        for (const t of terms(p.text)) {
+            let hit = index.get(t);
+            if (!hit) index.set(t, (hit = new Set()));
+            hit.add(p.page);
+        }
+    }
+
+    /* A term on almost every page (headers, the book's own title) tells us
+       nothing about which page a product is on, so drop it. */
+    const ceiling = Math.max(3, Math.floor(pages.length * 0.4));
+    for (const [t, set] of index) if (set.size > ceiling) index.delete(t);
+
+    return Object.fromEntries([...index].map(([t, set]) => [t, [...set]]));
+}
+
+/* Words worth indexing: 3+ characters, not pure noise. */
+function terms(text) {
+    return new Set((text.toLowerCase().match(/[\p{L}\p{N}]{3,}/gu) || []));
+}
+
+/* Pages matching these search terms, via the prebuilt index. */
+function lookup(source, searchText, limit = MAX_PAGES_SENT) {
+    const idx = source?.index;
+    if (!idx) return null;
+
+    const score = new Map();
+    for (const t of terms(searchText)) {
+        const pages = idx[t];
+        if (!pages) continue;
+        /* A term on few pages is a stronger signal than a common one. */
+        const weight = 1 + 1 / pages.length;
+        for (const n of pages) score.set(n, (score.get(n) || 0) + weight);
+    }
+    if (!score.size) return null;
+
+    const best = [...score].sort((a, b) => b[1] - a[1]).slice(0, limit)
+        .map(([n]) => n);
+    return source.pages.filter((p) => best.includes(p.page))
+        .sort((a, b) => a.page - b.page);
+}
+
 /* Pick the pages most likely to contain the product, so we send a
    focused slice of the book instead of the whole thing. */
-function relevantPages(source, terms, limit = 6) {
+/* How much of the book one request may carry.
+
+   A 150-page book is far too big to send on every scan — it would spend the
+   whole daily quota in a few lookups. Instead the PDF is indexed ONCE at
+   upload time (see buildIndex), and each scan searches that index locally
+   and sends only the handful of pages that actually match. These budgets are
+   the ceiling for that handful, not the whole book. */
+const TEXT_BUDGET = 120_000;   // characters ≈ 30k tokens per request
+const IMAGE_BUDGET = 3;        // page pictures per request
+const MAX_PAGES_SENT = 8;      // matched pages per request
+
+function relevantPages(source, searchText, limit = MAX_PAGES_SENT) {
     if (!source?.pages?.length) return [];
+
+    /* Prebuilt index: a map hit instead of scanning every page. */
+    const viaIndex = lookup(source, searchText, limit);
+    if (viaIndex?.length) return viaIndex;
 
     const textPages = source.pages.filter((p) => p.text);
     const imagePages = source.pages.filter((p) => p.image);
-    const toks = terms.toLowerCase().match(/[\p{L}\p{N}]{3,}/gu) || [];
+    const toks = [...terms(searchText)];
 
-    /* No usable text anywhere (a fully scanned book): send page pictures. */
-    if (!textPages.length) return imagePages.slice(0, Math.min(limit, 4));
+    /* No usable text anywhere (a scanned book that was not read at upload).
+       Sample evenly across the whole book rather than only the first pages,
+       so the product at least has a chance of being in the sample. */
+    if (!textPages.length) {
+        if (imagePages.length <= IMAGE_BUDGET) return imagePages;
+        const step = imagePages.length / IMAGE_BUDGET;
+        return Array.from({ length: IMAGE_BUDGET },
+            (_, i) => imagePages[Math.floor(i * step)]);
+    }
 
-    if (!toks.length) return source.pages.slice(0, limit);
+    if (!toks.length) return bookSlice(source);
 
     const scored = textPages.map((p) => {
         const lower = p.text.toLowerCase();
@@ -246,28 +374,54 @@ function relevantPages(source, terms, limit = 6) {
     });
 
     const hit = scored.filter((p) => p.score > 0).sort((a, b) => b.score - a.score);
-    const out = (hit.length ? hit : scored).slice(0, limit);
+    const ranked = hit.length ? hit : scored;
+
+    /* Best matches first, stopping at the budget. On a big book this is a
+       few pages out of hundreds, which is what keeps each scan cheap. */
+    const out = [];
+    let used = 0;
+    for (const p of ranked.slice(0, Math.min(limit, MAX_PAGES_SENT))) {
+        if (used + p.text.length > TEXT_BUDGET) break;
+        used += p.text.length;
+        out.push(p);
+    }
 
     /* Text search found nothing — the answer may be on a scanned page, so
-       include a few page images for the model to look at. */
+       include page images for the model to look at. */
     if (!hit.length && imagePages.length) {
-        out.push(...imagePages.slice(0, 3));
+        out.push(...imagePages.slice(0, IMAGE_BUDGET));
+    }
+    return out.sort((a, b) => a.page - b.page);
+}
+
+/* The whole book, as far as one request can carry it.
+
+   Gemini accepts ~1M input tokens. Text is roughly 4 characters per token, so
+   a budget in characters keeps us safely inside that without counting tokens.
+   Page images are the expensive part (~1100 tokens each), so they are capped
+   separately and only included when a page has no text of its own. */
+function bookSlice(source) {
+    if (!source?.pages?.length) return [];
+
+    const out = [];
+    let used = 0;
+    let imgs = 0;
+
+    for (const p of source.pages) {
+        if (p.text) {
+            if (used + p.text.length > TEXT_BUDGET) continue;
+            used += p.text.length;
+            out.push(p);
+        } else if (p.image && imgs < IMAGE_BUDGET) {
+            imgs++;
+            out.push(p);
+        }
     }
     return out;
 }
 
-/* A broad slice of the book for single-pass scans, where we have no search
-   terms yet. Text pages are cheap, so send a generous span of them and only a
-   couple of page images. */
-function bookSlice(source, textLimit = 14, imgLimit = 2) {
-    if (!source?.pages?.length) return [];
-    const text = source.pages.filter((p) => p.text).slice(0, textLimit);
-    const imgs = source.pages.filter((p) => p.image).slice(0, imgLimit);
-    return [...text, ...imgs];
-}
-
 /* Page images to attach to a request, capped to keep the payload sane. */
-const pageImages = (pages, max = 3) =>
+const pageImages = (pages, max = IMAGE_BUDGET) =>
     pages.filter((p) => p.image).slice(0, max);
 
 const clip = (t, n = 2600) => (t.length > n ? t.slice(0, n) + '…' : t);
@@ -275,7 +429,7 @@ const clip = (t, n = 2600) => (t.length > n ? t.slice(0, n) + '…' : t);
 function sourceBlock(pages) {
     if (!pages.length) return '(કોઈ સ્રોત નથી)';
     return pages.map((p) => p.text
-        ? `[પાનું ${p.page}]\n${clip(p.text)}`
+        ? `[પાનું ${p.page}]\n${p.text}`
         : `[પાનું ${p.page}] — આ પાનું ચિત્ર તરીકે જોડેલું છે, તેને વાંચો.`
     ).join('\n\n---\n\n');
 }
@@ -475,9 +629,10 @@ async function runScan() {
     try {
         let labelText;
 
-        if (CONFIG.singlePass) {
-            /* One call: the model reads the strip and we search the book with
-               whatever text search terms we can pull from the photo later.
+        const bigBook = (state.source?.pages?.length || 0) > 12;
+
+        if (CONFIG.singlePass && !bigBook) {
+            /* Small book: send it whole in one call and let the model match.
                Halves quota use per scan. */
             labelText = '';
         } else {
@@ -497,9 +652,12 @@ async function runScan() {
         /* Answer, grounded in the matching PDF pages. Without a first pass we
            have no search terms, so widen the slice and let the model find the
            product itself. */
-        const pages = CONFIG.singlePass && !labelText
-            ? bookSlice(state.source)
-            : relevantPages(state.source, labelText);
+        /* With label text we search the index and send only what matches —
+           this is what keeps a 150-page book cheap. Without it (small book,
+           single pass) we send the book itself. */
+        const pages = labelText
+            ? relevantPages(state.source, labelText)
+            : bookSlice(state.source);
         const bookImages = pageImages(pages);
         const parts2 = [{
             type: 'text',
@@ -554,7 +712,7 @@ function showResult(text, pages) {
     const cited = new Set((text.match(/પાનું\s*(\d+)/g) || [])
         .map((m) => parseInt(m.replace(/\D/g, ''), 10)));
     const show = pages.filter((p) => cited.has(p.page));
-    const list = show.length ? show : pages.slice(0, 3);
+    const list = show.length ? show : pages.slice(0, 6);
 
     if (list.length) {
         $('sourceList').innerHTML = list.map((p) => p.text
@@ -586,10 +744,10 @@ async function sendChat(e) {
 
     const bubble = addMsg('ai', '…');
     try {
-        const extra = relevantPages(state.source, q, 4);
+        const extra = relevantPages(state.source, q, 16);
         const msgs = [...state.chat];
         if (extra.length) {
-            const pics = pageImages(extra, 2);
+            const pics = pageImages(extra, 4);
             if (pics.length) {
                 /* Scanned pages have to be seen, so send them as content. */
                 msgs.splice(1, 0, {
@@ -773,18 +931,62 @@ async function boot() {
         applyIcon();
     });
 
-    /* Capture */
-    $('frontInput').addEventListener('change', async (e) => {
-        if (e.target.files[0]) setShot('front', await readImage(e.target.files[0]));
-    });
-    $('backInput').addEventListener('change', async (e) => {
-        if (e.target.files[0]) setShot('back', await readImage(e.target.files[0]));
+    /* Capture — camera or gallery, plus drag-drop and paste on desktop. */
+    for (const [id, side] of [['frontInput', 'front'], ['frontPick', 'front'],
+                              ['backInput', 'back'], ['backPick', 'back']]) {
+        $(id).addEventListener('change', async (e) => {
+            if (e.target.files[0]) setShot(side, await readImage(e.target.files[0]));
+            e.target.value = '';   // allow re-picking the same file
+        });
+    }
+
+    /* The slot buttons open whichever input they name. */
+    for (const btn of document.querySelectorAll('.shot-act')) {
+        btn.addEventListener('click', () => $(btn.dataset.open).click());
+    }
+
+    /* Tapping the picture itself opens the gallery. */
+    $('frontSlot').addEventListener('click', () => $('frontPick').click());
+    $('backSlot').addEventListener('click', () => $('backPick').click());
+
+    /* Drop an image straight onto a slot. */
+    for (const [slotId, side] of [['frontSlot', 'front'], ['backSlot', 'back']]) {
+        const slot = $(slotId);
+        ['dragenter', 'dragover'].forEach((ev) => slot.addEventListener(ev, (e) => {
+            e.preventDefault(); slot.classList.add('drag');
+        }));
+        ['dragleave', 'drop'].forEach((ev) => slot.addEventListener(ev, (e) => {
+            e.preventDefault(); slot.classList.remove('drag');
+        }));
+        slot.addEventListener('drop', async (e) => {
+            const f = e.dataTransfer.files[0];
+            if (f?.type.startsWith('image/')) setShot(side, await readImage(f));
+        });
+    }
+
+    /* Paste an image: fills the front slot, then the back. */
+    addEventListener('paste', async (e) => {
+        const item = [...(e.clipboardData?.items || [])]
+            .find((i) => i.type.startsWith('image/'));
+        if (!item) return;
+        const f = item.getAsFile();
+        if (f) setShot(state.front ? 'back' : 'front', await readImage(f));
     });
     $('scanBtn').addEventListener('click', runScan);
 
     /* Settings */
     $('settingsBtn').addEventListener('click', openSettings);
     $('openSetup').addEventListener('click', openSettings);
+    /* Apply a typed key immediately: uploading a scanned PDF in the same
+       dialog needs it before Save is pressed. */
+    $('apiKey').addEventListener('input', (e) => {
+        if (CONFIG.allowUserKey) {
+            state.apiKey = e.target.value.trim() || CONFIG.apiKey || '';
+            refreshSetup();
+            syncKeyUi();
+        }
+    });
+
     $('keyReveal').addEventListener('click', () => {
         const f = $('apiKey');
         f.type = f.type === 'password' ? 'text' : 'password';
@@ -810,11 +1012,37 @@ async function boot() {
         try {
             const src = await indexPdf(file, (p) => { bar.value = p; });
             if (!src.pages.length) throw new Error('આ PDF વાંચી શકાઈ નહીં.');
+
+            /* Scanned pages carry no text, so searching them locally is
+               impossible. Offer to read them once now — costs one request per
+               page, and makes every later scan cheap and accurate. */
+            const unread = src.pages.filter((p) => p.image && !p.text).length;
+            if (unread && canScan()) {
+                const go = confirm(
+                    `આ PDF માં ${unread} પાનાં ચિત્ર સ્વરૂપે છે.\n\n` +
+                    `તેમને એક વાર વાંચી લઈએ? (લગભગ ${unread} વિનંતી વપરાશે)\n` +
+                    `પછી દરેક સ્કેન ઝડપી અને સચોટ થશે.\n\n` +
+                    `ના પાડશો તો પણ ચાલશે, પણ મોટી બુકમાં પ્રોડક્ટ ન પણ મળે.`);
+                if (go) {
+                    $('pdfZoneText').textContent = 'પાનાં વાંચી રહ્યું છે…';
+                    bar.value = 0;
+                    const read = await ocrPages(src.pages, (d, t) => {
+                        bar.value = Math.round((d / t) * 100);
+                        $('pdfZoneText').textContent = `પાનાં વાંચી રહ્યું છે… ${d}/${t}`;
+                    });
+                    src.index = buildIndex(src.pages);
+                    src.terms = Object.keys(src.index).length;
+                    src.ocrPages = read;
+                }
+            }
+
             state.source = src;
             await put('source', src, 'default');
-            toast(src.scanned
-                ? `${src.pages.length} પાનાં સચવાયાં (${src.scanned} સ્કેન કરેલાં).`
-                : `${src.pages.length} પાનાં સચવાયાં.`);
+            toast(src.ocrPages
+                ? `${src.pages.length} પાનાં સચવાયાં (${src.ocrPages} વાંચ્યાં).`
+                : src.scanned
+                    ? `${src.pages.length} પાનાં સચવાયાં (${src.scanned} ચિત્ર).`
+                    : `${src.pages.length} પાનાં સચવાયાં.`);
         } catch (err) {
             toast(err.message);
         } finally {

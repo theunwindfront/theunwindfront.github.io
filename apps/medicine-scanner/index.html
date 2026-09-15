@@ -76,20 +76,62 @@
             <section class="card" aria-labelledby="capHead">
                 <h2 id="capHead" class="card-head">ફોટો પાડો</h2>
                 <div class="shots">
-                    <label class="shot" for="frontInput">
+                    <div class="shot">
+                        <!-- Camera and gallery are separate inputs: `capture`
+                             forces the camera and hides the photo library. -->
                         <input type="file" id="frontInput" accept="image/*" capture="environment" hidden>
+                        <input type="file" id="frontPick" accept="image/*" hidden>
                         <div class="shot-inner" id="frontSlot">
                             <span class="shot-icon" aria-hidden="true">▣</span>
                             <span class="shot-label">આગળનો ભાગ</span>
                         </div>
-                    </label>
-                    <label class="shot" for="backInput">
+                        <div class="shot-acts">
+                            <button type="button" class="shot-act" data-open="frontInput">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" width="15" height="15">
+                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <circle cx="12" cy="13" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+                                </svg>કૅમેરા
+                            </button>
+                            <button type="button" class="shot-act" data-open="frontPick">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" width="15" height="15">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor"
+                                        stroke-width="2" />
+                                    <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+                                    <path d="M21 15l-5-5L5 21" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>ગૅલેરી
+                            </button>
+                        </div>
+                    </div>
+                    <div class="shot">
                         <input type="file" id="backInput" accept="image/*" capture="environment" hidden>
+                        <input type="file" id="backPick" accept="image/*" hidden>
                         <div class="shot-inner" id="backSlot">
                             <span class="shot-icon" aria-hidden="true">▤</span>
                             <span class="shot-label">પાછળનો ભાગ</span>
                         </div>
-                    </label>
+                        <div class="shot-acts">
+                            <button type="button" class="shot-act" data-open="backInput">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" width="15" height="15">
+                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <circle cx="12" cy="13" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+                                </svg>કૅમેરા
+                            </button>
+                            <button type="button" class="shot-act" data-open="backPick">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" width="15" height="15">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor"
+                                        stroke-width="2" />
+                                    <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+                                    <path d="M21 15l-5-5L5 21" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>ગૅલેરી
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <button type="button" class="primary-btn big" id="scanBtn" disabled>
                     <span id="scanLabel">ઓળખો</span>
