@@ -66,7 +66,7 @@
             <section id="setupBanner" class="banner" hidden>
                 <p class="banner-title">શરૂ કરતા પહેલાં</p>
                 <ul class="banner-list">
-                    <li id="stepKey" class="step"><span class="dot"></span>API કી ઉમેરો</li>
+                    <li id="stepKey" class="step"><span class="dot"></span>Gemini API કી ઉમેરો</li>
                     <li id="stepPdf" class="step"><span class="dot"></span>USP PDF અપલોડ કરો</li>
                 </ul>
                 <button type="button" class="primary-btn" id="openSetup">સેટઅપ ખોલો</button>
@@ -150,26 +150,18 @@
             <button value="close" class="chip-x" aria-label="બંધ કરો">×</button>
         </form>
         <div class="dlg-body">
-            <section class="field">
-                <h3>૧. AI મોડેલ</h3>
-                <p class="field-note">મફત વિકલ્પોમાંથી પસંદ કરો.</p>
-                <select id="providerSel">
-                    <option value="builtin">Chrome બિલ્ટ-ઇન AI (કી વગર)</option>
-                    <option value="gemini">Google Gemini</option>
-                    <option value="groq">Groq — Llama 4 Scout</option>
-                    <option value="openrouter">OpenRouter</option>
-                </select>
-                <p class="field-note tiny" id="modelNote"></p>
-            </section>
-
             <section class="field" id="keyField">
-                <h3>API કી</h3>
-                <p class="field-note" id="keyNote"></p>
+                <h3>૧. Gemini API કી</h3>
+                <p class="field-note">
+                    <a href="https://aistudio.google.com/apikey" target="_blank"
+                        rel="noopener">aistudio.google.com/apikey</a> પરથી મફત કી મેળવો.
+                </p>
                 <div class="key-row">
                     <input type="password" id="apiKey" placeholder="કી અહીં પેસ્ટ કરો" autocomplete="off"
                         spellcheck="false">
                     <button type="button" class="ghost-btn small" id="keyReveal" aria-label="કી બતાવો">◉</button>
                 </div>
+                <p class="field-note tiny" id="modelNote"></p>
                 <p class="field-note tiny">કી ફક્ત આ ફોનમાં સચવાય છે, ક્યાંય મોકલાતી નથી.</p>
             </section>
 

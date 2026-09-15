@@ -3,9 +3,8 @@
 USP product scanner. Photograph a medicine strip, get a Gujarati answer grounded
 in your own USP product PDF, with page citations.
 
-The PDF and all scan history stay in the browser on the device. With the proxy
-deployed there is no API key in the app at all; only the images being identified
-leave the device.
+The PDF, the API key, and all scan history stay in the browser on the device.
+Only the images being identified leave it.
 
 ## How it works
 
@@ -20,23 +19,27 @@ leave the device.
    shown under the answer.
 4. **Chat.** Follow-up questions reuse the same source, and can include a photo.
 
-## Models — no key for users
+## The model
 
-Deploy the proxy in [`worker/`](worker/) and the app needs no key anywhere in
-the browser, on any device. See [`worker/README.md`](worker/README.md).
+Google **Gemini 2.0 Flash** — the only model the app uses. It reads images, has
+a free tier, and handles Gujarati well.
 
-| Need | Where it runs | Key in browser |
-| --- | --- | --- |
-| Typed questions, desktop Chrome 138+ | on-device Gemini Nano | none |
-| Typed questions, everywhere else | proxy → Gemini | none |
-| Photo identification | proxy → Gemini | none |
+Two ways to supply the key:
 
-Chrome's built-in model is **desktop-only and text-only** — it does not exist on
-Chrome for Android or iOS. It is used opportunistically to save proxy quota, and
-everything falls back to the proxy when it is absent, so phones work normally.
+1. **Users bring their own.** Settings has a key field with a link to
+   [aistudio.google.com/apikey](https://aistudio.google.com/apikey). The key is
+   saved on that device only and never leaves it except to call Gemini.
+2. **You preset one.** Put it in [`config.js`](config.js) and the app works with
+   no setup — but that key ships inside the JavaScript and anyone can read it in
+   DevTools. Use a free-tier key, cap its quota, and restrict it to your domain.
 
-Without a proxy the app can still run a key straight from `config.js`, but that
-key is readable in DevTools by anyone. Use it only for local testing.
+A key a user enters overrides the preset one. Set `allowUserKey: false` to hide
+the field entirely.
+
+To keep a shared key off the client completely, deploy
+[`worker/`](worker/) and set `proxyUrl` — the key then lives on a Cloudflare
+Worker. That runs on a separate free host, since GitHub Pages serves only
+static files.
 
 ## Reading the USP PDF
 

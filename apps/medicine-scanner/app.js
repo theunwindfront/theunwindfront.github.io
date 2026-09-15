@@ -7,7 +7,7 @@ const $ = (id) => document.getElementById(id);
 
 /* ---------------------------------------------------------------
    IndexedDB — the "memory" the app finds on every launch.
-   Stores: meta (key/provider), source (the default USP PDF), history.
+   Stores: meta (the user's key), source (the default USP PDF), history.
 ---------------------------------------------------------------- */
 const DB_NAME = 'aushadhi';
 const DB_VER = 1;
@@ -83,7 +83,6 @@ async function clearStore(store) {
    App state
 ---------------------------------------------------------------- */
 const state = {
-    provider: CONFIG.preferBuiltinForText ? 'builtin' : (CONFIG.provider || 'gemini'),
     apiKey: CONFIG.apiKey || '',
     source: null,     // { name, pages:[{page, text}], addedAt }
     front: null,      // { dataUrl, mime, b64 }
@@ -93,40 +92,8 @@ const state = {
     chatImage: null,
 };
 
-const PROVIDERS = {
-    gemini: {
-        label: 'Google Gemini',
-        url: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
-        model: 'gemini-2.0-flash',
-        keyUrl: 'https://aistudio.google.com/apikey',
-        note: 'aistudio.google.com/apikey પરથી મફત કી મેળવો.',
-        vision: true,
-        shape: 'gemini',
-    },
-    groq: {
-        label: 'Groq',
-        url: 'https://api.groq.com/openai/v1/chat/completions',
-        model: 'meta-llama/llama-4-scout-17b-16e-instruct',
-        keyUrl: 'https://console.groq.com/keys',
-        note: 'console.groq.com/keys પરથી મફત કી મેળવો.',
-        vision: true,
-        shape: 'openai',
-    },
-    openrouter: {
-        label: 'OpenRouter',
-        url: 'https://openrouter.ai/api/v1/chat/completions',
-        model: 'meta-llama/llama-4-scout:free',
-        keyUrl: 'https://openrouter.ai/keys',
-        note: 'openrouter.ai/keys પરથી મફત કી મેળવો.',
-        vision: true,
-        shape: 'openai',
-    },
-    builtin: {
-        label: 'Chrome બિલ્ટ-ઇન',
-        note: 'Chrome 138+ માં કી વગર ચાલે છે. ફોટો વાંચી શકતું નથી — ફક્ત લખેલા પ્રશ્ન માટે.',
-        vision: false,
-    },
-};
+const GEMINI_URL = (model) =>
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
 /* ---------------------------------------------------------------
    Small helpers
@@ -331,75 +298,39 @@ const SYSTEM = `તમે એક અનુભવી ફાર્મા પ્ર
 ### ખાતરી
 મળેલી ખાતરી: ઊંચી / મધ્યમ / ઓછી — કારણ સાથે.`;
 
-/* Does this turn carry an image? */
-function hasImage(messages) {
-    return messages.some((m) => Array.isArray(m.content) &&
-        m.content.some((c) => c.type === 'image_url'));
-}
-
 async function callVision({ messages, signal }) {
-    const needsEyes = hasImage(messages);
-
-    /* Text-only: use Chrome's on-device model when it is available — free,
-       private, no key. Fall through to the hosted model if it is not. */
-    if (!needsEyes && (state.provider === 'builtin' || CONFIG.preferBuiltinForText)) {
-        try {
-            return await callBuiltin(messages);
-        } catch (e) {
-            if (!state.apiKey) throw e;
-        }
-    }
-
-    /* Preferred path: the proxy holds the key server-side, so nothing is
-       needed here and this works on every browser and device. */
+    /* Proxy mode keeps the key server-side; otherwise call Gemini directly. */
     if (CONFIG.proxyUrl) return callProxy({ messages, signal });
 
-    /* Images need a hosted vision model. */
-    const visionProvider = state.provider === 'builtin'
-        ? (CONFIG.provider || 'gemini')
-        : state.provider;
-    const p = PROVIDERS[visionProvider];
+    if (!state.apiKey) throw new Error('API કી સેટ થયેલી નથી.');
 
-    if (!state.apiKey) {
-        throw new Error(needsEyes
-            ? 'ફોટો ઓળખવાની સુવિધા હાલ બંધ છે. લખીને પ્રશ્ન પૂછો.'
-            : 'AI ઉપલબ્ધ નથી.');
+    let r;
+    try {
+        r = await fetch(GEMINI_URL(CONFIG.model || 'gemini-2.0-flash'), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-goog-api-key': state.apiKey,
+            },
+            signal,
+            body: JSON.stringify(toGemini(messages)),
+        });
+    } catch {
+        throw new Error('ઇન્ટરનેટ સાથે જોડાણ થયું નહીં.');
     }
-
-    const headers = { 'Content-Type': 'application/json' };
-    let url = p.url;
-    let body;
-
-    if (p.shape === 'gemini') {
-        headers['x-goog-api-key'] = state.apiKey;
-        body = toGemini(messages);
-    } else {
-        headers.Authorization = `Bearer ${state.apiKey}`;
-        if (visionProvider === 'openrouter') {
-            headers['HTTP-Referer'] = location.origin;
-            headers['X-Title'] = 'Aushadhi';
-        }
-        body = { model: p.model, messages, temperature: 0.2, max_tokens: 1400 };
-    }
-
-    const r = await fetch(url, {
-        method: 'POST',
-        headers,
-        signal,
-        body: JSON.stringify(body),
-    });
 
     if (!r.ok) {
-        const body = await r.text().catch(() => '');
-        if (r.status === 401) throw new Error('API કી ખોટી છે — સેટિંગમાં તપાસો.');
+        let detail = '';
+        try { detail = (await r.json())?.error?.message || ''; } catch { }
+        if (r.status === 400 && /API key/i.test(detail)) throw new Error('API કી ખોટી છે.');
+        if (r.status === 403) throw new Error('આ કીને પરવાનગી નથી.');
         if (r.status === 429) throw new Error('મફત મર્યાદા પૂરી થઈ. થોડી વાર પછી પ્રયત્ન કરો.');
-        throw new Error(`સર્વર ભૂલ (${r.status}). ${clip(body, 120)}`);
+        throw new Error(`સર્વર ભૂલ (${r.status}). ${clip(detail, 120)}`);
     }
 
     const j = await r.json();
-    const text = p.shape === 'gemini'
-        ? j.candidates?.[0]?.content?.parts?.map((x) => x.text).filter(Boolean).join('')
-        : j.choices?.[0]?.message?.content;
+    const text = j.candidates?.[0]?.content?.parts
+        ?.map((x) => x.text).filter(Boolean).join('');
     if (!text) throw new Error('જવાબ ખાલી આવ્યો.');
     return text;
 }
@@ -463,31 +394,6 @@ function toGemini(messages) {
         ...(sys ? { systemInstruction: { parts: [{ text: sys }] } } : {}),
         generationConfig: { temperature: 0.2, maxOutputTokens: 1400 },
     };
-}
-
-/* Chrome's on-device model: no key, but text only. */
-async function callBuiltin(messages) {
-    if (!('LanguageModel' in self)) {
-        throw new Error('આ બ્રાઉઝરમાં બિલ્ટ-ઇન AI નથી (Chrome 138+ જોઈએ).');
-    }
-    const avail = await LanguageModel.availability();
-    if (avail === 'unavailable') throw new Error('બિલ્ટ-ઇન AI ઉપલબ્ધ નથી.');
-
-    const sys = messages.find((m) => m.role === 'system')?.content || '';
-    const user = messages.filter((m) => m.role !== 'system').map((m) =>
-        typeof m.content === 'string'
-            ? m.content
-            : m.content.filter((c) => c.type === 'text').map((c) => c.text).join('\n')
-    ).join('\n\n');
-
-    const session = await LanguageModel.create({
-        initialPrompts: [{ role: 'system', content: sys }],
-    });
-    try {
-        return await session.prompt(user);
-    } finally {
-        session.destroy();
-    }
 }
 
 function imgPart(img) {
@@ -702,54 +608,27 @@ async function renderHistory() {
    Settings + setup state
 ---------------------------------------------------------------- */
 function openSettings() {
-    $('providerSel').value = state.provider;
-    $('apiKey').value = state.apiKey;
-    syncProviderUi();
+    if (CONFIG.allowUserKey) $('apiKey').value = state.apiKey;
+    syncKeyUi();
     $('settingsDlg').showModal();
 }
 
-async function syncProviderUi() {
-    const sel = $('providerSel').value;
-    const p = PROVIDERS[sel];
-
-    /* The key field only appears if the build allows user-supplied keys. */
-    $('keyField').hidden = !CONFIG.allowUserKey || !p.keyUrl;
-    if (CONFIG.allowUserKey && p.keyUrl) {
-        $('keyNote').innerHTML =
-            `<a href="${p.keyUrl}" target="_blank" rel="noopener">${p.note}</a>`;
-    }
-
+function syncKeyUi() {
+    $('keyField').hidden = !CONFIG.allowUserKey;
     const note = $('modelNote');
-    if (CONFIG.proxyUrl) {
-        const ok = sel === 'builtin' && await builtinReady();
-        note.textContent = ok
-            ? 'લખેલા પ્રશ્ન ફોનમાં જ ચાલે છે; ફોટો સર્વર પર ઓળખાય છે. કી જરૂરી નથી.'
-            : 'સર્વર દ્વારા ચાલે છે — કોઈ કી જરૂરી નથી.';
-    } else if (sel === 'builtin') {
-        const ok = await builtinReady();
-        note.textContent = ok
-            ? (canScan()
-                ? 'લખેલા પ્રશ્ન ફોનમાં જ ચાલે છે. ફોટો ઓળખવા માટે ઓનલાઇન મોડેલ વપરાય છે.'
-                : 'લખેલા પ્રશ્ન ફોનમાં જ ચાલે છે. ફોટો ઓળખવાની સુવિધા બંધ છે.')
-            : 'આ બ્રાઉઝરમાં બિલ્ટ-ઇન AI નથી (Chrome 138+ જોઈએ). સર્વર સેટ કરો.';
-    } else {
-        note.textContent = state.apiKey ? '' : 'આ મોડેલ માટે કી સેટ થયેલી નથી.';
-    }
+    if (!note) return;
+    note.textContent = CONFIG.proxyUrl
+        ? 'સર્વર દ્વારા ચાલે છે — કોઈ કી જરૂરી નથી.'
+        : state.apiKey
+            ? 'Google Gemini વપરાય છે.'
+            : 'API કી સેટ થયેલી નથી.';
 }
 
-/* Is Chrome's on-device model usable right now? */
-async function builtinReady() {
-    try {
-        if (!('LanguageModel' in self)) return false;
-        return (await LanguageModel.availability()) !== 'unavailable';
-    } catch { return false; }
-}
-
-/* Photo identification needs a hosted vision model, so it needs a key. */
+/* Photo identification needs the hosted model. */
 const canScan = () => !!CONFIG.proxyUrl || !!state.apiKey;
 
 function refreshSetup() {
-    const needKey = CONFIG.allowUserKey && !state.apiKey && state.provider !== 'builtin';
+    const needKey = !canScan();
     const hasPdf = !!state.source?.pages?.length;
 
     $('stepKey').hidden = !CONFIG.allowUserKey;
@@ -805,9 +684,7 @@ async function boot() {
     try { await navigator.storage?.persist?.(); } catch { }
 
     const meta = (await get('meta', 'settings')) || {};
-    state.provider = meta.provider
-        || (CONFIG.preferBuiltinForText ? 'builtin' : (CONFIG.provider || 'gemini'));
-    /* A user key only applies when the build permits one. */
+    /* A key the user saved wins over the one baked into the build. */
     state.apiKey = (CONFIG.allowUserKey && meta.apiKey) || CONFIG.apiKey || '';
     state.source = (await get('source', 'default')) || null;
 
@@ -840,21 +717,17 @@ async function boot() {
     /* Settings */
     $('settingsBtn').addEventListener('click', openSettings);
     $('openSetup').addEventListener('click', openSettings);
-    $('providerSel').addEventListener('change', () => { syncProviderUi(); });
     $('keyReveal').addEventListener('click', () => {
         const f = $('apiKey');
         f.type = f.type === 'password' ? 'text' : 'password';
     });
     $('saveSettings').addEventListener('click', async () => {
-        state.provider = $('providerSel').value;
         if (CONFIG.allowUserKey) {
             const typed = $('apiKey').value.trim();
             state.apiKey = typed || CONFIG.apiKey || '';
+            await put('meta', { apiKey: typed }, 'settings');
         }
-        await put('meta', {
-            provider: state.provider,
-            apiKey: CONFIG.allowUserKey ? state.apiKey : '',
-        }, 'settings');
+        syncKeyUi();
         refreshSetup();
         $('settingsDlg').close();
         toast('સચવાઈ ગયું.');

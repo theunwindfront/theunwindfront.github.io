@@ -20,7 +20,7 @@ self.addEventListener('fetch', (e) => {
 
     const url = new URL(request.url);
     /* Never cache model APIs. */
-    if (/api\.groq\.com|openrouter\.ai/.test(url.hostname)) return;
+    if (/generativelanguage\.googleapis\.com|workers\.dev/.test(url.hostname)) return;
 
     /* CDN assets (pdf.js, fonts): cache-first, they are versioned. */
     if (url.origin !== location.origin) {

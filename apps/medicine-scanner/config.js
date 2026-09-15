@@ -1,30 +1,33 @@
-/* Build-time configuration.
+/* Aushadhi — configuration.
  *
- * The recommended setup needs NO key in this file and NO key from users:
- * deploy the Worker in ./worker, put your Gemini key there as a secret, and
- * paste its URL into proxyUrl below. The key then lives on the server and is
- * never visible in the browser.
+ * Paste your Gemini key below, then run `npm run deploy`.
+ * Free key: https://aistudio.google.com/apikey
  *
- * See ./worker/README.md for the five-minute deploy.
+ * ── Know this before going live ───────────────────────────────────────
+ * A key in a static site IS PUBLIC. It ships inside the JavaScript, so
+ * anyone can read it in DevTools and spend your quota. Protect yourself:
+ *   • use a FREE-TIER key with no billing attached
+ *   • cap its quota in the Google AI Studio console
+ *   • restrict the key to your domain (API restrictions → HTTP referrers)
+ *   • rotate it if usage spikes
+ * To remove this exposure entirely, deploy ./worker and set proxyUrl —
+ * the key then lives on the server and never reaches the browser.
+ * ──────────────────────────────────────────────────────────────────────
  */
 
 export const CONFIG = {
-    /* Your deployed Worker, e.g. 'https://aushadhi-api.<you>.workers.dev'.
-       Set this and the app works on every browser and device with no key
-       anywhere in the client. */
-    proxyUrl: '',
-
-    /* Use Chrome's on-device model for typed questions when it exists
-       (desktop Chrome 138+). Saves proxy quota; ignored elsewhere.
-       Photos always need the proxy or a key — Nano cannot read images. */
-    preferBuiltinForText: true,
-
-    /* ── Fallbacks, only used when proxyUrl is empty ──────────────────
-       Direct-to-provider mode. A key here IS PUBLIC — readable in DevTools.
-       Use a free-tier key with a quota cap, or better, use the proxy. */
-    provider: 'gemini',   /* 'gemini' | 'groq' | 'openrouter' */
+    /* Your Gemini API key. */
     apiKey: '',
 
-    /* true shows a key field in Settings so users can supply their own. */
-    allowUserKey: false,
+    /* Model. Flash is fast, free-tier friendly, and reads images well. */
+    model: 'gemini-2.0-flash',
+
+    /* Optional: a deployed Worker URL (see ./worker). When set, the key
+       above is ignored and requests go through the proxy instead. */
+    proxyUrl: '',
+
+    /* Show a key field in Settings so users can use their own Gemini key.
+       A key they enter overrides the one above, and is saved on their
+       device only. */
+    allowUserKey: true,
 };
