@@ -256,6 +256,16 @@ function relevantPages(source, terms, limit = 6) {
     return out;
 }
 
+/* A broad slice of the book for single-pass scans, where we have no search
+   terms yet. Text pages are cheap, so send a generous span of them and only a
+   couple of page images. */
+function bookSlice(source, textLimit = 14, imgLimit = 2) {
+    if (!source?.pages?.length) return [];
+    const text = source.pages.filter((p) => p.text).slice(0, textLimit);
+    const imgs = source.pages.filter((p) => p.image).slice(0, imgLimit);
+    return [...text, ...imgs];
+}
+
 /* Page images to attach to a request, capped to keep the payload sane. */
 const pageImages = (pages, max = 3) =>
     pages.filter((p) => p.image).slice(0, max);
@@ -298,7 +308,7 @@ const SYSTEM = `તમે એક અનુભવી ફાર્મા પ્ર
 ### ખાતરી
 મળેલી ખાતરી: ઊંચી / મધ્યમ / ઓછી — કારણ સાથે.`;
 
-async function callVision({ messages, signal }) {
+async function callVision({ messages, signal, attempt = 0, onRetry }) {
     /* Proxy mode keeps the key server-side; otherwise call Gemini directly. */
     if (CONFIG.proxyUrl) return callProxy({ messages, signal });
 
@@ -306,7 +316,7 @@ async function callVision({ messages, signal }) {
 
     let r;
     try {
-        r = await fetch(GEMINI_URL(CONFIG.model || 'gemini-2.0-flash'), {
+        r = await fetch(GEMINI_URL(CONFIG.model || 'gemini-3.5-flash-lite'), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -324,15 +334,48 @@ async function callVision({ messages, signal }) {
         try { detail = (await r.json())?.error?.message || ''; } catch { }
         if (r.status === 400 && /API key/i.test(detail)) throw new Error('API કી ખોટી છે.');
         if (r.status === 403) throw new Error('આ કીને પરવાનગી નથી.');
-        if (r.status === 429) throw new Error('મફત મર્યાદા પૂરી થઈ. થોડી વાર પછી પ્રયત્ન કરો.');
+        if (r.status === 429) {
+            const perDay = /per day|daily|PerDay/i.test(detail);
+
+            /* A per-minute burst clears on its own (15 RPM on Flash-Lite), so
+               wait out the hint and try once more rather than failing. The
+               daily cap does not clear, so that one goes straight to the user. */
+            if (!perDay && attempt === 0) {
+                const hint = parseInt((detail.match(/(\d+)\s*s(?:econds)?/i) || [])[1] || '0', 10);
+                const wait = Math.min(Math.max(hint, 5), 30);
+                onRetry?.(wait);
+                await new Promise((res) => setTimeout(res, wait * 1000));
+                return callVision({ messages, signal, attempt: 1, onRetry });
+            }
+
+            throw new Error(perDay
+                ? 'આજની મફત મર્યાદા પૂરી થઈ. કાલે ફરી પ્રયત્ન કરો, અથવા સેટિંગમાં પોતાની API કી ઉમેરો.'
+                : 'મર્યાદા પૂરી થઈ. થોડી વાર પછી પ્રયત્ન કરો.');
+        }
+
+        /* Google retires model IDs; the 404 names the replacement. Surface it
+           plainly so the fix is obvious. */
+        if (r.status === 404 && /model/i.test(detail)) {
+            const next = (detail.match(/models\/([\w.-]+)/g) || [])
+                .map((m) => m.replace('models/', ''))
+                .find((m) => m !== (CONFIG.model || ''));
+            throw new Error(next
+                ? `આ મોડેલ બંધ થઈ ગયું છે. config.js માં model: '${next}' કરો.`
+                : 'આ મોડેલ હવે ઉપલબ્ધ નથી. config.js માં મોડેલ બદલો.');
+        }
+
         throw new Error(`સર્વર ભૂલ (${r.status}). ${clip(detail, 120)}`);
     }
 
     const j = await r.json();
-    const text = j.candidates?.[0]?.content?.parts
-        ?.map((x) => x.text).filter(Boolean).join('');
-    if (!text) throw new Error('જવાબ ખાલી આવ્યો.');
-    return text;
+    const cand = j.candidates?.[0];
+    const text = cand?.content?.parts?.map((x) => x.text).filter(Boolean).join('');
+
+    if (!text) {
+        if (cand?.finishReason === 'SAFETY') throw new Error('જવાબ અટકાવાયો.');
+        throw new Error('જવાબ ખાલી આવ્યો.');
+    }
+    return cand.finishReason === 'MAX_TOKENS' ? `${text}\n\n_(જવાબ અધૂરો છે.)_` : text;
 }
 
 /* Talk to the Worker. The key lives there, never here. */
@@ -392,7 +435,13 @@ function toGemini(messages) {
     return {
         contents,
         ...(sys ? { systemInstruction: { parts: [{ text: sys }] } } : {}),
-        generationConfig: { temperature: 0.2, maxOutputTokens: 1400 },
+        generationConfig: {
+            temperature: 0.2,
+            /* Gemini 3.x spends part of this budget on internal reasoning
+               (~700 tokens here), so leave room or the answer gets cut off
+               mid-sentence with finishReason MAX_TOKENS. */
+            maxOutputTokens: 3000,
+        },
     };
 }
 
@@ -424,25 +473,40 @@ async function runScan() {
     $('resultCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
     try {
-        /* Pass 1 — read the labels so we know what to look up. */
-        const parts = [{
-            type: 'text',
-            text: 'આ ફોટામાં દેખાતું બધું લખાણ જેમનું તેમ લખો (બ્રાન્ડ નામ, સોલ્ટ, કંપની, પેક, MRP). ફક્ત લખાણ, બીજું કંઈ નહીં.',
-        }];
-        if (state.front) parts.push(imgPart(state.front));
-        if (state.back) parts.push(imgPart(state.back));
+        let labelText;
 
-        const labelText = await callVision({
-            messages: [{ role: 'user', content: parts }],
-        });
+        if (CONFIG.singlePass) {
+            /* One call: the model reads the strip and we search the book with
+               whatever text search terms we can pull from the photo later.
+               Halves quota use per scan. */
+            labelText = '';
+        } else {
+            /* Pass 1 — read the labels so we know what to look up. */
+            const parts = [{
+                type: 'text',
+                text: 'આ ફોટામાં દેખાતું બધું લખાણ જેમનું તેમ લખો (બ્રાન્ડ નામ, સોલ્ટ, કંપની, પેક, MRP). ફક્ત લખાણ, બીજું કંઈ નહીં.',
+            }];
+            if (state.front) parts.push(imgPart(state.front));
+            if (state.back) parts.push(imgPart(state.back));
 
-        /* Pass 2 — answer, grounded in the matching PDF pages. */
-        const pages = relevantPages(state.source, labelText);
+            labelText = await callVision({
+                messages: [{ role: 'user', content: parts }],
+            });
+        }
+
+        /* Answer, grounded in the matching PDF pages. Without a first pass we
+           have no search terms, so widen the slice and let the model find the
+           product itself. */
+        const pages = CONFIG.singlePass && !labelText
+            ? bookSlice(state.source)
+            : relevantPages(state.source, labelText);
         const bookImages = pageImages(pages);
         const parts2 = [{
             type: 'text',
             text: `USP બુકના સંબંધિત પાનાં:\n\n${sourceBlock(pages)}\n\n`
-                + `ફોટામાંથી વાંચેલું લખાણ:\n${labelText}\n\n`
+                + (labelText
+                    ? `ફોટામાંથી વાંચેલું લખાણ:\n${labelText}\n\n`
+                    : `ફોટામાં દેખાતું લખાણ જાતે વાંચો અને ઉપરનાં પાનાં સાથે મેળવો.\n\n`)
                 + (bookImages.length
                     ? `નીચે પહેલાં પ્રોડક્ટના ફોટા છે, પછી બુકનાં પાનાંનાં ચિત્રો `
                       + `(પાનું ${bookImages.map((p) => p.page).join(', ')}).\n\n`
@@ -459,6 +523,10 @@ async function runScan() {
                 { role: 'system', content: SYSTEM },
                 { role: 'user', content: parts2 },
             ],
+            onRetry: (secs) => {
+                $('scanLabel').innerHTML =
+                    `<span class="spin"></span>મર્યાદા — ${secs}s રાહ જુઓ…`;
+            },
         });
 
         showResult(answer, pages);

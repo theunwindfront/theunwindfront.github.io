@@ -41,6 +41,38 @@ To keep a shared key off the client completely, deploy
 Worker. That runs on a separate free host, since GitHub Pages serves only
 static files.
 
+## Quota
+
+There is no unlimited free tier — every Gemini model caps requests per day, and
+the caps differ enormously between models. Check your own account at
+[aistudio.google.com/rate-limit](https://aistudio.google.com/rate-limit);
+the numbers below were read from a real free-tier account.
+
+| Model | RPM | Requests/day |
+| --- | --- | --- |
+| **gemini-3.5-flash-lite** (default) | 15 | **500** |
+| gemini-3.1-flash-lite | 15 | 500 |
+| gemini-3.6-flash / 3.7 / 3.8 | 5 | 20 |
+| gemini-2.5-flash-lite | 10 | 20 |
+
+Flash-Lite gives **25x the daily scans** of full Flash, and on medicine strips
+it matched Flash's accuracy in testing while spending no reasoning tokens.
+
+Pin an exact model id rather than a `-latest` alias: aliases can move to a model
+in a different quota bucket without warning.
+
+The app stretches that quota further:
+
+- **`singlePass: true`** — one API call per scan instead of two, so 500/day
+  becomes 500 scans rather than 250. Set it false for a two-pass read (label
+  first, then answer), which helps on damaged or cluttered packaging.
+- **PDF matching is local.** Only the photo and the matched pages are sent.
+- **A per-minute 429 retries itself** once, with the wait shown on the button.
+  The daily cap cannot be retried, so the app says so plainly and suggests
+  adding a personal key.
+- **Users can add their own key** in Settings, spending their quota instead of
+  yours — the only way past one account's cap without paying.
+
 ## Reading the USP PDF
 
 Both kinds of PDF work, decided per page:
