@@ -417,7 +417,15 @@ function lookup(source, searchText, limit = MAX_PAGES_SENT) {
         /* A two-word phrase ("dolo~650") is a much stronger signal. */
         const phrase = t.includes('~') ? 2.5 : 1;
 
-        for (const n of pages) credit(n, idf * phrase * penalty, t);
+        /* Cross-referencing a competitor's product: the customer's BRAND is
+           absent from our book, but the technical name and its strength are
+           what make two products equivalent. Weight those hardest. */
+        const technical = /^\d+(\.\d+)?%(ec|sc|wp|wg|sl|sg|sp|cs|od|ew|fs|me|ze|gr|dp)$/.test(t)
+            ? 3          // "15%ec" — strength + formulation together
+            : t.length >= 8 ? 1.8   // long chemical names: tolfenpyrad, imidacloprid
+                : 1;
+
+        for (const n of pages) credit(n, idf * phrase * technical * penalty, t);
     }
     if (!score.size) return null;
 
