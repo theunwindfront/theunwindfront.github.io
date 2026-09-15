@@ -104,7 +104,7 @@ The listing renders from a plain JS array (no Alpine). Open `blog/index.html`, f
 `const posts = [` near the bottom, and add a new object at the **top** of the array:
 ```javascript
 {
-    id: 23,                     // increment the current highest id
+    id: 27,                     // increment the current highest id
     title: 'Your Blog Post Title',
     excerpt: 'A short description of the post…',
     date: 'Month DD, YYYY',
@@ -116,7 +116,26 @@ The listing renders from a plain JS array (no Alpine). Open `blog/index.html`, f
 The category must exist in the `const categories = [ … ]` array at the top of the same script
 (add it there if it's genuinely new — the filter buttons render from that list).
 
-## 5. Update `sitemap.xml` (and optionally `llms.txt`)
+**Publishing later? Jump to step 8 instead** — a scheduled post takes two extra fields here
+and skips steps 5a and 5b entirely.
+
+## 5. Register the post for crawlers
+Two places, both only for posts publishing **now**. A scheduled post gets these automatically
+(step 8) — adding them by hand would leak the post early.
+
+### 5a. Hidden SEO link block (`blog/index.html`)
+The listing renders client-side, so crawlers need a static link or the post is orphaned. Near
+the bottom of `blog/index.html` find:
+```html
+<!-- SEO: Static links for crawlers to prevent orphan pages -->
+<div style="display: none;" aria-hidden="true" hidden>
+```
+Add your post as the first link inside it:
+```html
+<a href="/blog/<post-slug>/">Your Blog Post Title</a>
+```
+
+### 5b. `sitemap.xml` (and optionally `llms.txt`)
 Append a `<url>` entry: `<loc>https://sagarpansuriya.in/blog/<post-slug>/</loc>`, `<lastmod>`
 (publish date), `<changefreq>monthly</changefreq>`, `<priority>0.8</priority>`.
 Optionally add the post URL under the relevant list in `llms.txt`.
@@ -154,9 +173,54 @@ Verify:
   (click **Theme** to toggle; it persists via `localStorage`).
 - No console errors; the reading-progress bar moves; comments load.
 - The post appears on `/blog/` and its category filter shows it (`/blog/?category=<Category>`).
+  For a **scheduled** post, the opposite: confirm it does *not* appear in the listing yet, and
+  that `blog/<post-slug>/index.html` still carries its noindex meta.
 - Cleanliness check — all should be 0:
   ```bash
   grep -c 'cdn.tailwindcss.com' blog/<post-slug>/index.html   # → 0
   grep -c 'blogApp' blog/<post-slug>/index.html               # → 0
   ```
   (For a static post, `x-data` should be 0 too; interactive posts keep it only on demo elements.)
+
+## 8. Publishing later (scheduled posts)
+To write a post now and have it go live on a future date, do steps 1–4 as normal, then make
+these three changes instead of step 5.
+
+### 8a. Add a noindex meta to the post's `<head>`
+```html
+<meta name="robots" content="noindex, nofollow">
+```
+This keeps the page out of search results while it sits in the repo. The workflow strips this
+line automatically at publish time.
+
+### 8b. Add two fields to the posts array entry
+```javascript
+{
+    id: 27,
+    title: 'Your Blog Post Title',
+    // … the usual fields …
+    url: '/blog/<post-slug>/',
+    publishDate: '2026-10-01T09:00:00Z',  // UTC — when it should go live
+    scheduled: true,                       // removed automatically on publish
+},
+```
+`date` stays the human-readable string shown in the listing; `publishDate` is what the
+workflow acts on. Keep them consistent so the displayed date matches when it actually appears.
+
+### 8c. Skip steps 5a and 5b entirely
+Do **not** add the SEO crawler link or the sitemap entry by hand. The workflow adds both when
+the post goes live — adding them early would expose the post before its date.
+
+### What happens next
+`.github/workflows/publish-scheduled.yml` runs hourly. Once `publishDate` passes it clears the
+`scheduled` flag, adds the crawler link and sitemap entry, strips the noindex meta, and
+commits. GitHub Pages redeploys on that commit. The listing also filters scheduled posts
+client-side, so a pending post never renders even between cron runs.
+
+### Notes
+- **`publishDate` is UTC.** IST is UTC+5:30, so 09:00 IST is `03:30:00Z`.
+- GitHub's cron can run 10–15 minutes late. Schedule slightly early if the exact minute matters.
+- To publish immediately: Actions tab → "Publish scheduled posts" → "Run workflow".
+- Test locally without waiting: `node scripts/publish-scheduled.mjs` (safe to run twice — it
+  does nothing once a post is published). Revert with `git checkout` if you only wanted a dry run.
+- Full details in [`scripts/README.md`](scripts/README.md).
