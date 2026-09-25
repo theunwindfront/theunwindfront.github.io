@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 470" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="470" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">2027 · ONE THEME PER QUARTER</text>
+  <!-- quarter columns -->
+  <g>
+    <rect x="40" y="78" width="190" height="210" rx="12" fill="#1b1b20" stroke="#6fd3b0"/>
+    <text x="60" y="110" font-size="18" font-weight="700" fill="#6fd3b0">Q1</text>
+    <text x="60" y="134" font-size="13" fill="#a19e97">foundations</text>
+    <text x="60" y="166" font-size="13" fill="#ece9e2">HTML semantics</text>
+    <text x="60" y="188" font-size="13" fill="#ece9e2">accessibility</text>
+    <text x="60" y="210" font-size="13" fill="#ece9e2">HTTP · caching</text>
+    <rect x="56" y="236" width="158" height="36" rx="8" fill="#6fd3b0" fill-opacity=".16"/>
+    <text x="135" y="259" text-anchor="middle" font-size="12" fill="#6fd3b0">ship: a11y audit</text>
+
+    <rect x="244" y="78" width="190" height="210" rx="12" fill="#1b1b20" stroke="#8f8fef"/>
+    <text x="264" y="110" font-size="18" font-weight="700" fill="#b3b3f7">Q2</text>
+    <text x="264" y="134" font-size="13" fill="#a19e97">the platform</text>
+    <text x="264" y="166" font-size="13" fill="#ece9e2">grid · intrinsic</text>
+    <text x="264" y="188" font-size="13" fill="#ece9e2">container queries</text>
+    <text x="264" y="210" font-size="13" fill="#ece9e2">:has() · dialog</text>
+    <rect x="260" y="236" width="158" height="36" rx="8" fill="#8f8fef" fill-opacity=".16"/>
+    <text x="339" y="259" text-anchor="middle" font-size="12" fill="#b3b3f7">ship: JS removed</text>
+
+    <rect x="448" y="78" width="190" height="210" rx="12" fill="#1b1b20" stroke="#f2b880"/>
+    <text x="468" y="110" font-size="18" font-weight="700" fill="#f2b880">Q3</text>
+    <text x="468" y="134" font-size="13" fill="#a19e97">quality</text>
+    <text x="468" y="166" font-size="13" fill="#ece9e2">rendering · CWV</text>
+    <text x="468" y="188" font-size="13" fill="#ece9e2">testing levels</text>
+    <text x="468" y="210" font-size="13" fill="#ece9e2">debugging method</text>
+    <rect x="464" y="236" width="158" height="36" rx="8" fill="#f2b880" fill-opacity=".16"/>
+    <text x="543" y="259" text-anchor="middle" font-size="12" fill="#f2b880">ship: perf fix</text>
+
+    <rect x="652" y="78" width="188" height="210" rx="12" fill="#1b1b20" stroke="#f28b9b"/>
+    <text x="672" y="110" font-size="18" font-weight="700" fill="#f28b9b">Q4</text>
+    <text x="672" y="134" font-size="13" fill="#a19e97">leverage</text>
+    <text x="672" y="166" font-size="13" fill="#ece9e2">state modelling</text>
+    <text x="672" y="188" font-size="13" fill="#ece9e2">component APIs</text>
+    <text x="672" y="210" font-size="13" fill="#ece9e2">writing · review</text>
+    <rect x="668" y="236" width="156" height="36" rx="8" fill="#f28b9b" fill-opacity=".16"/>
+    <text x="746" y="259" text-anchor="middle" font-size="12" fill="#f28b9b">ship: a proposal</text>
+  </g>
+  <!-- arrows between -->
+  <g fill="#a19e97"><path d="M232 176 l10 7 l-10 7 z"/><path d="M436 176 l10 7 l-10 7 z"/><path d="M640 176 l10 7 l-10 7 z"/></g>
+  <!-- year-long tracks -->
+  <text x="40" y="322" font-size="12" fill="#8f8d88" letter-spacing="2">ALL YEAR</text>
+  <rect x="40" y="334" width="800" height="32" rx="8" fill="#23232a"/>
+  <rect x="40" y="334" width="6" height="32" rx="3" fill="#6fd3b0"/>
+  <text x="60" y="355" font-size="13" fill="#ece9e2">one fundamentals topic a week</text>
+  <text x="824" y="355" text-anchor="end" font-size="12" fill="#a19e97">~50% of time</text>
+  <rect x="40" y="374" width="800" height="32" rx="8" fill="#23232a"/>
+  <rect x="40" y="374" width="6" height="32" rx="3" fill="#8f8fef"/>
+  <text x="60" y="395" font-size="13" fill="#ece9e2">one AI-assisted experiment a month, with honest notes</text>
+  <rect x="40" y="414" width="800" height="32" rx="8" fill="#23232a"/>
+  <rect x="40" y="414" width="6" height="32" rx="3" fill="#f2b880"/>
+  <text x="60" y="435" font-size="13" fill="#ece9e2">review at least as much code as you write</text>
+</svg>

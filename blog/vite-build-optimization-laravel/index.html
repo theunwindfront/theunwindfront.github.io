@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Vite Build Optimisation for Laravel: Smaller Bundles, Faster Pages</title>
+    <meta name="description"
+        content="Multiple entry points, dynamic imports, sensible vendor chunks, preloading, CSS splitting and cache headers: a practical checklist for slimming down a Laravel app&#x27;s Vite build.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/vite-build-optimization-laravel/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Vite Build Optimisation for Laravel: Smaller Bundles, Faster Pages">
+    <meta property="og:description"
+        content="Multiple entry points, dynamic imports, sensible vendor chunks, preloading, CSS splitting and cache headers: a practical checklist for slimming down a Laravel app&#x27;s Vite build.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/vite-build-optimization-laravel/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/vite-build-optimization-laravel/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Vite Build Optimisation for Laravel: Smaller Bundles, Faster Pages">
+    <meta name="twitter:description"
+        content="Multiple entry points, dynamic imports, sensible vendor chunks, preloading, CSS splitting and cache headers: a practical checklist for slimming down a Laravel app&#x27;s Vite build.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/vite-build-optimization-laravel/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Vite Build Optimisation for Laravel: Smaller Bundles, Faster Pages",
+        "description": "Multiple entry points, dynamic imports, sensible vendor chunks, preloading, CSS splitting and cache headers: a practical checklist for slimming down a Laravel app's Vite build.",
+        "image": "https://sagarpansuriya.in/blog/vite-build-optimization-laravel/cover.png",
+        "datePublished": "2026-11-18",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/vite-build-optimization-laravel/",
+        "articleSection": "DX Tools",
+        "keywords": "Vite, Laravel, laravel-vite-plugin, code splitting, dynamic import, bundle size, Vite::prefetch"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=DX Tools">§ DX Tools</a>
+                <h1 class="post-title">Vite Build Optimisation for Laravel: Smaller Bundles, Faster Pages</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-11-18">Nov 18, 2026</time>
+                    <span class="sep">·</span>
+                    <span>8 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of a bundle map split into entry and lazy chunks above a terminal listing hashed build files and their sizes"></div>
+
+                <div class="prose">
+<p>You've probably seen this happen. A Laravel app starts with one <code>app.js</code> that boots Alpine and
+                        a couple of helpers. Two years later the same file pulls in a charting library, a rich text editor, a date
+                        picker with every locale, and an admin-only data grid. The marketing homepage downloads all of it, parses
+                        all of it, and uses about a tenth of it.</p>
+                    <p>Nobody made a bad decision. Each import was reasonable on the day it was added. The problem is that Vite
+                        will happily bundle whatever you point it at, and the default setup gives you exactly one front door.</p>
+                    <p>This post is the checklist I work through when a Laravel frontend has grown heavy: splitting entry points,
+                        lazy loading with <code>import()</code>, vendor chunks (and when to leave them alone), preloading and
+                        prefetching, CSS splitting, caching, and deleting what you don't need.</p>
+
+                    <h2>Start by looking, not guessing</h2>
+                    <p>Run <code>npm run build</code> and read the output. Vite prints every generated file with its raw and
+                        gzipped size. That list alone usually tells you whether you have one 600 kB chunk or a healthy spread of
+                        small ones. If you want a treemap of what's inside each chunk, I covered wiring up
+                        <code>rollup-plugin-visualizer</code> in <a href="/blog/frontend-performance-budgets-ci/">the post on
+                        performance budgets in CI</a>, so I won't repeat it here.</p>
+                    <p>Two other files are worth a look:</p>
+                    <ul>
+                        <li><strong><code>public/build/manifest.json</code></strong>: maps each source entry to its hashed output
+                            file, plus the chunks and CSS it imports. This is what the <code>@vite</code> directive reads in
+                            production.</li>
+                        <li><strong>The Network panel with cache disabled</strong>: load your three most important pages and note
+                            which JavaScript files each one downloads. If the login page loads your admin grid, you've found your
+                            first task.</li>
+                    </ul>
+
+                    <h2>One entry per area of the app</h2>
+                    <p>The cheapest win is to stop sending admin code to public visitors. <code>laravel-vite-plugin</code>
+                        accepts an array of inputs, and each one becomes its own entry with its own dependency graph:</p>
+                    <pre class="code-block"><code>// vite.config.js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: [
+                'resources/css/app.css',
+                'resources/js/app.js',      // public site
+                'resources/css/admin.css',
+                'resources/js/admin.js',    // dashboard only
+            ],
+            refresh: true,
+        }),
+    ],
+});</code></pre>
+                    <p>Then each layout asks only for what it needs:</p>
+                    <pre class="code-block"><code>{{-- resources/views/layouts/app.blade.php --}}
+@vite(['resources/css/app.css', 'resources/js/app.js'])
+
+{{-- resources/views/layouts/admin.blade.php --}}
+@vite(['resources/css/admin.css', 'resources/js/admin.js'])</code></pre>
+                    <p>Code shared by both entries (Alpine itself, your HTTP helpers) gets pulled into a shared chunk
+                        automatically, so you don't pay for it twice. Don't go overboard, though. An entry per page turns into a
+                        maintenance chore fast. An entry per <em>area</em> (public, account, admin) is usually the sweet spot.</p>
+
+                    <h2>Lazy load the heavy stuff with <code>import()</code></h2>
+                    <p>Entry points split by layout. Dynamic <code>import()</code> splits by feature. Anything you write as
+                        <code>import('…')</code> becomes a separate chunk that only downloads when that line runs. This is where
+                        most of the real savings are, because the heaviest libraries are usually needed on a handful of pages.</p>
+                    <p>A chart component in Alpine is the classic example:</p>
+                    <pre class="code-block"><code>// resources/js/components/sales-chart.js
+export default (data) =&gt; ({
+    chart: null,
+    async init() {
+        const { default: Chart } = await import('chart.js/auto');
+        this.chart = new Chart(this.$refs.canvas, {
+            type: 'line',
+            data,
+        });
+    },
+    destroy() {
+        this.chart?.destroy();
+    },
+});</code></pre>
+                    <p>The component registration stays tiny and ships in <code>app.js</code>. Chart.js only downloads when a
+                        page actually renders <code>x-data="salesChart(…)"</code>. Combine it with Alpine's
+                        <code>x-intersect</code> plugin and it won't even load until the chart scrolls into view.</p>
+                    <p>For page-specific scripts, <code>import.meta.glob</code> gives you a clean pattern. Without the
+                        <code>eager</code> option it returns an object of loader functions, and Vite creates one chunk per
+                        file:</p>
+                    <pre class="code-block"><code>// resources/js/app.js
+const modules = import.meta.glob('./modules/*.js');
+
+document.querySelectorAll('[data-module]').forEach(async (el) =&gt; {
+    const loader = modules[`./modules/${el.dataset.module}.js`];
+    if (!loader) return;
+
+    const { default: mount } = await loader();
+    mount(el);
+});</code></pre>
+                    <p>Now a Blade view opts in with <code>&lt;div data-module="editor"&gt;</code>, and the editor bundle only
+                        ships to pages that contain one. No new entry, no layout change.</p>
+
+                    <img src="bundle-split.svg" alt="Diagram comparing a single 640 kB app.js bundle with a split build: small per-area entries, a shared chunk, and chart, editor and grid chunks loaded on demand">
+
+                    <h2>Vendor chunks: useful, but not by default</h2>
+                    <p>The next idea people reach for is <code>manualChunks</code>: put everything from
+                        <code>node_modules</code> into one <code>vendor.js</code> so it caches separately from your own code. It
+                        sounds sensible. In practice it often makes things worse.</p>
+                    <p>A single catch-all vendor chunk undoes the work from the previous two sections. Chart.js, the editor and
+                        the grid all end up back in one file that every page downloads, because the vendor chunk is now a
+                        dependency of your entry. You traded lazy loading for a slightly better cache hit rate.</p>
+                    <p>Where manual chunks <em>do</em> help is a small, stable group of libraries that every page needs anyway
+                        and that rarely change. Group those specifically and leave the rest to Vite:</p>
+                    <pre class="code-block"><code>// vite.config.js (Vite 7 and earlier)
+build: {
+    rollupOptions: {
+        output: {
+            manualChunks(id) {
+                if (id.includes('node_modules/alpinejs') || id.includes('node_modules/@alpinejs')) {
+                    return 'alpine';
+                }
+                // everything else: let Vite decide
+            },
+        },
+    },
+},</code></pre>
+                    <p>One caveat: Vite 8 moved to Rolldown, and the bundler options now live under
+                        <code>build.rolldownOptions</code>, with its own chunk-grouping options alongside the older
+                        <code>manualChunks</code>. The principle is the same, but check the Vite docs for the exact shape on the
+                        version you're running rather than copying an old config.</p>
+                    <blockquote>My rule: don't add a vendor split until you can name the pages it helps and have checked that it
+                        doesn't drag a lazy chunk into the critical path.</blockquote>
+
+                    <h2>Preloading and prefetching</h2>
+                    <p>Splitting code creates a new risk: waterfalls. The browser downloads the entry, parses it, discovers it
+                        imports a shared chunk, and only then requests that chunk. Laravel's <code>@vite</code> directive already
+                        handles the static part. In production it reads the manifest and emits
+                        <code>&lt;link rel="modulepreload"&gt;</code> tags for the chunks your entry imports, so they download in
+                        parallel instead of one after another. You get this for free, which is one more reason to use
+                        <code>@vite</code> rather than hand-writing script tags.</p>
+                    <p>Dynamic chunks are different. They aren't preloaded, because the whole point is that they may never be
+                        needed. If you'd like them warm in the cache for the next navigation, Laravel can prefetch them after the
+                        page has loaded. Add it in a service provider:</p>
+                    <pre class="code-block"><code>// app/Providers/AppServiceProvider.php
+use Illuminate\Support\Facades\Vite;
+
+public function boot(): void
+{
+    // Fetch lazy chunks after the load event, three at a time.
+    Vite::prefetch(concurrency: 3);
+}</code></pre>
+                    <p>Use this with some judgement. On an internal dashboard where users will visit most screens, prefetching
+                        is a nice speed-up. On a public site with many mobile visitors on metered data, prefetching every chunk
+                        you've carefully split out can waste bandwidth. You can also pass an <code>event</code> name so
+                        prefetching waits until you dispatch that event yourself, for example after the user signs in.</p>
+
+                    <h2>CSS splits too</h2>
+                    <p>Vite's <code>build.cssCodeSplit</code> is on by default. CSS imported from inside a lazy chunk is
+                        extracted into its own file and loaded with that chunk. So if your editor needs a stylesheet, import it
+                        from the lazy module, not from <code>app.css</code>:</p>
+                    <pre class="code-block"><code>// resources/js/modules/editor.js
+import 'some-editor/dist/editor.css'; // only loads with this chunk
+import { createEditor } from 'some-editor';
+
+export default function mount(el) {
+    createEditor(el);
+}</code></pre>
+                    <p>For Tailwind, keep one stylesheet per area rather than per page. Tailwind already only generates the
+                        utilities it finds in your templates, so the win from further splitting is small. The real CSS bloat in
+                        Laravel projects is usually third-party stylesheets imported globally for a widget that appears on one
+                        screen.</p>
+
+                    <h2>Hashes and caching headers</h2>
+                    <p>Every file Vite writes to <code>public/build/assets</code> has a content hash in its name. Change a file
+                        and its name changes. That means you can tell browsers to cache these files forever, and the manifest
+                        takes care of pointing Blade at the new names after a deploy.</p>
+                    <p>Many servers don't set that header by default. On Nginx:</p>
+                    <pre class="code-block"><code>location /build/assets/ {
+    add_header Cache-Control "public, max-age=31536000, immutable";
+    try_files $uri =404;
+}</code></pre>
+                    <p>Only do this for the hashed <code>assets</code> folder, never for <code>manifest.json</code> or your
+                        HTML. And this is where chunking strategy matters: small, stable chunks mean a deploy that touches one
+                        component only invalidates one small file, not your entire bundle.</p>
+
+                    <h2>Delete what you don't use</h2>
+                    <p>The most effective optimisation is still removing code. A few habits that pay off:</p>
+                    <ul>
+                        <li><strong>Audit <code>package.json</code> once a quarter.</strong> Tools like <code>knip</code> or
+                            <code>depcheck</code> flag dependencies nothing imports. Leftovers from a feature that was removed are
+                            common.</li>
+                        <li><strong>Import what you use.</strong> <code>import { debounce } from 'lodash-es'</code> tree-shakes;
+                            <code>import _ from 'lodash'</code> does not. Same with icon sets: import individual icons, not the
+                            whole pack.</li>
+                        <li><strong>Question the big ones.</strong> Moment with all locales, jQuery kept alive for one plugin, a
+                            full UI kit for a single modal. Modern browsers cover a lot of it: <code>Intl.DateTimeFormat</code>,
+                            <code>fetch</code>, the native <code>&lt;dialog&gt;</code> element.</li>
+                        <li><strong>Watch the warning.</strong> Vite warns when a chunk passes 500 kB. Don't raise
+                            <code>build.chunkSizeWarningLimit</code> to silence it. Treat it as a to-do.</li>
+                    </ul>
+
+                    <h2>A checklist to keep</h2>
+                    <ol>
+                        <li>Read the <code>npm run build</code> output and note your biggest chunk.</li>
+                        <li>One Vite entry per area of the app, loaded from the matching layout with <code>@vite</code>.</li>
+                        <li>Heavy, page-specific libraries loaded with <code>import()</code> or <code>import.meta.glob</code>.</li>
+                        <li>No catch-all vendor chunk. Group only small, stable libraries every page needs.</li>
+                        <li>Let <code>@vite</code> handle modulepreload. Add <code>Vite::prefetch()</code> only where the audience
+                            suits it.</li>
+                        <li>Import widget CSS from the lazy module that needs it.</li>
+                        <li>Long-lived, <code>immutable</code> cache headers on <code>/build/assets/</code> only.</li>
+                        <li>Remove unused dependencies and switch to named imports.</li>
+                    </ol>
+                    <p>None of this needs a rewrite. Most Laravel apps I look at get the bulk of the benefit from the first
+                        three items: separate the admin, lazy load the two or three heavy libraries, and stop importing things
+                        globally that only one screen uses.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/vite-build-optimization-laravel/&text=Vite%20Build%20Optimisation%20for%20Laravel%3A%20Smaller%20Bundles%2C%20Faster%20Pages"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/vite-build-optimization-laravel/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

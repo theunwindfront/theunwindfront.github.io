@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="420" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">TRANSLATE DEBT INTO DECISIONS</text>
+  <text x="150" y="88" text-anchor="middle" font-size="12" fill="#a19e97">WHAT DEVS SEE</text>
+  <text x="440" y="88" text-anchor="middle" font-size="12" fill="#a19e97">CURRENCY</text>
+  <text x="720" y="88" text-anchor="middle" font-size="12" fill="#a19e97">WHAT STAKEHOLDERS HEAR</text>
+  <!-- row 1 -->
+  <rect x="40" y="104" width="220" height="70" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="150" y="134" text-anchor="middle" font-size="14" font-weight="700" fill="#ece9e2">Old framework</text>
+  <text x="150" y="156" text-anchor="middle" font-size="12" fill="#8f8d88">two majors behind</text>
+  <path d="M268 139 h92" stroke="#5b5bd6" stroke-width="2"/><path d="M356 133 l10 6 l-10 6 z" fill="#5b5bd6"/>
+  <rect x="376" y="116" width="128" height="46" rx="23" fill="#2a1c20" stroke="#f28b9b"/>
+  <text x="440" y="144" text-anchor="middle" font-size="14" font-weight="700" fill="#f28b9b">RISK</text>
+  <path d="M512 139 h52" stroke="#5b5bd6" stroke-width="2"/><path d="M560 133 l10 6 l-10 6 z" fill="#5b5bd6"/>
+  <rect x="580" y="104" width="260" height="70" rx="10" fill="#23232a" stroke="#f28b9b"/>
+  <text x="710" y="134" text-anchor="middle" font-size="13" fill="#ece9e2">Security fixes ending,</text>
+  <text x="710" y="154" text-anchor="middle" font-size="13" fill="#ece9e2">upgrade grows monthly</text>
+  <!-- row 2 -->
+  <rect x="40" y="194" width="220" height="70" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="150" y="224" text-anchor="middle" font-size="14" font-weight="700" fill="#ece9e2">Tangled checkout</text>
+  <text x="150" y="246" text-anchor="middle" font-size="12" fill="#8f8d88">one huge component</text>
+  <path d="M268 229 h92" stroke="#5b5bd6" stroke-width="2"/><path d="M356 223 l10 6 l-10 6 z" fill="#5b5bd6"/>
+  <rect x="376" y="206" width="128" height="46" rx="23" fill="#1c2a25" stroke="#6fd3b0"/>
+  <text x="440" y="234" text-anchor="middle" font-size="14" font-weight="700" fill="#6fd3b0">SPEED</text>
+  <path d="M512 229 h52" stroke="#5b5bd6" stroke-width="2"/><path d="M560 223 l10 6 l-10 6 z" fill="#5b5bd6"/>
+  <rect x="580" y="194" width="260" height="70" rx="10" fill="#23232a" stroke="#6fd3b0"/>
+  <text x="710" y="224" text-anchor="middle" font-size="13" fill="#ece9e2">Checkout features take</text>
+  <text x="710" y="244" text-anchor="middle" font-size="13" fill="#ece9e2">about twice as long</text>
+  <!-- row 3 -->
+  <rect x="40" y="284" width="220" height="70" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="150" y="314" text-anchor="middle" font-size="14" font-weight="700" fill="#ece9e2">No tests</text>
+  <text x="150" y="336" text-anchor="middle" font-size="12" fill="#8f8d88">on pricing rules</text>
+  <path d="M268 319 h92" stroke="#5b5bd6" stroke-width="2"/><path d="M356 313 l10 6 l-10 6 z" fill="#5b5bd6"/>
+  <rect x="376" y="296" width="128" height="46" rx="23" fill="#2a2418" stroke="#f2b880"/>
+  <text x="440" y="324" text-anchor="middle" font-size="14" font-weight="700" fill="#f2b880">COST</text>
+  <path d="M512 319 h52" stroke="#5b5bd6" stroke-width="2"/><path d="M560 313 l10 6 l-10 6 z" fill="#5b5bd6"/>
+  <rect x="580" y="284" width="260" height="70" rx="10" fill="#23232a" stroke="#f2b880"/>
+  <text x="710" y="314" text-anchor="middle" font-size="13" fill="#ece9e2">A manual QA day per</text>
+  <text x="710" y="334" text-anchor="middle" font-size="13" fill="#ece9e2">release, repeat bugs</text>
+  <text x="440" y="392" text-anchor="middle" font-size="13" fill="#8f8fef">Leave "clean code" out of the pitch. Lead with the right column.</text>
+</svg>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="440" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">A TESTING PYRAMID FOR TALL APPS</text>
+
+  <!-- pyramid: apex (330,80) base 60..600 at y 380 -->
+  <!-- top: browser -->
+  <path d="M330 80 L420 170 L240 170 Z" fill="#f28b9b"/>
+  <text x="330" y="140" text-anchor="middle" font-size="14" fill="#1a1a1a" font-weight="700">Browser</text>
+  <text x="330" y="158" text-anchor="middle" font-size="12" fill="#3a1a20">few</text>
+  <!-- middle: DOM -->
+  <path d="M236 176 L424 176 L514 266 L146 266 Z" fill="#f2b880"/>
+  <text x="330" y="216" text-anchor="middle" font-size="15" fill="#1a1a1a" font-weight="700">DOM tests</text>
+  <text x="330" y="238" text-anchor="middle" font-size="12" fill="#3a2a10">some · Vitest + happy-dom</text>
+  <!-- base: unit -->
+  <path d="M142 272 L518 272 L608 362 L52 362 Z" fill="#6fd3b0"/>
+  <text x="330" y="312" text-anchor="middle" font-size="15" fill="#1a1a1a" font-weight="700">Unit tests</text>
+  <text x="330" y="334" text-anchor="middle" font-size="12" fill="#0f3a2a">many · Vitest, no DOM</text>
+
+  <!-- side labels: what each catches -->
+  <line x1="424" y1="125" x2="460" y2="125" stroke="#2e2e36" stroke-width="2"/>
+  <text x="468" y="121" font-size="12" fill="#ece9e2">Pest browser / Playwright</text>
+  <text x="468" y="139" font-size="12" fill="#a19e97">load order, Livewire, real CSS</text>
+  <line x1="470" y1="221" x2="530" y2="221" stroke="#2e2e36" stroke-width="2"/>
+  <text x="538" y="217" font-size="12" fill="#ece9e2">real Alpine, fake DOM</text>
+  <text x="538" y="235" font-size="12" fill="#a19e97">directives, event contracts</text>
+  <line x1="565" y1="317" x2="620" y2="317" stroke="#2e2e36" stroke-width="2"/>
+  <text x="628" y="313" font-size="12" fill="#ece9e2">Alpine.data + stores</text>
+  <text x="628" y="331" font-size="12" fill="#a19e97">maths, state, rules</text>
+
+  <!-- speed arrow -->
+  <line x1="40" y1="330" x2="40" y2="110" stroke="#8f8fef" stroke-width="2"/>
+  <path d="M34 118 L40 104 L46 118 Z" fill="#8f8fef"/>
+  <text x="54" y="112" font-size="12" fill="#8f8fef">slower,</text>
+  <text x="54" y="128" font-size="12" fill="#8f8fef">more real</text>
+
+  <!-- PHP column -->
+  <rect x="40" y="384" width="800" height="36" rx="10" fill="#1b1b20" stroke="#5b5bd6" stroke-dasharray="5 4"/>
+  <text x="440" y="407" text-anchor="middle" font-size="13" fill="#b3b3f7">alongside: Pest feature tests + Livewire::test() for server logic</text>
+</svg>

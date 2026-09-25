@@ -13,7 +13,7 @@
  * Idempotent: re-running changes nothing once a post is published.
  */
 
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, appendFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -199,6 +199,12 @@ if (existsSync(LLMS)) {
     let txt = readFileSync(LLMS, 'utf8');
     for (const post of due) txt = addLlmsEntry(txt, post);
     writeFileSync(LLMS, txt);
+}
+
+// Hand the published posts to the workflow so it can send a notification.
+if (process.env.GITHUB_OUTPUT) {
+    const lines = due.map(p => `- [${p.title}](${SITE}${p.url})`).join('\n');
+    appendFileSync(process.env.GITHUB_OUTPUT, `published<<EOF_PUBLISHED\n${lines}\nEOF_PUBLISHED\n`);
 }
 
 console.log('Done.');

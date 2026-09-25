@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 520" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="520" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">RANKING AUDIT FINDINGS</text>
+  <!-- axes labels -->
+  <text x="58" y="276" font-size="13" fill="#a19e97" text-anchor="middle" transform="rotate(-90 58 276)">IMPACT →</text>
+  <text x="470" y="500" font-size="13" fill="#a19e97" text-anchor="middle">EFFORT →</text>
+  <!-- quadrants -->
+  <rect x="90" y="76" width="370" height="196" rx="12" fill="#14261f" stroke="#6fd3b0"/>
+  <rect x="470" y="76" width="370" height="196" rx="12" fill="#1c1c2e" stroke="#5b5bd6"/>
+  <rect x="90" y="282" width="370" height="190" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <rect x="470" y="282" width="370" height="190" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <!-- titles -->
+  <text x="110" y="106" font-size="15" fill="#6fd3b0" font-weight="700">QUICK WINS</text>
+  <text x="110" y="126" font-size="12" fill="#8f8d88">do next sprint</text>
+  <text x="490" y="106" font-size="15" fill="#b3b3f7" font-weight="700">BIG BETS</text>
+  <text x="490" y="126" font-size="12" fill="#8f8d88">phased proposal</text>
+  <text x="110" y="312" font-size="15" fill="#f2b880" font-weight="700">FILL-INS</text>
+  <text x="110" y="332" font-size="12" fill="#8f8d88">good first issues</text>
+  <text x="490" y="312" font-size="15" fill="#f28b9b" font-weight="700">NOT NOW</text>
+  <text x="490" y="332" font-size="12" fill="#8f8d88">write down, park</text>
+  <!-- items -->
+  <g font-size="13" fill="#ece9e2">
+    <circle cx="118" cy="162" r="5" fill="#6fd3b0"/><text x="132" y="167">Lazy-load chart library</text>
+    <circle cx="118" cy="192" r="5" fill="#6fd3b0"/><text x="132" y="197">Fix focus styles in Button</text>
+    <circle cx="118" cy="222" r="5" fill="#6fd3b0"/><text x="132" y="227">Cache deps in CI</text>
+    <circle cx="498" cy="162" r="5" fill="#8f8fef"/><text x="512" y="167">One shared Modal component</text>
+    <circle cx="498" cy="192" r="5" fill="#8f8fef"/><text x="512" y="197">Design tokens for colors</text>
+    <circle cx="498" cy="222" r="5" fill="#8f8fef"/><text x="512" y="227">Tests for checkout flow</text>
+    <circle cx="118" cy="368" r="5" fill="#f2b880"/><text x="132" y="373">Remove unused deps</text>
+    <circle cx="118" cy="398" r="5" fill="#f2b880"/><text x="132" y="403">Add .editorconfig</text>
+    <circle cx="118" cy="428" r="5" fill="#f2b880"/><text x="132" y="433">Document env setup</text>
+    <circle cx="498" cy="368" r="5" fill="#f28b9b"/><text x="512" y="373">Migrate to a new framework</text>
+    <circle cx="498" cy="398" r="5" fill="#f28b9b"/><text x="512" y="403">Rename every CSS class</text>
+    <circle cx="498" cy="428" r="5" fill="#f28b9b"/><text x="512" y="433">Monorepo split</text>
+  </g>
+</svg>

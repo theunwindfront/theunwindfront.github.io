@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Fluid Type and Spacing with clamp(): The Math, the Accessibility Rules, and Tailwind v4 Tokens</title>
+    <meta name="description"
+        content="The linear-interpolation math behind clamp() for fluid type and spacing, why rem + vw beats pure vw for accessibility, and how to wire a fluid modular scale into Tailwind v4 tokens.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/fluid-type-scale-clamp-math/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Fluid Type and Spacing with clamp(): The Math, the Accessibility Rules, and Tailwind v4 Tokens">
+    <meta property="og:description"
+        content="The linear-interpolation math behind clamp() for fluid type and spacing, why rem + vw beats pure vw for accessibility, and how to wire a fluid modular scale into Tailwind v4 tokens.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/fluid-type-scale-clamp-math/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/fluid-type-scale-clamp-math/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fluid Type and Spacing with clamp(): The Math, the Accessibility Rules, and Tailwind v4 Tokens">
+    <meta name="twitter:description"
+        content="The linear-interpolation math behind clamp() for fluid type and spacing, why rem + vw beats pure vw for accessibility, and how to wire a fluid modular scale into Tailwind v4 tokens.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/fluid-type-scale-clamp-math/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Fluid Type and Spacing with clamp(): The Math, the Accessibility Rules, and Tailwind v4 Tokens",
+        "description": "The linear-interpolation math behind clamp() for fluid type and spacing, why rem + vw beats pure vw for accessibility, and how to wire a fluid modular scale into Tailwind v4 tokens.",
+        "image": "https://sagarpansuriya.in/blog/fluid-type-scale-clamp-math/cover.png",
+        "datePublished": "2026-11-04",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/fluid-type-scale-clamp-math/",
+        "articleSection": "TailwindCSS",
+        "keywords": "CSS clamp(), fluid typography, fluid spacing, modular type scale, Tailwind v4 @theme, responsive font size, WCAG text resize"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=TailwindCSS">§ TailwindCSS</a>
+                <h1 class="post-title">Fluid Type and Spacing with clamp(): The Math, the Accessibility Rules, and Tailwind v4 Tokens</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-11-04">Nov 04, 2026</time>
+                    <span class="sep">·</span>
+                    <span>7 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of a clamp() formula driving a line graph of font size against viewport width, with a phone and desktop showing the same heading at different sizes"></div>
+
+                <div class="prose">
+<p>Picture a design handoff with two artboards: mobile at 360px wide, desktop at 1280px. The heading is 28px on one and 44px on the other. The usual translation into CSS is a font size per breakpoint, so the heading jumps from 28px to 36px to 44px as the window crosses <code>md</code> and <code>lg</code>. On a 1000px tablet it's whatever size the nearest breakpoint happened to pick.</p>
+                    <p>What the designer actually drew is a range. At 360px it's 28px, at 1280px it's 44px, and in between it should scale smoothly. CSS can express exactly that with one line: <code>clamp()</code>. The catch is that the middle value, the "preferred" one, is a small piece of algebra that most people copy from a generator without understanding. Once you know the math, you can build a whole type and spacing scale in a few minutes, check it for accessibility, and wire it into Tailwind v4 tokens.</p>
+
+                    <h2>What clamp() actually does</h2>
+                    <p><code>clamp(MIN, PREFERRED, MAX)</code> returns the preferred value, but never less than MIN and never more than MAX. It's shorthand for <code>max(MIN, min(PREFERRED, MAX))</code>. For fluid type, MIN and MAX are your mobile and desktop sizes, and PREFERRED is something that grows with the viewport, which means it contains a <code>vw</code> unit.</p>
+                    <p>The result is three zones: flat at the minimum on small screens, a straight line in the middle, and flat at the maximum on large screens.</p>
+                    <img src="clamp-interpolation.svg" alt="Graph of font size against viewport width: flat at 16px below 360px, a straight rising line between 360px and 1280px, and flat at 20px above 1280px, with the slope and intercept labelled">
+
+                    <h2>The linear-interpolation math</h2>
+                    <p>We want a straight line that passes through two points: (360px viewport, 16px text) and (1280px viewport, 20px text). A straight line is <em>intercept + slope × viewport width</em>. Two steps:</p>
+                    <pre class="code-block"><code>slope     = (maxSize - minSize) / (maxViewport - minViewport)
+          = (20 - 16) / (1280 - 360)
+          = 0.0043478
+
+intercept = minSize - slope × minViewport
+          = 16 - 0.0043478 × 360
+          = 14.4348px</code></pre>
+                    <p>Now translate into CSS units. <code>1vw</code> is 1% of the viewport width, so "slope × viewport width" becomes <code>slope × 100</code> in <code>vw</code>: <strong>0.4348vw</strong>. The intercept goes in <code>rem</code> (divide by 16): <strong>0.9022rem</strong>. The min and max go in <code>rem</code> too:</p>
+                    <pre class="code-block"><code>font-size: clamp(1rem, 0.9022rem + 0.4348vw, 1.25rem);</code></pre>
+                    <p>Check it: at a 360px viewport, <code>0.4348vw</code> is 1.565px, plus 14.435px is 16px. At 1280px, it's 5.565px plus 14.435px, which is 20px. The line hits both design points exactly, and <code>clamp()</code> holds it steady outside that range.</p>
+                    <p>That's the whole technique. Every fluid value in the rest of this post is the same two formulas with different inputs.</p>
+
+                    <h3>Why rem + vw, and not just vw</h3>
+                    <p>You'll see snippets like <code>font-size: 4vw</code> or <code>clamp(1rem, 2.5vw, 2rem)</code>. The first has no floor or ceiling at all. The second has limits, but its preferred value is pure viewport, and pure viewport units have two accessibility problems:</p>
+                    <ul>
+                    <li><strong>They ignore the user's font size setting.</strong> Someone who sets their browser default to 20px expects text to be bigger. <code>rem</code> respects that. <code>vw</code> doesn't know it exists.</li>
+                    <li><strong>They fight browser zoom.</strong> Zooming in makes the viewport narrower in CSS pixels, so a <code>vw</code> value gets <em>smaller</em> in CSS pixels while zoom makes each pixel bigger. The two roughly cancel out, and text barely grows. WCAG 1.4.4 asks that text can be resized to 200%, and pure <code>vw</code> text can fail that.</li>
+                    </ul>
+                    <p>The <code>rem</code> intercept fixes most of this, because that part of the value scales normally with zoom and font settings. Using <code>rem</code> for MIN and MAX matters too: the clamp limits then move with the user's preferences instead of being fixed pixel values.</p>
+                    <p>There's still a limit. The bigger the gap between MIN and MAX, the more of the value comes from <code>vw</code>, and the less zoom helps. A commonly cited rule of thumb is to keep the maximum no more than about 2.5 times the minimum. Body text at 16 to 20px is nowhere near that. A hero heading going from 24px to 96px is, so test it: zoom to 200% at a desktop width and make sure the text actually got bigger.</p>
+
+                    <h2>Building a modular scale</h2>
+                    <p>Doing this per element gets old fast. A type scale gives you a small set of sizes that relate to each other, and a <em>fluid</em> modular scale lets the ratio itself change with the viewport. Small screens get a tighter ratio so headings don't crowd out the content. Large screens get a more dramatic one.</p>
+                    <p>Pick a base and ratio for each end. For example, 16px with a 1.2 ratio at 360px, and 18px with a 1.25 ratio at 1280px. Step <em>n</em> is <code>base × ratio<sup>n</sup></code> at each end:</p>
+                    <table>
+                    <thead>
+                    <tr><th>Step</th><th>At 360px</th><th>At 1280px</th><th>clamp()</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr><td>-1</td><td>13.33px</td><td>14.4px</td><td><code>clamp(0.8333rem, 0.8072rem + 0.1159vw, 0.9rem)</code></td></tr>
+                    <tr><td>0</td><td>16px</td><td>18px</td><td><code>clamp(1rem, 0.9511rem + 0.2174vw, 1.125rem)</code></td></tr>
+                    <tr><td>1</td><td>19.2px</td><td>22.5px</td><td><code>clamp(1.2rem, 1.119rem + 0.3587vw, 1.406rem)</code></td></tr>
+                    <tr><td>2</td><td>23.04px</td><td>28.13px</td><td><code>clamp(1.44rem, 1.316rem + 0.5527vw, 1.758rem)</code></td></tr>
+                    <tr><td>3</td><td>27.65px</td><td>35.16px</td><td><code>clamp(1.728rem, 1.544rem + 0.8161vw, 2.197rem)</code></td></tr>
+                    <tr><td>4</td><td>33.18px</td><td>43.95px</td><td><code>clamp(2.074rem, 1.81rem + 1.17vw, 2.747rem)</code></td></tr>
+                    <tr><td>5</td><td>39.81px</td><td>54.93px</td><td><code>clamp(2.488rem, 2.119rem + 1.643vw, 3.433rem)</code></td></tr>
+                    </tbody>
+                    </table>
+                    <p>Notice how the <code>vw</code> coefficient grows with each step. Small text barely moves, big headings move a lot. That's the scale doing its job.</p>
+                    <p>You don't want to compute these by hand. A tiny script is enough, and it keeps the numbers reproducible when the designer changes the ratio:</p>
+                    <pre class="code-block"><code>// scripts/fluid-scale.mjs
+const minVw = 360, maxVw = 1280;
+const min = { base: 16, ratio: 1.2 };
+const max = { base: 18, ratio: 1.25 };
+
+const rem = (px) =&gt; +(px / 16).toFixed(4);
+
+function fluid(minPx, maxPx) {
+    const slope = (maxPx - minPx) / (maxVw - minVw);
+    const intercept = minPx - slope * minVw;
+    return `clamp(${rem(minPx)}rem, ${rem(intercept)}rem + ${+(slope * 100).toFixed(4)}vw, ${rem(maxPx)}rem)`;
+}
+
+const names = { '-1': 'sm', 0: 'base', 1: 'lg', 2: 'xl', 3: '2xl', 4: '3xl', 5: '4xl' };
+
+for (const [step, name] of Object.entries(names)) {
+    const n = Number(step);
+    console.log(`--text-${name}: ${fluid(min.base * min.ratio ** n, max.base * max.ratio ** n)};`);
+}</code></pre>
+                    <p>Run it with <code>node scripts/fluid-scale.mjs</code> and paste the output into your theme. If you'd rather not maintain a script, I built a small open-source plugin for exactly this, <a href="https://github.com/theunwindfront/tailwindcss-fluid-scale">tailwindcss-fluid-scale</a>. Either way, it's worth understanding what the generated numbers mean, which is the point of this post.</p>
+
+                    <h2>Fluid spacing uses the same math</h2>
+                    <p>Type is only half of it. If headings scale but section padding jumps at breakpoints, the layout still feels stepped. Pair each spacing size with a min and max and run the same formula:</p>
+                    <table>
+                    <thead>
+                    <tr><th>Token</th><th>360px → 1280px</th><th>Value</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr><td><code>fluid-s</code></td><td>12px → 16px</td><td><code>clamp(0.75rem, 0.6522rem + 0.4348vw, 1rem)</code></td></tr>
+                    <tr><td><code>fluid-m</code></td><td>16px → 24px</td><td><code>clamp(1rem, 0.8043rem + 0.8696vw, 1.5rem)</code></td></tr>
+                    <tr><td><code>fluid-l</code></td><td>24px → 40px</td><td><code>clamp(1.5rem, 1.109rem + 1.739vw, 2.5rem)</code></td></tr>
+                    <tr><td><code>fluid-xl</code></td><td>40px → 72px</td><td><code>clamp(2.5rem, 1.717rem + 3.478vw, 4.5rem)</code></td></tr>
+                    </tbody>
+                    </table>
+                    <p>Spacing isn't text, so the zoom concern is weaker here, and larger ratios are fine. The main risk is the opposite: huge padding at 200% zoom eating the screen. Keeping the <code>rem</code> intercept helps with both.</p>
+
+                    <h2>Wiring it into Tailwind v4 tokens</h2>
+                    <p>In Tailwind v4 the theme lives in CSS, in an <code>@theme</code> block. Font size utilities read from the <code>--text-*</code> namespace, and spacing utilities (padding, margin, gap and friends) read from <code>--spacing-*</code>. So fluid values become ordinary utilities:</p>
+                    <pre class="code-block"><code>/* resources/css/app.css */
+@import "tailwindcss";
+
+@theme {
+    --text-sm: clamp(0.8333rem, 0.8072rem + 0.1159vw, 0.9rem);
+    --text-base: clamp(1rem, 0.9511rem + 0.2174vw, 1.125rem);
+    --text-lg: clamp(1.2rem, 1.119rem + 0.3587vw, 1.406rem);
+    --text-xl: clamp(1.44rem, 1.316rem + 0.5527vw, 1.758rem);
+    --text-2xl: clamp(1.728rem, 1.544rem + 0.8161vw, 2.197rem);
+    --text-2xl--line-height: 1.2;
+    --text-3xl: clamp(2.074rem, 1.81rem + 1.17vw, 2.747rem);
+    --text-3xl--line-height: 1.15;
+    --text-4xl: clamp(2.488rem, 2.119rem + 1.643vw, 3.433rem);
+    --text-4xl--line-height: 1.1;
+
+    --spacing-fluid-s: clamp(0.75rem, 0.6522rem + 0.4348vw, 1rem);
+    --spacing-fluid-m: clamp(1rem, 0.8043rem + 0.8696vw, 1.5rem);
+    --spacing-fluid-l: clamp(1.5rem, 1.109rem + 1.739vw, 2.5rem);
+    --spacing-fluid-xl: clamp(2.5rem, 1.717rem + 3.478vw, 4.5rem);
+}</code></pre>
+                    <p>Overriding <code>--text-lg</code> and friends replaces Tailwind's default sizes with the fluid ones, so existing markup picks them up without changes. Use unitless line heights on the big steps, so the leading scales with the font size. The Blade stays boring, which is what you want:</p>
+                    <pre class="code-block"><code>&lt;section class="py-fluid-xl"&gt;
+    &lt;div class="mx-auto max-w-5xl space-y-fluid-m px-fluid-m"&gt;
+        &lt;h2 class="text-4xl font-bold"&gt;{{ $title }}&lt;/h2&gt;
+        &lt;p class="text-lg text-zinc-600"&gt;{{ $intro }}&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+                    <p>No <code>md:text-3xl lg:text-4xl</code> chains. The breakpoints didn't disappear, they moved into the math. If you're already organising primitive and semantic tokens, the fluid values belong in the primitive layer, next to your color and radius primitives.</p>
+
+                    <h3>When the component, not the viewport, should decide</h3>
+                    <p>Viewport-based fluid type assumes the text's container grows with the window. A card title in a sidebar doesn't. For those, the same formula works with container query units (<code>cqi</code>) instead of <code>vw</code>, measured against the container's min and max widths. See the <a href="/blog/container-queries-component-libraries/">container queries post</a> for how that fits into a component library.</p>
+
+                    <h2>Checklist before you ship a fluid scale</h2>
+                    <ol>
+                    <li>Pick the two viewport widths that match your design artboards, and use them for every token.</li>
+                    <li>Preferred values are always <code>rem + vw</code>, never pure <code>vw</code>.</li>
+                    <li>MIN and MAX in <code>rem</code>, so user font settings move them.</li>
+                    <li>Keep MAX within about 2.5× MIN for text, and test large headings at 200% zoom on a desktop width.</li>
+                    <li>Generate the values with a script or plugin, and commit the inputs (bases, ratios, viewports), not just the output.</li>
+                    <li>Put the values in <code>@theme</code> so they're normal <code>text-*</code> and spacing utilities.</li>
+                    <li>Use container units instead of <code>vw</code> for components that live in variable-width slots.</li>
+                    </ol>
+                    <p>Back to that design handoff: the heading is now one token, the tablet size is no longer an accident, and when the designer asks for a slightly bigger desktop ratio, you change one number and rerun a script.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/fluid-type-scale-clamp-math/&text=Fluid%20Type%20and%20Spacing%20with%20clamp%28%29%3A%20The%20Math%2C%20the%20Accessibility%20Rules%2C%20and%20Tailwind%20v4%20Tokens"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/fluid-type-scale-clamp-math/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

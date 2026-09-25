@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Scroll-Driven Animations in Pure CSS: Progress Bars, Reveals and Parallax</title>
+    <meta name="description"
+        content="Scroll-linked effects no longer need JavaScript. A practical guide to animation-timeline, scroll(), view() and animation-range, with reduced motion, fallbacks and Tailwind.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/scroll-driven-animations-css/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Scroll-Driven Animations in Pure CSS: Progress Bars, Reveals and Parallax">
+    <meta property="og:description"
+        content="Scroll-linked effects no longer need JavaScript. A practical guide to animation-timeline, scroll(), view() and animation-range, with reduced motion, fallbacks and Tailwind.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/scroll-driven-animations-css/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/scroll-driven-animations-css/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Scroll-Driven Animations in Pure CSS: Progress Bars, Reveals and Parallax">
+    <meta name="twitter:description"
+        content="Scroll-linked effects no longer need JavaScript. A practical guide to animation-timeline, scroll(), view() and animation-range, with reduced motion, fallbacks and Tailwind.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/scroll-driven-animations-css/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Scroll-Driven Animations in Pure CSS: Progress Bars, Reveals and Parallax",
+        "description": "Scroll-linked effects no longer need JavaScript. A practical guide to animation-timeline, scroll(), view() and animation-range, with reduced motion, fallbacks and Tailwind.",
+        "image": "https://sagarpansuriya.in/blog/scroll-driven-animations-css/cover.png",
+        "datePublished": "2026-12-16",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/scroll-driven-animations-css/",
+        "articleSection": "TailwindCSS",
+        "keywords": "scroll-driven animations, animation-timeline, CSS scroll(), CSS view(), animation-range, Tailwind CSS, prefers-reduced-motion"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=TailwindCSS">§ TailwindCSS</a>
+                <h1 class="post-title">Scroll-Driven Animations in Pure CSS: Progress Bars, Reveals and Parallax</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-12-16">Dec 16, 2026</time>
+                    <span class="sep">·</span>
+                    <span>7 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of a scrolling page with a reading progress bar, cards fading in as they enter the viewport, and a scroll thumb driving a keyframe curve"></div>
+
+                <div class="prose">
+<p>You've probably written this code more than once: a <code>scroll</code> listener that reads
+                        <code>scrollTop</code>, does some maths, and sets a width or a transform on every event. Maybe
+                        it's a reading progress bar, maybe an <code>IntersectionObserver</code> that adds a
+                        <code>.is-visible</code> class so cards fade in. It works, but it runs on the main thread,
+                        competes with everything else your page is doing, and needs care to avoid jank.</p>
+                    <p>CSS can now do most of this on its own. Scroll-driven animations let you attach a normal
+                        <code>@keyframes</code> animation to scroll position instead of time. No listeners, no
+                        observers, no library. It belongs on the same list as the features in my post on
+                        <a href="/blog/modern-css-replacing-javascript/">modern CSS replacing JavaScript</a>, and it
+                        deserves a walkthrough of its own.</p>
+                    <p>This post covers the two timeline types, how <code>animation-range</code> works, three
+                        patterns you'll actually use, and how to ship them responsibly with reduced motion, fallbacks
+                        and Tailwind.</p>
+
+                    <h2>The core idea: swap time for scroll</h2>
+                    <p>A regular CSS animation progresses from 0% to 100% over its duration. A scroll-driven
+                        animation uses the same keyframes, but progress comes from a <em>timeline</em> linked to
+                        scrolling. You opt in with one property:</p>
+                    <pre class="code-block"><code>.thing {
+    animation: fade-in linear both;
+    animation-timeline: scroll();   /* or view() */
+}</code></pre>
+                    <p>Two details matter immediately. First, <code>linear</code> easing usually feels best, because
+                        the user's scroll is already the "easing". Second, <strong>declare
+                        <code>animation-timeline</code> after the <code>animation</code> shorthand</strong>. The
+                        shorthand resets <code>animation-timeline</code> to its default, so if the order is reversed,
+                        your animation quietly falls back to a time-based one.</p>
+                    <p>There are two kinds of timeline, and picking the right one is most of the work.</p>
+
+                    <h3>scroll(): progress of a scroll container</h3>
+                    <p><code>scroll()</code> tracks how far a scroll container has been scrolled, from the top (0%)
+                        to the bottom (100%). By default it uses the nearest ancestor scroll container on the block
+                        axis. You can be explicit: <code>scroll(root)</code> for the document,
+                        <code>scroll(nearest inline)</code> for a horizontal scroller.</p>
+
+                    <h3>view(): an element's journey through the viewport</h3>
+                    <p><code>view()</code> tracks a single element as it moves through its scroll container's
+                        visible area. Progress starts when the element's leading edge enters the scrollport and ends
+                        when its trailing edge leaves. This is the one you want for reveals, because each element gets
+                        its own timeline.</p>
+
+                    <h2>animation-range: which slice of the timeline</h2>
+                    <p>By default the animation runs across the whole timeline. For a <code>view()</code> timeline
+                        that means the full journey from entering to leaving, which is rarely what you want for a
+                        reveal. <code>animation-range</code> lets you pick a slice using named ranges:</p>
+
+                    <img src="view-timeline-ranges.svg" alt="Diagram showing an element moving through the viewport, with the entry, contain and exit ranges and the cover range spanning all of them">
+
+                    <ul>
+                        <li><strong><code>cover</code></strong>: the full journey, first pixel in to last pixel
+                            out.</li>
+                        <li><strong><code>entry</code></strong>: while the element is entering, from touching the
+                            bottom edge to fully inside.</li>
+                        <li><strong><code>contain</code></strong>: while it's fully visible (or fully covering the
+                            viewport, if it's taller than it).</li>
+                        <li><strong><code>exit</code></strong>: while it's leaving through the top edge.</li>
+                    </ul>
+                    <p>You combine a range name with a percentage for the start and end:
+                        <code>animation-range: entry 0% cover 30%</code> means "start as the element begins to enter,
+                        finish when it's 30% of the way through its whole journey". For <code>scroll()</code>
+                        timelines you can use plain lengths instead, like <code>animation-range: 0 200px</code> to run
+                        over the first 200 pixels of scrolling.</p>
+
+                    <h2>Pattern 1: a reading progress bar</h2>
+                    <p>The classic. A fixed bar at the top of the page that grows as you read:</p>
+                    <pre class="code-block"><code>.reading-progress {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: var(--color-accent);
+    transform-origin: 0 50%;
+    animation: grow-x linear both;
+    animation-timeline: scroll(root block);
+}
+
+@keyframes grow-x {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+}</code></pre>
+                    <p>Note <code>scaleX</code> rather than animating <code>width</code>. Transforms and opacity are
+                        compositor-friendly, which is where the performance win comes from (more on that below).</p>
+
+                    <h2>Pattern 2: reveal on scroll</h2>
+                    <p>This replaces the <code>IntersectionObserver</code> plus class toggle that most sites carry
+                        around:</p>
+                    <pre class="code-block"><code>@keyframes reveal {
+    from { opacity: 0; translate: 0 2rem; }
+    to   { opacity: 1; translate: 0 0; }
+}
+
+.reveal {
+    animation: reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+}</code></pre>
+                    <p>Every <code>.reveal</code> element gets its own timeline, so a grid of cards animates
+                        naturally as each one scrolls in. Scroll back up and the animation reverses, because progress
+                        follows position. If you want a one-way "appear once" effect, that's still a job for a bit of
+                        JavaScript.</p>
+
+                    <h2>Pattern 3: parallax and shrinking headers</h2>
+                    <p>Parallax is just an element moving at a different rate from the scroll. With a
+                        <code>view()</code> timeline over the <code>cover</code> range, a hero image can drift while its
+                        section passes through:</p>
+                    <pre class="code-block"><code>.hero-media {
+    animation: drift linear both;
+    animation-timeline: view();
+    animation-range: cover;
+}
+
+@keyframes drift {
+    from { translate: 0 -10%; }
+    to   { translate: 0 10%; }
+}</code></pre>
+                    <p>A compact sticky header is a <code>scroll()</code> timeline with a length range, so it
+                        finishes shrinking after the first 160 pixels:</p>
+                    <pre class="code-block"><code>.site-header {
+    position: sticky;
+    top: 0;
+    animation: compact linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 160px;
+}
+
+@keyframes compact {
+    to { padding-block: 0.5rem; box-shadow: 0 1px 0 rgb(0 0 0 / 0.1); }
+}</code></pre>
+                    <p>Padding isn't a compositor-only property, so this one does trigger layout while it runs. For
+                        a header that's usually fine. For big elements, prefer <code>transform</code>.</p>
+
+                    <h3>Named timelines for components</h3>
+                    <p>Sometimes the thing that animates isn't inside the thing that scrolls, like a progress
+                        indicator for a horizontal carousel. Give the scroller a named timeline and reference it:</p>
+                    <pre class="code-block"><code>.carousel { overflow-x: auto; scroll-timeline: --carousel inline; }
+.carousel-progress { animation: grow-x linear both; animation-timeline: --carousel; }
+
+/* If the indicator is a sibling, not a descendant, lift the name to a shared ancestor */
+.carousel-wrapper { timeline-scope: --carousel; }</code></pre>
+
+                    <h2>Why this performs better</h2>
+                    <p>A scroll listener runs JavaScript on the main thread, which is also where your framework,
+                        third-party scripts and event handlers run. When that thread is busy, scroll effects stutter.</p>
+                    <p>Scroll-driven animations are declarative. The browser knows the relationship between scroll
+                        position and animation progress up front, so when you animate compositor-friendly properties
+                        like <code>transform</code> and <code>opacity</code>, it can update them off the main thread,
+                        in step with scrolling. You also delete code: no listeners to throttle, no observers to
+                        disconnect, nothing competing with your interactions.</p>
+
+                    <h2>Respect reduced motion</h2>
+                    <p>Scroll-linked motion is exactly the kind of effect that makes some people feel unwell,
+                        especially parallax. Wrap motion-heavy animations in a reduced-motion check. I prefer the
+                        opt-in form, so the motion only exists for people who haven't asked to reduce it:</p>
+                    <pre class="code-block"><code>@media (prefers-reduced-motion: no-preference) {
+    .hero-media {
+        animation: drift linear both;
+        animation-timeline: view();
+        animation-range: cover;
+    }
+}</code></pre>
+                    <p>A progress bar is fine to keep for everyone, since it communicates information rather than
+                        decoration. Parallax and big translations should go.</p>
+
+                    <h2>Browser support and progressive enhancement</h2>
+                    <p>Chromium-based browsers have supported scroll-driven animations since version 115, and Safari
+                        added them in Safari 26. Firefox has had an implementation behind a flag for a long time, so
+                        check <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timeline">MDN</a> or
+                        caniuse for the current status before you rely on it.</p>
+                    <p>The failure mode is the important part. A browser that doesn't understand
+                        <code>animation-timeline</code> ignores that line, but still sees the <code>animation</code>
+                        shorthand and runs it as a time-based animation, which can mean a flash of movement on load.
+                        For reveals, it's worse if you ever set a hidden starting state outside the animation. Guard
+                        everything with <code>@supports</code>:</p>
+                    <pre class="code-block"><code>@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .reveal {
+            animation: reveal linear both;
+            animation-timeline: view();
+            animation-range: entry 0% cover 30%;
+        }
+    }
+}</code></pre>
+                    <p>Unsupported browsers get fully visible, static content. That's the right default: the effect
+                        is an enhancement, never a requirement for reading the page.</p>
+                    <p>One more gotcha: <code>scroll()</code> looks for the nearest scroll container, and
+                        <code>overflow: hidden</code> on a wrapper creates one. If a timeline "does nothing", check for
+                        an ancestor with hidden overflow. <code>overflow: clip</code> clips without creating a scroll
+                        container.</p>
+
+                    <h2>Using them from Tailwind</h2>
+                    <p>At the time of writing, Tailwind doesn't ship dedicated scroll-timeline utilities, but it doesn't
+                        need to. For a one-off,
+                        arbitrary properties work, with underscores standing in for spaces:</p>
+                    <pre class="code-block"><code>&lt;div class="[animation-timeline:view()] [animation-range:entry_0%_cover_30%]"&gt;…&lt;/div&gt;</code></pre>
+                    <p>Be careful combining those with an <code>animate-*</code> utility, though. Which rule wins is
+                        decided by the order in the generated CSS, not the order of your classes, and the
+                        <code>animation</code> shorthand resets the timeline. For anything you reuse, I'd define a
+                        single custom utility in Tailwind v4 that sets everything in the right order:</p>
+                    <pre class="code-block"><code>/* resources/css/app.css */
+@import "tailwindcss";
+
+@keyframes reveal {
+    from { opacity: 0; translate: 0 2rem; }
+    to   { opacity: 1; translate: 0 0; }
+}
+
+@utility scroll-reveal {
+    animation: reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+}</code></pre>
+                    <p>Then compose it with Tailwind's variants, which handle both guards for you:</p>
+                    <pre class="code-block"><code>&lt;article class="motion-safe:supports-[animation-timeline:view()]:scroll-reveal"&gt;
+    …
+&lt;/article&gt;</code></pre>
+                    <p>If you already use the View Transitions API from my post on
+                        <a href="/blog/view-transitions-multi-page-sites/">view transitions for multi-page sites</a>,
+                        the two pair well: view transitions for moving between pages, scroll-driven animations for
+                        motion within one.</p>
+
+                    <h2>A checklist before you ship</h2>
+                    <ol>
+                        <li>Use <code>view()</code> for per-element effects, <code>scroll()</code> for page or
+                            container progress.</li>
+                        <li>Declare <code>animation-timeline</code> after the <code>animation</code> shorthand.</li>
+                        <li>Use <code>linear</code> easing and <code>both</code> fill mode.</li>
+                        <li>Animate <code>transform</code> and <code>opacity</code> where you can.</li>
+                        <li>Wrap decorative motion in <code>prefers-reduced-motion: no-preference</code>.</li>
+                        <li>Guard with <code>@supports (animation-timeline: view())</code> so unsupported browsers
+                            get static, visible content.</li>
+                        <li>If nothing happens, look for an ancestor with <code>overflow: hidden</code>.</li>
+                        <li>In Tailwind, wrap reusable effects in one <code>@utility</code> instead of stacking
+                            arbitrary properties on <code>animate-*</code>.</li>
+                    </ol>
+                    <p>Start with the progress bar. It's ten lines of CSS, it removes a scroll listener, and it
+                        shows you in five minutes how this model thinks. The reveals and parallax follow naturally
+                        from there.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/scroll-driven-animations-css/&text=Scroll-Driven%20Animations%20in%20Pure%20CSS%3A%20Progress%20Bars%2C%20Reveals%20and%20Parallax"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/scroll-driven-animations-css/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

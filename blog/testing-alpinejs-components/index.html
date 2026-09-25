@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Testing Alpine.js Components: Unit, DOM and Browser Tests for TALL Apps</title>
+    <meta name="description"
+        content="How to test Alpine.js properly: extract logic into Alpine.data modules, unit test them with Vitest, check wiring with happy-dom, and keep a thin layer of Pest or Playwright browser tests.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/testing-alpinejs-components/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Testing Alpine.js Components: Unit, DOM and Browser Tests for TALL Apps">
+    <meta property="og:description"
+        content="How to test Alpine.js properly: extract logic into Alpine.data modules, unit test them with Vitest, check wiring with happy-dom, and keep a thin layer of Pest or Playwright browser tests.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/testing-alpinejs-components/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/testing-alpinejs-components/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Testing Alpine.js Components: Unit, DOM and Browser Tests for TALL Apps">
+    <meta name="twitter:description"
+        content="How to test Alpine.js properly: extract logic into Alpine.data modules, unit test them with Vitest, check wiring with happy-dom, and keep a thin layer of Pest or Playwright browser tests.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/testing-alpinejs-components/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Testing Alpine.js Components: Unit, DOM and Browser Tests for TALL Apps",
+        "description": "How to test Alpine.js properly: extract logic into Alpine.data modules, unit test them with Vitest, check wiring with happy-dom, and keep a thin layer of Pest or Playwright browser tests.",
+        "image": "https://sagarpansuriya.in/blog/testing-alpinejs-components/cover.png",
+        "datePublished": "2026-12-21",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/testing-alpinejs-components/",
+        "articleSection": "AlpineJS",
+        "keywords": "Alpine.js testing, Vitest, happy-dom, Alpine.data, TALL stack, Pest browser testing, Playwright"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=AlpineJS">§ AlpineJS</a>
+                <h1 class="post-title">Testing Alpine.js Components: Unit, DOM and Browser Tests for TALL Apps</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-12-21">Dec 21, 2026</time>
+                    <span class="sep">·</span>
+                    <span>8 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of an Alpine quantity stepper component connected to unit, DOM and browser test badges, above a terminal showing passing Vitest results"></div>
+
+                <div class="prose">
+<p>Picture a Laravel app with a healthy test suite. Hundreds of feature tests, every controller covered,
+                        Livewire components tested with <code>Livewire::test()</code>. Then someone renames a property in an
+                        Alpine component, the price calculator on the checkout page starts showing <code>NaN</code>, and not a
+                        single test goes red. PHP tests can't see JavaScript, and the JavaScript was never tested at all.</p>
+                    <p>Alpine gets skipped in testing plans because it feels too small to test. It's a few attributes in a
+                        Blade file, after all. But in most TALL apps I've worked on, the Alpine layer quietly grows into real
+                        logic: cart totals, multi-step forms, filters, keyboard navigation. That logic deserves tests, and the
+                        good news is that Alpine is very easy to test once you structure it for that.</p>
+
+                    <h2>What's actually worth testing</h2>
+                    <p>Not every <code>x-data="{ open: false }"</code> needs a test. Toggling a boolean is Alpine's job, and
+                        Alpine has its own test suite. Focus on the code <em>you</em> wrote:</p>
+                    <ul>
+                        <li><strong>Logic</strong>: calculations, validation rules, state transitions, formatting, sorting and
+                            filtering.</li>
+                        <li><strong>Wiring</strong>: the right directive on the right element, so that clicking the button
+                            really changes the state and the state really shows up in the DOM.</li>
+                        <li><strong>Contracts</strong>: events you dispatch that other components listen for, and stores that
+                            several components share.</li>
+                        <li><strong>Integration</strong>: Alpine talking to Livewire, the server, or the rest of the page in a
+                            real browser.</li>
+                    </ul>
+                    <p>Each of those maps to a different kind of test, and the cheapest one that can catch the bug is the
+                        right one.</p>
+
+                    <img src="tall-testing-pyramid.svg" alt="Testing pyramid for TALL apps: a wide base of Vitest unit tests for Alpine.data logic and stores, a middle layer of DOM tests with happy-dom, and a narrow top of browser tests with Pest or Playwright, plus PHP feature and Livewire tests alongside">
+
+                    <h2>Step one: get logic out of your Blade files</h2>
+                    <p>You can't unit test a JavaScript object that only exists as a string inside an HTML attribute. So the
+                        first move is structural: anything beyond a one-liner goes into <code>Alpine.data()</code> in its own
+                        module, exported as a plain function.</p>
+                    <pre class="code-block"><code>// resources/js/components/price-calculator.js
+export default function priceCalculator({ unitPrice = 0, taxRate = 0 } = {}) {
+    return {
+        quantity: 1,
+        coupon: null,
+        unitPrice,
+        taxRate,
+
+        get subtotal() {
+            return this.unitPrice * this.quantity;
+        },
+
+        get discount() {
+            if (!this.coupon) return 0;
+            return this.coupon.type === 'percent'
+                ? this.subtotal * (this.coupon.value / 100)
+                : Math.min(this.coupon.value, this.subtotal);
+        },
+
+        get total() {
+            const taxable = this.subtotal - this.discount;
+            return Math.round(taxable * (1 + this.taxRate) * 100) / 100;
+        },
+
+        increment() {
+            this.quantity = Math.min(this.quantity + 1, 99);
+        },
+
+        decrement() {
+            this.quantity = Math.max(this.quantity - 1, 1);
+        },
+    };
+}</code></pre>
+                    <pre class="code-block"><code>// resources/js/app.js
+import Alpine from 'alpinejs';
+import priceCalculator from './components/price-calculator';
+
+Alpine.data('priceCalculator', priceCalculator);
+window.Alpine = Alpine;
+Alpine.start();</code></pre>
+                    <p>The Blade side stays tiny and declarative:</p>
+                    <pre class="code-block"><code>&lt;div x-data="priceCalculator({ unitPrice: @js($product-&gt;price), taxRate: 0.18 })"&gt;
+    &lt;button type="button" @click="decrement()" aria-label="Decrease quantity"&gt;−&lt;/button&gt;
+    &lt;span x-text="quantity" data-test="quantity"&gt;&lt;/span&gt;
+    &lt;button type="button" @click="increment()" aria-label="Increase quantity"&gt;+&lt;/button&gt;
+    &lt;p&gt;Total: &lt;span x-text="total.toFixed(2)" data-test="total"&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+                    <p>This refactor pays for itself even before you write a test. The component gets a name, it can be reused,
+                        your editor understands it, and the Blade file becomes readable again.</p>
+
+                    <h2>Unit tests with Vitest: plain objects, no DOM</h2>
+                    <p>Vitest fits naturally into a Laravel project because it uses your existing Vite setup. Install it as a
+                        dev dependency and add a <code>test</code> script to <code>package.json</code>. Because the component is
+                        just a function that returns an object, you can call it and assert on the result. No Alpine, no
+                        browser:</p>
+                    <pre class="code-block"><code>// resources/js/components/price-calculator.test.js
+import { describe, it, expect } from 'vitest';
+import priceCalculator from './price-calculator';
+
+describe('priceCalculator', () =&gt; {
+    it('adds tax to the subtotal', () =&gt; {
+        const calc = priceCalculator({ unitPrice: 100, taxRate: 0.18 });
+        calc.quantity = 2;
+
+        expect(calc.total).toBe(236);
+    });
+
+    it('never discounts below zero with a fixed coupon', () =&gt; {
+        const calc = priceCalculator({ unitPrice: 20 });
+        calc.coupon = { type: 'fixed', value: 50 };
+
+        expect(calc.discount).toBe(20);
+        expect(calc.total).toBe(0);
+    });
+
+    it('keeps quantity between 1 and 99', () =&gt; {
+        const calc = priceCalculator({ unitPrice: 10 });
+
+        calc.decrement();
+        expect(calc.quantity).toBe(1);
+
+        calc.quantity = 99;
+        calc.increment();
+        expect(calc.quantity).toBe(99);
+    });
+});</code></pre>
+                    <p>These run in milliseconds, so you can have hundreds of them. This is where the bulk of your Alpine tests
+                        should live.</p>
+
+                    <h3>Dealing with magics like <code>$dispatch</code> and <code>$refs</code></h3>
+                    <p>Inside a component, Alpine gives <code>this</code> access to magic properties such as
+                        <code>$dispatch</code>, <code>$refs</code>, <code>$watch</code> and <code>$nextTick</code>. In a unit
+                        test there's no Alpine to provide them, so you provide them yourself:</p>
+                    <pre class="code-block"><code>import { it, expect, vi } from 'vitest';
+import cartButton from './cart-button';
+
+it('announces the added item', () =&gt; {
+    const component = Object.assign(cartButton({ productId: 42 }), {
+        $dispatch: vi.fn(),
+    });
+
+    component.add();
+
+    expect(component.$dispatch).toHaveBeenCalledWith('cart:added', { productId: 42 });
+});</code></pre>
+                    <p>If a component needs a lot of stubbing, treat it as a hint. Pull the pure logic out into a separate
+                        function (say, <code>calculateDiscount()</code>) that the component calls, and unit test that function
+                        directly. The component itself then gets covered by a DOM test.</p>
+
+                    <h2>DOM tests: is the wiring right?</h2>
+                    <p>Unit tests prove the logic. They don't prove that <code>@click</code> is on the right button or that
+                        <code>x-text</code> points at <code>total</code> and not <code>subtotal</code>. For that, run real Alpine
+                        against a simulated DOM. Vitest supports both <code>happy-dom</code> and <code>jsdom</code> as test
+                        environments. I reach for happy-dom first because it's lighter; jsdom is the more complete fallback if
+                        something isn't supported.</p>
+                    <pre class="code-block"><code>// vitest.config.js
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+    test: {
+        environment: 'happy-dom',
+        setupFiles: ['./resources/js/tests/setup.js'],
+    },
+});</code></pre>
+                    <p>Alpine can only be started once per page, and it initialises new elements added to the DOM after it
+                        starts. That gives you a simple pattern: start Alpine once in a setup file, then have each test inject
+                        its own markup.</p>
+                    <pre class="code-block"><code>// resources/js/tests/setup.js
+import Alpine from 'alpinejs';
+import priceCalculator from '../components/price-calculator';
+
+Alpine.data('priceCalculator', priceCalculator);
+window.Alpine = Alpine;
+Alpine.start();
+
+// resources/js/tests/helpers.js
+export const tick = () =&gt; new Promise((resolve) =&gt; setTimeout(resolve, 0));
+
+export async function mount(html) {
+    document.body.innerHTML = html;
+    await tick(); // let Alpine pick up the new elements
+    return document.body;
+}</code></pre>
+                    <pre class="code-block"><code>// resources/js/components/price-calculator.dom.test.js
+import { it, expect, afterEach } from 'vitest';
+import { mount, tick } from '../tests/helpers';
+
+afterEach(() =&gt; { document.body.innerHTML = ''; });
+
+it('updates the total when quantity increases', async () =&gt; {
+    const root = await mount(`
+        &lt;div x-data="priceCalculator({ unitPrice: 100, taxRate: 0 })"&gt;
+            &lt;button type="button" @click="increment()" aria-label="Increase quantity"&gt;+&lt;/button&gt;
+            &lt;span x-text="total.toFixed(2)" data-test="total"&gt;&lt;/span&gt;
+        &lt;/div&gt;
+    `);
+
+    root.querySelector('[aria-label="Increase quantity"]').click();
+    await tick();
+
+    expect(root.querySelector('[data-test="total"]').textContent).toBe('200.00');
+});</code></pre>
+                    <p>Alpine applies DOM updates asynchronously, which is why every interaction is followed by an
+                        <code>await tick()</code>. Forgetting it is the number one cause of "the test sees the old value"
+                        confusion.</p>
+                    <p>One honest limitation: the markup in the test is a copy of your Blade template, not the template
+                        itself, so the two can drift. Keep DOM tests focused on the parts where wiring mistakes are likely, and
+                        let browser tests cover the real rendered page.</p>
+
+                    <h2>Testing stores and events</h2>
+                    <p>Stores are the easiest thing in Alpine to test, as long as you export the store object before
+                        registering it:</p>
+                    <pre class="code-block"><code>// resources/js/stores/cart.js
+export const cartStore = () =&gt; ({
+    items: [],
+    get count() {
+        return this.items.reduce((sum, item) =&gt; sum + item.qty, 0);
+    },
+    add(id) {
+        const item = this.items.find((i) =&gt; i.id === id);
+        item ? item.qty++ : this.items.push({ id, qty: 1 });
+    },
+});
+
+// app.js
+Alpine.store('cart', cartStore());</code></pre>
+                    <p>Exporting a factory rather than a single object means every unit test gets a fresh store, with no state
+                        leaking between tests. In DOM tests, where the real store is registered once, reset it in a
+                        <code>beforeEach</code> by clearing its state through <code>Alpine.store('cart')</code>.</p>
+                    <p>For events, test both ends of the contract. The sender is covered by the <code>$dispatch</code> stub
+                        shown above. The receiver can be tested in the DOM by dispatching a real event. Alpine's
+                        <code>$dispatch</code> fires a bubbling <code>CustomEvent</code> with your data in
+                        <code>detail</code>, so you can simulate it the same way:</p>
+                    <pre class="code-block"><code>it('shows a badge when an item is added elsewhere', async () =&gt; {
+    const root = await mount(`
+        &lt;div x-data="{ count: 0 }" @cart:added.window="count++"&gt;
+            &lt;span x-text="count" data-test="badge"&gt;&lt;/span&gt;
+        &lt;/div&gt;
+    `);
+
+    window.dispatchEvent(new CustomEvent('cart:added', { detail: { productId: 42 } }));
+    await tick();
+
+    expect(root.querySelector('[data-test="badge"]').textContent).toBe('1');
+});</code></pre>
+                    <p>Event names are an API between components. A short list of them in a constants file, imported by both
+                        the sender and the tests, prevents the classic typo where one side dispatches <code>cart-added</code>
+                        and the other listens for <code>cart:added</code>.</p>
+
+                    <h2>End-to-end: a few journeys in a real browser</h2>
+                    <p>Some bugs only exist in the real page: a script loading in the wrong order, Alpine and Livewire
+                        disagreeing about who owns an element, a CSS rule hiding the button you just tested. That's the job of
+                        browser tests, and in a Laravel app Pest's browser testing makes them feel like any other test. I covered
+                        the setup in <a href="/blog/pest-browser-testing-laravel-frontend/">Pest browser testing for Laravel
+                        frontends</a>, so here's just the Alpine-flavoured version:</p>
+                    <pre class="code-block"><code>it('updates the checkout total', function () {
+    $product = Product::factory()-&gt;create(['price' =&gt; 100]);
+
+    visit("/products/{$product-&gt;slug}")
+        -&gt;click('[aria-label="Increase quantity"]')
+        -&gt;assertSee('236.00')
+        -&gt;assertNoJavascriptErrors();
+});</code></pre>
+                    <p>If your team prefers Playwright directly, the same test in TypeScript looks much the same, using
+                        role-based locators like <code>page.getByRole('button', { name: 'Increase quantity' })</code>. Either
+                        way, keep this layer thin: a handful of critical journeys, not a test per component.</p>
+
+                    <h2>A testing pyramid for TALL apps</h2>
+                    <table>
+                        <thead>
+                            <tr><th>Layer</th><th>Tool</th><th>Tests</th><th>Catches</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Unit</td><td>Vitest</td><td>Many</td><td>Wrong maths, bad state transitions, store bugs</td></tr>
+                            <tr><td>DOM</td><td>Vitest + happy-dom</td><td>Some</td><td>Missing or wrong directives, event contracts</td></tr>
+                            <tr><td>Browser</td><td>Pest browser / Playwright</td><td>Few</td><td>Load order, Livewire interplay, real CSS</td></tr>
+                            <tr><td>PHP</td><td>Pest feature / <code>Livewire::test()</code></td><td>Many</td><td>Server logic, validation, authorisation</td></tr>
+                        </tbody>
+                    </table>
+                    <p>The PHP row sits beside the pyramid rather than inside it. It's your server-side safety net, and you
+                        should already have it. The three JavaScript layers are what most TALL projects are missing.</p>
+
+                    <h2>Takeaways</h2>
+                    <ol>
+                        <li>Move anything beyond a one-liner into <code>Alpine.data()</code> modules that export plain functions.</li>
+                        <li>Unit test logic with Vitest by calling the function. Stub magics like <code>$dispatch</code> with <code>vi.fn()</code>.</li>
+                        <li>Use a happy-dom environment, start Alpine once in a setup file, and <code>await</code> a tick after every interaction.</li>
+                        <li>Export stores as factories so every test gets fresh state.</li>
+                        <li>Treat event names as an API and test both the sender and the receiver.</li>
+                        <li>Keep browser tests for a few critical journeys, and always assert there are no JavaScript errors.</li>
+                        <li>Run <code>vitest run</code> in CI next to Pest, so a broken Alpine component fails the build like a broken controller does.</li>
+                    </ol>
+                    <p>Start with the component that scares you most, the one nobody wants to touch before a release.
+                        Extract it, give it five unit tests, and the next rename will turn a test red instead of turning a
+                        checkout total into <code>NaN</code>.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/testing-alpinejs-components/&text=Testing%20Alpine.js%20Components%3A%20Unit%2C%20DOM%20and%20Browser%20Tests%20for%20TALL%20Apps"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/testing-alpinejs-components/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 470" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="470" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">COMBOBOX WIRING: FOCUS NEVER LEAVES THE INPUT</text>
+  <!-- input -->
+  <rect x="40" y="80" width="400" height="86" rx="12" fill="#1b1b20" stroke="#5b5bd6" stroke-width="2"/>
+  <text x="60" y="108" font-size="13" fill="#b3b3f7" font-weight="700">input role="combobox"</text>
+  <text x="60" y="130" font-size="12" fill="#a19e97">aria-controls="cmd-listbox"</text>
+  <text x="60" y="150" font-size="12" fill="#f2b880">aria-activedescendant="cmd-option-3"</text>
+  <rect x="340" y="94" width="84" height="24" rx="12" fill="#14261f" stroke="#6fd3b0"/>
+  <text x="382" y="111" font-size="12" fill="#6fd3b0" text-anchor="middle">FOCUS</text>
+  <!-- keys -->
+  <rect x="490" y="80" width="46" height="40" rx="8" fill="#23232a" stroke="#2e2e36"/>
+  <text x="513" y="106" font-size="16" fill="#ece9e2" text-anchor="middle">↑</text>
+  <rect x="544" y="80" width="46" height="40" rx="8" fill="#23232a" stroke="#2e2e36"/>
+  <text x="567" y="106" font-size="16" fill="#ece9e2" text-anchor="middle">↓</text>
+  <rect x="598" y="80" width="80" height="40" rx="8" fill="#23232a" stroke="#2e2e36"/>
+  <text x="638" y="105" font-size="13" fill="#ece9e2" text-anchor="middle">Enter</text>
+  <text x="490" y="146" font-size="12" fill="#a19e97">arrows change the ID only,</text>
+  <text x="490" y="164" font-size="12" fill="#a19e97">Enter runs flat[active]</text>
+  <!-- aria-controls arrow -->
+  <path d="M100 166 V 206" stroke="#8f8fef" stroke-width="2" fill="none"/>
+  <polygon points="94,204 100,214 106,204" fill="#8f8fef"/>
+  <text x="112" y="196" font-size="12" fill="#8f8fef">aria-controls</text>
+  <!-- listbox -->
+  <rect x="40" y="218" width="560" height="220" rx="12" fill="#1b1b20" stroke="#2e2e36" stroke-width="2"/>
+  <text x="60" y="244" font-size="13" fill="#ece9e2" font-weight="700">div role="listbox" id="cmd-listbox"</text>
+  <!-- group 1 -->
+  <rect x="60" y="256" width="250" height="166" rx="10" fill="#23232a"/>
+  <text x="74" y="278" font-size="12" fill="#8f8d88">group "Navigation"</text>
+  <rect x="74" y="288" width="222" height="32" rx="7" fill="#1b1b20"/>
+  <text x="86" y="309" font-size="12" fill="#a19e97">option · cmd-option-0</text>
+  <rect x="74" y="326" width="222" height="32" rx="7" fill="#1b1b20"/>
+  <text x="86" y="347" font-size="12" fill="#a19e97">option · cmd-option-1</text>
+  <rect x="74" y="364" width="222" height="32" rx="7" fill="#1b1b20"/>
+  <text x="86" y="385" font-size="12" fill="#a19e97">option · cmd-option-2</text>
+  <!-- group 2 -->
+  <rect x="330" y="256" width="250" height="166" rx="10" fill="#23232a"/>
+  <text x="344" y="278" font-size="12" fill="#8f8d88">group "Actions"</text>
+  <rect x="344" y="288" width="222" height="32" rx="7" fill="#5b5bd6"/>
+  <text x="356" y="309" font-size="12" fill="#ffffff" font-weight="700">option · cmd-option-3</text>
+  <rect x="344" y="326" width="222" height="32" rx="7" fill="#1b1b20"/>
+  <text x="356" y="347" font-size="12" fill="#a19e97">option · cmd-option-4</text>
+  <text x="356" y="384" font-size="12" fill="#b3b3f7">aria-selected="true"</text>
+  <text x="356" y="402" font-size="12" fill="#8f8d88">on cmd-option-3 only</text>
+  <!-- activedescendant arrow -->
+  <path d="M440 142 C 470 142, 480 200, 520 230 S 580 280, 570 290" stroke="#f2b880" stroke-width="2" stroke-dasharray="5 4" fill="none"/>
+  <polygon points="564,286 570,296 576,286" fill="#f2b880"/>
+  <!-- status -->
+  <rect x="630" y="218" width="210" height="100" rx="12" fill="#1b1b20" stroke="#2e2e36" stroke-width="2"/>
+  <text x="648" y="244" font-size="13" fill="#6fd3b0" font-weight="700">role="status"</text>
+  <text x="648" y="268" font-size="12" fill="#a19e97">announces</text>
+  <text x="648" y="288" font-size="12" fill="#ece9e2">"5 results"</text>
+  <rect x="630" y="334" width="210" height="104" rx="12" fill="#1b1b20" stroke="#2e2e36" stroke-width="2"/>
+  <text x="648" y="360" font-size="13" fill="#f28b9b" font-weight="700">dialog (modal)</text>
+  <text x="648" y="384" font-size="12" fill="#a19e97">page inert, Esc,</text>
+  <text x="648" y="404" font-size="12" fill="#a19e97">focus restored</text>
+  <text x="648" y="424" font-size="12" fill="#a19e97">no x-trap</text>
+</svg>

@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>theme.json for Classic Theme and Sage Developers</title>
+    <meta name="description"
+        content="A practical guide to theme.json for developers coming from classic themes and Sage: presets, generated CSS variables, locking down the editor, tokens and block style variations.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/theme-json-for-classic-theme-developers/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="theme.json for Classic Theme and Sage Developers">
+    <meta property="og:description"
+        content="A practical guide to theme.json for developers coming from classic themes and Sage: presets, generated CSS variables, locking down the editor, tokens and block style variations.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/theme-json-for-classic-theme-developers/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/theme-json-for-classic-theme-developers/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="theme.json for Classic Theme and Sage Developers">
+    <meta name="twitter:description"
+        content="A practical guide to theme.json for developers coming from classic themes and Sage: presets, generated CSS variables, locking down the editor, tokens and block style variations.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/theme-json-for-classic-theme-developers/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "theme.json for Classic Theme and Sage Developers",
+        "description": "A practical guide to theme.json for developers coming from classic themes and Sage: presets, generated CSS variables, locking down the editor, tokens and block style variations.",
+        "image": "https://sagarpansuriya.in/blog/theme-json-for-classic-theme-developers/cover.png",
+        "datePublished": "2026-11-09",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/theme-json-for-classic-theme-developers/",
+        "articleSection": "WordPress",
+        "keywords": "theme.json, WordPress block editor, Sage, classic themes, design tokens, block style variations, Roots"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=WordPress">§ WordPress</a>
+                <h1 class="post-title">theme.json for Classic Theme and Sage Developers</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-11-09">Nov 09, 2026</time>
+                    <span class="sep">·</span>
+                    <span>8 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of a theme.json file feeding a colour palette, type scale and matching editor and front-end previews"></div>
+
+                <div class="prose">
+<p>You've probably inherited a classic theme, or a Sage theme you built yourself, where the front end
+                        looks exactly like the design and the block editor looks like a different website. The client picks a
+                        colour from a rainbow picker, sets a heading to 43px, adds a drop cap, and the page they preview in the
+                        editor bears no relation to the page that goes live.</p>
+                    <p>For years we fixed this with a pile of <code>add_theme_support()</code> calls, an editor stylesheet and
+                        some hope. Today the answer is one file: <strong><code>theme.json</code></strong>. It isn't only for block
+                        themes. A classic or Sage theme can ship one too, and it's the cleanest way I know to make the editor
+                        match the design and stop clients from wandering off-brand.</p>
+                    <p>This post is for developers coming from PHP templates who keep hearing about theme.json but haven't
+                        sat down with it. What it controls, how to lock things down, how to feed it from your design tokens,
+                        and where block themes fit next to Sage.</p>
+
+                    <h2>What theme.json actually is</h2>
+                    <p>theme.json is a configuration file in the root of your theme that WordPress reads on every request. It
+                        has two main jobs, and it helps to keep them separate in your head:</p>
+                    <ul>
+                        <li><strong><code>settings</code></strong> decide what the editor <em>offers</em>: which colours appear
+                            in the palette, which font sizes exist, whether custom values are allowed, which design tools are
+                            switched on for which blocks.</li>
+                        <li><strong><code>styles</code></strong> decide how things <em>look</em> by default: body text, links,
+                            headings, buttons, individual blocks.</li>
+                    </ul>
+                    <p>From those two sections WordPress generates CSS for you. Every preset becomes a CSS custom property,
+                        every colour gets utility classes, and your default styles become a global stylesheet loaded in both the
+                        editor and the front end. That last part is the point: <em>one</em> definition, rendered in both
+                        places.</p>
+
+                    <img src="theme-json-outputs.svg" alt="Diagram showing theme.json settings and styles producing editor controls, CSS custom properties, preset classes and a global stylesheet used by both editor and front end">
+
+                    <p>Here's a small but complete file. The <code>version</code> key matters: version 2 arrived with WordPress
+                        5.9 and version 3 with 6.6. Use 3 for anything new; the <code>$schema</code> line gives you
+                        autocompletion and validation in most editors.</p>
+                    <pre class="code-block"><code>{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "color": {
+      "palette": [
+        { "slug": "ink",    "name": "Ink",    "color": "#16161b" },
+        { "slug": "paper",  "name": "Paper",  "color": "#faf8f4" },
+        { "slug": "brand",  "name": "Brand",  "color": "#5b5bd6" },
+        { "slug": "accent", "name": "Accent", "color": "#f2b880" }
+      ]
+    },
+    "typography": {
+      "fontSizes": [
+        { "slug": "small",  "name": "Small",  "size": "0.875rem" },
+        { "slug": "base",   "name": "Base",   "size": "1rem" },
+        { "slug": "large",  "name": "Large",  "size": "1.5rem" },
+        { "slug": "huge",   "name": "Huge",   "size": "2.5rem" }
+      ]
+    },
+    "layout": { "contentSize": "720px", "wideSize": "1200px" }
+  },
+  "styles": {
+    "color": { "background": "var:preset|color|paper", "text": "var:preset|color|ink" },
+    "elements": {
+      "link": { "color": { "text": "var:preset|color|brand" } }
+    }
+  }
+}</code></pre>
+
+                    <h2>The CSS it generates</h2>
+                    <p>This is the part that clicks for most classic-theme developers. Each preset turns into a custom property
+                        with a predictable name:</p>
+                    <table>
+                        <thead>
+                            <tr><th>Preset</th><th>Custom property</th><th>Classes</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Colour <code>brand</code></td><td><code>--wp--preset--color--brand</code></td><td><code>.has-brand-color</code>, <code>.has-brand-background-color</code></td></tr>
+                            <tr><td>Font size <code>large</code></td><td><code>--wp--preset--font-size--large</code></td><td><code>.has-large-font-size</code></td></tr>
+                            <tr><td>Font family <code>body</code></td><td><code>--wp--preset--font-family--body</code></td><td><code>.has-body-font-family</code></td></tr>
+                            <tr><td>Spacing <code>40</code></td><td><code>--wp--preset--spacing--40</code></td><td>(used by block spacing controls)</td></tr>
+                        </tbody>
+                    </table>
+                    <p>Inside theme.json you reference presets with the <code>var:preset|color|brand</code> shorthand, which
+                        WordPress expands into the right <code>var()</code>. In your own CSS or Blade templates you can use the
+                        custom properties directly, so a hand-built header and a block-built section pull from the same
+                        values.</p>
+                    <p>There's also <code>settings.custom</code>, a free-form object for values that aren't presets. Anything you
+                        put there becomes <code>--wp--custom--*</code>. Nested keys are joined with double dashes, so
+                        <code>{ "radius": { "card": "12px" } }</code> becomes <code>--wp--custom--radius--card</code>. Handy for
+                        radii, shadows or transition timings you want in both places.</p>
+
+                    <h2>Locking down the editor for clients</h2>
+                    <p>This is where theme.json earns its keep on client sites. The default editor gives people a lot of
+                        rope. Most of it can be switched off with a handful of settings:</p>
+                    <pre class="code-block"><code>"settings": {
+  "color": {
+    "custom": false,
+    "customGradient": false,
+    "defaultPalette": false,
+    "defaultGradients": false,
+    "defaultDuotone": false
+  },
+  "typography": {
+    "customFontSize": false,
+    "dropCap": false
+  },
+  "spacing": {
+    "customSpacingSize": false,
+    "units": ["px", "rem", "%"]
+  }
+}</code></pre>
+                    <p>With that in place the colour picker only shows your brand palette, the font size control only offers
+                        your named sizes, and WordPress's own default colours disappear. Editors can still make choices, they
+                        just can't make <em>off-brand</em> choices.</p>
+                    <p>You can go further per block. <code>settings.blocks</code> takes the same keys, scoped to one block type.
+                        A common pattern is a tight global palette and a slightly different one for buttons:</p>
+                    <pre class="code-block"><code>"settings": {
+  "blocks": {
+    "core/button": {
+      "color": {
+        "palette": [
+          { "slug": "brand",  "name": "Brand",  "color": "#5b5bd6" },
+          { "slug": "accent", "name": "Accent", "color": "#f2b880" }
+        ]
+      }
+    },
+    "core/heading": {
+      "typography": { "fontSizes": [] }
+    }
+  }
+}</code></pre>
+                    <p>One thing to watch: <code>"appearanceTools": true</code> is a shortcut that turns <em>on</em> a whole group
+                        of controls (borders, link colours, spacing, line height and more). It's great for block themes and
+                        often too generous for a locked-down client site. I'd rather enable the individual tools I need.</p>
+                    <blockquote>theme.json controls what design tools exist. It doesn't control which blocks exist. For that,
+                        keep using the <code>allowed_block_types_all</code> filter, and use block locking or patterns for
+                        structure. Together they cover most "please don't let them break the homepage" requests.</blockquote>
+
+                    <h2>Feeding theme.json from your design tokens</h2>
+                    <p>If you already have tokens in Tailwind (I wrote about <a href="/blog/tailwind-v4-design-tokens-rebrand/">structuring
+                        tokens that survive a rebrand</a>), the worst thing you can do is copy hex values into theme.json by hand.
+                        Two sources of truth will drift within a month.</p>
+                    <p>Pick one direction and automate it. Recent Sage versions can generate theme.json from your Tailwind
+                        configuration as part of the build, so check the Sage docs on <a href="https://roots.io/sage/docs/">roots.io</a>
+                        for the version you're on. If you're not on Sage, or you want full control, a tiny build script does the
+                        job:</p>
+                    <pre class="code-block"><code>// scripts/theme-json.mjs
+import fs from 'node:fs';
+
+const tokens = JSON.parse(fs.readFileSync('tokens.json', 'utf8'));
+const theme  = JSON.parse(fs.readFileSync('theme.base.json', 'utf8'));
+
+theme.settings.color.palette = Object.entries(tokens.color).map(([slug, color]) =&gt; ({
+    slug,
+    name: slug.replace(/-/g, ' ').replace(/\b\w/g, c =&gt; c.toUpperCase()),
+    color,
+}));
+
+theme.settings.typography.fontSizes = Object.entries(tokens.fontSize).map(([slug, size]) =&gt; ({
+    slug, name: slug, size,
+}));
+
+fs.writeFileSync('theme.json', JSON.stringify(theme, null, 2) + '\n');</code></pre>
+                    <p>Run it before your Vite build and commit the output. Now a token change updates Tailwind utilities, the
+                        editor palette and the preset variables in one go.</p>
+                    <p>Going the other way also works: point Tailwind at the WordPress variables, so a class like
+                        <code>bg-brand</code> resolves to <code>var(--wp--preset--color--brand)</code>. I prefer generating
+                        theme.json from tokens, because the tokens file stays readable and framework-neutral, but either is fine
+                        as long as there's exactly one place where a colour is typed.</p>
+
+                    <h2>Styling elements and blocks</h2>
+                    <p>The <code>styles</code> section replaces a surprising amount of editor-style CSS. It has three levels:
+                        root styles, <code>elements</code> (links, headings, buttons, captions) and <code>blocks</code>:</p>
+                    <pre class="code-block"><code>"styles": {
+  "typography": { "fontFamily": "var:preset|font-family|body", "lineHeight": "1.6" },
+  "elements": {
+    "heading": { "typography": { "fontFamily": "var:preset|font-family|display" } },
+    "button": {
+      "color": { "background": "var:preset|color|brand", "text": "var:preset|color|paper" },
+      "border": { "radius": "999px" }
+    }
+  },
+  "blocks": {
+    "core/quote": {
+      "border": { "left": { "color": "var:preset|color|accent", "width": "4px" } }
+    }
+  }
+}</code></pre>
+                    <p>Because these styles are loaded in the editor too, a quote block looks the same while editing as it does
+                        live. No separate <code>editor-style.css</code> to keep in sync.</p>
+
+                    <h3>Block style variations</h3>
+                    <p>Block styles are the named options in the sidebar, like "Outline" on a button. You register one in PHP
+                        and style it from theme.json:</p>
+                    <pre class="code-block"><code>// functions.php, or a Sage/Acorn service provider
+add_action('init', function () {
+    register_block_style('core/button', [
+        'name'  =&gt; 'ghost',
+        'label' =&gt; __('Ghost', 'sage'),
+    ]);
+});</code></pre>
+                    <pre class="code-block"><code>"styles": {
+  "blocks": {
+    "core/button": {
+      "variations": {
+        "ghost": {
+          "color": { "background": "transparent", "text": "var:preset|color|brand" },
+          "border": { "color": "var:preset|color|brand", "width": "2px", "style": "solid" }
+        }
+      }
+    }
+  }
+}</code></pre>
+                    <p>This is my favourite way to give clients choice without giving them control. Three named button styles
+                        beat a colour picker every time.</p>
+
+                    <h2>Where block themes fit, and where Sage still wins</h2>
+                    <p>A block theme is a theme whose templates are block markup in HTML files (<code>templates/</code> and
+                        <code>parts/</code>), editable in the Site Editor. theme.json is its backbone. A classic or Sage theme uses
+                        theme.json only for the editor and global styles, while templates stay in PHP or Blade.</p>
+                    <table>
+                        <thead>
+                            <tr><th></th><th>Block theme</th><th>Sage + theme.json</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Who edits layout</td><td>Site owners, in the Site Editor</td><td>Developers, in Blade</td></tr>
+                            <tr><td>Templating</td><td>Block markup in HTML files</td><td>Blade components, PHP logic</td></tr>
+                            <tr><td>Complex data and logic</td><td>Awkward, pushed into custom blocks</td><td>Natural: composers, Acorn, services</td></tr>
+                            <tr><td>Version control of layout</td><td>Mixed: DB edits can override files</td><td>Everything in Git</td></tr>
+                            <tr><td>Best for</td><td>Content-led sites the client runs</td><td>Product-like sites with real logic</td></tr>
+                        </tbody>
+                    </table>
+                    <p>My rule of thumb: if the client wants to redesign headers and archive layouts themselves, a block theme
+                        is the honest choice. If the site has integrations, custom queries and a <a href="/blog/blade-components-wordpress-sage-acorn/">component
+                        library in Blade</a>, stay on Sage and use theme.json for what it's great at: making the content editor
+                        match the design and keeping it on-brand.</p>
+
+                    <h2>A checklist for adding theme.json to a classic theme</h2>
+                    <ol>
+                        <li>Add <code>theme.json</code> with <code>"version": 3</code> and the <code>$schema</code> line.</li>
+                        <li>Define palette, font sizes, font families and spacing as presets, generated from your tokens.</li>
+                        <li>Turn off custom colours, custom font sizes and the default WordPress palette.</li>
+                        <li>Enable design tools one by one instead of reaching for <code>appearanceTools</code>.</li>
+                        <li>Move editor-style CSS into <code>styles</code>: root, elements, then blocks.</li>
+                        <li>Offer choice through block style variations, not colour pickers.</li>
+                        <li>Remove old <code>add_theme_support()</code> calls for palettes and font sizes that theme.json now
+                            covers, so there's only one definition.</li>
+                        <li>Use <code>--wp--preset--*</code> variables in your own templates so hand-built and block-built parts
+                            match.</li>
+                    </ol>
+                    <p>None of this requires moving to a block theme. It's one JSON file, and it turns the editor from the place
+                        where designs go to die into a reasonably faithful preview of the real site.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/theme-json-for-classic-theme-developers/&text=theme.json%20for%20Classic%20Theme%20and%20Sage%20Developers"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/theme-json-for-classic-theme-developers/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

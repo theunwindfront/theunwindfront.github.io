@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 480" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="480" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">FOUR KINDS OF DOCUMENTATION (DIÁTAXIS)</text>
+
+  <!-- column headers -->
+  <text x="365" y="92" text-anchor="middle" font-size="13" fill="#a19e97" letter-spacing="2">WHEN STUDYING</text>
+  <text x="665" y="92" text-anchor="middle" font-size="13" fill="#a19e97" letter-spacing="2">WHEN WORKING</text>
+  <!-- row headers -->
+  <text x="120" y="190" text-anchor="middle" font-size="13" fill="#a19e97" letter-spacing="2">PRACTICAL</text>
+  <text x="120" y="210" text-anchor="middle" font-size="12" fill="#8f8d88">doing</text>
+  <text x="120" y="360" text-anchor="middle" font-size="13" fill="#a19e97" letter-spacing="2">THEORETICAL</text>
+  <text x="120" y="380" text-anchor="middle" font-size="12" fill="#8f8d88">knowing</text>
+
+  <!-- tutorials -->
+  <rect x="220" y="110" width="290" height="160" rx="14" fill="#15322a" stroke="#6fd3b0"/>
+  <text x="244" y="148" font-size="18" fill="#6fd3b0" font-weight="700">Tutorials</text>
+  <text x="244" y="176" font-size="13" fill="#ece9e2">"Teach me."</text>
+  <text x="244" y="206" font-size="12" fill="#a19e97">learning by doing,</text>
+  <text x="244" y="226" font-size="12" fill="#a19e97">a guided first success</text>
+  <text x="244" y="252" font-size="12" fill="#6fd3b0">e.g. README, first component</text>
+
+  <!-- how-to -->
+  <rect x="520" y="110" width="320" height="160" rx="14" fill="#33271a" stroke="#f2b880"/>
+  <text x="544" y="148" font-size="18" fill="#f2b880" font-weight="700">How-to guides</text>
+  <text x="544" y="176" font-size="13" fill="#ece9e2">"How do I do X?"</text>
+  <text x="544" y="206" font-size="12" fill="#a19e97">steps for a real task,</text>
+  <text x="544" y="226" font-size="12" fill="#a19e97">assumes some knowledge</text>
+  <text x="544" y="252" font-size="12" fill="#f2b880">e.g. add an icon, deploy a hotfix</text>
+
+  <!-- explanation -->
+  <rect x="220" y="280" width="290" height="160" rx="14" fill="#1e1e3a" stroke="#8f8fef"/>
+  <text x="244" y="318" font-size="18" fill="#8f8fef" font-weight="700">Explanation</text>
+  <text x="244" y="346" font-size="13" fill="#ece9e2">"Why is it like this?"</text>
+  <text x="244" y="376" font-size="12" fill="#a19e97">context, trade-offs,</text>
+  <text x="244" y="396" font-size="12" fill="#a19e97">history of decisions</text>
+  <text x="244" y="422" font-size="12" fill="#8f8fef">e.g. ADRs, architecture notes</text>
+
+  <!-- reference -->
+  <rect x="520" y="280" width="320" height="160" rx="14" fill="#2a1c20" stroke="#f28b9b"/>
+  <text x="544" y="318" font-size="18" fill="#f28b9b" font-weight="700">Reference</text>
+  <text x="544" y="346" font-size="13" fill="#ece9e2">"What exactly is Y?"</text>
+  <text x="544" y="376" font-size="12" fill="#a19e97">accurate, complete, dry;</text>
+  <text x="544" y="396" font-size="12" fill="#a19e97">generated from code if possible</text>
+  <text x="544" y="422" font-size="12" fill="#f28b9b">e.g. props, env vars, commands</text>
+
+  <text x="40" y="466" font-size="12" fill="#8f8d88">One page, one kind. Mixing them is why docs get skimmed.</text>
+</svg>

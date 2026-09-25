@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Designing Laravel APIs Frontends Love: Resources, Envelopes and Types</title>
+    <meta name="description"
+        content="A frontend developer&#x27;s guide to Laravel API design: resources, consistent envelopes and errors, pagination meta, whenLoaded, includes, versioning and typed responses.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/laravel-api-resources-frontends-love/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Designing Laravel APIs Frontends Love: Resources, Envelopes and Types">
+    <meta property="og:description"
+        content="A frontend developer&#x27;s guide to Laravel API design: resources, consistent envelopes and errors, pagination meta, whenLoaded, includes, versioning and typed responses.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/laravel-api-resources-frontends-love/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/laravel-api-resources-frontends-love/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Designing Laravel APIs Frontends Love: Resources, Envelopes and Types">
+    <meta name="twitter:description"
+        content="A frontend developer&#x27;s guide to Laravel API design: resources, consistent envelopes and errors, pagination meta, whenLoaded, includes, versioning and typed responses.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/laravel-api-resources-frontends-love/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Designing Laravel APIs Frontends Love: Resources, Envelopes and Types",
+        "description": "A frontend developer's guide to Laravel API design: resources, consistent envelopes and errors, pagination meta, whenLoaded, includes, versioning and typed responses.",
+        "image": "https://sagarpansuriya.in/blog/laravel-api-resources-frontends-love/cover.png",
+        "datePublished": "2026-12-14",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/laravel-api-resources-frontends-love/",
+        "articleSection": "Laravel",
+        "keywords": "Laravel API resources, JsonResource, API design, whenLoaded, Laravel pagination, TypeScript types, API versioning"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=Laravel">§ Laravel</a>
+                <h1 class="post-title">Designing Laravel APIs Frontends Love: Resources, Envelopes and Types</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-12-14">Dec 14, 2026</time>
+                    <span class="sep">·</span>
+                    <span>7 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of a JSON response with data, meta and links blocks feeding a typed frontend component card"></div>
+
+                <div class="prose">
+<p>You've probably worked with an API where every endpoint feels like it was written by a
+                        different person. One returns a bare array, the next wraps things in <code>data</code>. Dates
+                        come back as <code>2026-12-14 09:00:00</code> here and as a Unix timestamp there. A missing
+                        relationship is sometimes <code>null</code>, sometimes an empty array, sometimes just absent.
+                        Validation errors have three different shapes depending on which controller threw them.</p>
+                    <p>None of that is a backend bug, exactly. Everything "works". But every inconsistency becomes a
+                        special case in the frontend, a defensive <code>?.</code>, a comment that says "this endpoint is
+                        different". Multiply that by fifty endpoints and three frontend developers and you get a
+                        codebase where nobody trusts the API.</p>
+                    <p>I spend most of my time on the frontend side of that contract, so this post is the list of
+                        things I ask backend teams for when we build Laravel APIs for React, Vue or mobile clients.
+                        Almost all of it is built into Laravel already. It just needs to be applied consistently.</p>
+
+                    <h2>Resources are the contract, not the model</h2>
+                    <p>The first rule: never return Eloquent models straight from a controller. A model's
+                        <code>toArray()</code> is whatever columns happen to exist today. Add a column next month and
+                        it silently ships to every client. Rename one and the frontend breaks.</p>
+                    <p>API resources give you an explicit, reviewable shape:</p>
+                    <pre class="code-block"><code>// app/Http/Resources/PostResource.php
+class PostResource extends JsonResource
+{
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' =&gt; $this-&gt;id,
+            'title' =&gt; $this-&gt;title,
+            'slug' =&gt; $this-&gt;slug,
+            'excerpt' =&gt; $this-&gt;excerpt,
+            'status' =&gt; $this-&gt;status-&gt;value,          // enums as their string value
+            'published_at' =&gt; $this-&gt;published_at?-&gt;toIso8601String(),
+            'reading_minutes' =&gt; $this-&gt;reading_minutes,
+            'author' =&gt; UserResource::make($this-&gt;whenLoaded('author')),
+            'tags' =&gt; TagResource::collection($this-&gt;whenLoaded('tags')),
+            'comments_count' =&gt; $this-&gt;whenCounted('comments'),
+            'can' =&gt; [
+                'update' =&gt; $request-&gt;user()?-&gt;can('update', $this-&gt;resource) ?? false,
+            ],
+        ];
+    }
+}</code></pre>
+                    <p>A few conventions hiding in there that frontends appreciate:</p>
+                    <ul>
+                        <li><strong>One date format everywhere.</strong> ISO 8601 with the offset. The browser can
+                            parse it, and nobody has to guess the timezone.</li>
+                        <li><strong>Enums as stable strings</strong>, not integers the frontend has to map.</li>
+                        <li><strong>Money as integer minor units</strong> (cents, paise) with a currency code, never
+                            floats.</li>
+                        <li><strong>Permissions in the payload.</strong> A small <code>can</code> object means the UI
+                            doesn't have to re-implement your policies to decide whether to show an Edit button.</li>
+                    </ul>
+
+                    <h2>whenLoaded and friends: no surprise queries</h2>
+                    <p><code>whenLoaded('author')</code> only includes the relationship if the controller eager loaded
+                        it. If it wasn't loaded, the key is left out entirely rather than triggering a lazy query
+                        per row. That single habit prevents most N+1 problems in API code, because the resource can
+                        never quietly load data on its own.</p>
+                    <p>The same family covers other conditional fields:</p>
+                    <table>
+                        <thead>
+                            <tr><th>Method</th><th>Includes the value when…</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>whenLoaded('rel')</code></td><td>The relationship was eager loaded</td></tr>
+                            <tr><td><code>whenCounted('rel')</code></td><td>A <code>withCount</code> ran for it</td></tr>
+                            <tr><td><code>when($condition, $value)</code></td><td>Your condition is true (admin-only fields, for example)</td></tr>
+                            <tr><td><code>whenNotNull($value)</code></td><td>The value isn't null</td></tr>
+                            <tr><td><code>mergeWhen($condition, [...])</code></td><td>Several keys share one condition</td></tr>
+                        </tbody>
+                    </table>
+                    <p>One thing to agree on as a team: "key missing" and "key is null" mean different things. With
+                        <code>whenLoaded</code>, a missing <code>author</code> means "not requested", while
+                        <code>"author": null</code> means "this post has no author". Write that down, because
+                        TypeScript types depend on it.</p>
+
+                    <h2>One envelope, every time</h2>
+                    <p>By default, a single resource is wrapped in a <code>data</code> key, and a paginated
+                        collection returns <code>data</code>, <code>links</code> and <code>meta</code>. You can turn the
+                        wrapping off with <code>JsonResource::withoutWrapping()</code>, but I'd keep it. A predictable
+                        top-level shape means your fetch helper can unwrap every response the same way, and you have
+                        somewhere to put metadata later without a breaking change.</p>
+
+                    <img src="api-response-contract.svg" alt="Diagram of a request flowing through the controller, query builder and API resource into a consistent envelope with data, links and meta, and a matching error shape">
+
+                    <p>When you need extra top-level information, use <code>additional()</code> at the call site or
+                        a <code>with()</code> method on the resource instead of inventing a new wrapper:</p>
+                    <pre class="code-block"><code>return PostResource::collection($posts)-&gt;additional([
+    'meta' =&gt; ['filters' =&gt; $request-&gt;only(['status', 'tag'])],
+]);</code></pre>
+
+                    <h2>Pagination metadata the UI can actually use</h2>
+                    <p>Pass a paginator to a resource collection and Laravel does the work: <code>meta</code> gets
+                        <code>current_page</code>, <code>last_page</code>, <code>per_page</code>, <code>total</code>,
+                        <code>from</code> and <code>to</code>, and <code>links</code> gets first, last, previous and next
+                        URLs. That's enough to build a numbered paginator without extra requests.</p>
+                    <pre class="code-block"><code>public function index(Request $request)
+{
+    $posts = Post::query()
+        -&gt;with('author')
+        -&gt;withCount('comments')
+        -&gt;latest('published_at')
+        -&gt;paginate($request-&gt;integer('per_page', 20))
+        -&gt;withQueryString();
+
+    return PostResource::collection($posts);
+}</code></pre>
+                    <p>Two things to decide deliberately. First, cap <code>per_page</code> on the server, or someone
+                        will ask for ten thousand rows. Second, pick the paginator per endpoint:
+                        <code>paginate()</code> for numbered pages, <code>simplePaginate()</code> when you don't need a
+                        total (it skips the count query), and <code>cursorPaginate()</code> for infinite scroll and
+                        feeds, where offset pagination drifts as new rows arrive. Frontends can handle all three, as
+                        long as each endpoint's choice is documented and doesn't change.</p>
+
+                    <h2>Includes and sparse fieldsets</h2>
+                    <p>Different screens need different amounts of data. A list view wants titles and dates; a
+                        detail view wants the author, tags and comments. Rather than building a separate endpoint per
+                        screen, let the client ask:</p>
+                    <pre class="code-block"><code>GET /api/v1/posts?include=author,tags&amp;fields[posts]=id,title,slug,published_at</code></pre>
+                    <p>The part that matters is the allow list. Never pass a user-supplied include straight into
+                        <code>with()</code>, or clients can load any relationship on your models, including ones you
+                        never meant to expose. A hand-rolled version is small:</p>
+                    <pre class="code-block"><code>$allowed = ['author', 'tags', 'comments'];
+
+$includes = collect(explode(',', (string) $request-&gt;query('include')))
+    -&gt;map(fn ($i) =&gt; trim($i))
+    -&gt;intersect($allowed)
+    -&gt;all();
+
+$posts = Post::query()-&gt;with($includes)-&gt;paginate();</code></pre>
+                    <p>Because the resource uses <code>whenLoaded</code>, the includes the client didn't ask for
+                        simply don't appear. If you want filters, sorts, includes and fields all handled with the same
+                        allow-list approach, Spatie's <code>laravel-query-builder</code> package follows the JSON:API
+                        conventions for these query parameters and saves a lot of boilerplate.</p>
+
+                    <h2>A single error format</h2>
+                    <p>Laravel's validation errors already have a good shape: a <code>422</code> status with a
+                        <code>message</code> and an <code>errors</code> object keyed by field name, each holding an array
+                        of messages. Frontend form libraries map that onto inputs almost directly.</p>
+                    <pre class="code-block"><code>{
+    "message": "The title field is required. (and 1 more error)",
+    "errors": {
+        "title": ["The title field is required."],
+        "tags.0": ["The selected tags.0 is invalid."]
+    }
+}</code></pre>
+                    <p>The problem is everything else. A 404 from route model binding, a 403 from a policy, a 500
+                        from an exception: make sure they all return JSON with at least a <code>message</code>, never
+                        an HTML error page. In Laravel 11 and later you configure that in
+                        <code>bootstrap/app.php</code>:</p>
+                    <pre class="code-block"><code>-&gt;withExceptions(function (Exceptions $exceptions) {
+    $exceptions-&gt;shouldRenderJsonWhen(
+        fn (Request $request) =&gt; $request-&gt;is('api/*') || $request-&gt;expectsJson()
+    );
+})</code></pre>
+                    <p>Then agree on the rules the frontend can rely on: <code>401</code> means redirect to sign-in,
+                        <code>403</code> means show "not allowed", <code>404</code> means not found,
+                        <code>422</code> means field errors in <code>errors</code>, <code>429</code> means back off, and
+                        anything <code>5xx</code> gets a generic message and a retry. Nested array fields use dot
+                        notation keys like <code>items.2.quantity</code>, so tell the frontend to expect those too.</p>
+
+                    <h2>Versioning without drama</h2>
+                    <p>You'll need to change the contract eventually. The simplest strategy that works for most
+                        teams is a URL prefix:</p>
+                    <pre class="code-block"><code>// routes/api.php
+Route::prefix('v1')-&gt;name('v1.')-&gt;group(base_path('routes/api_v1.php'));
+Route::prefix('v2')-&gt;name('v2.')-&gt;group(base_path('routes/api_v2.php'));</code></pre>
+                    <p>Header-based versioning is more "pure" but harder to debug in a browser and harder to cache.
+                        Whichever you choose, the more useful discipline is knowing what counts as breaking. Adding a
+                        field is not breaking. Removing or renaming a field, changing a type, or changing what
+                        <code>null</code> means is. Additive changes go into the current version; breaking ones get a
+                        new resource class in a <code>V2</code> namespace, while <code>V1</code> keeps working until
+                        clients have moved.</p>
+                    <p>If your only client is your own web frontend, deployed together with the API, you may not
+                        need versions at all. It's one of the quieter advantages of Livewire and Inertia that came up
+                        in my <a href="/blog/livewire-vs-inertia-decision-framework/">Livewire vs Inertia decision
+                        framework</a>: no separate API to version. A public API is a contract, and contracts have
+                        maintenance costs.</p>
+
+                    <h2>Typed responses on the frontend</h2>
+                    <p>All this consistency pays off most when the frontend has types. Writing TypeScript interfaces
+                        by hand works for a while, then drifts. There are three common approaches to keeping them in
+                        sync:</p>
+                    <ol>
+                        <li><strong>Generate from an OpenAPI spec.</strong> Tools that analyse your routes, form
+                            requests and resources can produce an OpenAPI document; a generator on the frontend turns
+                            that into TypeScript. This gives you documentation for free.</li>
+                        <li><strong>Generate from PHP classes.</strong> If you describe payloads with typed data
+                            objects (Spatie's <code>laravel-data</code> is a popular choice), a transformer can write
+                            matching TypeScript types, including your enums.</li>
+                        <li><strong>Hand-written types plus contract tests.</strong> Keep interfaces manually, but
+                            assert response shapes in feature tests so a backend change fails CI before it reaches the
+                            frontend.</li>
+                    </ol>
+                    <p>Even with generation, add shape assertions to your feature tests. Laravel's fluent JSON
+                        assertions make it cheap:</p>
+                    <pre class="code-block"><code>$this-&gt;getJson('/api/v1/posts?include=author')
+    -&gt;assertOk()
+    -&gt;assertJson(fn (AssertableJson $json) =&gt; $json
+        -&gt;has('data.0', fn (AssertableJson $post) =&gt; $post
+            -&gt;whereType('id', 'integer')
+            -&gt;whereType('published_at', 'string|null')
+            -&gt;has('author')
+            -&gt;etc()
+        )
+        -&gt;has('meta.total')
+        -&gt;has('links')
+    );</code></pre>
+
+                    <h2>The API contract checklist</h2>
+                    <ol>
+                        <li>Every response goes through an API resource. No raw models.</li>
+                        <li>One envelope: <code>data</code>, plus <code>links</code> and <code>meta</code> for
+                            collections.</li>
+                        <li>ISO 8601 dates, string enums, integer money with a currency code.</li>
+                        <li>Relationships via <code>whenLoaded</code>, counts via <code>whenCounted</code>, and a
+                            written rule for missing vs null.</li>
+                        <li>Includes and fields validated against an allow list.</li>
+                        <li>A capped <code>per_page</code> and a documented paginator type per endpoint.</li>
+                        <li>JSON errors for every status code, with the standard <code>422</code> shape for
+                            validation.</li>
+                        <li>A versioning rule, and a shared definition of "breaking".</li>
+                        <li>Generated or tested TypeScript types, so drift fails CI instead of production.</li>
+                    </ol>
+                    <p>None of these rules is hard on its own. The value comes from applying all of them, on every
+                        endpoint, every time. That's what turns an API from something the frontend works around into
+                        something it can build on without second-guessing.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/laravel-api-resources-frontends-love/&text=Designing%20Laravel%20APIs%20Frontends%20Love%3A%20Resources%2C%20Envelopes%20and%20Types"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/laravel-api-resources-frontends-love/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

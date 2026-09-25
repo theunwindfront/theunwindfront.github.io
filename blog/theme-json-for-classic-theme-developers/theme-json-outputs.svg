@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="440" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">ONE FILE, FOUR OUTPUTS</text>
+  <!-- source -->
+  <rect x="40" y="80" width="230" height="300" rx="14" fill="#1b1b20" stroke="#5b5bd6" stroke-width="1.5"/>
+  <text x="155" y="112" text-anchor="middle" font-size="16" fill="#b3b3f7" font-weight="700">theme.json</text>
+  <rect x="62" y="132" width="186" height="100" rx="10" fill="#23232a"/>
+  <text x="78" y="158" font-size="14" fill="#f2b880" font-weight="700">settings</text>
+  <text x="78" y="182" font-size="12" fill="#a19e97">palette, fontSizes,</text>
+  <text x="78" y="200" font-size="12" fill="#a19e97">spacing, custom: false</text>
+  <text x="78" y="218" font-size="12" fill="#a19e97">blocks.core/*</text>
+  <rect x="62" y="248" width="186" height="100" rx="10" fill="#23232a"/>
+  <text x="78" y="274" font-size="14" fill="#6fd3b0" font-weight="700">styles</text>
+  <text x="78" y="298" font-size="12" fill="#a19e97">root, elements,</text>
+  <text x="78" y="316" font-size="12" fill="#a19e97">blocks, variations</text>
+  <!-- arrows -->
+  <g stroke="#8f8fef" stroke-width="2" fill="none">
+    <path d="M270 182 C 320 182, 320 118, 368 118"/>
+    <path d="M270 182 C 320 182, 320 196, 368 196"/>
+    <path d="M270 182 C 320 182, 320 274, 368 274"/>
+    <path d="M270 298 C 320 298, 320 352, 368 352"/>
+    <path d="M270 298 C 320 298, 320 274, 368 274"/>
+  </g>
+  <!-- outputs -->
+  <rect x="368" y="88" width="300" height="60" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="386" y="114" font-size="14" fill="#ece9e2" font-weight="700">Editor controls</text>
+  <text x="386" y="134" font-size="12" fill="#a19e97">pickers show only your presets</text>
+  <rect x="368" y="166" width="300" height="60" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="386" y="192" font-size="14" fill="#ece9e2" font-weight="700">Preset classes</text>
+  <text x="386" y="212" font-size="12" fill="#a19e97">.has-brand-color, .has-large-font-size</text>
+  <rect x="368" y="244" width="300" height="60" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="386" y="270" font-size="14" fill="#ece9e2" font-weight="700">CSS custom properties</text>
+  <text x="386" y="290" font-size="12" fill="#a19e97">--wp--preset--color--brand</text>
+  <rect x="368" y="322" width="300" height="60" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="386" y="348" font-size="14" fill="#ece9e2" font-weight="700">Global stylesheet</text>
+  <text x="386" y="368" font-size="12" fill="#a19e97">element and block defaults</text>
+  <!-- destinations -->
+  <g stroke="#2e2e36" stroke-width="2" fill="none">
+    <path d="M668 118 H 700"/><path d="M668 196 H 700"/><path d="M668 274 H 700"/><path d="M668 352 H 700"/>
+    <path d="M700 118 V 352"/>
+    <path d="M700 180 H 720"/><path d="M700 290 H 720"/>
+  </g>
+  <rect x="720" y="150" width="130" height="60" rx="10" fill="#23232a" stroke="#8f8fef"/>
+  <text x="785" y="176" text-anchor="middle" font-size="14" fill="#b3b3f7" font-weight="700">Editor</text>
+  <text x="785" y="196" text-anchor="middle" font-size="12" fill="#a19e97">block canvas</text>
+  <rect x="720" y="260" width="130" height="60" rx="10" fill="#23232a" stroke="#6fd3b0"/>
+  <text x="785" y="286" text-anchor="middle" font-size="14" fill="#6fd3b0" font-weight="700">Front end</text>
+  <text x="785" y="306" text-anchor="middle" font-size="12" fill="#a19e97">Blade + blocks</text>
+  <text x="440" y="416" text-anchor="middle" font-size="13" fill="#ece9e2">Same values render in both places, so the editor becomes a real preview</text>
+</svg>

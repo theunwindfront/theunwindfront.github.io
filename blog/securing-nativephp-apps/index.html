@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Securing NativePHP Apps: What Ships in the Bundle and What Never Should</title>
+    <meta name="description"
+        content="A NativePHP app puts your Laravel code on every user&#x27;s machine. Here&#x27;s what actually ships in the bundle, where secrets belong, and how to protect tokens, local data and updates.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/securing-nativephp-apps/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Securing NativePHP Apps: What Ships in the Bundle and What Never Should">
+    <meta property="og:description"
+        content="A NativePHP app puts your Laravel code on every user&#x27;s machine. Here&#x27;s what actually ships in the bundle, where secrets belong, and how to protect tokens, local data and updates.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/securing-nativephp-apps/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/securing-nativephp-apps/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Securing NativePHP Apps: What Ships in the Bundle and What Never Should">
+    <meta name="twitter:description"
+        content="A NativePHP app puts your Laravel code on every user&#x27;s machine. Here&#x27;s what actually ships in the bundle, where secrets belong, and how to protect tokens, local data and updates.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/securing-nativephp-apps/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Securing NativePHP Apps: What Ships in the Bundle and What Never Should",
+        "description": "A NativePHP app puts your Laravel code on every user's machine. Here's what actually ships in the bundle, where secrets belong, and how to protect tokens, local data and updates.",
+        "image": "https://sagarpansuriya.in/blog/securing-nativephp-apps/cover.png",
+        "datePublished": "2026-12-11",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/securing-nativephp-apps/",
+        "articleSection": "NativePHP",
+        "keywords": "NativePHP security, NativePHP, Laravel desktop app, app secrets, Laravel Sanctum, SQLite encryption, code signing"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=NativePHP">§ NativePHP</a>
+                <h1 class="post-title">Securing NativePHP Apps: What Ships in the Bundle and What Never Should</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-12-11">Dec 11, 2026</time>
+                    <span class="sep">·</span>
+                    <span>8 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of an open app bundle containing source files and a database, guarded by a shield, with a key kept in a separate keychain"></div>
+
+                <div class="prose">
+<p>You've probably built a Laravel app where the most sensitive file in the project is
+                        <code>.env</code>. It holds the database password, the Stripe secret, the mail credentials,
+                        and it lives on a server that only you and your deploy pipeline can reach. That mental model
+                        has served web developers well for years.</p>
+                    <p>NativePHP breaks it. When you build a desktop or mobile app with NativePHP, your Laravel app
+                        stops living on your server and starts living on your users' machines. Every install is a copy
+                        of your code, running on hardware you don't control, owned by someone who can open the app
+                        folder and poke around. That's not a flaw in NativePHP. It's the nature of any client-side
+                        app, and Electron, Tauri and native mobile developers have been dealing with it for a long
+                        time. Laravel developers just aren't used to it yet.</p>
+                    <p>This post walks through what actually ends up in the bundle, where secrets have to live
+                        instead, and how to protect tokens, local data and the update channel. I'll keep the
+                        NativePHP-specific APIs general on purpose, because they move quickly. The principles don't.</p>
+
+                    <h2>What actually ships inside the app</h2>
+                    <p>A NativePHP build packages a PHP runtime together with your Laravel application. That means
+                        your <code>app/</code> directory, your routes, your views, your config files, your
+                        <code>vendor/</code> folder and a copy of your environment file all end up inside the app
+                        bundle on disk. On macOS that's inside the <code>.app</code> package, on Windows it's in the
+                        install directory, and on mobile it's inside the app package.</p>
+                    <p>PHP is not compiled to machine code here. Your source is readable. Someone with a few minutes
+                        and a file browser can open your controllers and read them. Obfuscation tools exist, but treat
+                        them as a speed bump, not a lock. The only safe assumption is:</p>
+                    <blockquote>Anything inside the bundle is public. If you wouldn't paste it into a public GitHub
+                        repo, it doesn't belong in the app.</blockquote>
+
+                    <h3>The .env problem</h3>
+                    <p>The environment file is where this bites hardest. Your local <code>.env</code> is full of
+                        things that make sense on a developer machine: AWS keys for the S3 bucket, a GitHub token for
+                        private packages, credentials for the production database you connected to "just once" while
+                        debugging. If the build picks up that file, every user gets them.</p>
+                    <p>NativePHP's config file lets you list environment keys to strip from the bundled environment
+                        at build time, and lets you exclude files and folders from the build. Open
+                        <code>config/nativephp.php</code>, read what's there, and extend both lists. But don't rely on a
+                        deny list alone. The safer habit is a dedicated, minimal environment for builds:</p>
+                    <pre class="code-block"><code># .env used for release builds: nothing here is secret
+APP_NAME="Field Notes"
+APP_ENV=production
+APP_DEBUG=false
+API_BASE_URL=https://api.fieldnotes.app
+LOG_LEVEL=warning</code></pre>
+                    <p>If a value in that file would hurt you when it leaks, it shouldn't be in that file. Also make
+                        sure <code>APP_DEBUG</code> is false. A debug error page inside a desktop app shows the same
+                        stack traces, paths and environment details it would on a website, just to a more curious
+                        audience.</p>
+
+                    <h2>Secrets meant for servers stay on servers</h2>
+                    <p>The most common mistake I see in client-side apps of any kind is calling a third-party API
+                        directly with a key that was meant to stay private. A payment provider's secret key, an LLM
+                        provider's API key, an email service key, admin credentials for your own backend. If the app
+                        can read it, the user can read it, and so can anyone who downloads your installer.</p>
+                    <p>The fix is architectural, not clever. Your app talks to <em>your</em> API. Your API holds the
+                        real secrets and talks to the third parties on the user's behalf:</p>
+
+                    <img src="nativephp-trust-boundary.svg" alt="Diagram comparing what lives in the app bundle on the user's machine with what stays on your server, connected only by a per-user token over HTTPS">
+
+                    <p>That server-side hop is also where you get to enforce things the app can't: rate limits per
+                        user, plan checks, usage caps, audit logs. A leaked per-user token is a problem for one
+                        account. A leaked provider key is a problem for your whole bill.</p>
+
+                    <h2>Per-user tokens against your API</h2>
+                    <p>If the app shouldn't hold shared secrets, how does it authenticate? The same way a mobile
+                        app would: the user signs in, your API issues a token scoped to that user and that device,
+                        and the app sends it with every request. Laravel Sanctum's personal access tokens fit this
+                        well:</p>
+                    <pre class="code-block"><code>// routes/api.php, on your server
+Route::post('/device-login', function (Request $request) {
+    $request-&gt;validate([
+        'email' =&gt; ['required', 'email'],
+        'password' =&gt; ['required'],
+        'device_name' =&gt; ['required', 'string', 'max:100'],
+    ]);
+
+    $user = User::where('email', $request-&gt;email)-&gt;first();
+
+    if (! $user || ! Hash::check($request-&gt;password, $user-&gt;password)) {
+        throw ValidationException::withMessages([
+            'email' =&gt; ['These credentials do not match our records.'],
+        ]);
+    }
+
+    $token = $user-&gt;createToken(
+        'desktop: '.$request-&gt;device_name,
+        ['notes:read', 'notes:write'],   // only what the app needs
+        now()-&gt;addDays(90),              // tokens should expire
+    );
+
+    return ['token' =&gt; $token-&gt;plainTextToken];
+})-&gt;middleware('throttle:5,1');</code></pre>
+                    <p>A few rules that make this setup hold up:</p>
+                    <ul>
+                        <li><strong>Name tokens after the device.</strong> Then you can show users a "signed-in
+                            devices" list and let them revoke a lost laptop.</li>
+                        <li><strong>Scope abilities narrowly.</strong> A desktop client rarely needs admin abilities,
+                            even for admin users. Put admin work in the web app.</li>
+                        <li><strong>Expire and rotate.</strong> Long-lived tokens are convenient until one leaks. An
+                            expiry plus a silent re-auth flow is a good middle ground.</li>
+                        <li><strong>Revoke on sign-out.</strong> Delete the token on the server, not just the local
+                            copy.</li>
+                        <li><strong>Never trust the client's authorization logic.</strong> Hiding a button in the app
+                            is UX. The policy check on the server is security.</li>
+                    </ul>
+
+                    <h2>Storing secrets on the device</h2>
+                    <p>The token has to live somewhere on the user's machine. The worst place is a plain text
+                        settings file or an unencrypted column in the local database, because any process running as
+                        that user, and any backup tool, can read it.</p>
+                    <p>Every major operating system ships a credential store built for exactly this: Keychain on
+                        macOS and iOS, Credential Manager and DPAPI on Windows, the Secret Service (libsecret) on most
+                        Linux desktops, and Keystore on Android. They tie secrets to the user account, and on some
+                        platforms to the app's signing identity, so other apps can't simply read them. NativePHP
+                        exposes secure storage on its platforms, but the exact API differs between desktop and mobile
+                        and has changed between versions, so check the current docs at nativephp.com for the
+                        platform you're targeting.</p>
+                    <p>Whatever the API, the shape is the same: store the token in the OS store, read it when you
+                        build the HTTP client, delete it on sign-out.</p>
+
+                    <h3>Laravel encryption for local data</h3>
+                    <p>For larger sensitive data you want in SQLite (cached messages, notes, customer details),
+                        Laravel's encryption is useful, with one catch. <code>Crypt</code> and the
+                        <code>encrypted</code> casts use <code>APP_KEY</code>. If that key ships in the bundle, it's
+                        identical on every install and readable by anyone. Encrypting with it is obfuscation.</p>
+                    <p>The better pattern: generate a random key per install on first launch, keep it in the OS
+                        credential store, and build an encrypter from it.</p>
+                    <pre class="code-block"><code>use Illuminate\Database\Eloquent\Model;
+use Illuminate\Encryption\Encrypter;
+
+// In a service provider's boot() method
+$key = app(DeviceSecrets::class)-&gt;get('local_data_key');   // your wrapper around secure storage
+
+if (! $key) {
+    $key = base64_encode(Encrypter::generateKey('AES-256-CBC'));
+    app(DeviceSecrets::class)-&gt;put('local_data_key', $key);
+}
+
+$encrypter = new Encrypter(base64_decode($key), 'AES-256-CBC');
+
+// Make the `encrypted` casts on local models use the per-install key
+Model::encryptUsing($encrypter);</code></pre>
+                    <p><code>DeviceSecrets</code> here is a small class of your own that wraps whatever secure storage
+                        API your NativePHP version provides. Keeping that wrapper thin means one place to change when
+                        the platform API changes.</p>
+
+                    <h2>Protecting the local SQLite file</h2>
+                    <p>NativePHP apps typically keep their database as a SQLite file in the app's data directory.
+                        Stock SQLite doesn't encrypt anything: open the file with any SQLite browser and the tables
+                        are right there. Encrypted SQLite builds such as SQLCipher exist, but they require a custom
+                        SQLite build and PHP extension, which is a lot to take on for most apps.</p>
+                    <p>For most apps, a layered approach is enough:</p>
+                    <ol>
+                        <li><strong>Store less.</strong> The safest data is data you never cache. Does the app really
+                            need a full customer list offline, or just the records the user opened?</li>
+                        <li><strong>Encrypt the sensitive columns</strong> with the per-install encrypter above.
+                            Leave non-sensitive columns plain so you can still query and index them.</li>
+                        <li><strong>Keep the file in the app's data directory</strong>, which the OS already
+                            protects with user account permissions. Never write it to a shared or synced folder.</li>
+                        <li><strong>Wipe on sign-out.</strong> Delete the user's local data and the local key when
+                            they sign out, especially on shared machines.</li>
+                    </ol>
+                    <p>Be honest with yourself about the threat model. Nothing on the device protects data from
+                        someone who has full control of the user's unlocked account. What you're protecting against
+                        is casual snooping, other apps, careless backups and stolen disks. That's still worth doing.</p>
+
+                    <h2>The webview is still a browser</h2>
+                    <p>Your UI renders in a webview, so the usual web rules apply, with higher stakes. An XSS hole in
+                        a website steals a session. An XSS hole in a desktop app can reach whatever native
+                        functionality your app exposes to its frontend.</p>
+                    <ul>
+                        <li>Keep using <code>{{ }}</code>, and treat every <code>{!! !!}</code> as a code review
+                            question. Content synced from your API is still untrusted input.</li>
+                        <li>Open external links in the user's default browser, not inside your app window.</li>
+                        <li>Don't load remote scripts from CDNs into the app. Bundle your assets with Vite.</li>
+                        <li>Don't assume anything listening on <code>localhost</code> is only reachable by your own
+                            app. Other software on the machine can make local requests too.</li>
+                    </ul>
+
+                    <h2>Update channel integrity</h2>
+                    <p>Auto-updates are the most powerful thing your app does: they replace your code on every
+                        user's machine without anyone reviewing it. If an attacker can publish to your update
+                        channel, they own your install base. I covered the release mechanics in
+                        <a href="/blog/shipping-nativephp-desktop-apps-releases/">shipping NativePHP desktop apps</a>,
+                        so here's the security angle only:</p>
+                    <ul>
+                        <li><strong>Sign every build.</strong> Code signing on macOS and Windows is what lets the OS
+                            and the updater verify an update came from you and wasn't modified.</li>
+                        <li><strong>Serve update metadata over HTTPS only</strong>, from a location only your
+                            release pipeline can write to.</li>
+                        <li><strong>Guard the publishing credentials.</strong> Signing certificates and update
+                            provider tokens belong in your CI secret store, scoped to the release job, never in the
+                            repo or on a laptop that also runs random npm installs.</li>
+                        <li><strong>Protect the release branch.</strong> Require review before anything that
+                            triggers a release can merge.</li>
+                    </ul>
+
+                    <h2>A security checklist for NativePHP apps</h2>
+                    <ol>
+                        <li>Assume everything in the bundle is public, including your source.</li>
+                        <li>Build with a minimal release environment file, and extend NativePHP's env cleanup and
+                            exclude lists.</li>
+                        <li><code>APP_DEBUG=false</code> in every release build.</li>
+                        <li>No third-party or server secrets in the app. Proxy those calls through your API.</li>
+                        <li>Per-user, per-device tokens with narrow abilities, expiry and server-side revocation.</li>
+                        <li>Tokens and local keys in the OS credential store, never in plain files.</li>
+                        <li>Sensitive local columns encrypted with a per-install key, not the shipped
+                            <code>APP_KEY</code>.</li>
+                        <li>Cache only what the app needs offline, and wipe it on sign-out.</li>
+                        <li>Escape output, open external links outside the app, bundle your assets.</li>
+                        <li>Signed builds, HTTPS update feed, and release credentials locked inside CI.</li>
+                    </ol>
+                    <p>None of this is exotic. It's the same discipline mobile developers have followed for years,
+                        applied to a stack that used to live safely behind a server. Once you stop thinking of the
+                        app as "my Laravel project" and start thinking of it as "a copy of my code on a stranger's
+                        laptop", most of the right decisions make themselves.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/securing-nativephp-apps/&text=Securing%20NativePHP%20Apps%3A%20What%20Ships%20in%20the%20Bundle%20and%20What%20Never%20Should"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/securing-nativephp-apps/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

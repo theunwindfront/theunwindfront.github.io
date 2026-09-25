@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="400" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">WHAT THE FIRST PAINT LOOKS LIKE</text>
+  <!-- Alpine row -->
+  <text x="40" y="96" font-size="14" font-weight="700" fill="#6fd3b0">Alpine</text>
+  <rect x="40" y="110" width="240" height="90" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="160" y="140" text-anchor="middle" font-size="13" font-weight="700" fill="#ece9e2">Server sends HTML</text>
+  <text x="160" y="162" text-anchor="middle" font-size="12" fill="#a19e97">directives untouched,</text>
+  <text x="160" y="180" text-anchor="middle" font-size="12" fill="#a19e97">x-text spans empty</text>
+  <path d="M288 155 h30" stroke="#5b5bd6" stroke-width="2"/><path d="M316 149 l10 6 l-10 6 z" fill="#5b5bd6"/>
+  <rect x="334" y="110" width="240" height="90" rx="10" fill="#2a1c20" stroke="#f28b9b"/>
+  <text x="454" y="140" text-anchor="middle" font-size="13" font-weight="700" fill="#f28b9b">First paint</text>
+  <text x="454" y="162" text-anchor="middle" font-size="12" fill="#ece9e2">empty text, panels open</text>
+  <text x="454" y="180" text-anchor="middle" font-size="12" fill="#ece9e2">(hence x-cloak)</text>
+  <path d="M582 155 h30" stroke="#5b5bd6" stroke-width="2"/><path d="M610 149 l10 6 l-10 6 z" fill="#5b5bd6"/>
+  <rect x="628" y="110" width="212" height="90" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="734" y="140" text-anchor="middle" font-size="13" font-weight="700" fill="#ece9e2">Alpine boots</text>
+  <text x="734" y="162" text-anchor="middle" font-size="12" fill="#a19e97">evaluates expressions,</text>
+  <text x="734" y="180" text-anchor="middle" font-size="12" fill="#a19e97">UI becomes correct</text>
+  <!-- WP row -->
+  <text x="40" y="246" font-size="14" font-weight="700" fill="#8f8fef">Interactivity API</text>
+  <rect x="40" y="260" width="240" height="90" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="160" y="290" text-anchor="middle" font-size="13" font-weight="700" fill="#ece9e2">PHP processes</text>
+  <text x="160" y="312" text-anchor="middle" font-size="12" fill="#a19e97">directives with state</text>
+  <text x="160" y="330" text-anchor="middle" font-size="12" fill="#a19e97">+ context on the server</text>
+  <path d="M288 305 h30" stroke="#5b5bd6" stroke-width="2"/><path d="M316 299 l10 6 l-10 6 z" fill="#5b5bd6"/>
+  <rect x="334" y="260" width="240" height="90" rx="10" fill="#1c2a25" stroke="#6fd3b0"/>
+  <text x="454" y="290" text-anchor="middle" font-size="13" font-weight="700" fill="#6fd3b0">First paint</text>
+  <text x="454" y="312" text-anchor="middle" font-size="12" fill="#ece9e2">text filled, hidden set,</text>
+  <text x="454" y="330" text-anchor="middle" font-size="12" fill="#ece9e2">classes applied</text>
+  <path d="M582 305 h30" stroke="#5b5bd6" stroke-width="2"/><path d="M610 299 l10 6 l-10 6 z" fill="#5b5bd6"/>
+  <rect x="628" y="260" width="212" height="90" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="734" y="290" text-anchor="middle" font-size="13" font-weight="700" fill="#ece9e2">Runtime hydrates</text>
+  <text x="734" y="312" text-anchor="middle" font-size="12" fill="#a19e97">same state, now</text>
+  <text x="734" y="330" text-anchor="middle" font-size="12" fill="#a19e97">interactive</text>
+  <text x="440" y="382" text-anchor="middle" font-size="12" fill="#8f8d88">Derived state must also be computed in PHP, or paint and hydration disagree.</text>
+</svg>

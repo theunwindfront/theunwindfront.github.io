@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="420" rx="16" fill="#16161b"/>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#8f8fef"/></marker>
+  </defs>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">HOW AN ACF BLOCK RENDERS THROUGH BLADE</text>
+
+  <!-- main row -->
+  <rect x="40" y="80" width="180" height="84" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="130" y="112" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">block.json</text>
+  <text x="130" y="134" text-anchor="middle" font-size="12" fill="#a19e97">acf.renderCallback</text>
+  <text x="130" y="152" text-anchor="middle" font-size="12" fill="#a19e97">+ supports, example</text>
+
+  <rect x="250" y="80" width="180" height="84" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="340" y="112" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">init</text>
+  <text x="340" y="134" text-anchor="middle" font-size="12" fill="#a19e97">register_block_type</text>
+  <text x="340" y="152" text-anchor="middle" font-size="12" fill="#a19e97">(folder path)</text>
+
+  <rect x="460" y="80" width="180" height="84" rx="12" fill="#1e1e3a" stroke="#8f8fef"/>
+  <text x="550" y="112" text-anchor="middle" font-size="15" fill="#b3b3f7" font-weight="700">render()</text>
+  <text x="550" y="134" text-anchor="middle" font-size="12" fill="#a19e97">get_fields(), classes</text>
+  <text x="550" y="152" text-anchor="middle" font-size="12" fill="#a19e97">$content, $is_preview</text>
+
+  <rect x="670" y="80" width="170" height="84" rx="12" fill="#1b1b20" stroke="#f2b880"/>
+  <text x="755" y="112" text-anchor="middle" font-size="15" fill="#f2b880" font-weight="700">Blade view</text>
+  <text x="755" y="134" text-anchor="middle" font-size="12" fill="#a19e97">blocks/{slug}</text>
+  <text x="755" y="152" text-anchor="middle" font-size="12" fill="#a19e97">→ &lt;x-component&gt;</text>
+
+  <line x1="222" y1="122" x2="246" y2="122" stroke="#8f8fef" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="432" y1="122" x2="456" y2="122" stroke="#8f8fef" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="642" y1="122" x2="666" y2="122" stroke="#8f8fef" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- branches -->
+  <path d="M755 166 V200 H250 V226" fill="none" stroke="#2e2e36" stroke-width="2"/>
+  <path d="M755 166 V226" fill="none" stroke="#2e2e36" stroke-width="2"/>
+  <path d="M250 214 V224" stroke="#8f8fef" stroke-width="2" marker-end="url(#ar)"/>
+  <path d="M755 214 V224" stroke="#8f8fef" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- editor branch -->
+  <rect x="40" y="232" width="420" height="150" rx="12" fill="#1b1b20" stroke="#5b5bd6"/>
+  <text x="60" y="262" font-size="14" fill="#8f8fef" font-weight="700">IN THE EDITOR</text>
+  <text x="60" y="290" font-size="12" fill="#ece9e2">field change → AJAX → fresh HTML</text>
+  <text x="60" y="314" font-size="12" fill="#ece9e2">$is_preview = true</text>
+  <text x="60" y="338" font-size="12" fill="#ece9e2">&lt;InnerBlocks /&gt; → editable area</text>
+  <text x="60" y="362" font-size="12" fill="#a19e97">show placeholders for empty fields</text>
+
+  <!-- front-end branch -->
+  <rect x="490" y="232" width="350" height="150" rx="12" fill="#1b1b20" stroke="#6fd3b0"/>
+  <text x="510" y="262" font-size="14" fill="#6fd3b0" font-weight="700">ON THE FRONT END</text>
+  <text x="510" y="290" font-size="12" fill="#ece9e2">rendered with the page</text>
+  <text x="510" y="314" font-size="12" fill="#ece9e2">$is_preview = false</text>
+  <text x="510" y="338" font-size="12" fill="#ece9e2">$content = saved inner blocks</text>
+  <text x="510" y="362" font-size="12" fill="#a19e97">empty block renders nothing</text>
+</svg>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 480" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="480" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">WHO WINS: LAYER ORDER, THEN SPECIFICITY</text>
+  <text x="60" y="92" font-size="14" fill="#ece9e2" font-weight="700">Normal declarations</text>
+  <text x="480" y="92" font-size="14" fill="#ece9e2" font-weight="700">!important declarations</text>
+  <rect x="60" y="110" width="340" height="44" rx="10" fill="#f28b9b"/>
+  <text x="78" y="138" font-size="14" fill="#1a1a1a" font-weight="700">unlayered</text>
+  <text x="382" y="138" text-anchor="end" font-size="12" fill="#1a1a1a">wins · no @layer</text>
+  <rect x="60" y="162" width="340" height="44" rx="10" fill="#8f8fef"/>
+  <text x="78" y="190" font-size="14" fill="#1a1a1a" font-weight="700">utilities</text>
+  <text x="382" y="190" text-anchor="end" font-size="12" fill="#1a1a1a">text-red-600</text>
+  <rect x="60" y="214" width="340" height="44" rx="10" fill="#5b5bd6"/>
+  <text x="78" y="242" font-size="14" fill="#fff" font-weight="700">components</text>
+  <text x="382" y="242" text-anchor="end" font-size="12" fill="#fff">.btn, .prose a</text>
+  <rect x="60" y="266" width="340" height="44" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="78" y="294" font-size="14" fill="#ece9e2" font-weight="700">vendor</text>
+  <text x="382" y="294" text-anchor="end" font-size="12" fill="#a19e97">layer(vendor)</text>
+  <rect x="60" y="318" width="340" height="44" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="78" y="346" font-size="14" fill="#ece9e2" font-weight="700">base</text>
+  <text x="382" y="346" text-anchor="end" font-size="12" fill="#a19e97">preflight</text>
+  <rect x="60" y="370" width="340" height="44" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="78" y="398" font-size="14" fill="#ece9e2" font-weight="700">theme</text>
+  <text x="382" y="398" text-anchor="end" font-size="12" fill="#a19e97">--color-*</text>
+  <rect x="480" y="110" width="340" height="44" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="498" y="138" font-size="14" fill="#ece9e2" font-weight="700">theme</text>
+  <rect x="480" y="162" width="340" height="44" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="498" y="190" font-size="14" fill="#ece9e2" font-weight="700">base</text>
+  <rect x="480" y="214" width="340" height="44" rx="10" fill="#f2b880"/>
+  <text x="498" y="242" font-size="14" fill="#1a1a1a" font-weight="700">vendor</text>
+  <text x="802" y="242" text-anchor="end" font-size="12" fill="#1a1a1a">vendor !important</text>
+  <rect x="480" y="266" width="340" height="44" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="498" y="294" font-size="14" fill="#ece9e2" font-weight="700">components</text>
+  <rect x="480" y="318" width="340" height="44" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="498" y="346" font-size="14" fill="#ece9e2" font-weight="700">utilities</text>
+  <text x="802" y="346" text-anchor="end" font-size="12" fill="#a19e97">bg-red-500!</text>
+  <rect x="480" y="370" width="340" height="44" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="498" y="398" font-size="14" fill="#ece9e2" font-weight="700">unlayered</text>
+  <path d="M42 404 V122" stroke="#6fd3b0" stroke-width="2" fill="none"/>
+  <path d="M36 124 l6 -12 l6 12 z" fill="#6fd3b0"/>
+  <path d="M462 404 V122" stroke="#6fd3b0" stroke-width="2" fill="none"/>
+  <path d="M456 124 l6 -12 l6 12 z" fill="#6fd3b0"/>
+  <text x="230" y="440" text-anchor="middle" font-size="12" fill="#a19e97">later layer wins · unlayered beats all layers</text>
+  <text x="650" y="440" text-anchor="middle" font-size="12" fill="#a19e97">order reverses · earlier layer wins</text>
+  <text x="440" y="466" text-anchor="middle" font-size="12" fill="#6fd3b0">↑ higher = wins the conflict</text>
+</svg>

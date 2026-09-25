@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Laravel Octane: When It Helps and When It Doesn&#x27;t</title>
+    <meta name="description"
+        content="Octane boots Laravel once and serves many requests, but it only removes bootstrap cost. Where the speedup comes from, the state leakage bugs to avoid, and how to decide with real measurements.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/laravel-octane-when-it-helps/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Laravel Octane: When It Helps and When It Doesn&#x27;t">
+    <meta property="og:description"
+        content="Octane boots Laravel once and serves many requests, but it only removes bootstrap cost. Where the speedup comes from, the state leakage bugs to avoid, and how to decide with real measurements.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/laravel-octane-when-it-helps/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/laravel-octane-when-it-helps/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Laravel Octane: When It Helps and When It Doesn&#x27;t">
+    <meta name="twitter:description"
+        content="Octane boots Laravel once and serves many requests, but it only removes bootstrap cost. Where the speedup comes from, the state leakage bugs to avoid, and how to decide with real measurements.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/laravel-octane-when-it-helps/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Laravel Octane: When It Helps and When It Doesn't",
+        "description": "Octane boots Laravel once and serves many requests, but it only removes bootstrap cost. Where the speedup comes from, the state leakage bugs to avoid, and how to decide with real measurements.",
+        "image": "https://sagarpansuriya.in/blog/laravel-octane-when-it-helps/cover.png",
+        "datePublished": "2026-11-30",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/laravel-octane-when-it-helps/",
+        "articleSection": "Laravel",
+        "keywords": "Laravel Octane, FrankenPHP, Swoole, RoadRunner, Laravel performance, state leakage, PHP-FPM"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=Laravel">§ Laravel</a>
+                <h1 class="post-title">Laravel Octane: When It Helps and When It Doesn&#x27;t</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-11-30">Nov 30, 2026</time>
+                    <span class="sep">·</span>
+                    <span>7 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of a throughput gauge above three Octane worker lanes that boot once and then serve many requests, with one lane flagging leaked static state"></div>
+
+                <div class="prose">
+<p>Every few months someone on a team suggests Octane. The app feels slow, a blog post promised big throughput numbers, and installing it takes five minutes. So it goes in. Sometimes the app gets noticeably faster. Sometimes nothing changes, except that a week later a user sees another user's name in the header and nobody can reproduce it.</p>
+                    <p>Both outcomes are predictable once you understand what Octane actually changes. This post covers how it works, where the speedup comes from (and where it can't come from), the state leakage bugs that bite teams, how to measure before and after, and a checklist for deciding whether it's worth it for your app.</p>
+
+                    <h2>How Octane works</h2>
+                    <p>In a traditional PHP-FPM setup, every request starts from nothing. PHP loads Composer's autoloader, Laravel creates the application, reads configuration, registers and boots every service provider, loads routes, handles the request, sends the response, and throws the whole thing away. The next request does it all again.</p>
+                    <p>Octane keeps the application in memory. It runs a small number of long-lived worker processes on an application server, currently <strong>FrankenPHP</strong>, <strong>Swoole</strong> (or Open Swoole) or <strong>RoadRunner</strong>. Each worker boots Laravel once, then serves request after request from that already-booted application. Between requests, Octane gives each request a fresh sandboxed copy of the application and resets a lot of framework state for you.</p>
+
+                    <img src="octane-request-lifecycle.svg" alt="Diagram comparing PHP-FPM, which boots and tears down Laravel on every request, with Octane, which boots once per worker and then handles many requests with a reset between each">
+
+                    <p>Getting started really is quick:</p>
+                    <pre class="code-block"><code>composer require laravel/octane
+php artisan octane:install          # choose FrankenPHP, Swoole or RoadRunner
+
+# local development, restarting workers when files change
+php artisan octane:start --watch
+
+# production-style: fixed worker count, recycle workers periodically
+php artisan octane:start --workers=4 --max-requests=500</code></pre>
+                    <p>That ease is part of the problem. It's easy to install without asking whether the app needs it.</p>
+
+                    <h2>Where the speedup comes from</h2>
+                    <p>Octane removes one thing: <strong>the per-request bootstrap</strong>. Everything your code does after the framework is ready still happens at the same speed. Your database queries, HTTP calls to third-party APIs, Blade rendering and business logic don't get any faster because the worker is warm.</p>
+                    <p>So the benefit depends on what fraction of a request is bootstrap. Some illustrative numbers, not benchmarks, to show the shape of it:</p>
+                    <table>
+                    <thead>
+                    <tr><th>Request</th><th>Bootstrap</th><th>Your code</th><th>Effect of Octane</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr><td>Small JSON endpoint, one indexed query</td><td>A large share</td><td>A few ms</td><td>Big relative gain</td></tr>
+                    <tr><td>Typical dashboard page</td><td>A moderate share</td><td>Tens of ms</td><td>Noticeable</td></tr>
+                    <tr><td>Report with a slow query</td><td>Tiny share</td><td>Hundreds of ms</td><td>Barely measurable</td></tr>
+                    <tr><td>Page waiting on a third-party API</td><td>Tiny share</td><td>Whatever the API takes</td><td>None</td></tr>
+                    </tbody>
+                    </table>
+                    <p>Two other factors shrink the gap. If you already run OPcache and <code>php artisan optimize</code> (cached config, routes, events and views) on FPM, bootstrap is already much cheaper than on an unoptimised app. And the more packages and providers you have, the more there is to skip, so a heavy app gains more than a lean one.</p>
+                    <p>Where Octane really shines is <strong>throughput under load</strong>: many fast requests per second, like APIs serving mobile apps, high-traffic endpoints, or Livewire apps sending lots of small updates. Fewer CPU cycles per request means the same server handles more of them.</p>
+
+                    <h2>When it won't help</h2>
+                    <p>If your slow pages are slow because of the database, Octane is the wrong tool. Look for N+1 queries, missing indexes and unbounded result sets first. If they're slow because of external calls, cache the responses or move the work to a queue (see <a href="/blog/laravel-queues-production-horizon/">my post on queues and Horizon in production</a>). If they're slow in the browser, that's a frontend problem, and <a href="/blog/inp-core-web-vitals-laravel/">INP and rendering fixes</a> will matter far more than shaving server milliseconds.</p>
+                    <p>In most projects I've worked on, the honest answer to "should we add Octane?" is "not yet": there were cheaper fixes with bigger payoffs sitting in the query log.</p>
+
+                    <h2>The catch: state that outlives a request</h2>
+                    <p>In FPM, sloppy state management is forgiven because everything dies at the end of the request. In Octane, anything stored on a long-lived object survives into the next request, which may belong to a different user. The Laravel docs call out the main patterns; here's what they look like in practice.</p>
+
+                    <h3>1. Injecting the request into a singleton</h3>
+                    <pre class="code-block"><code>// AppServiceProvider::register() — problematic under Octane
+$this-&gt;app-&gt;singleton(TenantResolver::class, function (Application $app) {
+    return new TenantResolver($app['request']);
+});</code></pre>
+                    <p>If <code>TenantResolver</code> is resolved during the first request, it holds on to <em>that</em> request object forever. Every later request in that worker resolves the same tenant. The fixes, in order of preference:</p>
+                    <pre class="code-block"><code>// a) Pass what you need at call time
+$tenant = $resolver-&gt;resolve($request-&gt;getHost());
+
+// b) Inject a resolver closure instead of the value
+$this-&gt;app-&gt;singleton(TenantResolver::class, function (Application $app) {
+    return new TenantResolver(fn () =&gt; $app['request']);
+});
+
+// c) Or don't make it a singleton: scoped bindings are reset per request
+$this-&gt;app-&gt;scoped(TenantResolver::class, function (Application $app) {
+    return new TenantResolver($app['request']);
+});</code></pre>
+                    <p>The same applies to injecting the container itself or the config repository into a singleton that's constructed early. The object ends up holding a stale reference.</p>
+
+                    <h3>2. Static properties and caches that only grow</h3>
+                    <pre class="code-block"><code>class PriceFormatter
+{
+    private static array $cache = [];
+
+    public function format(Product $product): string
+    {
+        return static::$cache[$product-&gt;id] ??= $this-&gt;expensiveFormat($product);
+    }
+}</code></pre>
+                    <p>Under FPM, harmless. Under Octane, two problems: prices change but the cached string doesn't, and the array grows with every product ever viewed until the worker is recycled. Any static property, and any property on a singleton, should be treated as shared across users and requests. Use the cache store, a scoped binding, or plain local variables instead.</p>
+
+                    <h3>3. Per-user data on long-lived services</h3>
+                    <p>The dangerous version: a singleton that stores the current user, locale or cart on a property during one request. The next request on that worker sees the previous user's data if it reads the property before setting it. This is the "wrong name in the header" bug from the start of the post. It's rare, depends on which worker gets which request, and is nearly impossible to reproduce locally with one worker.</p>
+
+                    <h3>4. Packages you don't control</h3>
+                    <p>Most popular first-party and well-maintained packages are Octane-aware now, but not all. Before switching, grep your <code>vendor/</code> directory for singletons and static state in packages that touch auth, tenancy, locale or permissions, and check each package's docs or issues for Octane notes. Octane's config file also has <code>warm</code> and <code>flush</code> lists for services you want pre-resolved or discarded between requests.</p>
+
+                    <h2>Memory: expect it to creep</h2>
+                    <p>A long-running PHP process accumulates memory: static caches, event listeners registered at runtime, objects kept alive by closures. That's why Octane recycles each worker after a set number of requests with <code>--max-requests</code>. Treat it as a safety net, not a fix.</p>
+                    <p>Watch worker memory on staging under realistic traffic for a few hours. Flat or sawtooth (rising, then dropping on recycle) is fine. A steady climb that hits your server's limits before recycling kicks in means something is leaking, usually one of the static patterns above.</p>
+
+                    <h2>Measure before and after</h2>
+                    <p>Don't decide on vibes, and don't benchmark on your laptop. Use a staging server that matches production, with OPcache on and <code>php artisan optimize</code> run in both setups, so you're comparing Octane against a properly configured FPM rather than a straw man.</p>
+                    <ol>
+                    <li><strong>Pick three to five real endpoints</strong>: your busiest API route, a typical authenticated page, and one known-slow page.</li>
+                    <li><strong>Load test each</strong> with a tool like <code>wrk</code>, <code>oha</code> or k6 at a concurrency close to your real peak.</li>
+                    <li><strong>Record p50, p95 and requests per second</strong>, plus CPU and memory on the server.</li>
+                    <li><strong>Switch to Octane</strong> with a sensible worker count (start near your CPU core count), and repeat the exact same runs.</li>
+                    </ol>
+                    <pre class="code-block"><code># 30 seconds, 4 threads, 50 open connections, with latency percentiles
+wrk -t4 -c50 -d30s --latency https://staging.example.com/api/products</code></pre>
+                    <p>Then look at real users. A server-side improvement that shaves a few milliseconds off a page with a slow query won't show up in field data at all, and that's a useful answer too.</p>
+
+                    <h2>Running it in production</h2>
+                    <ul>
+                    <li>Run Octane under a process manager like Supervisor or systemd, so crashed workers come back. Managed Laravel hosting platforms can do this for you.</li>
+                    <li>Put a web server or proxy in front for TLS and static files unless your chosen server handles it (FrankenPHP, built on Caddy, can serve both).</li>
+                    <li>After every deploy, run <code>php artisan octane:reload</code>. Workers hold the old code in memory until they restart; forgetting this is a classic "my fix isn't live" moment.</li>
+                    <li>Keep features that are exclusive to one server, such as Swoole's concurrent tasks and tables, out of the codebase unless you're committed to that server long term.</li>
+                    </ul>
+
+                    <h2>A checklist for deciding</h2>
+                    <ol>
+                    <li>Have you already fixed N+1s, missing indexes and slow external calls? If not, do that first.</li>
+                    <li>Is OPcache on and <code>php artisan optimize</code> part of every deploy on FPM?</li>
+                    <li>Is your bottleneck CPU spent per request under high concurrency, rather than I/O?</li>
+                    <li>Have you audited your singletons, static properties and service providers for request or user state?</li>
+                    <li>Have you checked the packages that touch auth, tenancy, locale or permissions for Octane support?</li>
+                    <li>Have you load tested real endpoints on production-like hardware, before and after?</li>
+                    <li>Do you have memory monitoring on workers and a sensible <code>--max-requests</code>?</li>
+                    <li>Does your deploy script reload workers?</li>
+                    </ol>
+                    <p>If you can tick all eight and the numbers improved, Octane is a great tool: more requests from the same hardware, with snappier fast endpoints. If you can't, the problem it solves probably isn't the problem you have yet, and that's worth knowing before you ship a subtle bug to production.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/laravel-octane-when-it-helps/&text=Laravel%20Octane%3A%20When%20It%20Helps%20and%20When%20It%20Doesn%27t"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/laravel-octane-when-it-helps/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

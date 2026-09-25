@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 520" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="520" rx="16" fill="#16161b"/>
+  <text x="40" y="48" font-size="15" fill="#8f8d88" letter-spacing="2">THREE WORKFLOWS, SAME TWO WEEKS</text>
+  <!-- GitFlow panel -->
+  <rect x="30" y="68" width="820" height="170" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="50" y="94" font-size="14" font-weight="700" fill="#f28b9b">GitFlow</text>
+  <text x="830" y="94" text-anchor="end" font-size="12" fill="#a19e97">2 long-lived branches, merges in 2 directions</text>
+  <text x="50" y="126" font-size="12" fill="#a19e97">main</text>
+  <line x1="130" y1="122" x2="820" y2="122" stroke="#8f8fef" stroke-width="4"/>
+  <text x="50" y="170" font-size="12" fill="#a19e97">develop</text>
+  <line x1="130" y1="166" x2="820" y2="166" stroke="#f2b880" stroke-width="4"/>
+  <text x="50" y="214" font-size="12" fill="#a19e97">feature</text>
+  <path d="M170 166 C 190 210, 200 210, 220 210 L 460 210 C 480 210, 490 180, 500 166" fill="none" stroke="#f28b9b" stroke-width="3"/>
+  <text x="340" y="228" text-anchor="middle" font-size="12" fill="#f28b9b">lives ~2 weeks</text>
+  <path d="M560 166 C 580 140, 600 140, 620 140 L 660 140 C 680 140, 690 130, 700 122" fill="none" stroke="#6fd3b0" stroke-width="3"/>
+  <path d="M660 140 C 670 150, 680 160, 690 166" fill="none" stroke="#6fd3b0" stroke-width="3"/>
+  <text x="630" y="190" text-anchor="middle" font-size="12" fill="#6fd3b0">release/*</text>
+  <g fill="#ece9e2" stroke="#1b1b20" stroke-width="2"><circle cx="700" cy="122" r="6"/><circle cx="500" cy="166" r="6"/><circle cx="170" cy="166" r="6"/><circle cx="690" cy="166" r="6"/></g>
+  <!-- GitHub flow panel -->
+  <rect x="30" y="252" width="820" height="120" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="50" y="278" font-size="14" font-weight="700" fill="#6fd3b0">GitHub flow</text>
+  <text x="830" y="278" text-anchor="end" font-size="12" fill="#a19e97">main only, PR per change</text>
+  <text x="50" y="330" font-size="12" fill="#a19e97">main</text>
+  <line x1="130" y1="326" x2="820" y2="326" stroke="#8f8fef" stroke-width="4"/>
+  <g fill="none" stroke="#6fd3b0" stroke-width="3">
+    <path d="M160 326 C 175 298, 190 298, 205 298 L 245 298 C 260 298, 270 310, 280 326"/>
+    <path d="M330 326 C 345 354, 360 354, 375 354 L 410 354 C 425 354, 435 340, 445 326"/>
+    <path d="M500 326 C 515 298, 530 298, 545 298 L 590 298 C 605 298, 615 310, 625 326"/>
+    <path d="M670 326 C 685 354, 700 354, 715 354 L 740 354 C 755 354, 765 340, 775 326"/>
+  </g>
+  <g fill="#ece9e2" stroke="#1b1b20" stroke-width="2"><circle cx="280" cy="326" r="6"/><circle cx="445" cy="326" r="6"/><circle cx="625" cy="326" r="6"/><circle cx="775" cy="326" r="6"/></g>
+  <text x="222" y="290" text-anchor="middle" font-size="12" fill="#6fd3b0">1-3 days</text>
+  <!-- Trunk panel -->
+  <rect x="30" y="386" width="820" height="110" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="50" y="412" font-size="14" font-weight="700" fill="#8f8fef">Trunk-based</text>
+  <text x="830" y="412" text-anchor="end" font-size="12" fill="#a19e97">integrate daily, flags hide unfinished work</text>
+  <text x="50" y="460" font-size="12" fill="#a19e97">main</text>
+  <line x1="130" y1="456" x2="820" y2="456" stroke="#8f8fef" stroke-width="4"/>
+  <g fill="none" stroke="#b3b3f7" stroke-width="2.5">
+    <path d="M170 456 q 15 -22 30 0"/><path d="M240 456 q 15 22 30 0"/><path d="M310 456 q 15 -22 30 0"/>
+    <path d="M380 456 q 15 22 30 0"/><path d="M450 456 q 15 -22 30 0"/><path d="M520 456 q 15 22 30 0"/>
+    <path d="M590 456 q 15 -22 30 0"/><path d="M660 456 q 15 22 30 0"/><path d="M730 456 q 15 -22 30 0"/>
+  </g>
+  <rect x="705" y="472" width="110" height="20" rx="10" fill="#1f1f33" stroke="#8f8fef"/>
+  <text x="760" y="486" text-anchor="middle" font-size="12" fill="#b3b3f7">flag: off</text>
+  <text x="185" y="486" text-anchor="middle" font-size="12" fill="#b3b3f7">hours</text>
+</svg>

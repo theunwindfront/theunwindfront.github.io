@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500" font-family="ui-monospace, Menlo, monospace">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8f8fef"/></marker>
+    <marker id="arrm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6f6d68"/></marker>
+  </defs>
+  <rect width="880" height="500" rx="16" fill="#16161b"/>
+  <text x="40" y="48" font-size="15" fill="#8f8d88" letter-spacing="2">/var/www/acme · ATOMIC RELEASES</text>
+
+  <!-- nginx -->
+  <rect x="40" y="76" width="250" height="54" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="60" y="100" font-size="13" fill="#a19e97">web server root</text>
+  <text x="60" y="119" font-size="14" fill="#ece9e2" font-weight="700">current/web</text>
+  <line x1="290" y1="103" x2="370" y2="103" stroke="#8f8fef" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- current symlink -->
+  <rect x="374" y="76" width="200" height="54" rx="27" fill="#23232a" stroke="#8f8fef" stroke-width="2"/>
+  <text x="474" y="100" text-anchor="middle" font-size="13" fill="#b3b3f7">symlink</text>
+  <text x="474" y="119" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">current</text>
+
+  <!-- arrows to releases -->
+  <path d="M430 130 C 430 165, 440 170, 440 196" fill="none" stroke="#6f6d68" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#arrm)"/>
+  <text x="330" y="170" font-size="12" fill="#8f8d88">before</text>
+  <path d="M530 130 C 560 170, 700 160, 720 196" fill="none" stroke="#8f8fef" stroke-width="2.5" marker-end="url(#arr)"/>
+  <text x="640" y="150" font-size="12" fill="#b3b3f7">after the switch</text>
+
+  <!-- releases -->
+  <g font-size="12">
+    <rect x="40" y="200" width="240" height="120" rx="12" fill="#1b1b20" stroke="#2e2e36" opacity=".7"/>
+    <text x="60" y="226" font-size="13" fill="#8f8d88" font-weight="700">releases/…1118</text>
+    <text x="60" y="252" fill="#6f6d68">web/ · vendor/</text>
+    <text x="60" y="274" fill="#6f6d68">.env → shared</text>
+    <text x="60" y="296" fill="#6f6d68">uploads → shared</text>
+
+    <rect x="320" y="200" width="240" height="120" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+    <text x="340" y="226" font-size="13" fill="#a19e97" font-weight="700">releases/…1122</text>
+    <text x="340" y="252" fill="#a19e97">web/ · vendor/</text>
+    <text x="340" y="274" fill="#a19e97">.env → shared</text>
+    <text x="340" y="296" fill="#a19e97">uploads → shared</text>
+
+    <rect x="600" y="200" width="240" height="120" rx="12" fill="#1f1f33" stroke="#5b5bd6" stroke-width="2"/>
+    <text x="620" y="226" font-size="13" fill="#ece9e2" font-weight="700">releases/…1125</text>
+    <text x="620" y="252" fill="#ece9e2">web/ · vendor/</text>
+    <text x="620" y="274" fill="#6fd3b0">.env → shared</text>
+    <text x="620" y="296" fill="#6fd3b0">uploads → shared</text>
+    <rect x="750" y="210" width="76" height="22" rx="11" fill="#5b5bd6"/>
+    <text x="788" y="225" text-anchor="middle" fill="#fff" font-weight="700">new</text>
+  </g>
+
+  <!-- links to shared -->
+  <g stroke="#6fd3b0" stroke-width="1.5" stroke-dasharray="4 5" opacity=".7">
+    <line x1="160" y1="320" x2="160" y2="364"/>
+    <line x1="440" y1="320" x2="440" y2="364"/>
+    <line x1="720" y1="320" x2="720" y2="364"/>
+  </g>
+
+  <!-- shared -->
+  <rect x="40" y="364" width="800" height="64" rx="12" fill="#152620" stroke="#6fd3b0"/>
+  <text x="60" y="402" font-size="15" fill="#6fd3b0" font-weight="700">shared/</text>
+  <text x="200" y="402" font-size="13" fill="#ece9e2">.env</text>
+  <text x="290" y="402" font-size="13" fill="#ece9e2">web/app/uploads/</text>
+  <text x="820" y="402" text-anchor="end" font-size="12" fill="#a19e97">survives every deploy</text>
+
+  <text x="40" y="468" font-size="13" fill="#a19e97">build release → link shared → <tspan fill="#f2b880">mv -T current_tmp current</tspan> → reload FPM → purge cache</text>
+</svg>

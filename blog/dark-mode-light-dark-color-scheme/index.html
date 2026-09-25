@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Dark Mode Done Right: color-scheme, light-dark() and a Toggle That Doesn&#x27;t Flash</title>
+    <meta name="description"
+        content="Dark mode is three problems: telling the browser, switching your colours, and remembering the choice. How color-scheme, light-dark(), a flash-free toggle and Tailwind v4&#x27;s dark variant fit together.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/dark-mode-light-dark-color-scheme/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Dark Mode Done Right: color-scheme, light-dark() and a Toggle That Doesn&#x27;t Flash">
+    <meta property="og:description"
+        content="Dark mode is three problems: telling the browser, switching your colours, and remembering the choice. How color-scheme, light-dark(), a flash-free toggle and Tailwind v4&#x27;s dark variant fit together.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/dark-mode-light-dark-color-scheme/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/dark-mode-light-dark-color-scheme/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dark Mode Done Right: color-scheme, light-dark() and a Toggle That Doesn&#x27;t Flash">
+    <meta name="twitter:description"
+        content="Dark mode is three problems: telling the browser, switching your colours, and remembering the choice. How color-scheme, light-dark(), a flash-free toggle and Tailwind v4&#x27;s dark variant fit together.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/dark-mode-light-dark-color-scheme/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Dark Mode Done Right: color-scheme, light-dark() and a Toggle That Doesn't Flash",
+        "description": "Dark mode is three problems: telling the browser, switching your colours, and remembering the choice. How color-scheme, light-dark(), a flash-free toggle and Tailwind v4's dark variant fit together.",
+        "image": "https://sagarpansuriya.in/blog/dark-mode-light-dark-color-scheme/cover.png",
+        "datePublished": "2026-12-02",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/dark-mode-light-dark-color-scheme/",
+        "articleSection": "TailwindCSS",
+        "keywords": "dark mode, light-dark(), color-scheme, prefers-color-scheme, Tailwind CSS v4, custom-variant, theme toggle"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=TailwindCSS">§ TailwindCSS</a>
+                <h1 class="post-title">Dark Mode Done Right: color-scheme, light-dark() and a Toggle That Doesn&#x27;t Flash</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-12-02">Dec 02, 2026</time>
+                    <span class="sep">·</span>
+                    <span>7 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of one UI card split down the middle into a light half and a dark half, with a sun and moon icon on the divider and a three-state system, light, dark toggle below"></div>
+
+                <div class="prose">
+<p>You've probably shipped a dark mode that looked great in the screenshot and fell apart in real use. The page flashes white on every reload. Checkboxes and select menus are still glaring white. The scrollbar is bright grey on a near-black page. The logo, a transparent PNG with dark text, has vanished. And the toggle forgets its setting whenever you open a new tab.</p>
+                    <p>None of these are hard to fix; they're just easy to miss, because dark mode is really three separate problems: telling the browser which schemes you support, switching your own colours, and remembering the user's choice. Modern CSS handles the first two far better than the old "duplicate every colour in a <code>.dark</code> block" approach. This post walks through all three, then the details that make it feel finished: form controls, images, and testing.</p>
+                    <p>If you want the token architecture side (primitive vs semantic colours, multiple brands), I covered that in <a href="/blog/tailwind-v4-design-tokens-rebrand/">design tokens in Tailwind v4</a>. Here the focus is the mechanics of the theme switch itself.</p>
+
+                    <h2>Step one: <code>color-scheme</code> tells the browser</h2>
+                    <p>Before touching your own colours, tell the browser your page supports both schemes:</p>
+                    <pre class="code-block"><code>&lt;!-- in &lt;head&gt;, before any stylesheet --&gt;
+&lt;meta name="color-scheme" content="light dark"&gt;</code></pre>
+                    <pre class="code-block"><code>:root {
+    color-scheme: light dark;
+}</code></pre>
+                    <p>This one property does a surprising amount. When the used scheme is dark, the browser switches its own defaults: the page canvas behind your content, default text colour, native form controls, scrollbars, and system colours like <code>Canvas</code> and <code>CanvasText</code>. That's why the checkboxes stay white in a lot of hand-rolled dark modes. Nobody told the browser.</p>
+                    <p>The meta tag matters because it's read before your CSS arrives. Without it, a dark-mode user can see a white canvas for a moment while the stylesheet loads.</p>
+
+                    <h2>Step two: <code>light-dark()</code> switches your colours</h2>
+                    <p>The <code>light-dark()</code> function takes two colours and returns the first when the element's used colour scheme is light and the second when it's dark. It's been supported across all major browsers since 2024. The important detail: it only works when <code>color-scheme</code> is set, which is one more reason step one comes first.</p>
+                    <pre class="code-block"><code>:root {
+    color-scheme: light dark;
+
+    --surface:        light-dark(#ffffff, oklch(0.18 0.01 270));
+    --surface-raised: light-dark(oklch(0.97 0 0), oklch(0.23 0.01 270));
+    --fg:             light-dark(oklch(0.2 0 0), oklch(0.93 0.01 90));
+    --fg-muted:       light-dark(oklch(0.45 0 0), oklch(0.7 0.01 90));
+    --line:           light-dark(oklch(0.9 0 0), oklch(0.3 0.01 270));
+    --primary:        light-dark(oklch(0.5 0.2 275), oklch(0.72 0.14 275));
+}
+
+body {
+    background: var(--surface);
+    color: var(--fg);
+}</code></pre>
+                    <p>Each token is defined once, with both values side by side. No second block to keep in sync, no forgetting to add the dark value for a new token. And because unregistered custom properties are substituted where they're used, <code>light-dark()</code> resolves against the colour scheme of the element that uses the variable, not the root. Set <code>color-scheme: dark</code> on a footer and everything inside it goes dark, even when the rest of the page is light.</p>
+                    <p>In Tailwind v4, put these in <code>@theme</code> (as <code>--color-surface</code> and so on) and you get <code>bg-surface</code>, <code>text-fg</code> and friends that switch automatically, without writing a single <code>dark:</code> class.</p>
+
+                    <h2>Step three: the user's choice, without a flash</h2>
+                    <p>With only the above, your site follows the operating system via <code>prefers-color-scheme</code>. That's a perfectly good default. Most people also expect a toggle, and a good one has three states: <strong>system</strong>, <strong>light</strong> and <strong>dark</strong>. Once someone picks light or dark, the site should respect that over the OS until they switch back to system.</p>
+                    <p>The neat trick with <code>light-dark()</code> is that forcing a theme is just forcing <code>color-scheme</code>:</p>
+                    <pre class="code-block"><code>:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }</code></pre>
+                    <p>Every token, every native control and the scrollbar follow along. You don't restate a single colour.</p>
+
+                    <img src="dark-mode-theme-resolution.svg" alt="Flow diagram: the stored preference of system, light or dark is resolved against the OS setting into a single theme, which sets data-theme, color-scheme and the meta tag, and those drive light-dark tokens, the Tailwind dark variant and native controls">
+
+                    <h3>The inline head script</h3>
+                    <p>The flash of the wrong theme happens when the page renders before your JavaScript has applied the saved choice. The fix is a tiny <em>inline, blocking</em> script in the <code>&lt;head&gt;</code>. It must not be deferred, bundled or loaded as a module, because those all run after first paint.</p>
+                    <pre class="code-block"><code>&lt;script&gt;
+    (() =&gt; {
+        let pref = 'system';
+        try { pref = localStorage.getItem('theme') || 'system'; } catch (e) {}
+
+        const dark = pref === 'dark' ||
+            (pref === 'system' &amp;&amp; matchMedia('(prefers-color-scheme: dark)').matches);
+        const theme = dark ? 'dark' : 'light';
+
+        document.documentElement.dataset.theme = theme;
+        document.querySelector('meta[name="color-scheme"]')?.setAttribute('content', theme);
+    })();
+&lt;/script&gt;</code></pre>
+                    <p>Three details earn their place here. The <code>try</code> block covers browsers or privacy modes where <code>localStorage</code> throws. The script resolves "system" to a concrete theme, so everything downstream only ever sees <code>light</code> or <code>dark</code>. And it updates the meta tag too, so a user who chose light on a dark OS doesn't get a dark canvas before the CSS loads. Put it after the meta tag and before your stylesheet link.</p>
+
+                    <h3>The toggle itself</h3>
+                    <p>The toggle writes the preference, re-applies it, and listens for OS changes while the preference is "system". Here's an Alpine version; the logic is the same in any framework:</p>
+                    <pre class="code-block"><code>// resources/js/theme.js
+const media = matchMedia('(prefers-color-scheme: dark)');
+
+export function applyTheme(pref) {
+    const theme = pref === 'dark' || (pref === 'system' &amp;&amp; media.matches) ? 'dark' : 'light';
+    document.documentElement.dataset.theme = theme;
+    document.querySelector('meta[name="color-scheme"]')?.setAttribute('content', theme);
+}
+
+Alpine.data('themeSwitcher', () =&gt; ({
+    pref: localStorage.getItem('theme') || 'system',
+
+    init() {
+        media.addEventListener('change', () =&gt; {
+            if (this.pref === 'system') applyTheme('system');
+        });
+    },
+
+    set(pref) {
+        this.pref = pref;
+        pref === 'system' ? localStorage.removeItem('theme') : localStorage.setItem('theme', pref);
+        applyTheme(pref);
+    },
+}));</code></pre>
+                    <pre class="code-block"><code>&lt;div x-data="themeSwitcher" role="radiogroup" aria-label="Colour theme" class="flex gap-1"&gt;
+    &lt;template x-for="option in ['system', 'light', 'dark']"&gt;
+        &lt;button type="button" role="radio"
+                :aria-checked="pref === option"
+                @click="set(option)"
+                x-text="option"
+                class="rounded px-3 py-1 capitalize aria-checked:bg-surface-raised"&gt;&lt;/button&gt;
+    &lt;/template&gt;
+&lt;/div&gt;</code></pre>
+                    <p>Because the preference lives in <code>localStorage</code>, every tab picks it up on the next page load. If you need the choice to follow a logged-in user across devices, save it to their profile too and render the <code>data-theme</code> attribute from the server, keeping the inline script as the fallback for guests.</p>
+
+                    <h2>Tailwind v4: pointing <code>dark:</code> at your attribute</h2>
+                    <p>Out of the box, Tailwind v4's <code>dark:</code> variant uses the <code>prefers-color-scheme</code> media query, so it ignores your toggle. Redefine it in your main CSS file with <code>@custom-variant</code>, using either a class or the data attribute:</p>
+                    <pre class="code-block"><code>@import "tailwindcss";
+
+/* class strategy: &lt;html class="dark"&gt; */
+@custom-variant dark (&amp;:where(.dark, .dark *));
+
+/* or data-attribute strategy, matching the script above */
+@custom-variant dark (&amp;:where([data-theme="dark"], [data-theme="dark"] *));</code></pre>
+                    <p>Pick one. Since our script always resolves to a concrete <code>data-theme</code>, the attribute version covers system, light and dark alike.</p>
+                    <p>My advice is to treat <code>dark:</code> as the exception. If your components use semantic tokens with <code>light-dark()</code>, you'll only need the variant for one-offs: an illustration that needs lower opacity, a shadow that should become a border. Hundreds of <code>dark:bg-…</code> classes scattered through Blade files are a sign the tokens are missing.</p>
+                    <p>One caveat: the variant depends on the attribute, and the attribute depends on JavaScript. Tokens built on <code>color-scheme</code> still follow the OS when JavaScript is off, and <code>dark:</code> classes don't. Another reason to keep most of the theme in tokens.</p>
+
+                    <h2>Form controls and scrollbars</h2>
+                    <p><code>color-scheme</code> already gives you dark native inputs, selects, date pickers and scrollbars. A few extras finish the job:</p>
+                    <pre class="code-block"><code>:root {
+    accent-color: var(--primary);                 /* checkboxes, radios, range, progress */
+    scrollbar-color: var(--line) transparent;     /* thumb and track, where supported */
+}
+
+input, select, textarea {
+    background-color: var(--surface);
+    color: var(--fg);
+    border-color: var(--line);
+}</code></pre>
+                    <p>Watch out for controls you've fully restyled with <code>appearance: none</code>. They no longer get the browser's dark defaults, so every state (hover, focus, disabled, checked) needs your tokens. And check <code>::placeholder</code> contrast in both themes; it's often the first thing to fail.</p>
+
+                    <h2>Images and SVG</h2>
+                    <ul>
+                    <li><strong>Icons:</strong> inline SVG with <code>fill="currentColor"</code> or <code>stroke="currentColor"</code> follows your text colour automatically. This covers most UI icons.</li>
+                    <li><strong>Logos and illustrations:</strong> provide a dark version. With a manual toggle, swap with CSS (<code>dark:hidden</code> on one image, <code>hidden dark:block</code> on the other). A <code>&lt;picture&gt;</code> with <code>media="(prefers-color-scheme: dark)"</code> only follows the OS, not your toggle.</li>
+                    <li><strong>Transparent PNGs with dark content:</strong> either export a light version or give them a light backing plate. They quietly disappear otherwise.</li>
+                    <li><strong>Photos:</strong> never invert them. At most, dim very bright ones slightly (<code>dark:brightness-90</code>) so they don't glare against a dark page.</li>
+                    <li><strong>Shadows:</strong> dark shadows barely show on dark surfaces. Express elevation with a lighter surface or a subtle border instead.</li>
+                    </ul>
+
+                    <h2>Testing both themes</h2>
+                    <p>Dark mode breaks silently, because most of the team works in one theme. Build checking the other into your routine:</p>
+                    <ol>
+                    <li><strong>DevTools:</strong> the Rendering panel in Chrome can emulate <code>prefers-color-scheme</code>. Use it to check the "system" path without changing your OS setting.</li>
+                    <li><strong>Reload test:</strong> for each of system, light and dark, reload a few pages, including on a throttled connection. Any flash means the inline script is missing, late, or out of sync with the toggle.</li>
+                    <li><strong>Contrast:</strong> run your accessibility checker in both themes. Muted text and placeholders that pass in light often fail in dark.</li>
+                    <li><strong>Automated screenshots:</strong> if you use Playwright, its <code>colorScheme</code> option emulates the media query, so you can run visual tests for both schemes. For the manual toggle, set the <code>theme</code> key in <code>localStorage</code> before the page loads.</li>
+                    <li><strong>JavaScript off:</strong> the page should still follow the OS and stay readable.</li>
+                    </ol>
+
+                    <h2>A dark mode checklist</h2>
+                    <ul>
+                    <li><code>&lt;meta name="color-scheme" content="light dark"&gt;</code> in the head, and <code>color-scheme: light dark</code> on <code>:root</code>.</li>
+                    <li>Colours defined once as tokens with <code>light-dark()</code>.</li>
+                    <li>Manual choice applied by forcing <code>color-scheme</code> via <code>data-theme</code>.</li>
+                    <li>Three-state toggle (system, light, dark) persisted in <code>localStorage</code>, following OS changes while on system.</li>
+                    <li>Inline, blocking head script that applies the theme and updates the meta tag before first paint.</li>
+                    <li>Tailwind's <code>dark:</code> redefined with <code>@custom-variant</code>, and used sparingly.</li>
+                    <li><code>accent-color</code> set; restyled controls given tokens for every state.</li>
+                    <li>Icons use <code>currentColor</code>; logos have dark versions; photos are never inverted.</li>
+                    <li>Both themes checked for contrast, flashes and visual regressions.</li>
+                    </ul>
+                    <p>Get the three layers right and dark mode stops being a pile of overrides. It's one property telling the browser what you support, one set of tokens, and a dozen lines of script to remember what the user picked.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/dark-mode-light-dark-color-scheme/&text=Dark%20Mode%20Done%20Right%3A%20color-scheme%2C%20light-dark%28%29%20and%20a%20Toggle%20That%20Doesn%27t%20Flash"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/dark-mode-light-dark-color-scheme/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

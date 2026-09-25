@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Writing Technical Documentation Your Team Will Actually Read</title>
+    <meta name="description"
+        content="Why team docs go unread, and how to fix it: docs next to the code, the four documentation types, architecture decision records, onboarding docs that stay tested, and AI drafts verified by humans.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/technical-docs-your-team-reads/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Writing Technical Documentation Your Team Will Actually Read">
+    <meta property="og:description"
+        content="Why team docs go unread, and how to fix it: docs next to the code, the four documentation types, architecture decision records, onboarding docs that stay tested, and AI drafts verified by humans.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/technical-docs-your-team-reads/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/technical-docs-your-team-reads/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Writing Technical Documentation Your Team Will Actually Read">
+    <meta name="twitter:description"
+        content="Why team docs go unread, and how to fix it: docs next to the code, the four documentation types, architecture decision records, onboarding docs that stay tested, and AI drafts verified by humans.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/technical-docs-your-team-reads/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Writing Technical Documentation Your Team Will Actually Read",
+        "description": "Why team docs go unread, and how to fix it: docs next to the code, the four documentation types, architecture decision records, onboarding docs that stay tested, and AI drafts verified by humans.",
+        "image": "https://sagarpansuriya.in/blog/technical-docs-your-team-reads/cover.png",
+        "datePublished": "2026-12-25",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/technical-docs-your-team-reads/",
+        "articleSection": "Design Strategy",
+        "keywords": "technical documentation, architecture decision records, ADR template, Diátaxis, docs as code, developer onboarding"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=Design Strategy">§ Design Strategy</a>
+                <h1 class="post-title">Writing Technical Documentation Your Team Will Actually Read</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-12-25">Dec 25, 2026</time>
+                    <span class="sep">·</span>
+                    <span>7 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of a repository file tree with a docs/decisions folder beside an accepted ADR document card, and a ticked docs updated checkbox from a pull request"></div>
+
+                <div class="prose">
+<p>It's the quiet week between Christmas and New Year. Slack is silent, half the team is offline, and
+                        there's finally time to do the thing everyone agreed was important and nobody did all year: write the
+                        docs.</p>
+                    <p>You've probably seen how that usually goes. Someone opens the team wiki and finds a page called
+                        <em>Architecture Overview</em>, last edited two years ago, describing a queue setup that no longer
+                        exists. There's a <em>Getting Started</em> page that stops halfway through. There's a 40-page Google Doc
+                        from a kickoff meeting that nobody has opened since. The docs exist. Nobody reads them, because nobody
+                        trusts them.</p>
+                    <p>This is a lighter, more reflective post than usual. It's what I've come to believe about documentation
+                        after years of leading frontend teams: what's worth writing, where it should live, and how to keep it
+                        from rotting the moment you close the tab.</p>
+
+                    <h2>Why docs don't get read</h2>
+                    <p>In most teams, the problem isn't that people won't read. Developers read constantly: source code,
+                        error messages, Stack Overflow, library docs. They skip <em>your</em> docs for three predictable
+                        reasons:</p>
+                    <ul>
+                        <li><strong>They're far away.</strong> The answer is in a wiki three clicks and one login from where the
+                            question came up, which is usually the editor or a pull request.</li>
+                        <li><strong>They're stale.</strong> One wrong instruction teaches people that every page might be wrong,
+                            so they stop checking.</li>
+                        <li><strong>They're the wrong kind.</strong> Someone who needs a command gets an essay. Someone who
+                            needs to understand a decision gets a list of commands.</li>
+                    </ul>
+                    <p>Each of those has a fix, and none of them requires writing more.</p>
+
+                    <h2>Put docs next to the code</h2>
+                    <p>The single biggest improvement is moving documentation into the repository. Markdown files in the repo
+                        get reviewed in pull requests, versioned with the code they describe, searched by the same tools, and
+                        found by the people who need them. A wiki is somewhere you go. A <code>docs/</code> folder is somewhere
+                        you already are.</p>
+                    <pre class="code-block"><code>README.md                 ← start here: what this is, how to run it
+CONTRIBUTING.md           ← branch naming, PR rules, how to get a review
+docs/
+├── setup/                ← tutorials and how-to guides
+├── reference/            ← env vars, commands, component props
+├── decisions/            ← architecture decision records
+│   ├── 0001-use-livewire-for-admin.md
+│   └── 0002-tailwind-tokens-over-sass.md
+└── onboarding.md</code></pre>
+                    <p>The README has one job: get a new developer from <code>git clone</code> to a working app, and point to
+                        everything else. If it takes more than a screen to do that, the setup is too complicated, and that's
+                        worth fixing in the code rather than documenting around.</p>
+                    <p>Not everything belongs in the repo. Product decisions, meeting notes and anything non-developers need to
+                        edit can live elsewhere. But anything that changes when the code changes should sit beside the code.</p>
+
+                    <h2>Four kinds of documentation</h2>
+                    <p>The most useful mental model I know for documentation is the Diátaxis framework. It says there are four
+                        distinct kinds of documentation, each serving a different need, and most bad docs are two or three of
+                        them blended into one page.</p>
+
+                    <img src="four-doc-types.svg" alt="Two-by-two grid of the four documentation types: tutorials for learning by doing, how-to guides for completing a task, reference for looking up facts, and explanation for understanding why, arranged by whether the reader is studying or working and whether the content is practical or theoretical">
+
+                    <table>
+                        <thead>
+                            <tr><th>Type</th><th>Reader is asking</th><th>Frontend example</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Tutorial</td><td>"Teach me."</td><td>Build your first Livewire component in our codebase</td></tr>
+                            <tr><td>How-to guide</td><td>"How do I do X?"</td><td>Add a new icon to the design system</td></tr>
+                            <tr><td>Reference</td><td>"What exactly is Y?"</td><td>Every prop on <code>&lt;x-button&gt;</code>, every env variable</td></tr>
+                            <tr><td>Explanation</td><td>"Why is it like this?"</td><td>Why we use Alpine stores instead of a global event bus</td></tr>
+                        </tbody>
+                    </table>
+                    <p>You don't need to reorganise everything around this. Just ask, before writing a page, which of the four
+                        it is, and keep it to that one. A how-to guide that detours into history gets skimmed. An explanation
+                        that turns into a list of commands never explains anything.</p>
+                    <p>For small teams, the order to invest in is usually: a README (a tiny tutorial), a handful of how-to
+                        guides for the tasks people ask about most, reference generated from code wherever possible, and
+                        explanations in the form of decision records.</p>
+
+                    <h2>Architecture decision records</h2>
+                    <p>If I could get every team to adopt one documentation habit, it would be this. An architecture decision
+                        record (ADR) is a short file that captures one significant decision: what was decided, why, and what it
+                        costs. It's written once, when the decision is made, and never rewritten. If the decision changes, a new
+                        ADR supersedes the old one.</p>
+                    <p>ADRs solve the most expensive documentation gap there is: the "why". Code tells you what the system
+                        does. It never tells you why it doesn't do the obvious thing, and that's exactly the question every new
+                        developer asks, usually right before they "fix" something that was deliberate.</p>
+                    <pre class="code-block"><code># 0002. Use Tailwind design tokens instead of Sass variables
+
+Date: 2026-03-14
+Status: Accepted
+Deciders: Frontend team
+
+## Context
+Brand colours and spacing are defined in three places: Sass variables,
+a JS config for charts, and hardcoded values in Blade. A rebrand is
+planned for Q3 and nobody is sure which values are still used.
+
+## Decision
+Define all tokens once as CSS custom properties in the Tailwind theme.
+Sass is removed. Charts read tokens with getComputedStyle.
+
+## Consequences
++ One source of truth; a rebrand is a single-file change.
++ Tokens are usable in plain CSS, Blade and JS.
+- Every Sass partial must be migrated (estimated two sprints).
+- Developers need to learn Tailwind's theme syntax.
+
+## Alternatives considered
+- Keep Sass, generate a JSON export for JS. Rejected: still two sources.</code></pre>
+                    <p>Keep them short. One page is plenty, and half a page is better. The <em>Consequences</em> section is the
+                        one people skip and the one that matters most, because it's honest about the trade-off. Number them, keep
+                        them in <code>docs/decisions/</code>, and link to the ADR from the pull request that implements it.</p>
+
+                    <h2>Onboarding docs are a test suite</h2>
+                    <p>Onboarding documentation has a special property: every new hire runs it. That makes it the only doc
+                        that gets tested regularly, if you let it.</p>
+                    <p>The habit I recommend: the newest person on the team owns the onboarding doc. They follow it on day
+                        one, and every place they get stuck becomes a fix in their first pull request. By the time the next
+                        person joins, the doc has been verified against reality. I wrote more about the first weeks themselves in
+                        <a href="/blog/onboarding-junior-frontend-developers-90-days/">onboarding junior frontend developers in 90
+                        days</a>. The doc is the part that makes those weeks repeatable.</p>
+                    <p>Good onboarding docs answer the questions people are embarrassed to ask: who to ask about what, how
+                        deploys work, which Slack channels matter, what "done" means for a ticket, and which parts of the
+                        codebase are scary.</p>
+
+                    <h2>Keeping docs fresh</h2>
+                    <p>Docs rot for the same reason code rots: nobody owns them and changing them isn't part of the normal
+                        workflow. So make it part of the workflow.</p>
+                    <ul>
+                        <li><strong>A checkbox in the PR template.</strong> "Docs updated, or not needed." It takes a second to
+                            tick and it makes the question unavoidable.</li>
+                        <li><strong>Owners.</strong> A <code>CODEOWNERS</code> entry for <code>docs/</code> areas means doc
+                            changes get reviewed by someone who knows the subject.</li>
+                        <li><strong>Generate reference from code.</strong> Command lists, route lists, component props and API
+                            schemas drift the fastest. Wherever a tool can produce them from the source, let it.</li>
+                        <li><strong>Delete ruthlessly.</strong> A wrong doc is worse than no doc. If a page is obsolete and
+                            nobody will fix it this week, delete it. Git remembers.</li>
+                        <li><strong>A "last reviewed" line.</strong> A date at the top of long-lived pages tells readers how much
+                            to trust them, and gives you an easy list of what to review each quarter.</li>
+                    </ul>
+                    <p>Reviewing docs in pull requests is also a great teaching moment. The same approach that makes
+                        <a href="/blog/frontend-code-reviews-that-teach/">code reviews that teach</a> work applies here: ask
+                        whether a newcomer would understand the page, not just whether it's technically correct.</p>
+
+                    <h2>Let AI draft, let humans verify</h2>
+                    <p>AI coding assistants are genuinely good at the blank-page part of documentation. Point one at a module
+                        and ask for a README, a first draft of reference docs for a component library, or an ADR written up from
+                        a messy discussion thread. What would take an hour takes minutes.</p>
+                    <p>But treat the output as a draft from a confident new team member who has read the code and attended
+                        none of the meetings. It will describe what the code does, often accurately. It will invent the "why"
+                        if you let it, and it can't know which behaviour is intentional and which is a bug. So:</p>
+                    <ul>
+                        <li>Use AI for structure, summaries and reference. Be sceptical of explanations and rationale.</li>
+                        <li>Have someone who knows the system read every sentence before merging. Run every command.</li>
+                        <li>Write ADRs' <em>Context</em> and <em>Consequences</em> yourself. That's the human knowledge the
+                            document exists to capture.</li>
+                    </ul>
+                    <p>There's a nice side effect, too. Docs that live in the repo are exactly the context AI assistants read
+                        when they work on your codebase. A clear README and a folder of ADRs make both your new hires and your
+                        tools less likely to "fix" deliberate decisions.</p>
+
+                    <h2>A small plan for the quiet week</h2>
+                    <p>If you have a few calm days before January, don't try to document everything. Try this instead:</p>
+                    <ol>
+                        <li>Run your own README on a clean machine, or ask the newest team member to. Fix every step that fails.</li>
+                        <li>Create <code>docs/decisions/</code> and write ADRs for the three decisions people ask "why" about most.</li>
+                        <li>Write how-to guides for the two tasks you explain most often in Slack.</li>
+                        <li>Add a docs checkbox to your pull request template.</li>
+                        <li>Delete, or clearly mark as outdated, every wiki page you know is wrong.</li>
+                    </ol>
+                    <p>That's maybe a day of work. It won't give you a documentation portal. It will give you a small set of
+                        docs that are close to the code, the right kind for their reader, and true. That's what gets read.</p>
+                    <p>Happy holidays, and see you in the new year.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/technical-docs-your-team-reads/&text=Writing%20Technical%20Documentation%20Your%20Team%20Will%20Actually%20Read"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/technical-docs-your-team-reads/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

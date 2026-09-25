@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="440" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">WHERE EACH THING LIVES</text>
+  <!-- left: user's machine -->
+  <rect x="40" y="76" width="340" height="324" rx="14" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="60" y="108" font-size="15" fill="#ece9e2" font-weight="700">User's machine</text>
+  <text x="60" y="128" font-size="12" fill="#f28b9b">assume readable by the user</text>
+  <g font-size="13">
+    <rect x="60" y="146" width="300" height="38" rx="8" fill="#23232a"/>
+    <text x="76" y="170" fill="#ece9e2">app/, routes/, views/, vendor/</text>
+    <rect x="60" y="192" width="300" height="38" rx="8" fill="#23232a"/>
+    <text x="76" y="216" fill="#ece9e2">.env (public values only)</text>
+    <rect x="60" y="238" width="300" height="38" rx="8" fill="#23232a"/>
+    <text x="76" y="262" fill="#f2b880">local.sqlite (+ encrypted cols)</text>
+    <rect x="60" y="284" width="300" height="38" rx="8" fill="#12261f" stroke="#6fd3b0"/>
+    <text x="76" y="308" fill="#6fd3b0">OS keychain: user token, local key</text>
+  </g>
+  <text x="60" y="352" font-size="12" fill="#a19e97">per-user, per-device,</text>
+  <text x="60" y="370" font-size="12" fill="#a19e97">revocable, narrow abilities</text>
+  <!-- right: server -->
+  <rect x="500" y="76" width="340" height="324" rx="14" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="520" y="108" font-size="15" fill="#ece9e2" font-weight="700">Your server</text>
+  <text x="520" y="128" font-size="12" fill="#6fd3b0">only you can reach it</text>
+  <g font-size="13">
+    <rect x="520" y="146" width="300" height="38" rx="8" fill="#23232a"/>
+    <text x="536" y="170" fill="#ece9e2">payment secret key</text>
+    <rect x="520" y="192" width="300" height="38" rx="8" fill="#23232a"/>
+    <text x="536" y="216" fill="#ece9e2">LLM / email provider keys</text>
+    <rect x="520" y="238" width="300" height="38" rx="8" fill="#23232a"/>
+    <text x="536" y="262" fill="#ece9e2">DB credentials, APP_KEY</text>
+    <rect x="520" y="284" width="300" height="38" rx="8" fill="#23232a"/>
+    <text x="536" y="308" fill="#ece9e2">policies, rate limits, logs</text>
+  </g>
+  <text x="520" y="352" font-size="12" fill="#a19e97">calls third parties on the</text>
+  <text x="520" y="370" font-size="12" fill="#a19e97">user's behalf</text>
+  <!-- connection -->
+  <line x1="386" y1="238" x2="490" y2="238" stroke="#8f8fef" stroke-width="2.5"/>
+  <path d="M482 231 l10 7 l-10 7" fill="none" stroke="#8f8fef" stroke-width="2.5"/>
+  <text x="440" y="222" text-anchor="middle" font-size="12" fill="#b3b3f7">HTTPS</text>
+  <text x="440" y="262" text-anchor="middle" font-size="12" fill="#b3b3f7">Bearer</text>
+  <text x="440" y="278" text-anchor="middle" font-size="12" fill="#b3b3f7">token</text>
+  <line x1="440" y1="84" x2="440" y2="196" stroke="#2e2e36" stroke-width="2" stroke-dasharray="6 6"/>
+  <line x1="440" y1="296" x2="440" y2="400" stroke="#2e2e36" stroke-width="2" stroke-dasharray="6 6"/>
+  <text x="440" y="424" text-anchor="middle" font-size="12" fill="#8f8d88">trust boundary</text>
+</svg>

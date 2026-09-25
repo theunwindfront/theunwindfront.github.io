@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="440" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">EVERY REQUEST CROSSES A TRUST BOUNDARY</text>
+  <!-- browser column -->
+  <rect x="40" y="80" width="230" height="310" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="155" y="108" text-anchor="middle" font-size="14" fill="#f28b9b" font-weight="700">BROWSER · untrusted</text>
+  <g font-size="13" fill="#ece9e2">
+    <rect x="60" y="126" width="190" height="34" rx="8" fill="#23232a"/><text x="155" y="148" text-anchor="middle">form fields</text>
+    <rect x="60" y="168" width="190" height="34" rx="8" fill="#23232a"/><text x="155" y="190" text-anchor="middle">hidden inputs</text>
+    <rect x="60" y="210" width="190" height="34" rx="8" fill="#23232a"/><text x="155" y="232" text-anchor="middle">Livewire public props</text>
+    <rect x="60" y="252" width="190" height="34" rx="8" fill="#23232a"/><text x="155" y="274" text-anchor="middle">action arguments</text>
+    <rect x="60" y="294" width="190" height="34" rx="8" fill="#23232a"/><text x="155" y="316" text-anchor="middle">file name · MIME</text>
+    <rect x="60" y="336" width="190" height="34" rx="8" fill="#23232a"/><text x="155" y="358" text-anchor="middle">query · headers</text>
+  </g>
+  <!-- boundary -->
+  <line x1="300" y1="72" x2="300" y2="400" stroke="#f28b9b" stroke-width="2" stroke-dasharray="6 6"/>
+  <text x="300" y="420" text-anchor="middle" font-size="12" fill="#f28b9b">trust boundary</text>
+  <!-- arrow -->
+  <path d="M272 172 H324" stroke="#8f8fef" stroke-width="2.5"/>
+  <path d="M324 165 l10 7 l-10 7 z" fill="#8f8fef"/>
+  <!-- server checks -->
+  <text x="560" y="108" text-anchor="middle" font-size="14" fill="#6fd3b0" font-weight="700">SERVER · decides</text>
+  <g>
+    <rect x="336" y="126" width="138" height="92" rx="10" fill="#f2b880"/>
+    <text x="405" y="158" text-anchor="middle" font-size="15" fill="#1a1a1a" font-weight="700">1. Limit</text>
+    <text x="405" y="180" text-anchor="middle" font-size="12" fill="#3a2a10">RateLimiter</text>
+    <text x="405" y="198" text-anchor="middle" font-size="12" fill="#3a2a10">throttle:*</text>
+    <rect x="490" y="126" width="138" height="92" rx="10" fill="#b3b3f7"/>
+    <text x="559" y="158" text-anchor="middle" font-size="15" fill="#1a1a1a" font-weight="700">2. Validate</text>
+    <text x="559" y="180" text-anchor="middle" font-size="12" fill="#22224a">validate()</text>
+    <text x="559" y="198" text-anchor="middle" font-size="12" fill="#22224a">validated()</text>
+    <rect x="644" y="126" width="196" height="92" rx="10" fill="#6fd3b0"/>
+    <text x="742" y="158" text-anchor="middle" font-size="15" fill="#1a1a1a" font-weight="700">3. Authorize</text>
+    <text x="742" y="180" text-anchor="middle" font-size="12" fill="#0f3a2a">$this-&gt;authorize()</text>
+    <text x="742" y="198" text-anchor="middle" font-size="12" fill="#0f3a2a">policies, scoped queries</text>
+  </g>
+  <path d="M474 172 H490 M628 172 H644" stroke="#ece9e2" stroke-width="2"/>
+  <!-- down to db -->
+  <path d="M742 218 V262" stroke="#8f8fef" stroke-width="2.5"/>
+  <path d="M735 262 l7 10 l7 -10 z" fill="#8f8fef"/>
+  <rect x="644" y="276" width="196" height="50" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="742" y="306" text-anchor="middle" font-size="14" fill="#ece9e2">DB · mail · storage</text>
+  <!-- output -->
+  <path d="M644 301 H600" stroke="#8f8fef" stroke-width="2.5"/>
+  <path d="M600 294 l-10 7 l10 7 z" fill="#8f8fef"/>
+  <rect x="336" y="276" width="254" height="50" rx="10" fill="#f28b9b"/>
+  <text x="463" y="298" text-anchor="middle" font-size="15" fill="#1a1a1a" font-weight="700">4. Escape on output</text>
+  <text x="463" y="316" text-anchor="middle" font-size="12" fill="#3a1a20">{{ }} · @js · x-text · CSP</text>
+  <!-- note -->
+  <text x="588" y="364" text-anchor="middle" font-size="13" fill="#a19e97">hidden inputs, disabled buttons and #[Locked]</text>
+  <text x="588" y="384" text-anchor="middle" font-size="13" fill="#a19e97">are not a substitute for step 3</text>
+</svg>

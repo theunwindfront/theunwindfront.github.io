@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="400" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">FROM MODEL OUTPUT TO A TYPED OBJECT</text>
+  <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#8f8fef"/></marker>
+  <marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#f2b880"/></marker>
+  <marker id="ahp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#f28b9b"/></marker></defs>
+  <rect x="41" y="150" width="118" height="70" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="100.0" y="180" text-anchor="middle" font-size="14" fill="#ece9e2" font-weight="700">Prompt</text>
+  <text x="100.0" y="200" text-anchor="middle" font-size="12" fill="#a19e97">+ JSON schema</text>
+  <line x1="161" y1="185.0" x2="175" y2="185.0" stroke="#8f8fef" stroke-width="2" marker-end="url(#ah)"/>
+  <rect x="177" y="150" width="118" height="70" rx="10" fill="#5b5bd6"/>
+  <text x="236.0" y="180" text-anchor="middle" font-size="14" fill="#ffffff" font-weight="700">LLM API</text>
+  <text x="236.0" y="200" text-anchor="middle" font-size="12" fill="#dedcfb">constrained</text>
+  <line x1="297" y1="185.0" x2="311" y2="185.0" stroke="#8f8fef" stroke-width="2" marker-end="url(#ah)"/>
+  <rect x="313" y="150" width="118" height="70" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="372.0" y="180" text-anchor="middle" font-size="14" fill="#ece9e2" font-weight="700">Guard</text>
+  <text x="372.0" y="200" text-anchor="middle" font-size="12" fill="#a19e97">refusal, length</text>
+  <line x1="433" y1="185.0" x2="447" y2="185.0" stroke="#8f8fef" stroke-width="2" marker-end="url(#ah)"/>
+  <rect x="449" y="150" width="118" height="70" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="508.0" y="180" text-anchor="middle" font-size="14" fill="#ece9e2" font-weight="700">Decode</text>
+  <text x="508.0" y="200" text-anchor="middle" font-size="12" fill="#a19e97">strict json</text>
+  <line x1="569" y1="185.0" x2="583" y2="185.0" stroke="#8f8fef" stroke-width="2" marker-end="url(#ah)"/>
+  <rect x="585" y="150" width="118" height="70" rx="10" fill="#f2b880"/>
+  <text x="644.0" y="180" text-anchor="middle" font-size="14" fill="#1a1a1a" font-weight="700">Validate</text>
+  <text x="644.0" y="200" text-anchor="middle" font-size="12" fill="#3a2a10">Laravel rules</text>
+  <line x1="705" y1="185.0" x2="719" y2="185.0" stroke="#8f8fef" stroke-width="2" marker-end="url(#ah)"/>
+  <rect x="721" y="150" width="118" height="70" rx="10" fill="#6fd3b0"/>
+  <text x="780.0" y="180" text-anchor="middle" font-size="14" fill="#1a1a1a" font-weight="700">DTO</text>
+  <text x="780.0" y="200" text-anchor="middle" font-size="12" fill="#0f3a2a">typed object</text>
+  <path d="M644.0 146 V106 H236.0 V142" fill="none" stroke="#f2b880" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#ahr)"/>
+  <text x="440.0" y="96" text-anchor="middle" font-size="12" fill="#f2b880">errors + previous answer fed back · max 2 retries</text>
+  <line x1="372.0" y1="224" x2="372.0" y2="276" stroke="#f28b9b" stroke-width="2" marker-end="url(#ahp)"/>
+  <rect x="272.0" y="282" width="200" height="56" rx="10" fill="#2a1c20" stroke="#f28b9b"/>
+  <text x="372.0" y="306" text-anchor="middle" font-size="13" fill="#f28b9b" font-weight="700">ModelRefused /</text>
+  <text x="372.0" y="324" text-anchor="middle" font-size="12" fill="#f28b9b">truncated · no retry</text>
+  <line x1="644.0" y1="224" x2="644.0" y2="276" stroke="#f28b9b" stroke-width="2" marker-end="url(#ahp)"/>
+  <rect x="552.0" y="282" width="184" height="56" rx="10" fill="#2a1c20" stroke="#f28b9b"/>
+  <text x="644.0" y="306" text-anchor="middle" font-size="13" fill="#f28b9b" font-weight="700">3rd failure</text>
+  <text x="644.0" y="324" text-anchor="middle" font-size="12" fill="#f28b9b">log it, fail job</text>
+  <text x="780.0" y="258" text-anchor="middle" font-size="12" fill="#6fd3b0">only typed</text>
+  <text x="780.0" y="276" text-anchor="middle" font-size="12" fill="#6fd3b0">data leaves</text>
+</svg>

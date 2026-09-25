@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 496" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="496" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">THE 30-MINUTE AUDIT</text>
+  <line x1="330.0" y1="86" x2="330.0" y2="440" stroke="#2e2e36" stroke-width="1" stroke-dasharray="3 5"/>
+  <text x="330.0" y="78" text-anchor="middle" font-size="12" fill="#8f8d88">0m</text>
+  <line x1="413.3" y1="86" x2="413.3" y2="440" stroke="#2e2e36" stroke-width="1" stroke-dasharray="3 5"/>
+  <text x="413.3" y="78" text-anchor="middle" font-size="12" fill="#8f8d88">5m</text>
+  <line x1="496.7" y1="86" x2="496.7" y2="440" stroke="#2e2e36" stroke-width="1" stroke-dasharray="3 5"/>
+  <text x="496.7" y="78" text-anchor="middle" font-size="12" fill="#8f8d88">10m</text>
+  <line x1="580.0" y1="86" x2="580.0" y2="440" stroke="#2e2e36" stroke-width="1" stroke-dasharray="3 5"/>
+  <text x="580.0" y="78" text-anchor="middle" font-size="12" fill="#8f8d88">15m</text>
+  <line x1="663.3" y1="86" x2="663.3" y2="440" stroke="#2e2e36" stroke-width="1" stroke-dasharray="3 5"/>
+  <text x="663.3" y="78" text-anchor="middle" font-size="12" fill="#8f8d88">20m</text>
+  <line x1="746.7" y1="86" x2="746.7" y2="440" stroke="#2e2e36" stroke-width="1" stroke-dasharray="3 5"/>
+  <text x="746.7" y="78" text-anchor="middle" font-size="12" fill="#8f8d88">25m</text>
+  <line x1="830.0" y1="86" x2="830.0" y2="440" stroke="#2e2e36" stroke-width="1" stroke-dasharray="3 5"/>
+  <text x="830.0" y="78" text-anchor="middle" font-size="12" fill="#8f8d88">30m</text>
+  <text x="40" y="117" font-size="13" fill="#ece9e2" font-weight="700">Keyboard + focus</text>
+  <text x="40" y="133" font-size="12" fill="#8f8d88">2.1.1 · 2.1.2 · 2.4.7</text>
+  <rect x="332.0" y="104" width="129.3" height="28" rx="7" fill="#8f8fef"/>
+  <text x="396.7" y="123" text-anchor="middle" font-size="12" fill="#1a1a1a" font-weight="700">8m</text>
+  <text x="40" y="159" font-size="13" fill="#ece9e2" font-weight="700">Screen reader</text>
+  <text x="40" y="175" font-size="12" fill="#8f8d88">4.1.2 · 1.1.1 · 4.1.3</text>
+  <rect x="465.3" y="146" width="112.7" height="28" rx="7" fill="#5b5bd6"/>
+  <text x="521.7" y="165" text-anchor="middle" font-size="12" fill="#ffffff" font-weight="700">7m</text>
+  <text x="40" y="201" font-size="13" fill="#ece9e2" font-weight="700">Zoom + reflow</text>
+  <text x="40" y="217" font-size="12" fill="#8f8d88">1.4.4 · 1.4.10</text>
+  <rect x="582.0" y="188" width="62.7" height="28" rx="7" fill="#6fd3b0"/>
+  <text x="613.3" y="207" text-anchor="middle" font-size="12" fill="#1a1a1a" font-weight="700">4m</text>
+  <text x="40" y="243" font-size="13" fill="#ece9e2" font-weight="700">Contrast</text>
+  <text x="40" y="259" font-size="12" fill="#8f8d88">1.4.3 · 1.4.11</text>
+  <rect x="648.7" y="230" width="46.0" height="28" rx="7" fill="#f2b880"/>
+  <text x="671.7" y="249" text-anchor="middle" font-size="12" fill="#1a1a1a" font-weight="700">3m</text>
+  <text x="40" y="285" font-size="13" fill="#ece9e2" font-weight="700">Forms</text>
+  <text x="40" y="301" font-size="12" fill="#8f8d88">1.3.1 · 3.3.1 · 3.3.2</text>
+  <rect x="698.7" y="272" width="46.0" height="28" rx="7" fill="#f28b9b"/>
+  <text x="721.7" y="291" text-anchor="middle" font-size="12" fill="#1a1a1a" font-weight="700">3m</text>
+  <text x="40" y="327" font-size="13" fill="#ece9e2" font-weight="700">Headings + landmarks</text>
+  <text x="40" y="343" font-size="12" fill="#8f8d88">2.4.6 · 2.4.2</text>
+  <rect x="748.7" y="314" width="29.3" height="28" rx="7" fill="#b3b3f7"/>
+  <text x="763.3" y="333" text-anchor="middle" font-size="12" fill="#1a1a1a" font-weight="700">2m</text>
+  <text x="40" y="369" font-size="13" fill="#ece9e2" font-weight="700">Motion</text>
+  <text x="40" y="385" font-size="12" fill="#8f8d88">2.2.2</text>
+  <rect x="782.0" y="356" width="12.7" height="28" rx="7" fill="#6fd3b0"/>
+  <text x="768.3" y="375" text-anchor="end" font-size="12" fill="#a19e97" font-weight="700">1m</text>
+  <text x="40" y="411" font-size="13" fill="#ece9e2" font-weight="700">Automated scan</text>
+  <text x="40" y="427" font-size="12" fill="#8f8d88">axe · Lighthouse</text>
+  <rect x="798.7" y="398" width="29.3" height="28" rx="7" fill="#a19e97"/>
+  <text x="813.3" y="417" text-anchor="middle" font-size="12" fill="#1a1a1a" font-weight="700">2m</text>
+  <text x="40" y="474" font-size="12" fill="#a19e97">WCAG 2.2 criteria shown under each step · manual checks first, tools last</text>
+</svg>

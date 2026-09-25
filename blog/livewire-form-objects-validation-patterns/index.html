@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Livewire Form Objects: Validation Patterns That Scale</title>
+    <meta name="description"
+        content="How to use Livewire 3 form objects well: #[Validate] vs rules(), real-time validation with wire:model.blur, one form for create and edit, dependent fields, uploads and tests.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/livewire-form-objects-validation-patterns/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Livewire Form Objects: Validation Patterns That Scale">
+    <meta property="og:description"
+        content="How to use Livewire 3 form objects well: #[Validate] vs rules(), real-time validation with wire:model.blur, one form for create and edit, dependent fields, uploads and tests.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/livewire-form-objects-validation-patterns/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/livewire-form-objects-validation-patterns/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Livewire Form Objects: Validation Patterns That Scale">
+    <meta name="twitter:description"
+        content="How to use Livewire 3 form objects well: #[Validate] vs rules(), real-time validation with wire:model.blur, one form for create and edit, dependent fields, uploads and tests.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/livewire-form-objects-validation-patterns/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Livewire Form Objects: Validation Patterns That Scale",
+        "description": "How to use Livewire 3 form objects well: #[Validate] vs rules(), real-time validation with wire:model.blur, one form for create and edit, dependent fields, uploads and tests.",
+        "image": "https://sagarpansuriya.in/blog/livewire-form-objects-validation-patterns/cover.png",
+        "datePublished": "2026-11-16",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/livewire-form-objects-validation-patterns/",
+        "articleSection": "Laravel",
+        "keywords": "Livewire form objects, Livewire validation, Livewire 3, Laravel forms, wire:model.blur, Pest testing"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=Laravel">§ Laravel</a>
+                <h1 class="post-title">Livewire Form Objects: Validation Patterns That Scale</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-11-16">Nov 16, 2026</time>
+                    <span class="sep">·</span>
+                    <span>8 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of a form with validated fields feeding a PostForm class that is shared by create and edit components"></div>
+
+                <div class="prose">
+<p>You've probably opened a Livewire component that started life as a simple "create post" form and
+                        grew. Fourteen public properties. A <code>rules()</code> method that scrolls. A <code>mount()</code> that
+                        copies every field from a model, a <code>save()</code> that copies them all back, and a second component
+                        for editing that is the same file with a different name and one extra line.</p>
+                    <p>Livewire 3 has a clean answer for this: <strong>form objects</strong>. A form object is a class that owns
+                        the fields, the validation and the persistence of one form, and plugs into any component as a single
+                        property. This post covers how I structure them, when to use <code>#[Validate]</code> versus
+                        <code>rules()</code>, real-time validation, sharing one form between create and edit, dependent fields,
+                        file uploads and testing.</p>
+
+                    <h2>Extracting a form object</h2>
+                    <p>Livewire ships an Artisan command that scaffolds the class for you:</p>
+                    <pre class="code-block"><code>php artisan livewire:form PostForm</code></pre>
+                    <p>That creates <code>app/Livewire/Forms/PostForm.php</code>, a class extending
+                        <code>Livewire\Form</code>. Move your fields into it, with their rules as attributes:</p>
+                    <pre class="code-block"><code>namespace App\Livewire\Forms;
+
+use Livewire\Attributes\Validate;
+use Livewire\Form;
+
+class PostForm extends Form
+{
+    #[Validate('required|min:5|max:120')]
+    public string $title = '';
+
+    #[Validate('required|min:20')]
+    public string $body = '';
+
+    #[Validate('required|in:draft,published')]
+    public string $status = 'draft';
+}</code></pre>
+                    <p>The component shrinks to a property and an action:</p>
+                    <pre class="code-block"><code>namespace App\Livewire;
+
+use App\Livewire\Forms\PostForm;
+use Livewire\Component;
+
+class CreatePost extends Component
+{
+    public PostForm $form;
+
+    public function save()
+    {
+        $this-&gt;form-&gt;validate();
+
+        auth()-&gt;user()-&gt;posts()-&gt;create($this-&gt;form-&gt;all());
+
+        return $this-&gt;redirect(route('posts.index'), navigate: true);
+    }
+}</code></pre>
+                    <p>In Blade, bind to the nested properties and read errors with the same dotted keys:</p>
+                    <pre class="code-block"><code>&lt;form wire:submit="save"&gt;
+    &lt;input type="text" wire:model="form.title"&gt;
+    @error('form.title') &lt;p class="text-sm text-red-600"&gt;{{ $message }}&lt;/p&gt; @enderror
+
+    &lt;textarea wire:model="form.body"&gt;&lt;/textarea&gt;
+    @error('form.body') &lt;p class="text-sm text-red-600"&gt;{{ $message }}&lt;/p&gt; @enderror
+
+    &lt;button type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+                    <img src="livewire-form-object-flow.svg" alt="Diagram of Blade inputs bound with wire:model to form.* properties, flowing into a PostForm object that holds fields, rules and store/update methods, used by both a CreatePost and an EditPost component">
+
+                    <h2><code>#[Validate]</code> or <code>rules()</code>?</h2>
+                    <p>Both work in form objects, and both end up in the same validator. The difference is ergonomics and one
+                        important behaviour.</p>
+                    <ul>
+                        <li><strong><code>#[Validate]</code> attributes</strong> sit right above the property, which is lovely to
+                            read. By default they also validate a property <em>as soon as it's updated</em>, which gives you
+                            real-time validation for free.</li>
+                        <li><strong>A <code>rules()</code> method</strong> is plain PHP, so it can use rule objects,
+                            <code>Rule::unique()-&gt;ignore()</code>, closures and conditions. Rules defined here are
+                            <em>not</em> run automatically on update; they run when you call <code>validate()</code>.</li>
+                    </ul>
+                    <p>My default is attributes for simple string rules and <code>rules()</code> as soon as a field needs a rule
+                        object or depends on state. You can mix them. If you want real-time validation for a property whose rules
+                        live in <code>rules()</code>, the Livewire docs describe adding an empty <code>#[Validate]</code>
+                        attribute to that property to opt it in.</p>
+                    <p>If you want the opposite, a rule on an attribute that <em>only</em> runs on submit, pass
+                        <code>onUpdate: false</code>:</p>
+                    <pre class="code-block"><code>#[Validate('required|email', onUpdate: false)]
+public string $email = '';</code></pre>
+
+                    <h2>Real-time validation without hammering the server</h2>
+                    <p>Real-time validation is triggered when a property is <em>sent</em> to the server, so the
+                        <code>wire:model</code> modifier decides how often it happens:</p>
+                    <table>
+                        <thead>
+                            <tr><th>Binding</th><th>Validates</th><th>Good for</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>wire:model</code></td><td>With the next action (usually submit)</td><td>Short forms</td></tr>
+                            <tr><td><code>wire:model.blur</code></td><td>When the user leaves the field</td><td>Most forms: feedback without nagging</td></tr>
+                            <tr><td><code>wire:model.live.debounce.500ms</code></td><td>After typing pauses</td><td>Username or slug availability</td></tr>
+                        </tbody>
+                    </table>
+                    <p><code>.blur</code> is the sweet spot for most fields. Nobody wants "The title must be at least 5
+                        characters" while they're typing the second character. If you're weighing Livewire's round-trip model
+                        against a client-rendered stack for form-heavy screens, I wrote a <a href="/blog/livewire-vs-inertia-decision-framework/">decision
+                        framework for Livewire vs Inertia</a> that covers exactly that trade-off.</p>
+
+                    <h2>Custom messages and attribute names</h2>
+                    <p>For one-off messages, the attribute takes <code>message</code> and <code>as</code> arguments. The
+                        <code>as</code> name replaces <code>:attribute</code> in the default messages, which fixes the ugly
+                        "form.title" that would otherwise leak into errors:</p>
+                    <pre class="code-block"><code>#[Validate('required', message: 'Give your post a title.')]
+#[Validate('min:5', message: 'Titles need at least 5 characters.')]
+public string $title = '';
+
+#[Validate('required|date|after:today', as: 'publish date')]
+public ?string $publish_at = null;</code></pre>
+                    <p>When a form has more than a couple of these, I move them into methods so they're in one place:</p>
+                    <pre class="code-block"><code>protected function messages(): array
+{
+    return [
+        'title.required' =&gt; 'Give your post a title.',
+        'body.min'       =&gt; 'Write at least a couple of sentences.',
+    ];
+}
+
+protected function validationAttributes(): array
+{
+    return ['publish_at' =&gt; 'publish date'];
+}</code></pre>
+
+                    <h2>One form for create and edit</h2>
+                    <p>This is where form objects really pay off. Keep an optional model on the form, a method to load it, and
+                        separate <code>store()</code> and <code>update()</code> methods. Both components reuse everything
+                        else:</p>
+                    <pre class="code-block"><code>use App\Models\Post;
+use Illuminate\Validation\Rule;
+
+class PostForm extends Form
+{
+    public ?Post $post = null;
+
+    public string $title = '';
+    public string $slug = '';
+    public string $body = '';
+
+    protected function rules(): array
+    {
+        return [
+            'title' =&gt; ['required', 'min:5', 'max:120'],
+            'slug'  =&gt; ['required', 'alpha_dash', Rule::unique('posts', 'slug')-&gt;ignore($this-&gt;post)],
+            'body'  =&gt; ['required', 'min:20'],
+        ];
+    }
+
+    public function setPost(Post $post): void
+    {
+        $this-&gt;post = $post;
+        $this-&gt;title = $post-&gt;title;
+        $this-&gt;slug  = $post-&gt;slug;
+        $this-&gt;body  = $post-&gt;body;
+    }
+
+    public function store(): Post
+    {
+        $this-&gt;validate();
+        $post = auth()-&gt;user()-&gt;posts()-&gt;create($this-&gt;only(['title', 'slug', 'body']));
+        $this-&gt;reset();
+
+        return $post;
+    }
+
+    public function update(): void
+    {
+        $this-&gt;validate();
+        $this-&gt;post-&gt;update($this-&gt;only(['title', 'slug', 'body']));
+    }
+}</code></pre>
+                    <pre class="code-block"><code>class EditPost extends Component
+{
+    public PostForm $form;
+
+    public function mount(Post $post)
+    {
+        $this-&gt;authorize('update', $post);
+        $this-&gt;form-&gt;setPost($post);
+    }
+
+    public function save()
+    {
+        $this-&gt;authorize('update', $this-&gt;form-&gt;post);
+        $this-&gt;form-&gt;update();
+
+        session()-&gt;flash('status', 'Post updated.');
+    }
+}</code></pre>
+                    <p>Note the <code>ignore($this-&gt;post)</code> on the unique rule. With <code>null</code> on create it does
+                        nothing, and on edit it lets the post keep its own slug. That single line is the reason this form uses
+                        <code>rules()</code> instead of attributes. Also note that authorisation stays in the component: the form
+                        object handles data, the component decides who's allowed to act on it.</p>
+                    <blockquote>Only the explicit field list goes into <code>create()</code> and <code>update()</code>. Using
+                        <code>$this-&gt;all()</code> here would also include the <code>$post</code> property, so name the fields
+                        and keep mass assignment boring.</blockquote>
+
+                    <h2>Dependent fields</h2>
+                    <p>Forms often have fields that only matter when another field has a certain value: a "company name" that's
+                        required only for business accounts, or a region list that depends on the selected country. Picture an
+                        <code>AccountForm</code> used by a <code>CreateAccount</code> component. Handle the rule and the state
+                        separately.</p>
+                    <p>For the rule, conditional validation belongs in <code>rules()</code>:</p>
+                    <pre class="code-block"><code>protected function rules(): array
+{
+    return [
+        'account_type' =&gt; ['required', 'in:personal,business'],
+        'company'      =&gt; [Rule::requiredIf($this-&gt;account_type === 'business'), 'nullable', 'max:120'],
+        'country'      =&gt; ['required', 'exists:countries,code'],
+        'region'       =&gt; ['required', Rule::exists('regions', 'code')-&gt;where('country_code', $this-&gt;country)],
+    ];
+}</code></pre>
+                    <p>For the state, reset the dependent field when its parent changes, so a stale region from the previous
+                        country can't be submitted. The component's generic <code>updated()</code> hook receives the full dotted
+                        property name, so this goes in <code>CreateAccount</code>:</p>
+                    <pre class="code-block"><code>public function updated($property): void
+{
+    if ($property === 'form.country') {
+        $this-&gt;form-&gt;reset('region');
+    }
+}</code></pre>
+                    <p>In the view, show the dependent field only when it applies. Use <code>wire:model.live</code> on the
+                        parent select, since the UI needs to react right away:</p>
+                    <pre class="code-block"><code>&lt;select wire:model.live="form.account_type"&gt;…&lt;/select&gt;
+
+@if ($form-&gt;account_type === 'business')
+    &lt;input type="text" wire:model.blur="form.company"&gt;
+@endif</code></pre>
+
+                    <h2>File uploads</h2>
+                    <p>Uploads work in form objects too. The <code>WithFileUploads</code> trait goes on the <em>component</em>;
+                        the property and its rules can live on the form:</p>
+                    <pre class="code-block"><code>// In the component
+use Livewire\WithFileUploads;
+
+class CreatePost extends Component
+{
+    use WithFileUploads;
+
+    public PostForm $form;
+}
+
+// In PostForm
+#[Validate('nullable|image|max:2048')]   // kilobytes
+public $cover;
+
+public function storeCover(): ?string
+{
+    return $this-&gt;cover?-&gt;store('covers', 'public');
+}</code></pre>
+                    <p>Livewire uploads the file to a temporary location as soon as it's selected, and the attribute validates it
+                        right away, so users see "must be an image" before they hit save. Use <code>wire:loading</code> with
+                        <code>wire:target="form.cover"</code> to show upload progress, and only move the file to permanent storage
+                        inside your <code>store()</code> or <code>update()</code> after the whole form validates.</p>
+
+                    <h2>Testing forms</h2>
+                    <p>Form objects are tested through their components, and Livewire's test helpers use the same dotted keys as
+                        the view. With Pest:</p>
+                    <pre class="code-block"><code>use App\Livewire\CreateAccount;
+use App\Livewire\CreatePost;
+use App\Livewire\EditPost;
+use App\Models\Post;
+use App\Models\User;
+use Livewire\Livewire;
+
+it('requires a title', function () {
+    Livewire::actingAs(User::factory()-&gt;create())
+        -&gt;test(CreatePost::class)
+        -&gt;set('form.title', '')
+        -&gt;call('save')
+        -&gt;assertHasErrors(['form.title' =&gt; 'required']);
+});
+
+it('lets a post keep its own slug on edit', function () {
+    $post = Post::factory()-&gt;create(['slug' =&gt; 'hello-world']);
+
+    Livewire::actingAs($post-&gt;user)
+        -&gt;test(EditPost::class, ['post' =&gt; $post])
+        -&gt;assertSet('form.slug', 'hello-world')
+        -&gt;set('form.title', 'Hello again, world')
+        -&gt;call('save')
+        -&gt;assertHasNoErrors();
+
+    expect($post-&gt;fresh()-&gt;title)-&gt;toBe('Hello again, world');
+});
+
+it('clears the region when the country changes', function () {
+    Livewire::actingAs(User::factory()-&gt;create())
+        -&gt;test(CreateAccount::class)
+        -&gt;set('form.region', 'GJ')
+        -&gt;set('form.country', 'US')
+        -&gt;assertSet('form.region', '');
+});</code></pre>
+                    <p>These tests are fast and cover the rules and the state logic. For the parts that only exist in a browser,
+                        like focus, the loading state and whether the dependent field actually appears, add a few
+                        <a href="/blog/pest-browser-testing-laravel-frontend/">Pest browser tests</a> on top.</p>
+
+                    <h2>A checklist for Livewire forms</h2>
+                    <ol>
+                        <li>Any form with more than three or four fields gets a form object.</li>
+                        <li>Attributes for simple rules; <code>rules()</code> for rule objects, uniqueness and conditions.</li>
+                        <li><code>wire:model.blur</code> for most fields, <code>.live</code> only when the UI must react immediately.</li>
+                        <li>Use <code>as</code> or <code>validationAttributes()</code> so "form.title" never reaches a user.</li>
+                        <li>One form class for create and edit: <code>setPost()</code>, <code>store()</code>, <code>update()</code>.</li>
+                        <li>Authorisation stays in the component, not the form object.</li>
+                        <li>Reset dependent fields when their parent changes.</li>
+                        <li>Save uploads to permanent storage only after the whole form validates.</li>
+                        <li>Test with <code>set('form.*')</code> and <code>assertHasErrors</code> for every rule that matters.</li>
+                    </ol>
+                    <p>The component that started this post, with fourteen properties and a twin for editing, becomes one form
+                        class and two components of a dozen lines each. More importantly, the next field you add goes in exactly
+                        one place.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/livewire-form-objects-validation-patterns/&text=Livewire%20Form%20Objects%3A%20Validation%20Patterns%20That%20Scale"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/livewire-form-objects-validation-patterns/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

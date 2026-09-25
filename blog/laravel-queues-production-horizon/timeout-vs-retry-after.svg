@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="440" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">WORKER TIMEOUT VS RETRY_AFTER</text>
+  <!-- axis ticks -->
+  <text x="170" y="84" font-size="12" fill="#8f8d88" text-anchor="middle">0s</text>
+  <text x="460" y="84" font-size="12" fill="#8f8d88" text-anchor="middle">60s</text>
+  <text x="750" y="84" font-size="12" fill="#8f8d88" text-anchor="middle">120s</text>
+  <line x1="170" y1="92" x2="840" y2="92" stroke="#2e2e36" stroke-width="2"/>
+
+  <!-- SAFE -->
+  <rect x="24" y="112" width="832" height="130" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="44" y="140" font-size="14" fill="#6fd3b0" font-weight="700">SAFE</text>
+  <text x="44" y="160" font-size="12" fill="#a19e97">timeout 60</text>
+  <text x="44" y="178" font-size="12" fill="#a19e97">retry_after 90</text>
+  <rect x="170" y="130" width="282" height="36" rx="8" fill="#6fd3b0"/>
+  <text x="313" y="153" font-size="13" fill="#0f3a2a" text-anchor="middle" font-weight="700">worker A (job hangs)</text>
+  <line x1="460" y1="122" x2="460" y2="232" stroke="#f2b880" stroke-width="2"/>
+  <text x="470" y="146" font-size="12" fill="#f2b880">timeout: A killed,</text>
+  <text x="470" y="162" font-size="12" fill="#f2b880">attempt counted</text>
+  <line x1="605" y1="122" x2="605" y2="232" stroke="#8f8fef" stroke-width="2" stroke-dasharray="5 5"/>
+  <text x="615" y="146" font-size="12" fill="#8f8fef">retry_after:</text>
+  <text x="615" y="162" font-size="12" fill="#8f8fef">job released</text>
+  <rect x="615" y="186" width="200" height="36" rx="8" fill="#23232a" stroke="#6fd3b0"/>
+  <text x="715" y="209" font-size="13" fill="#6fd3b0" text-anchor="middle">clean retry by B</text>
+
+  <!-- BROKEN -->
+  <rect x="24" y="260" width="832" height="130" rx="12" fill="#1b1b20" stroke="#4a2a30"/>
+  <text x="44" y="288" font-size="14" fill="#f28b9b" font-weight="700">BROKEN</text>
+  <text x="44" y="308" font-size="12" fill="#a19e97">timeout 120</text>
+  <text x="44" y="326" font-size="12" fill="#a19e97">retry_after 60</text>
+  <rect x="170" y="278" width="580" height="36" rx="8" fill="#f2b880"/>
+  <text x="310" y="301" font-size="13" fill="#3a2a10" text-anchor="middle" font-weight="700">worker A still running</text>
+  <line x1="460" y1="270" x2="460" y2="380" stroke="#8f8fef" stroke-width="2" stroke-dasharray="5 5"/>
+  <text x="470" y="340" font-size="12" fill="#8f8fef">retry_after</text>
+  <text x="470" y="356" font-size="12" fill="#8f8fef">expires</text>
+  <rect x="560" y="334" width="280" height="36" rx="8" fill="#f28b9b"/>
+  <text x="700" y="357" font-size="13" fill="#3a1a20" text-anchor="middle" font-weight="700">worker B starts same job</text>
+
+  <text x="440" y="420" font-size="13" fill="#ece9e2" text-anchor="middle">Rule: timeout a few seconds shorter than retry_after, per connection</text>
+</svg>

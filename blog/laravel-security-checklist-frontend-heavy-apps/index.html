@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>A Security Checklist for Frontend-Heavy Laravel Apps</title>
+    <meta name="description"
+        content="Blade, Livewire and Alpine add surfaces Laravel&#x27;s defaults don&#x27;t cover. A practical checklist for XSS, CSP nonces, CSRF, mass assignment, Livewire authorization, rate limits and uploads.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/laravel-security-checklist-frontend-heavy-apps/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="A Security Checklist for Frontend-Heavy Laravel Apps">
+    <meta property="og:description"
+        content="Blade, Livewire and Alpine add surfaces Laravel&#x27;s defaults don&#x27;t cover. A practical checklist for XSS, CSP nonces, CSRF, mass assignment, Livewire authorization, rate limits and uploads.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/laravel-security-checklist-frontend-heavy-apps/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/laravel-security-checklist-frontend-heavy-apps/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="A Security Checklist for Frontend-Heavy Laravel Apps">
+    <meta name="twitter:description"
+        content="Blade, Livewire and Alpine add surfaces Laravel&#x27;s defaults don&#x27;t cover. A practical checklist for XSS, CSP nonces, CSRF, mass assignment, Livewire authorization, rate limits and uploads.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/laravel-security-checklist-frontend-heavy-apps/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "A Security Checklist for Frontend-Heavy Laravel Apps",
+        "description": "Blade, Livewire and Alpine add surfaces Laravel's defaults don't cover. A practical checklist for XSS, CSP nonces, CSRF, mass assignment, Livewire authorization, rate limits and uploads.",
+        "image": "https://sagarpansuriya.in/blog/laravel-security-checklist-frontend-heavy-apps/cover.png",
+        "datePublished": "2026-12-28",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/laravel-security-checklist-frontend-heavy-apps/",
+        "articleSection": "Laravel",
+        "keywords": "Laravel security, Livewire security, XSS in Blade, Content Security Policy, CSRF, Alpine.js x-html, file upload validation"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=Laravel">§ Laravel</a>
+                <h1 class="post-title">A Security Checklist for Frontend-Heavy Laravel Apps</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-12-28">Dec 28, 2026</time>
+                    <span class="sep">·</span>
+                    <span>8 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of a shield guarding a Blade code window, with checklist items for escaping, CSP, CSRF and authorization"></div>
+
+                <div class="prose">
+<p>You've probably seen a pull request like this. A Livewire component with a public <code>$postId</code>
+                        property, a <code>delete()</code> method that trusts it, and a Blade view that prints a product description
+                        with <code>{!! !!}</code> because "the editor outputs HTML". Everything works. The tests pass. And any
+                        logged-in user with DevTools open can delete someone else's records and inject a script into every product
+                        page.</p>
+                    <p>Laravel gives you strong defaults: escaped output, CSRF protection, hashed passwords, prepared queries. The
+                        trouble in frontend-heavy apps is that we keep adding surfaces where those defaults don't reach. Alpine
+                        directives, Livewire actions, JSON dropped into scripts, file uploads, SPA auth. Each one is a place where
+                        the browser gets more power, and the browser is the one part of your system you don't control.</p>
+                    <p>This is the checklist I walk through on Blade, Livewire and Alpine projects before they go live. It's not
+                        exhaustive, but it covers the mistakes I see most often in code review.</p>
+
+                    <h2>The rule underneath everything</h2>
+                    <p>Every value that comes from the browser is a suggestion. Form fields, hidden inputs, query strings, Livewire
+                        public properties, the arguments to a Livewire action, headers, file names, MIME types. All of it can be
+                        changed by anyone who opens DevTools or replays a request with curl.</p>
+
+                    <img src="trust-boundary.svg" alt="Diagram showing browser-controlled inputs crossing a trust boundary into the server, where validation, authorization and rate limiting run before anything reaches the database or is rendered back">
+
+                    <p>So the server has to do four things on every request, in this order: <strong>limit</strong> how often it can
+                        happen, <strong>validate</strong> the shape of the data, <strong>authorize</strong> the action against the
+                        current user, and <strong>escape</strong> the output for the context it lands in. Most of the items below are
+                        one of those four, applied somewhere people forget.</p>
+
+                    <h2>1. XSS: know which Blade output you're using</h2>
+                    <p><code>{{ $value }}</code> runs through <code>htmlspecialchars</code>, so it's safe for HTML text and quoted
+                        attribute values. <code>{!! $value !!}</code> prints raw HTML. Treat every <code>{!! !!}</code> in a codebase
+                        as a question that needs an answer in the PR: where does this string come from, and who sanitized it?</p>
+                    <pre class="code-block"><code>{{-- Safe: escaped --}}
+&lt;p&gt;{{ $product-&gt;description }}&lt;/p&gt;
+
+{{-- Dangerous unless $html was sanitized on save with an allow-list --}}
+&lt;div class="prose"&gt;{!! $product-&gt;description_html !!}&lt;/div&gt;</code></pre>
+                    <p>If you genuinely need user-authored rich text, sanitize it with a real HTML sanitizer using an allow-list of
+                        tags and attributes, ideally when you save it, and store the clean version. Regex-based stripping is not a
+                        sanitizer.</p>
+
+                    <h3>Escaping isn't enough for URLs</h3>
+                    <p>Blade escaping doesn't stop <code>javascript:</code> URLs. <code>&lt;a href="{{ $user-&gt;website }}"&gt;</code>
+                        is perfectly escaped and still runs a script if the value is <code>javascript:alert(1)</code>. Validate URLs on
+                        input with the <code>url</code> rule and restrict the scheme to <code>http</code> and <code>https</code>.</p>
+
+                    <h3>Passing data into JavaScript: use <code>@js</code></h3>
+                    <p>The classic mistake is echoing JSON into an Alpine attribute or a script tag by hand. HTML escaping and
+                        JavaScript escaping are different problems. Laravel's <code>@js</code> directive (backed by
+                        <code>Illuminate\Support\Js</code>) encodes a value so it's safe inside a JavaScript expression in an HTML
+                        attribute or script:</p>
+                    <pre class="code-block"><code>{{-- Fragile: a quote or &lt;/script&gt; in the data can break out --}}
+&lt;div x-data="{ items: {!! json_encode($items) !!} }"&gt;
+
+{{-- Better --}}
+&lt;div x-data="{ items: @js($items) }"&gt;</code></pre>
+
+                    <h3>Alpine's <code>x-html</code> is <code>{!! !!}</code> in disguise</h3>
+                    <p><code>x-html</code> sets <code>innerHTML</code>. If the value ever contains user input, you have XSS on the
+                        client side, and no amount of Blade escaping helps because the dangerous string is assembled in the browser.
+                        Default to <code>x-text</code>, and allow <code>x-html</code> only for content you generated or sanitized
+                        yourself. The same goes for <code>innerHTML</code> in any custom JavaScript.</p>
+
+                    <h2>2. Content Security Policy, with nonces from Vite</h2>
+                    <p>A CSP is your safety net for the XSS you didn't catch. A strict policy only runs scripts that carry a nonce
+                        generated for that response, so an injected <code>&lt;script&gt;</code> tag simply doesn't execute.</p>
+                    <p>Laravel's Vite integration supports this directly. Call <code>Vite::useCspNonce()</code> in a middleware and
+                        the <code>@vite</code> directive adds the nonce to the tags it generates. Then send the header yourself:</p>
+                    <pre class="code-block"><code>// app/Http/Middleware/ContentSecurityPolicy.php
+public function handle(Request $request, Closure $next): Response
+{
+    Vite::useCspNonce();
+
+    $response = $next($request);
+    $nonce = Vite::cspNonce();
+
+    $response-&gt;headers-&gt;set('Content-Security-Policy', implode('; ', [
+        "default-src 'self'",
+        "script-src 'self' 'nonce-{$nonce}'",
+        "style-src 'self' 'unsafe-inline'",
+        "img-src 'self' data:",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "frame-ancestors 'self'",
+    ]));
+
+    return $response;
+}</code></pre>
+                    <p>Use the same nonce on any inline script you write: <code>&lt;script nonce="{{ Vite::cspNonce() }}"&gt;</code>.</p>
+                    <p>Two honest caveats. First, Alpine's standard build evaluates directive expressions in a way that needs
+                        <code>'unsafe-eval'</code>. Alpine publishes a separate CSP-friendly build with restrictions on what
+                        expressions can do, and Livewire's docs cover its current CSP options, so check both before you commit to a
+                        strict policy. Second, roll it out with <code>Content-Security-Policy-Report-Only</code> first. Third-party
+                        widgets will break, and you want to find out from reports, not from support tickets.</p>
+
+                    <h2>3. CSRF: Livewire, forms and SPAs</h2>
+                    <p>Blade forms need <code>@csrf</code>, and Laravel rejects state-changing requests without a valid token.
+                        Livewire sends the token with its own requests, so you rarely think about it there. The places it goes wrong:</p>
+                    <ul>
+                        <li><strong>Custom <code>fetch</code> calls.</strong> Send the token in an <code>X-CSRF-TOKEN</code> header,
+                            read from <code>&lt;meta name="csrf-token" content="{{ csrf_token() }}"&gt;</code>.</li>
+                        <li><strong>SPAs with Sanctum.</strong> Use cookie-based SPA authentication: request
+                            <code>/sanctum/csrf-cookie</code> first, then let your HTTP client send the <code>X-XSRF-TOKEN</code>
+                            header from the <code>XSRF-TOKEN</code> cookie. Configure your stateful domains properly rather than
+                            disabling checks until it works.</li>
+                        <li><strong>Over-broad exceptions.</strong> Excluding a webhook route from CSRF is normal. Excluding
+                            <code>api/*</code> on a session-authenticated app is not. Keep the exception list short and specific, and
+                            verify webhook signatures instead.</li>
+                        <li><strong>GET routes that change state.</strong> CSRF protection doesn't cover GET. A "delete" link that
+                            uses GET is deletable by an image tag on another site.</li>
+                    </ul>
+
+                    <h2>4. Mass assignment: validate, then fill</h2>
+                    <p>The unsafe pattern is short enough to slip through review:</p>
+                    <pre class="code-block"><code>// Anyone can add is_admin=1 to the request
+$user-&gt;update($request-&gt;all());
+
+// Only fields that passed validation
+$user-&gt;update($request-&gt;validated());</code></pre>
+                    <p>Keep <code>$fillable</code> tight on models, prefer <code>validated()</code> or <code>safe()-&gt;only([...])</code>
+                        over <code>all()</code>, and never set <code>$guarded = []</code> on a model that user input touches. In local
+                        development, <code>Model::preventSilentlyDiscardingAttributes()</code> turns quietly ignored attributes into
+                        exceptions, which catches mismatches between forms and <code>$fillable</code> early.</p>
+                    <p>In Livewire, the same applies: call <code>$this-&gt;validate()</code> and fill models from what it returns, not
+                        from every public property. If you're using form objects, I covered the patterns in
+                        <a href="/blog/livewire-form-objects-validation-patterns/">Livewire form objects and validation</a>.</p>
+
+                    <h2>5. Livewire actions are public endpoints</h2>
+                    <p>This is the one that catches experienced Laravel developers. Every public method on a Livewire component can
+                        be called from the browser, with any arguments. Every public property can be changed. A hidden input or a
+                        disabled button is UI, not security.</p>
+                    <pre class="code-block"><code>// Vulnerable: trusts the client for both identity and permission
+public int $postId;
+
+public function delete(): void
+{
+    Post::find($this-&gt;postId)-&gt;delete();
+}</code></pre>
+                    <pre class="code-block"><code>use Livewire\Attributes\Locked;
+
+#[Locked]
+public int $postId;
+
+public function delete(): void
+{
+    $post = Post::findOrFail($this-&gt;postId);
+
+    $this-&gt;authorize('delete', $post);
+
+    $post-&gt;delete();
+}</code></pre>
+                    <p><code>#[Locked]</code> stops the client from changing the property, which is useful for IDs. But the real fix is
+                        the <code>authorize()</code> call against a policy, inside the action, every time. Locking a property tells you
+                        the ID hasn't been tampered with. It doesn't tell you this user is allowed to delete that post.</p>
+                    <p>The same goes for action arguments. <code>wire:click="delete({{ $post-&gt;id }})"</code> is fine only if
+                        <code>delete($id)</code> loads the post and authorizes it. Also scope queries to the user where it makes sense
+                        (<code>$request-&gt;user()-&gt;posts()-&gt;findOrFail($id)</code>), so a missing policy check fails closed.</p>
+
+                    <h2>6. Rate limiting beyond the login form</h2>
+                    <p>Laravel's starter kits rate-limit login. Frontend-heavy apps have many more endpoints worth protecting: search,
+                        contact forms, "resend code", anything that sends email or costs money (like an AI call). Define named limiters
+                        and attach them to routes:</p>
+                    <pre class="code-block"><code>// AppServiceProvider::boot()
+RateLimiter::for('contact', function (Request $request) {
+    return Limit::perMinute(3)-&gt;by($request-&gt;user()?-&gt;id ?: $request-&gt;ip());
+});
+
+// routes/web.php
+Route::post('/contact', ContactController::class)-&gt;middleware('throttle:contact');</code></pre>
+                    <p>Livewire actions don't go through your route middleware individually, so rate-limit inside the action:</p>
+                    <pre class="code-block"><code>public function send(): void
+{
+    $key = 'contact:'.(auth()-&gt;id() ?? request()-&gt;ip());
+
+    if (RateLimiter::tooManyAttempts($key, 3)) {
+        $this-&gt;addError('form', 'Too many attempts. Try again in a minute.');
+        return;
+    }
+
+    RateLimiter::hit($key, 60);
+    // ...
+}</code></pre>
+
+                    <h2>7. File uploads: trust nothing about the file</h2>
+                    <p>The file name, extension and client-reported MIME type are all user input. A safe upload path looks like this:</p>
+                    <ul>
+                        <li>Validate type and size on the server: <code>'avatar' =&gt; ['required', 'image', 'max:2048']</code>, or
+                            <code>mimes:pdf,docx</code> for documents. <code>max</code> is in kilobytes.</li>
+                        <li>Don't accept SVG from users unless you sanitize it. SVG is XML that can contain scripts.</li>
+                        <li>Store with a generated name (<code>$file-&gt;store('avatars')</code> does this) instead of the original
+                            file name.</li>
+                        <li>Keep private files off the public disk and serve them through a controller that authorizes the request.</li>
+                        <li>With Livewire's <code>WithFileUploads</code>, validate in your save action as well. The temporary upload
+                            rules in config are a coarse outer limit, not your validation.</li>
+                    </ul>
+
+                    <h2>8. Security headers</h2>
+                    <p>A small middleware that adds a handful of headers to every response is cheap insurance:</p>
+                    <table>
+                        <thead>
+                            <tr><th>Header</th><th>Typical value</th><th>What it prevents</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>Strict-Transport-Security</code></td><td><code>max-age=31536000; includeSubDomains</code></td><td>Downgrades to HTTP</td></tr>
+                            <tr><td><code>X-Content-Type-Options</code></td><td><code>nosniff</code></td><td>Browsers guessing a file is a script</td></tr>
+                            <tr><td><code>Referrer-Policy</code></td><td><code>strict-origin-when-cross-origin</code></td><td>Leaking full URLs to other sites</td></tr>
+                            <tr><td><code>Permissions-Policy</code></td><td><code>camera=(), microphone=(), geolocation=()</code></td><td>Features you don't use being abused</td></tr>
+                            <tr><td>CSP <code>frame-ancestors</code></td><td><code>'self'</code></td><td>Clickjacking via iframes</td></tr>
+                        </tbody>
+                    </table>
+                    <p>Only enable HSTS once HTTPS works everywhere on the domain, including subdomains if you add
+                        <code>includeSubDomains</code>. It's hard to undo.</p>
+                    <p>And the boring ones that still bite: <code>APP_DEBUG=false</code> in production, <code>.env</code> never in the
+                        web root or the repo, and secure, <code>httpOnly</code> session cookies. If you ship desktop apps too, the threat
+                        model changes again; see <a href="/blog/securing-nativephp-apps/">securing NativePHP apps</a>.</p>
+
+                    <h2>The checklist</h2>
+                    <ol>
+                        <li>Every <code>{!! !!}</code> has a documented source and a sanitizer behind it.</li>
+                        <li>User-supplied URLs are validated and limited to <code>http</code>/<code>https</code>.</li>
+                        <li>Data passed to Alpine or scripts uses <code>@js</code>, never hand-rolled <code>json_encode</code>.</li>
+                        <li><code>x-html</code> and <code>innerHTML</code> never receive user input.</li>
+                        <li>A CSP with Vite nonces, rolled out in report-only mode first.</li>
+                        <li>Custom <code>fetch</code> calls send the CSRF token; exceptions are few and specific; no state-changing GETs.</li>
+                        <li>Models are filled from <code>validated()</code>, never <code>all()</code>.</li>
+                        <li>Every Livewire action that touches data calls <code>authorize()</code>; IDs are <code>#[Locked]</code>.</li>
+                        <li>Anything that sends email, costs money or searches is rate-limited, including Livewire actions.</li>
+                        <li>Uploads are validated server-side, renamed, and private files are served through authorization.</li>
+                        <li>Security headers are set, debug is off, secrets stay out of the repo.</li>
+                    </ol>
+                    <p>None of these are hard. What makes them easy to miss is that the app works perfectly without them. That's why
+                        they belong on a checklist and in your PR template, not in someone's memory.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/laravel-security-checklist-frontend-heavy-apps/&text=A%20Security%20Checklist%20for%20Frontend-Heavy%20Laravel%20Apps"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/laravel-security-checklist-frontend-heavy-apps/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

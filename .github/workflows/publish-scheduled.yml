@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: write
+  issues: write   # for the publish notification
 
 concurrency:
   group: publish-scheduled
@@ -25,6 +26,7 @@ jobs:
           node-version: '20'
 
       - name: Publish posts that are due
+        id: publish
         run: node scripts/publish-scheduled.mjs
 
       - name: Commit and push
@@ -38,3 +40,29 @@ jobs:
           git add -A
           git commit -m "chore: publish scheduled post(s)"
           git push
+
+      # Notify the repo owner by @mentioning them on a "publishing log" issue.
+      # GitHub emails the mention, so no SMTP setup or secrets are needed.
+      # The issue title deliberately avoids post paths so utterances (which
+      # matches issues by pathname in the title) never picks it up.
+      - name: Notify owner
+        if: steps.publish.outputs.published != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+          PUBLISHED: ${{ steps.publish.outputs.published }}
+        run: |
+          gh label create publish-log --color 5b5bd6 \
+            --description "Scheduled post notifications" 2>/dev/null || true
+
+          issue=$(gh issue list --label publish-log --state open --limit 1 \
+            --json number --jq '.[0].number // empty')
+          if [ -z "$issue" ]; then
+            url=$(gh issue create --label publish-log --title "Blog publishing log" \
+              --body "Every scheduled post that goes live is announced here. Subscribed to this issue = email per publish.")
+            issue=${url##*/}
+          fi
+
+          body=$(printf '@%s New post(s) just went live:\n\n%s\n\n_GitHub Pages usually finishes deploying a minute or two after this._' \
+            "$OWNER" "$PUBLISHED")
+          gh issue comment "$issue" --body "$body"

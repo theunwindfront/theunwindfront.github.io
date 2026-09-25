@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>The WordPress Interactivity API for Alpine.js Developers</title>
+    <meta name="description"
+        content="If you know Alpine.js, the WordPress Interactivity API will feel familiar. Here&#x27;s how its directives, stores and server-rendered state map to Alpine, and when to use each.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/wordpress-interactivity-api-for-alpine-developers/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="The WordPress Interactivity API for Alpine.js Developers">
+    <meta property="og:description"
+        content="If you know Alpine.js, the WordPress Interactivity API will feel familiar. Here&#x27;s how its directives, stores and server-rendered state map to Alpine, and when to use each.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/wordpress-interactivity-api-for-alpine-developers/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/wordpress-interactivity-api-for-alpine-developers/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The WordPress Interactivity API for Alpine.js Developers">
+    <meta name="twitter:description"
+        content="If you know Alpine.js, the WordPress Interactivity API will feel familiar. Here&#x27;s how its directives, stores and server-rendered state map to Alpine, and when to use each.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/wordpress-interactivity-api-for-alpine-developers/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "The WordPress Interactivity API for Alpine.js Developers",
+        "description": "If you know Alpine.js, the WordPress Interactivity API will feel familiar. Here's how its directives, stores and server-rendered state map to Alpine, and when to use each.",
+        "image": "https://sagarpansuriya.in/blog/wordpress-interactivity-api-for-alpine-developers/cover.png",
+        "datePublished": "2026-12-09",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/wordpress-interactivity-api-for-alpine-developers/",
+        "articleSection": "WordPress",
+        "keywords": "WordPress Interactivity API, Alpine.js, data-wp-interactive, WordPress blocks, wp_interactivity_state, server-side rendering"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=WordPress">§ WordPress</a>
+                <h1 class="post-title">The WordPress Interactivity API for Alpine.js Developers</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-12-09">Dec 09, 2026</time>
+                    <span class="sep">·</span>
+                    <span>7 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of an Alpine x-data snippet and a WordPress data-wp-interactive snippet linked by matching directives into one rendered toggle component"></div>
+
+                <div class="prose">
+<p>If you build WordPress themes with Alpine.js, the Interactivity API probably looks strangely familiar the
+                        first time you see it. There are attributes on HTML elements, a bit of reactive state, click handlers
+                        declared in markup. It's easy to glance at <code>data-wp-on--click</code> and think "so it's Alpine with
+                        longer attribute names".</p>
+                    <p>It's close, but the differences are the interesting part. The Interactivity API is WordPress's own
+                        standard for frontend interactivity in blocks, available since WordPress 6.5. It renders its directives
+                        on the server in PHP, it doesn't evaluate JavaScript expressions from your markup, and it's designed so
+                        blocks from different plugins can share state and work together on one page.</p>
+                    <p>This post maps what you already know from Alpine onto the Interactivity API, with side-by-side examples,
+                        and ends with when I'd reach for each inside a WordPress project. I'll stick to the core, well-documented
+                        directives.</p>
+
+                    <h2>The mental model in one paragraph</h2>
+                    <p>In Alpine, you write JavaScript expressions directly in attributes and Alpine evaluates them in the
+                        browser. In the Interactivity API, attributes only <em>reference</em> things: a value in
+                        <code>state</code> or <code>context</code>, or a function in <code>actions</code>, optionally negated
+                        with <code>!</code>. The logic lives in a JavaScript <strong>store</strong>, registered under a
+                        namespace. WordPress reads the same directives in PHP to render the correct initial HTML, then a small
+                        runtime in the browser takes over.</p>
+
+                    <h2>A toggle, side by side</h2>
+                    <p>Here's the classic disclosure widget in Alpine:</p>
+                    <pre class="code-block"><code>&lt;div x-data="{ open: false }"&gt;
+    &lt;button @click="open = !open" :aria-expanded="open"&gt;Details&lt;/button&gt;
+    &lt;div x-show="open"&gt;Shipping takes 3 to 5 working days.&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                    <p>And the same thing with the Interactivity API:</p>
+                    <pre class="code-block"><code>&lt;div data-wp-interactive="myTheme"
+     data-wp-context='{ "isOpen": false }'&gt;
+    &lt;button data-wp-on--click="actions.toggle"
+            data-wp-bind--aria-expanded="context.isOpen"&gt;Details&lt;/button&gt;
+    &lt;div data-wp-bind--hidden="!context.isOpen"&gt;Shipping takes 3 to 5 working days.&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                    <pre class="code-block"><code>// view.js
+import { store, getContext } from '@wordpress/interactivity';
+
+store('myTheme', {
+    actions: {
+        toggle() {
+            const context = getContext();
+            context.isOpen = !context.isOpen;
+        },
+    },
+});</code></pre>
+                    <p>Three things stand out for an Alpine developer:</p>
+                    <ul>
+                        <li><strong><code>data-wp-interactive</code> sets the namespace.</strong> Every directive inside it
+                            resolves <code>actions.toggle</code> against the <code>myTheme</code> store. Alpine has no
+                            equivalent because <code>x-data</code> scopes are anonymous.</li>
+                        <li><strong><code>data-wp-context</code> is local state, as JSON.</strong> It plays the role of
+                            <code>x-data</code>'s object, and nested elements inherit it, but it can't contain functions.</li>
+                        <li><strong>The click handler is a name, not code.</strong> You can't write
+                            <code>context.isOpen = !context.isOpen</code> inline. That feels restrictive for about a day, then
+                            it starts to feel like a sensible separation.</li>
+                    </ul>
+
+                    <h2>The directive cheat sheet</h2>
+                    <table>
+                        <thead>
+                            <tr><th>Alpine</th><th>Interactivity API</th><th>Notes</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>x-data</code></td><td><code>data-wp-interactive</code> + <code>data-wp-context</code></td><td>Namespace plus local JSON state</td></tr>
+                            <tr><td><code>x-text</code></td><td><code>data-wp-text</code></td><td>Also rendered on the server</td></tr>
+                            <tr><td><code>:attr</code> / <code>x-bind</code></td><td><code>data-wp-bind--attr</code></td><td>e.g. <code>data-wp-bind--disabled</code></td></tr>
+                            <tr><td><code>:class</code></td><td><code>data-wp-class--name</code></td><td>One directive per class, toggled by a boolean</td></tr>
+                            <tr><td><code>:style</code></td><td><code>data-wp-style--prop</code></td><td>One directive per CSS property</td></tr>
+                            <tr><td><code>@click</code> / <code>x-on</code></td><td><code>data-wp-on--click</code></td><td>Action receives the event</td></tr>
+                            <tr><td><code>@resize.window</code></td><td><code>data-wp-on-window--resize</code></td><td>Also <code>data-wp-on-document--</code></td></tr>
+                            <tr><td><code>x-show</code></td><td><code>data-wp-bind--hidden</code></td><td>Use negation: <code>!context.isOpen</code></td></tr>
+                            <tr><td><code>x-init</code></td><td><code>data-wp-init</code></td><td>Runs once when the element is hydrated</td></tr>
+                            <tr><td><code>x-effect</code></td><td><code>data-wp-watch</code></td><td>Re-runs when the state it reads changes</td></tr>
+                            <tr><td><code>x-for</code></td><td><code>data-wp-each</code></td><td>On a <code>&lt;template&gt;</code>, item available as <code>context.item</code></td></tr>
+                            <tr><td><code>Alpine.store()</code></td><td><code>store()</code> with <code>state</code></td><td>Global, shared across blocks by namespace</td></tr>
+                        </tbody>
+                    </table>
+                    <p>The double dash is the pattern to remember: <code>data-wp-{directive}--{suffix}</code>, where the
+                        suffix is the attribute, class, style property or event name.</p>
+
+                    <h2>State vs context</h2>
+                    <p>This is where Alpine habits need adjusting. The Interactivity API has two kinds of reactive data:</p>
+                    <ul>
+                        <li><strong>Context</strong> (<code>data-wp-context</code>, read with <code>getContext()</code>) is
+                            local to an element and its children. Two accordions on a page each get their own. Think
+                            <code>x-data</code>.</li>
+                        <li><strong>State</strong> (<code>state</code> in the store) is global for the namespace. Every block
+                            using <code>myTheme</code> sees the same values. Think <code>Alpine.store()</code>.</li>
+                    </ul>
+                    <p>A mini cart is the textbook case for state. The header badge and every "Add to cart" button on the page
+                        share one count:</p>
+                    <pre class="code-block"><code>// view.js
+import { store } from '@wordpress/interactivity';
+
+const { state } = store('myTheme', {
+    state: {
+        get cartLabel() {
+            return state.cartCount === 1 ? '1 item' : `${state.cartCount} items`;
+        },
+    },
+    actions: {
+        addToCart() {
+            state.cartCount++;
+        },
+    },
+});</code></pre>
+                    <p>The getter is <em>derived state</em>, the equivalent of an Alpine getter on a store object. Notice that
+                        <code>cartCount</code> isn't defined in JavaScript at all. It comes from the server.</p>
+                    <p>If you've wrestled with where state should live in a TALL app, the same thinking applies here as in
+                        <a href="/blog/alpine-stores-vs-livewire-state/">Alpine stores vs Livewire state</a>: keep it local
+                        unless more than one component genuinely needs it.</p>
+
+                    <h2>Server-side rendering of initial state</h2>
+                    <p>This is the biggest practical difference from Alpine. You seed global state in PHP with
+                        <code>wp_interactivity_state()</code>, and WordPress processes the directives while rendering the page:</p>
+                    <pre class="code-block"><code>&lt;?php
+$count = WC()-&gt;cart ? WC()-&gt;cart-&gt;get_cart_contents_count() : 0;
+
+wp_interactivity_state( 'myTheme', array(
+    'cartCount' =&gt; $count,
+    // Derived values need a server-side value too
+    'cartLabel' =&gt; 1 === $count ? '1 item' : "{$count} items",
+) );
+?&gt;
+&lt;a href="/cart" data-wp-interactive="myTheme"&gt;
+    Cart (&lt;span data-wp-text="state.cartLabel"&gt;&lt;/span&gt;)
+&lt;/a&gt;</code></pre>
+                    <p>The HTML that leaves the server already contains the cart label text, <code>hidden</code> attributes
+                        already set, classes already applied. The browser paints the correct UI before any JavaScript runs,
+                        then the runtime hydrates and picks up the same state. With Alpine, the server sends empty
+                        <code>x-text</code> spans and elements that should be hidden until Alpine boots, which is why
+                        <code>x-cloak</code> exists.</p>
+                    <p>The catch: derived state defined only as a JavaScript getter doesn't exist on the server. Compute
+                        derived values in PHP as well (like <code>cartLabel</code> in the snippet above), or the
+                        first paint and the hydrated version won't match.</p>
+                    <p>For local context, the <code>wp_interactivity_data_wp_context()</code> helper prints a correctly
+                        escaped <code>data-wp-context</code> attribute from a PHP array, which saves you from hand-writing JSON
+                        inside single quotes:</p>
+                    <pre class="code-block"><code>&lt;div data-wp-interactive="myTheme"
+     &lt;?php echo wp_interactivity_data_wp_context( array( 'isOpen' =&gt; false ) ); ?&gt;&gt;</code></pre>
+
+                    <img src="interactivity-ssr-vs-alpine.svg" alt="Diagram comparing the first paint of an Alpine component, which shows empty or unhidden elements until Alpine boots, with an Interactivity API block whose directives are processed in PHP so the first paint is already correct">
+
+                    <h2>Events and async actions</h2>
+                    <p>Actions receive the DOM event, so form handling looks like this, since there's no
+                        <code>x-model</code> equivalent:</p>
+                    <pre class="code-block"><code>&lt;input type="search"
+       data-wp-bind--value="state.query"
+       data-wp-on--input="actions.setQuery"&gt;</code></pre>
+                    <pre class="code-block"><code>actions: {
+    setQuery(event) {
+        state.query = event.target.value;
+    },
+    *loadResults() {
+        const response = yield fetch(`/wp-json/wp/v2/posts?search=${encodeURIComponent(state.query)}`);
+        state.results = yield response.json();
+    },
+},</code></pre>
+                    <p>Async actions are written as <strong>generator functions</strong> with <code>yield</code> instead of
+                        <code>async</code>/<code>await</code>. It looks odd at first, but it lets the runtime restore the right
+                        scope, so <code>getContext()</code> still works after the <code>yield</code>. With plain
+                        <code>async</code> functions you'd lose that.</p>
+
+                    <h2>Wiring it up in a block</h2>
+                    <p>For a block, opt in through <code>block.json</code> and load your store as a script module:</p>
+                    <pre class="code-block"><code>{
+    "name": "my-theme/faq",
+    "supports": { "interactivity": true },
+    "viewScriptModule": "file:./view.js",
+    "render": "file:./render.php"
+}</code></pre>
+                    <p>WordPress then processes directives in the block's rendered output automatically. One gotcha if you're
+                        used to bundling everything with Vite: <code>@wordpress/interactivity</code> must come from WordPress
+                        itself, loaded as a script module, not bundled into your file. Every block on the page has to share one
+                        runtime, or stores and hydration won't line up. The official <code>@wordpress/scripts</code> tooling
+                        handles that for you; with a custom build, mark it as external.</p>
+
+                    <h2>When to use which</h2>
+                    <p>In most WordPress projects I'd use both, for different jobs.</p>
+                    <h3>Reach for the Interactivity API when</h3>
+                    <ul>
+                        <li>You're building blocks, especially ones editors place freely or that ship in a plugin.</li>
+                        <li>Several blocks need to share state (a filter block and a results block, a cart badge and product
+                            cards).</li>
+                        <li>The first paint must be correct without JavaScript: SEO-relevant content, no layout shift, no
+                            cloak flicker.</li>
+                        <li>You care about a strict Content Security Policy. Alpine's standard build evaluates expressions in a
+                            way CSP blocks unless you use its CSP build; the Interactivity API doesn't evaluate expression
+                            strings at all.</li>
+                    </ul>
+                    <h3>Stick with Alpine when</h3>
+                    <ul>
+                        <li>Your theme is Sage or another classic-style theme that already uses Alpine in Blade templates, like
+                            the setup in <a href="/blog/blade-components-wordpress-sage-acorn/">Blade components in WordPress with
+                            Sage and Acorn</a>.</li>
+                        <li>The interaction is small, template-level and self-contained: a mobile nav, a tab set, a dropdown.</li>
+                        <li>You need rich inline logic and your team is fluent in Alpine already.</li>
+                    </ul>
+                    <p>They can live on the same page without trouble. Just don't mix both sets of directives on the same
+                        element or ask them to share state directly. If an Alpine component and an interactive block need to
+                        talk, use a DOM custom event as the boundary.</p>
+
+                    <h2>Takeaways</h2>
+                    <ol>
+                        <li><code>data-wp-interactive</code> sets a namespace; <code>data-wp-context</code> is your
+                            <code>x-data</code>, as JSON.</li>
+                        <li>Directives reference <code>state</code>, <code>context</code> and <code>actions</code>; logic lives
+                            in the store, not the markup.</li>
+                        <li>Context is local, state is global per namespace.</li>
+                        <li>Seed state with <code>wp_interactivity_state()</code> and compute derived values on the server too.</li>
+                        <li>Use generator functions for async actions.</li>
+                        <li>Never bundle <code>@wordpress/interactivity</code>; load your store as a script module.</li>
+                        <li>Blocks and shared state: Interactivity API. Theme-level sprinkles in Blade: Alpine is still great.</li>
+                    </ol>
+                    <p>If you already think in Alpine, you're most of the way there. The main adjustment is moving logic out of
+                        attributes and into the store, and in return you get server-rendered first paints that Alpine can't give
+                        you on its own.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/wordpress-interactivity-api-for-alpine-developers/&text=The%20WordPress%20Interactivity%20API%20for%20Alpine.js%20Developers"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/wordpress-interactivity-api-for-alpine-developers/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

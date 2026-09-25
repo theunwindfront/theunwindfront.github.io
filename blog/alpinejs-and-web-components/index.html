@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Alpine.js and Web Components: When to Reach for Custom Elements</title>
+    <meta name="description"
+        content="When should an Alpine developer build a custom element instead? Light vs shadow DOM with Tailwind, passing attributes, properties and events, and a small copy-button element to start from.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/alpinejs-and-web-components/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Alpine.js and Web Components: When to Reach for Custom Elements">
+    <meta property="og:description"
+        content="When should an Alpine developer build a custom element instead? Light vs shadow DOM with Tailwind, passing attributes, properties and events, and a small copy-button element to start from.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/alpinejs-and-web-components/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/alpinejs-and-web-components/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Alpine.js and Web Components: When to Reach for Custom Elements">
+    <meta name="twitter:description"
+        content="When should an Alpine developer build a custom element instead? Light vs shadow DOM with Tailwind, passing attributes, properties and events, and a small copy-button element to start from.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/alpinejs-and-web-components/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Alpine.js and Web Components: When to Reach for Custom Elements",
+        "description": "When should an Alpine developer build a custom element instead? Light vs shadow DOM with Tailwind, passing attributes, properties and events, and a small copy-button element to start from.",
+        "image": "https://sagarpansuriya.in/blog/alpinejs-and-web-components/cover.png",
+        "datePublished": "2026-11-27",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/alpinejs-and-web-components/",
+        "articleSection": "AlpineJS",
+        "keywords": "Alpine.js, Web Components, custom elements, shadow DOM, Tailwind CSS, Livewire"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=AlpineJS">§ AlpineJS</a>
+                <h1 class="post-title">Alpine.js and Web Components: When to Reach for Custom Elements</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-11-27">Nov 27, 2026</time>
+                    <span class="sep">·</span>
+                    <span>7 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of a copy-button custom element in the centre, connected to Alpine, Laravel Blade, React and WordPress, with a dashed shadow root and a copy-success event"></div>
+
+                <div class="prose">
+<p>Picture a small widget that everyone wants. A "copy to clipboard" button, say, or a relative timestamp that updates itself. Your Laravel app uses Alpine, the marketing site is on WordPress, the internal dashboard is React, and someone asks if the widget can look and behave the same in all three. You could write it three times. Or you could write it once as a custom element and let each stack use it like a normal HTML tag.</p>
+                    <p>That's the question this post answers: when should an Alpine developer reach for Web Components, and how do the two work together without fighting? Short version: they're not competitors. Alpine is great at sprinkling state onto server-rendered HTML. Custom elements are great at packaging a widget so it works anywhere. Most of the interesting decisions are about the seams between them.</p>
+
+                    <h2>Two tools, two jobs</h2>
+                    <p>Alpine attaches behaviour to markup you already have. The state lives in <code>x-data</code>, the template is your Blade or PHP, and everything is scoped to one page's DOM. It's fast to write, easy to read, and deliberately light on ceremony.</p>
+                    <p>A custom element is a class the browser knows about. Once you call <code>customElements.define('copy-button', CopyButton)</code>, every <code>&lt;copy-button&gt;</code> on the page, now or added later, gets upgraded and runs your lifecycle callbacks. No framework needs to boot, and the element doesn't care whether it was rendered by Blade, a WordPress block, or JSX.</p>
+                    <p>That gives a simple first filter:</p>
+                    <ul>
+                    <li><strong>Page-specific behaviour</strong> (this form, this filter panel, this modal) belongs in Alpine.</li>
+                    <li><strong>Reusable widgets that cross project or framework boundaries</strong> are good custom element candidates.</li>
+                    <li><strong>Wrapping a third-party library</strong> (a chart, a map, a date picker) often fits a custom element too, because <code>connectedCallback</code> and <code>disconnectedCallback</code> give you a clean place to set up and tear down.</li>
+                    </ul>
+
+                    <h2>Building a small custom element</h2>
+                    <p>Let's build <code>&lt;copy-button&gt;</code>. It enhances a real <code>&lt;button&gt;</code> you put inside it, copies its <code>value</code> attribute to the clipboard, reflects the result as a <code>data-state</code> attribute for styling, and fires events so the surrounding code can react. No shadow DOM for now; we'll come back to why.</p>
+                    <pre class="code-block"><code>// resources/js/elements/copy-button.js
+class CopyButton extends HTMLElement {
+    connectedCallback() {
+        this.button = this.querySelector('button');
+        this.button?.addEventListener('click', this.copy);
+    }
+
+    disconnectedCallback() {
+        this.button?.removeEventListener('click', this.copy);
+        clearTimeout(this.timer);
+    }
+
+    get value() {
+        return this.getAttribute('value') ?? '';
+    }
+
+    set value(next) {
+        this.setAttribute('value', next);
+    }
+
+    copy = async () =&gt; {
+        try {
+            await navigator.clipboard.writeText(this.value);
+            this.dataset.state = 'copied';
+            this.emit('copy-success', { value: this.value });
+        } catch (error) {
+            this.dataset.state = 'error';
+            this.emit('copy-error', { error });
+        }
+
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() =&gt; delete this.dataset.state, 2000);
+    };
+
+    emit(name, detail) {
+        this.dispatchEvent(new CustomEvent(name, { detail, bubbles: true }));
+    }
+}
+
+if (!customElements.get('copy-button')) {
+    customElements.define('copy-button', CopyButton);
+}</code></pre>
+                    <p>A few choices worth copying. The element name has a hyphen, which the spec requires. The button is real HTML inside the element, so before the JavaScript loads there's still a focusable, labelled button, just one that doesn't do anything yet. And the <code>customElements.get</code> guard stops a second import (easy to do with multiple Vite entries) from throwing.</p>
+                    <p>Usage in plain Blade, styled with Tailwind's data attribute variants:</p>
+                    <pre class="code-block"><code>&lt;copy-button value="{{ $apiKey }}" class="group inline-flex"&gt;
+    &lt;button type="button" class="btn"&gt;
+        &lt;span class="group-data-[state=copied]:hidden"&gt;Copy key&lt;/span&gt;
+        &lt;span class="hidden group-data-[state=copied]:inline"&gt;Copied&lt;/span&gt;
+    &lt;/button&gt;
+&lt;/copy-button&gt;</code></pre>
+                    <p>Because the element lives in the light DOM, Tailwind classes apply normally. That's the main reason I default to light DOM for app widgets, which brings us to the trade-off.</p>
+
+                    <h2>Shadow DOM and Tailwind: the real trade-off</h2>
+                    <p>Shadow DOM gives an element its own encapsulated subtree. Styles from the page don't leak in, and the element's styles don't leak out. For a widget shipped to strangers' websites, that's exactly what you want. For an app styled with Tailwind, it's a wall: the utility classes live in your global stylesheet, and that stylesheet doesn't reach inside the shadow root.</p>
+                    <p>What <em>does</em> cross the boundary:</p>
+                    <ul>
+                    <li><strong>Inherited properties</strong> like <code>color</code>, <code>font-family</code> and <code>line-height</code> flow in from the host.</li>
+                    <li><strong>CSS custom properties</strong> inherit too. If your design tokens are variables (Tailwind v4 exposes its theme values that way), the component can read <code>var(--color-primary)</code> inside its own styles.</li>
+                    <li><strong><code>::part()</code></strong> lets outside CSS style specific internal elements the component chooses to expose with a <code>part</code> attribute.</li>
+                    <li><strong>Slotted content</strong> stays in the light DOM, so page styles still apply to whatever you pass into a <code>&lt;slot&gt;</code>.</li>
+                    </ul>
+                    <p>A small shadow DOM element that plays nicely with a Tailwind theme looks like this:</p>
+                    <pre class="code-block"><code>const sheet = new CSSStyleSheet();
+sheet.replaceSync(`
+    :host { display: inline-flex; }
+    .badge {
+        padding: 0.125rem 0.5rem;
+        border-radius: 999px;
+        background: var(--color-primary, #5b5bd6);
+        color: white;
+        font-size: 0.75rem;
+    }
+`);
+
+class StatusBadge extends HTMLElement {
+    constructor() {
+        super();
+        const root = this.attachShadow({ mode: 'open' });
+        root.adoptedStyleSheets = [sheet];
+        root.innerHTML = `&lt;span class="badge" part="badge"&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/span&gt;`;
+    }
+}
+
+customElements.define('status-badge', StatusBadge);</code></pre>
+                    <p>From the page, <code>status-badge::part(badge) { … }</code> can adjust it, and changing <code>--color-primary</code> rebrands it. That's a good API for a design-system component. It's a lot of friction for a one-off app widget, where you'd rather just write classes.</p>
+                    <p>My rule of thumb: <strong>light DOM for things that live inside your own apps, shadow DOM for things you ship to pages you don't control</strong>, such as an embeddable widget a client pastes into their CMS.</p>
+
+                    <h2>Passing data in and getting events out</h2>
+                    <p>Custom elements have three ways to talk to the outside world, and mixing them up is where most bugs come from.</p>
+
+                    <img src="alpine-custom-element-data-flow.svg" alt="Diagram showing an Alpine component passing strings to a custom element through attributes and objects through properties, and the element sending CustomEvents back up that Alpine listens to">
+
+                    <h3>Attributes: strings, from HTML</h3>
+                    <p>Attributes are what the server can render. They're always strings, so they suit IDs, URLs, labels and flags. If the element needs to react when an attribute changes, list it in <code>static observedAttributes</code> and handle <code>attributeChangedCallback</code>.</p>
+
+                    <h3>Properties: rich data, from JavaScript</h3>
+                    <p>Arrays, objects and functions should be properties, not JSON crammed into an attribute. This matters with Alpine because <code>x-bind</code> sets <em>attributes</em>. <code>:value="token"</code> works on <code>&lt;copy-button&gt;</code> because the element reads an attribute. For a chart element that expects an array property, set it directly:</p>
+                    <pre class="code-block"><code>&lt;div x-data="{ points: @js($points) }"&gt;
+    &lt;sales-chart x-effect="$el.points = points"&gt;&lt;/sales-chart&gt;
+&lt;/div&gt;</code></pre>
+                    <p><code>x-effect</code> re-runs whenever <code>points</code> changes, so the element always gets the latest array. Inside the element, a property setter can schedule a re-render.</p>
+
+                    <h3>Events: from the element back out</h3>
+                    <p>Elements report back with <code>CustomEvent</code>. Two flags matter: <code>bubbles: true</code> so ancestors can listen, and <code>composed: true</code> if the event starts inside a shadow root and needs to escape it. Alpine listens to custom events like any other:</p>
+                    <pre class="code-block"><code>&lt;div x-data="{ inviteUrl: @js($inviteUrl), toast: '' }"&gt;
+    &lt;copy-button :value="inviteUrl"
+                 @copy-success="toast = 'Invite link copied'"
+                 @copy-error="toast = 'Copy failed, select the link manually'"&gt;
+        &lt;button type="button" class="btn"&gt;Copy invite link&lt;/button&gt;
+    &lt;/copy-button&gt;
+
+    &lt;p x-show="toast" x-text="toast" role="status"&gt;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+                    <p>Stick to kebab-case event names. HTML attribute names are case-insensitive, so <code>@copySuccess</code> actually listens for <code>copysuccess</code>. Alpine's <code>.camel</code> modifier exists for this, but it's simpler not to need it.</p>
+
+                    <h2>Using Alpine inside a custom element</h2>
+                    <p>You can combine them the other way round, too: a light-DOM custom element whose children use Alpine. This works well when the element owns the lifecycle (lazy-loading a library, observing size or visibility) and Alpine owns the small bits of state in the markup.</p>
+                    <pre class="code-block"><code>&lt;lazy-map lat="23.02" lng="72.57"&gt;
+    &lt;div x-data="{ open: false }"&gt;
+        &lt;button @click="open = !open" type="button"&gt;Show directions&lt;/button&gt;
+        &lt;ol x-show="open"&gt;…&lt;/ol&gt;
+    &lt;/div&gt;
+    &lt;div data-map-canvas class="aspect-video"&gt;&lt;/div&gt;
+&lt;/lazy-map&gt;</code></pre>
+                    <p>Three rules keep this painless:</p>
+                    <ol>
+                    <li><strong>Keep Alpine in the light DOM.</strong> Alpine walks the regular DOM tree and doesn't look inside shadow roots, so <code>x-data</code> inside a shadow root simply won't initialise.</li>
+                    <li><strong>Don't let two owners fight over the same nodes.</strong> If the element renders into <code>[data-map-canvas]</code>, Alpine shouldn't touch that node, and vice versa.</li>
+                    <li><strong>Tell Livewire to leave it alone.</strong> If the element sits inside a Livewire component and manages its own children, add <code>wire:ignore</code> so a morph doesn't undo the element's DOM changes.</li>
+                    </ol>
+                    <p>If you've written Alpine plugins before (I covered the basics in <a href="/blog/alpinejs-plugin-development/">Alpine.js plugin development</a>), you'll notice the overlap: a custom directive and a custom element can both wrap a library. The difference is portability. A directive only works where Alpine runs; the element works everywhere.</p>
+
+                    <h2>Avoiding the flash of an undefined element</h2>
+                    <p>Before <code>customElements.define</code> runs, the browser treats <code>&lt;copy-button&gt;</code> as an unknown inline element and renders its children as-is. For progressive-enhancement elements like ours that's fine. For elements that render their own content, hide them until they're ready with the <code>:defined</code> pseudo-class:</p>
+                    <pre class="code-block"><code>status-badge:not(:defined) {
+    visibility: hidden;
+}</code></pre>
+                    <p>Load element definitions from your main Vite entry, or import them only on pages that use them. Either way, register them once, as early as is practical.</p>
+
+                    <h2>A decision guide</h2>
+                    <table>
+                    <thead>
+                    <tr><th>Situation</th><th>Reach for</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr><td>State for one page or one Blade component</td><td>Alpine <code>x-data</code></td></tr>
+                    <tr><td>Shared state across components on a page</td><td><code>Alpine.store</code></td></tr>
+                    <tr><td>Widget reused across Laravel, WordPress and React projects</td><td>Light-DOM custom element</td></tr>
+                    <tr><td>Embeddable widget for pages you don't control</td><td>Shadow-DOM custom element</td></tr>
+                    <tr><td>Wrapping a third-party library with setup and teardown</td><td>Custom element (Alpine for the state around it)</td></tr>
+                    <tr><td>Design-system primitive that must look identical everywhere</td><td>Shadow DOM, themed with custom properties and <code>::part()</code></td></tr>
+                    </tbody>
+                    </table>
+
+                    <h2>The takeaway</h2>
+                    <ul>
+                    <li>Alpine for page behaviour, custom elements for portable widgets. Using both is normal.</li>
+                    <li>Default to light DOM in your own apps so Tailwind keeps working. Use shadow DOM when isolation is the feature.</li>
+                    <li>Attributes for strings, properties for rich data (set them with <code>x-effect</code>), events for everything coming back out.</li>
+                    <li>Kebab-case event names, <code>bubbles: true</code>, and <code>composed: true</code> when crossing a shadow boundary.</li>
+                    <li>Keep <code>x-data</code> out of shadow roots, and add <code>wire:ignore</code> around elements that manage their own DOM.</li>
+                    </ul>
+                    <p>The nice side effect of building a few widgets this way is that they outlive your framework choices. The <code>&lt;copy-button&gt;</code> you write today will still work in whatever stack the next project uses, because it's just HTML.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/alpinejs-and-web-components/&text=Alpine.js%20and%20Web%20Components%3A%20When%20to%20Reach%20for%20Custom%20Elements"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/alpinejs-and-web-components/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

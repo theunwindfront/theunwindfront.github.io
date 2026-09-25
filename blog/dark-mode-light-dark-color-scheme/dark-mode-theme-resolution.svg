@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 480" font-family="ui-monospace, Menlo, monospace">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#8f8fef"/></marker>
+  </defs>
+  <rect width="880" height="480" rx="16" fill="#16161b"/>
+  <text x="40" y="48" font-size="15" fill="#8f8d88" letter-spacing="2">FROM PREFERENCE TO PIXELS</text>
+
+  <!-- 1 preference -->
+  <rect x="40" y="76" width="240" height="120" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="58" y="102" font-size="13" fill="#8f8fef" font-weight="700">1. Preference</text>
+  <text x="58" y="122" font-size="12" fill="#a19e97">localStorage "theme"</text>
+  <rect x="58" y="140" width="68" height="30" rx="15" fill="#5b5bd6"/><text x="92" y="160" text-anchor="middle" font-size="12" fill="#fff" font-weight="700">system</text>
+  <rect x="132" y="140" width="60" height="30" rx="15" fill="#23232a" stroke="#2e2e36"/><text x="162" y="160" text-anchor="middle" font-size="12" fill="#ece9e2">light</text>
+  <rect x="198" y="140" width="60" height="30" rx="15" fill="#23232a" stroke="#2e2e36"/><text x="228" y="160" text-anchor="middle" font-size="12" fill="#ece9e2">dark</text>
+
+  <line x1="280" y1="136" x2="316" y2="136" stroke="#8f8fef" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- 2 resolve -->
+  <rect x="320" y="76" width="240" height="120" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="338" y="102" font-size="13" fill="#8f8fef" font-weight="700">2. Resolve</text>
+  <text x="338" y="126" font-size="12" fill="#a19e97">if system, ask the OS:</text>
+  <text x="338" y="150" font-size="12" fill="#f2b880">prefers-color-scheme</text>
+  <text x="338" y="174" font-size="12" fill="#a19e97">inline &lt;head&gt; script</text>
+
+  <line x1="560" y1="136" x2="596" y2="136" stroke="#8f8fef" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- 3 theme -->
+  <rect x="600" y="76" width="240" height="120" rx="12" fill="#1f1f33" stroke="#5b5bd6" stroke-width="2"/>
+  <text x="618" y="102" font-size="13" fill="#8f8fef" font-weight="700">3. One theme</text>
+  <rect x="618" y="122" width="96" height="52" rx="10" fill="#ece9e2"/><text x="666" y="153" text-anchor="middle" font-size="13" fill="#1a1a1a" font-weight="700">light</text>
+  <rect x="726" y="122" width="96" height="52" rx="10" fill="#0f0f12" stroke="#2e2e36"/><text x="774" y="153" text-anchor="middle" font-size="13" fill="#ece9e2" font-weight="700">dark</text>
+
+  <path d="M720 196 L720 222 L440 222 L440 244" fill="none" stroke="#8f8fef" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- 4 applied -->
+  <rect x="40" y="248" width="800" height="72" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="58" y="274" font-size="13" fill="#8f8fef" font-weight="700">4. Applied to &lt;html&gt; before first paint</text>
+  <text x="58" y="302" font-size="13" fill="#ece9e2">data-theme="dark"</text>
+  <text x="300" y="302" font-size="13" fill="#6fd3b0">color-scheme: dark</text>
+  <text x="540" y="302" font-size="13" fill="#f2b880">&lt;meta color-scheme&gt;</text>
+
+  <g stroke="#8f8fef" stroke-width="2" fill="none">
+    <line x1="160" y1="320" x2="160" y2="352" marker-end="url(#ar)"/>
+    <line x1="440" y1="320" x2="440" y2="352" marker-end="url(#ar)"/>
+    <line x1="720" y1="320" x2="720" y2="352" marker-end="url(#ar)"/>
+  </g>
+
+  <!-- consumers -->
+  <rect x="40" y="356" width="240" height="90" rx="12" fill="#152620" stroke="#6fd3b0"/>
+  <text x="58" y="384" font-size="13" fill="#6fd3b0" font-weight="700">light-dark() tokens</text>
+  <text x="58" y="408" font-size="12" fill="#a19e97">bg-surface, text-fg</text>
+  <text x="58" y="428" font-size="12" fill="#a19e97">follow color-scheme</text>
+
+  <rect x="320" y="356" width="240" height="90" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="338" y="384" font-size="13" fill="#ece9e2" font-weight="700">dark: variant</text>
+  <text x="338" y="408" font-size="12" fill="#a19e97">@custom-variant on</text>
+  <text x="338" y="428" font-size="12" fill="#a19e97">[data-theme="dark"]</text>
+
+  <rect x="600" y="356" width="240" height="90" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="618" y="384" font-size="13" fill="#ece9e2" font-weight="700">native UI</text>
+  <text x="618" y="408" font-size="12" fill="#a19e97">inputs, selects,</text>
+  <text x="618" y="428" font-size="12" fill="#a19e97">scrollbars, canvas</text>
+</svg>

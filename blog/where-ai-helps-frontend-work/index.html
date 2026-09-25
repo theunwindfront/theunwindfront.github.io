@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Where AI Actually Helps in Frontend Work (and Where It Doesn&#x27;t)</title>
+    <meta name="description"
+        content="An honest tech lead&#x27;s map of AI in frontend work: where it saves real time, where it quietly costs you, and the team norms that keep AI-assisted code reviewable.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/where-ai-helps-frontend-work/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Where AI Actually Helps in Frontend Work (and Where It Doesn&#x27;t)">
+    <meta property="og:description"
+        content="An honest tech lead&#x27;s map of AI in frontend work: where it saves real time, where it quietly costs you, and the team norms that keep AI-assisted code reviewable.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/where-ai-helps-frontend-work/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/where-ai-helps-frontend-work/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Where AI Actually Helps in Frontend Work (and Where It Doesn&#x27;t)">
+    <meta name="twitter:description"
+        content="An honest tech lead&#x27;s map of AI in frontend work: where it saves real time, where it quietly costs you, and the team norms that keep AI-assisted code reviewable.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/where-ai-helps-frontend-work/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Where AI Actually Helps in Frontend Work (and Where It Doesn't)",
+        "description": "An honest tech lead's map of AI in frontend work: where it saves real time, where it quietly costs you, and the team norms that keep AI-assisted code reviewable.",
+        "image": "https://sagarpansuriya.in/blog/where-ai-helps-frontend-work/cover.png",
+        "datePublished": "2026-12-30",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/where-ai-helps-frontend-work/",
+        "articleSection": "Artificial Intelligence",
+        "keywords": "AI for frontend developers, AI coding assistants, AI code review, frontend team norms, accessibility, design systems"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=Artificial Intelligence">§ Artificial Intelligence</a>
+                <h1 class="post-title">Where AI Actually Helps in Frontend Work (and Where It Doesn&#x27;t)</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-12-30">Dec 30, 2026</time>
+                    <span class="sep">·</span>
+                    <span>8 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of a balance scale weighing AI-friendly tasks like tests and refactors against human-led work like accessibility and visual polish"></div>
+
+                <div class="prose">
+<p>You've probably had both of these days in the same week. On Tuesday an AI assistant writes a tidy Pest test
+                        suite for a form in four minutes, catches an edge case you'd missed, and you feel like you've hired a
+                        colleague. On Thursday it produces a pricing card that is technically correct, visually off by a dozen small
+                        decisions, uses a colour that isn't in your palette, and hides the focus ring. Fixing it takes longer than
+                        building it would have.</p>
+                    <p>Both days are real, and the useful skill isn't deciding whether AI is good or bad at frontend. It's knowing
+                        in advance which kind of day a task is going to be. This is my honest map of that, from using AI tools in
+                        day-to-day frontend work and reviewing AI-assisted pull requests. It's opinion, not data. I
+                        don't have benchmarks for your codebase, and neither does anyone selling you a tool.</p>
+
+                    <h2>The one question that predicts the outcome</h2>
+                    <p>For any task, ask: <strong>how quickly can I tell if the output is wrong, and how much does it cost if I
+                        don't notice?</strong></p>
+
+                    <img src="ai-fit-matrix.svg" alt="Two-by-two matrix plotting frontend tasks by how easy the output is to verify against how costly a subtle mistake is, with boilerplate and tests in the safe quadrant and accessibility and architecture in the risky one">
+
+                    <p>Tasks where wrong output fails loudly (a test goes red, the code doesn't compile, the regex doesn't match)
+                        are where AI shines, because the feedback loop catches its mistakes for you. Tasks where wrong output looks
+                        fine (a subtle contrast failure, a component API that'll hurt in six months, a spacing value that's almost
+                        right) are where it quietly costs you, because nothing tells you it's wrong until much later.</p>
+
+                    <h2>Where it genuinely helps</h2>
+
+                    <h3>Boilerplate and the second through tenth instance of a pattern</h3>
+                    <p>Form requests, resource classes, Livewire component skeletons, migration and factory pairs, a new Blade
+                        component that follows the shape of three existing ones. Once a pattern exists in the codebase, AI is very good
+                        at repeating it. Point it at the existing example and it will match naming, structure and conventions more
+                        consistently than a tired human on a Friday.</p>
+                    <p>The first instance of a pattern is different. That's a design decision, and I'd rather a person makes it.</p>
+
+                    <h3>Tests</h3>
+                    <p>This is probably my favourite use. Describe the behaviour, point it at the component, and ask for tests
+                        including edge cases. It's good at thinking of the empty state, the validation failure and the unauthorized
+                        user. Tests are also self-checking: they either pass for the right reason or they don't.</p>
+                    <p>The one thing to watch: tests written <em>after</em> reading the implementation tend to assert what the code
+                        does, not what it should do. If the code has a bug, you can end up with a test that locks the bug in. Read the
+                        assertions, not just the green tick.</p>
+
+                    <h3>Mechanical refactors</h3>
+                    <p>Renaming a prop across forty components, converting a set of Alpine components from inline
+                        <code>x-data</code> objects to <code>Alpine.data()</code> registrations, migrating class names after a
+                        Tailwind upgrade, moving from one date library to another. Tedious, low-judgement, easy to verify with a diff
+                        and a test run. Ideal work to hand over.</p>
+
+                    <h3>Regex, one-off scripts and awkward syntax</h3>
+                    <p>Regular expressions, a shell one-liner to find every <code>{!! !!}</code> in the views, a
+                        <code>clamp()</code> calculation, a tricky CSS selector, a Vite config option you use once a year. Things you
+                        could work out, but that would cost twenty minutes of documentation. Always ask for a few test inputs
+                        alongside the regex, and actually run them.</p>
+
+                    <h3>Explaining unfamiliar code</h3>
+                    <p>Joining a project with a five-year-old jQuery layer, or reading a library's source to understand a bug. Asking
+                        "what does this file do, and what calls it?" gets you oriented much faster. Treat the explanation as a
+                        hypothesis to confirm, not a fact, because it will sometimes describe what the code looks like it does rather
+                        than what it actually does.</p>
+
+                    <h3>First drafts: components, docs, copy</h3>
+                    <p>A first pass at a component, a README section, a PR description, an error message. The value is getting past
+                        the blank page. The draft is rarely the final version, and that's fine. Editing is faster than writing.</p>
+
+                    <h2>Where it still falls short</h2>
+
+                    <h3>Visual polish</h3>
+                    <p>AI can produce a layout that matches a description. It struggles with the last ten percent that makes an
+                        interface feel considered: optical alignment, rhythm between sections, how a component behaves at the awkward
+                        width between breakpoints, whether a hover state feels right. Even tools that can look at a screenshot tend to
+                        say "looks good" about things a designer would flag immediately. You still need eyes on the rendered result,
+                        at several widths.</p>
+
+                    <h3>Accessibility nuance</h3>
+                    <p>It knows the rules. It'll add <code>aria-label</code>s and <code>alt</code> text. But it often adds ARIA
+                        where native HTML would be better, writes <code>alt</code> text that describes the image instead of its
+                        purpose, forgets focus management when a modal closes, or builds a custom dropdown when a native
+                        <code>&lt;select&gt;</code> or <code>&lt;dialog&gt;</code> would do. The output passes a quick glance and fails a
+                        keyboard-only pass. That's exactly the "looks fine, costs a lot" quadrant.</p>
+                    <p>My rule: AI-generated UI gets the same manual keyboard and screen reader check as anything else, no
+                        exceptions.</p>
+
+                    <h3>Architecture decisions</h3>
+                    <p>Should this be a Livewire component or an Alpine one? Does this state belong in the URL, the session or a
+                        store? Is it time to split this package? AI will answer confidently, and the answer will sound reasonable. But
+                        it doesn't know your team's skills, your deployment constraints, the feature coming next quarter, or the
+                        reason the last attempt at this was rolled back. Use it to list options and trade-offs, then decide as a team.</p>
+
+                    <h3>Design system consistency</h3>
+                    <p>Left alone, AI reaches for the most common pattern it has seen, not the one in your design system. You get
+                        <code>bg-blue-600</code> instead of your <code>bg-primary</code> token, a new button variant instead of the
+                        existing one, a hard-coded <code>16px</code> instead of the spacing scale. Each instance is small. Over months,
+                        they add up to a design system that exists in Figma and nowhere else.</p>
+                    <p>Context files help a lot here: tell the tool which components and tokens exist and that it must use them. I
+                        wrote about that side of it in <a href="/blog/prompting-ai-coding-agents-like-a-tech-lead/">prompting AI
+                        coding agents like a tech lead</a>. But it's still something reviewers need to actively check.</p>
+
+                    <h2>A quick reference</h2>
+                    <table>
+                        <thead>
+                            <tr><th>Task</th><th>Hand it over?</th><th>What you still check</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Boilerplate following an existing pattern</td><td>Yes</td><td>Naming, file placement</td></tr>
+                            <tr><td>Tests for existing behaviour</td><td>Yes</td><td>Assertions match intent, not implementation</td></tr>
+                            <tr><td>Mechanical refactor</td><td>Yes</td><td>The diff, the test run</td></tr>
+                            <tr><td>Regex, scripts, config</td><td>Yes</td><td>Run it against real inputs</td></tr>
+                            <tr><td>First draft of a component</td><td>As a draft</td><td>Tokens, states, keyboard, widths</td></tr>
+                            <tr><td>Accessibility fixes</td><td>With care</td><td>Manual keyboard and screen reader pass</td></tr>
+                            <tr><td>Visual polish</td><td>Rarely</td><td>Everything, in a browser</td></tr>
+                            <tr><td>Architecture choices</td><td>For options only</td><td>The decision stays with the team</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h2>Setting team norms as a tech lead</h2>
+                    <p>Individual developers will work out their own habits. The tech lead's job is to make sure those habits add up
+                        to a codebase that stays coherent and a team that keeps learning. These are the norms I'd put in writing.</p>
+
+                    <h3>1. You own what you commit</h3>
+                    <p>"The AI wrote it" is not an explanation in code review. If you can't explain why a line is there, it isn't
+                        ready for review. This one rule covers most of the risk.</p>
+
+                    <h3>2. Say when a PR is substantially AI-generated</h3>
+                    <p>Not as a confession, just as context. Reviewers read AI-generated code differently: they look harder for
+                        plausible-but-wrong logic, unused code, and invented helpers that don't exist in your codebase. A simple
+                        checkbox in the PR template is enough.</p>
+
+                    <h3>3. Keep AI PRs small</h3>
+                    <p>It's easy to generate a 1,500-line diff in ten minutes. It's not possible to review one properly in ten
+                        minutes. The same size limits apply whether a human or a tool wrote the code. If anything, they matter more.</p>
+
+                    <h3>4. Review for the "looks fine" failures</h3>
+                    <p>Add a few AI-specific items to your review checklist: uses existing components and tokens, no new dependencies
+                        without discussion, keyboard-tested, no duplicated helpers, error states handled. My general approach to
+                        reviews is in <a href="/blog/frontend-code-reviews-that-teach/">frontend code reviews that teach</a>; these
+                        items slot straight into it.</p>
+
+                    <h3>5. Protect the learning of junior developers</h3>
+                    <p>A junior developer who accepts every suggestion ships features but doesn't build judgement. I'd encourage
+                        juniors to write the first version of unfamiliar things themselves, then use AI to review or improve it, and
+                        to always be able to explain the result. Pairing sessions where you talk through an AI suggestion together are
+                        some of the most useful teaching moments you'll get.</p>
+
+                    <h3>6. Be clear about data</h3>
+                    <p>Decide, in writing, which tools are approved and what can't be pasted into them: client credentials,
+                        production data, anything covered by a contract. People will use these tools regardless; a clear policy is
+                        better than an unspoken one.</p>
+
+                    <h2>The takeaway</h2>
+                    <ul>
+                        <li>Hand over work that fails loudly: boilerplate, tests, refactors, regex, scripts.</li>
+                        <li>Use drafts for the blank-page problem, then edit like you mean it.</li>
+                        <li>Keep humans firmly on visual polish, accessibility, architecture and design system consistency.</li>
+                        <li>Norms beat rules: ownership, disclosure, small PRs, AI-aware review, protected learning, clear data policy.</li>
+                    </ul>
+                    <p>AI hasn't changed what good frontend work looks like. It has changed how fast you can produce work that
+                        <em>looks</em> good. The gap between those two is where a team's standards, and a tech lead's attention,
+                        matter most.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/where-ai-helps-frontend-work/&text=Where%20AI%20Actually%20Helps%20in%20Frontend%20Work%20%28and%20Where%20It%20Doesn%27t%29"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/where-ai-helps-frontend-work/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>
