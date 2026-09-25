@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 480" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="480" rx="16" fill="#16161b"/>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#8f8fef"/></marker>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#6fd3b0"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#a19e97"/></marker>
+  </defs>
+  <text x="40" y="48" font-size="15" fill="#8f8d88" letter-spacing="2">OFFLINE-FIRST SYNC ARCHITECTURE</text>
+
+  <!-- client -->
+  <rect x="40" y="72" width="400" height="376" rx="14" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="60" y="98" font-size="13" fill="#b3b3f7" font-weight="700">NATIVEPHP APP · on device</text>
+
+  <rect x="64" y="114" width="352" height="56" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="240" y="138" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">UI · Livewire / Blade</text>
+  <text x="240" y="157" text-anchor="middle" font-size="12" fill="#a19e97">reads + writes local models only</text>
+
+  <path d="M240 170 L240 202" stroke="#a19e97" stroke-width="2" marker-end="url(#g)"/>
+  <text x="250" y="192" font-size="12" fill="#a19e97">instant save</text>
+
+  <rect x="64" y="206" width="352" height="126" rx="10" fill="#1f1f26" stroke="#5b5bd6"/>
+  <text x="80" y="228" font-size="13" fill="#8f8fef" font-weight="700">LOCAL SQLITE · source of truth</text>
+  <rect x="80" y="242" width="150" height="72" rx="8" fill="#23232a" stroke="#2e2e36"/>
+  <text x="155" y="266" text-anchor="middle" font-size="13" fill="#ece9e2" font-weight="700">inspections</text>
+  <text x="155" y="284" text-anchor="middle" font-size="12" fill="#a19e97">uuid · version</text>
+  <text x="155" y="301" text-anchor="middle" font-size="12" fill="#a19e97">deleted_at</text>
+  <rect x="250" y="242" width="150" height="72" rx="8" fill="#2a2319" stroke="#f2b880"/>
+  <text x="325" y="266" text-anchor="middle" font-size="13" fill="#f2b880" font-weight="700">sync_queue</text>
+  <text x="325" y="284" text-anchor="middle" font-size="12" fill="#a19e97">op · payload</text>
+  <text x="325" y="301" text-anchor="middle" font-size="12" fill="#a19e97">base_version</text>
+  <path d="M230 278 L246 278" stroke="#f2b880" stroke-width="2"/>
+
+  <path d="M325 332 L325 364" stroke="#f2b880" stroke-width="2" marker-end="url(#g)"/>
+  <text x="313" y="353" text-anchor="end" font-size="12" fill="#a19e97">drained by</text>
+
+  <rect x="64" y="368" width="352" height="60" rx="10" fill="#23232a" stroke="#6fd3b0"/>
+  <text x="240" y="393" text-anchor="middle" font-size="15" fill="#6fd3b0" font-weight="700">SyncService</text>
+  <text x="240" y="413" text-anchor="middle" font-size="12" fill="#a19e97">scheduled job · push, then pull</text>
+
+  <!-- network gap -->
+  <line x1="515" y1="80" x2="515" y2="440" stroke="#2e2e36" stroke-width="2" stroke-dasharray="6 8"/>
+  <rect x="468" y="84" width="94" height="26" rx="13" fill="#23232a" stroke="#2e2e36"/>
+  <text x="515" y="102" text-anchor="middle" font-size="12" fill="#a19e97">online?</text>
+
+  <!-- server -->
+  <rect x="590" y="72" width="250" height="376" rx="14" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="610" y="98" font-size="13" fill="#b3b3f7" font-weight="700">LARAVEL API · server</text>
+  <rect x="610" y="114" width="210" height="56" rx="10" fill="#5b5bd6"/>
+  <text x="715" y="138" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">POST /sync/push</text>
+  <text x="715" y="157" text-anchor="middle" font-size="12" fill="#dcdcfb">changes + base_version</text>
+  <rect x="610" y="190" width="210" height="72" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="715" y="214" text-anchor="middle" font-size="13" fill="#ece9e2" font-weight="700">resolve conflict</text>
+  <text x="715" y="233" text-anchor="middle" font-size="12" fill="#a19e97">merge · LWW · reject</text>
+  <text x="715" y="250" text-anchor="middle" font-size="12" fill="#a19e97">version++</text>
+  <rect x="610" y="282" width="210" height="56" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="715" y="306" text-anchor="middle" font-size="13" fill="#ece9e2" font-weight="700">MySQL / Postgres</text>
+  <text x="715" y="325" text-anchor="middle" font-size="12" fill="#a19e97">change_id cursor</text>
+  <rect x="610" y="358" width="210" height="56" rx="10" fill="#16281f" stroke="#6fd3b0"/>
+  <text x="715" y="382" text-anchor="middle" font-size="14" fill="#6fd3b0" font-weight="700">GET /sync/pull</text>
+  <text x="715" y="401" text-anchor="middle" font-size="12" fill="#a19e97">?since=cursor</text>
+  <path d="M715 170 L715 186" stroke="#a19e97" stroke-width="2" marker-end="url(#g)"/>
+  <path d="M715 262 L715 278" stroke="#a19e97" stroke-width="2" marker-end="url(#g)"/>
+  <path d="M715 338 L715 354" stroke="#a19e97" stroke-width="2" marker-end="url(#g)"/>
+
+  <!-- sync arrows -->
+  <path d="M416 380 C480 380 520 142 604 142" fill="none" stroke="#8f8fef" stroke-width="2.5" marker-end="url(#a)"/>
+  <text x="528" y="196" font-size="12" fill="#8f8fef">1 push</text>
+  <path d="M606 400 C520 400 480 412 420 412" fill="none" stroke="#6fd3b0" stroke-width="2.5" marker-end="url(#m)"/>
+  <text x="528" y="424" font-size="12" fill="#6fd3b0">2 pull</text>
+</svg>

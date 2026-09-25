@@ -7,7 +7,8 @@
  *   1. removes the `scheduled` flag so the listing renders it,
  *   2. adds a crawler link to the hidden SEO block,
  *   3. adds a <url> entry to sitemap.xml,
- *   4. strips the noindex robots meta from the post's own HTML file.
+ *   4. strips the noindex robots meta from the post's own HTML file,
+ *   5. lists the post under "Key Guides" in llms.txt.
  *
  * Idempotent: re-running changes nothing once a post is published.
  */
@@ -19,6 +20,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const INDEX = join(ROOT, 'blog', 'index.html');
 const SITEMAP = join(ROOT, 'sitemap.xml');
+const LLMS = join(ROOT, 'llms.txt');
 const SITE = 'https://sagarpansuriya.in';
 
 const now = new Date();
@@ -130,6 +132,21 @@ function addSitemapEntry(xml, post) {
     return xml.replace('</urlset>', entry + '</urlset>');
 }
 
+/** List the post at the top of the "Key Guides" section of llms.txt. */
+function addLlmsEntry(txt, post) {
+    const loc = `${SITE}${post.url}`;
+    if (txt.includes(`(${loc})`)) return txt;
+
+    const marker = '### Key Guides\n';
+    const at = txt.indexOf(marker);
+    if (at === -1) {
+        console.warn('  ! "### Key Guides" not found in llms.txt — skipping.');
+        return txt;
+    }
+    const insertAt = at + marker.length;
+    return txt.slice(0, insertAt) + `- [${post.title}](${loc})\n` + txt.slice(insertAt);
+}
+
 /** Remove the noindex robots meta from the post's own page. */
 function unblockPostFile(post) {
     const file = join(ROOT, post.url.replace(/^\/|\/$/g, ''), 'index.html');
@@ -177,5 +194,11 @@ writeFileSync(INDEX, html);
 let xml = readFileSync(SITEMAP, 'utf8');
 for (const post of due) xml = addSitemapEntry(xml, post);
 writeFileSync(SITEMAP, xml);
+
+if (existsSync(LLMS)) {
+    let txt = readFileSync(LLMS, 'utf8');
+    for (const post of due) txt = addLlmsEntry(txt, post);
+    writeFileSync(LLMS, txt);
+}
 
 console.log('Done.');

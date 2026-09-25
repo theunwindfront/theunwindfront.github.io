@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 380" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="380" rx="16" fill="#16161b"/>
+  <defs>
+    <marker id="la" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#8f8fef"/>
+    </marker>
+    <marker id="lr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#f28b9b"/>
+    </marker>
+  </defs>
+  <text x="30" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">ONE AGENT TASK, TECH-LEAD STYLE</text>
+
+  <!-- legend -->
+  <rect x="590" y="38" width="14" height="14" rx="3" fill="#1b1b20" stroke="#6fd3b0" stroke-width="1.5"/>
+  <text x="610" y="50" font-size="12" fill="#a19e97">you</text>
+  <rect x="650" y="38" width="14" height="14" rx="3" fill="#5b5bd6"/>
+  <text x="670" y="50" font-size="12" fill="#a19e97">agent</text>
+  <rect x="726" y="38" width="14" height="14" rx="3" fill="#f2b880"/>
+  <text x="746" y="50" font-size="12" fill="#a19e97">tools</text>
+
+  <!-- boxes -->
+  <rect x="30" y="90" width="122" height="96" rx="12" fill="#1b1b20" stroke="#6fd3b0" stroke-width="1.5"/>
+  <text x="91" y="116" text-anchor="middle" font-size="12" fill="#6fd3b0">1. you</text>
+  <text x="91" y="142" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">Spec</text>
+  <text x="91" y="164" text-anchor="middle" font-size="12" fill="#a19e97">goal·criteria</text>
+
+  <rect x="170" y="90" width="122" height="96" rx="12" fill="#5b5bd6"/>
+  <text x="231" y="116" text-anchor="middle" font-size="12" fill="#d6d6fb">2. agent</text>
+  <text x="231" y="142" text-anchor="middle" font-size="15" fill="#fff" font-weight="700">Plan</text>
+  <text x="231" y="164" text-anchor="middle" font-size="12" fill="#e4e4fb">files·approach</text>
+
+  <rect x="310" y="90" width="122" height="96" rx="12" fill="#1b1b20" stroke="#6fd3b0" stroke-width="1.5"/>
+  <text x="371" y="116" text-anchor="middle" font-size="12" fill="#6fd3b0">3. you</text>
+  <text x="371" y="142" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">Review plan</text>
+  <text x="371" y="164" text-anchor="middle" font-size="12" fill="#a19e97">fix assumptions</text>
+
+  <rect x="450" y="90" width="122" height="96" rx="12" fill="#5b5bd6"/>
+  <text x="511" y="116" text-anchor="middle" font-size="12" fill="#d6d6fb">4. agent</text>
+  <text x="511" y="142" text-anchor="middle" font-size="15" fill="#fff" font-weight="700">Implement</text>
+  <text x="511" y="164" text-anchor="middle" font-size="12" fill="#e4e4fb">one PR of scope</text>
+
+  <rect x="590" y="90" width="122" height="96" rx="12" fill="#f2b880"/>
+  <text x="651" y="116" text-anchor="middle" font-size="12" fill="#3a2a10">5. tools</text>
+  <text x="651" y="142" text-anchor="middle" font-size="15" fill="#1a1a1a" font-weight="700">Verify</text>
+  <text x="651" y="164" text-anchor="middle" font-size="12" fill="#3a2a10">tests·lint·UI</text>
+
+  <rect x="730" y="90" width="122" height="96" rx="12" fill="#1b1b20" stroke="#6fd3b0" stroke-width="1.5"/>
+  <text x="791" y="116" text-anchor="middle" font-size="12" fill="#6fd3b0">6. you</text>
+  <text x="791" y="142" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">Review diff</text>
+  <text x="791" y="164" text-anchor="middle" font-size="12" fill="#a19e97">then merge</text>
+
+  <!-- forward arrows -->
+  <line x1="154" y1="138" x2="167" y2="138" stroke="#8f8fef" stroke-width="2" marker-end="url(#la)"/>
+  <line x1="294" y1="138" x2="307" y2="138" stroke="#8f8fef" stroke-width="2" marker-end="url(#la)"/>
+  <line x1="434" y1="138" x2="447" y2="138" stroke="#8f8fef" stroke-width="2" marker-end="url(#la)"/>
+  <line x1="574" y1="138" x2="587" y2="138" stroke="#8f8fef" stroke-width="2" marker-end="url(#la)"/>
+  <line x1="714" y1="138" x2="727" y2="138" stroke="#8f8fef" stroke-width="2" marker-end="url(#la)"/>
+
+  <!-- loop-backs -->
+  <path d="M371 190 v28 h-140 v-24" fill="none" stroke="#f28b9b" stroke-width="2" marker-end="url(#lr)"/>
+  <text x="301" y="238" text-anchor="middle" font-size="12" fill="#f28b9b">revise plan</text>
+
+  <path d="M651 190 v28 h-128 v-24" fill="none" stroke="#f28b9b" stroke-width="2" marker-end="url(#lr)"/>
+  <text x="587" y="238" text-anchor="middle" font-size="12" fill="#f28b9b">fails → fix</text>
+
+  <path d="M791 190 v70 h-292 v-66" fill="none" stroke="#f28b9b" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#lr)"/>
+  <text x="645" y="280" text-anchor="middle" font-size="12" fill="#f28b9b">review comments</text>
+
+  <!-- takeaways -->
+  <line x1="30" y1="306" x2="852" y2="306" stroke="#2e2e36"/>
+  <text x="440" y="334" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">Cheapest place to catch a mistake: step 3</text>
+  <text x="440" y="358" text-anchor="middle" font-size="12" fill="#8f8d88">a 10-line plan is faster to fix than a 400-line diff</text>
+</svg>

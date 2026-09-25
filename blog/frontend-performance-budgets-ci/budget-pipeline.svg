@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 410" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="410" rx="16" fill="#16161b"/>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#a19e97"/></marker>
+    <marker id="v" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#8f8fef"/></marker>
+  </defs>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">WHERE EACH BUDGET IS ENFORCED</text>
+
+  <!-- pipeline -->
+  <rect x="40" y="90" width="130" height="80" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="105" y="124" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">pull</text>
+  <text x="105" y="144" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">request</text>
+
+  <rect x="200" y="90" width="140" height="80" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="270" y="124" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">vite build</text>
+  <text x="270" y="146" text-anchor="middle" font-size="12" fill="#a19e97">hashed assets</text>
+
+  <rect x="370" y="90" width="150" height="80" rx="10" fill="#f2b880"/>
+  <text x="445" y="120" text-anchor="middle" font-size="15" fill="#1a1a1a" font-weight="700">size-limit</text>
+  <text x="445" y="140" text-anchor="middle" font-size="12" fill="#3a2a10">JS · CSS kB</text>
+  <text x="445" y="157" text-anchor="middle" font-size="12" fill="#3a2a10">seconds, exact</text>
+
+  <rect x="550" y="90" width="150" height="80" rx="10" fill="#5b5bd6"/>
+  <text x="625" y="120" text-anchor="middle" font-size="15" fill="#fff" font-weight="700">Lighthouse CI</text>
+  <text x="625" y="140" text-anchor="middle" font-size="12" fill="#dcdcfb">LCP · CLS · TBT</text>
+  <text x="625" y="157" text-anchor="middle" font-size="12" fill="#dcdcfb">median of 3</text>
+
+  <!-- pass/fail -->
+  <rect x="730" y="84" width="110" height="40" rx="10" fill="#16281f" stroke="#6fd3b0"/>
+  <text x="785" y="109" text-anchor="middle" font-size="14" fill="#6fd3b0" font-weight="700">✓ merge</text>
+  <rect x="730" y="136" width="110" height="40" rx="10" fill="#2a1c20" stroke="#f28b9b"/>
+  <text x="785" y="161" text-anchor="middle" font-size="14" fill="#f28b9b" font-weight="700">✗ blocked</text>
+
+  <path d="M170 130 L196 130" stroke="#a19e97" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M340 130 L366 130" stroke="#a19e97" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M520 130 L546 130" stroke="#a19e97" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M700 122 L726 106" stroke="#6fd3b0" stroke-width="2"/>
+  <path d="M700 138 L726 154" stroke="#f28b9b" stroke-width="2"/>
+
+  <!-- lab vs field band -->
+  <text x="40" y="214" font-size="12" fill="#8f8d88" letter-spacing="1.5">CI · LAB · EVERY PR</text>
+  <line x1="40" y1="238" x2="420" y2="238" stroke="#2e2e36" stroke-dasharray="4 6"/>
+  <text x="40" y="260" font-size="12" fill="#8f8d88" letter-spacing="1.5">PRODUCTION · FIELD · REAL USERS</text>
+
+  <rect x="40" y="270" width="250" height="80" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="165" y="302" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">deploy</text>
+  <text x="165" y="324" text-anchor="middle" font-size="12" fill="#a19e97">after ✓ merge</text>
+
+  <rect x="320" y="270" width="250" height="80" rx="10" fill="#1b1b20" stroke="#6fd3b0"/>
+  <text x="445" y="302" text-anchor="middle" font-size="15" fill="#6fd3b0" font-weight="700">RUM at p75</text>
+  <text x="445" y="324" text-anchor="middle" font-size="12" fill="#a19e97">LCP · INP · CLS</text>
+
+  <rect x="600" y="270" width="240" height="80" rx="10" fill="#1b1b20" stroke="#8f8fef"/>
+  <text x="720" y="302" text-anchor="middle" font-size="15" fill="#b3b3f7" font-weight="700">adjust budgets</text>
+  <text x="720" y="324" text-anchor="middle" font-size="12" fill="#a19e97">ratchet down after wins</text>
+
+  <path d="M290 310 L316 310" stroke="#a19e97" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M570 310 L596 310" stroke="#a19e97" stroke-width="2" marker-end="url(#a)"/>
+  <!-- budget config feeds both gates -->
+  <rect x="455" y="190" width="160" height="30" rx="15" fill="#23232a" stroke="#8f8fef"/>
+  <text x="535" y="210" text-anchor="middle" font-size="12" fill="#b3b3f7">budget config</text>
+  <path d="M480 190 L480 176" stroke="#8f8fef" stroke-width="2" marker-end="url(#v)"/>
+  <path d="M590 190 L590 176" stroke="#8f8fef" stroke-width="2" marker-end="url(#v)"/>
+  <path d="M720 270 C720 232 670 205 619 205" fill="none" stroke="#8f8fef" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#v)"/>
+  <text x="600" y="384" text-anchor="middle" font-size="12" fill="#8f8fef">limits live in package.json + lighthouserc.json</text>
+</svg>

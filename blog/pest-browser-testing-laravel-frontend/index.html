@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Pest v4 Browser Testing: Real Browser Tests for Your Laravel Frontend</title>
+    <meta name="description"
+        content="Pest v4 brings Playwright-powered browser tests to Laravel. Here&#x27;s how to set it up, test Livewire and Alpine interactions, smoke test every page, emulate devices and run it all in CI.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/pest-browser-testing-laravel-frontend/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Pest v4 Browser Testing: Real Browser Tests for Your Laravel Frontend">
+    <meta property="og:description"
+        content="Pest v4 brings Playwright-powered browser tests to Laravel. Here&#x27;s how to set it up, test Livewire and Alpine interactions, smoke test every page, emulate devices and run it all in CI.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/pest-browser-testing-laravel-frontend/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/pest-browser-testing-laravel-frontend/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pest v4 Browser Testing: Real Browser Tests for Your Laravel Frontend">
+    <meta name="twitter:description"
+        content="Pest v4 brings Playwright-powered browser tests to Laravel. Here&#x27;s how to set it up, test Livewire and Alpine interactions, smoke test every page, emulate devices and run it all in CI.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/pest-browser-testing-laravel-frontend/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Pest v4 Browser Testing: Real Browser Tests for Your Laravel Frontend",
+        "description": "Pest v4 brings Playwright-powered browser tests to Laravel. Here's how to set it up, test Livewire and Alpine interactions, smoke test every page, emulate devices and run it all in CI.",
+        "image": "https://sagarpansuriya.in/blog/pest-browser-testing-laravel-frontend/cover.png",
+        "datePublished": "2026-10-26",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/pest-browser-testing-laravel-frontend/",
+        "articleSection": "Laravel",
+        "keywords": "Pest v4, browser testing, Laravel testing, Playwright, Livewire testing, smoke testing, visual regression"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=Laravel">§ Laravel</a>
+                <h1 class="post-title">Pest v4 Browser Testing: Real Browser Tests for Your Laravel Frontend</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-10-26">Oct 26, 2026</time>
+                    <span class="sep">·</span>
+                    <span>6 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of a Pest test file driving a browser window, with passing checks for clicks, JavaScript errors, mobile and dark mode"></div>
+
+                <div class="prose">
+<p>You've probably shipped this bug. Every feature test is green, the controller returns 200,
+                        the Blade view contains the right text. Then someone opens the page and the dropdown doesn't
+                        open, because an Alpine component throws on load and takes the rest of the page's JavaScript
+                        with it. Your HTTP tests never ran a line of JavaScript, so they had no way of knowing.</p>
+                    <p>For years, the answer in Laravel was Dusk, or a separate Playwright or Cypress suite in
+                        JavaScript. Both work, but they live apart from the rest of your tests. Pest v4 changes that
+                        with first-party <strong>browser testing</strong>: real browser tests, powered by
+                        Playwright, written in the same Pest syntax as your unit and feature tests.</p>
+                    <p>This post walks through setting it up, the handful of methods you'll use constantly, testing
+                        Livewire and Alpine behaviour, smoke testing every page in one line, device and dark mode
+                        emulation, screenshots, and running it in CI.</p>
+
+                    <h2>Installing the browser plugin</h2>
+                    <p>Browser testing ships as a Pest plugin, and it uses Playwright under the hood, so you install
+                        both the PHP package and the Playwright browsers:</p>
+                    <pre class="code-block"><code>composer require pestphp/pest-plugin-browser --dev
+
+npm install playwright@latest
+npx playwright install</code></pre>
+                    <p>That's it for setup. Browser tests are ordinary Pest tests, so the usual place is a
+                        <code>tests/Browser</code> directory, configured in <code>tests/Pest.php</code> like your
+                        feature tests, so they get the Laravel test case and a fresh database:</p>
+                    <pre class="code-block"><code>// tests/Pest.php
+pest()-&gt;extend(Tests\TestCase::class)
+    -&gt;use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+    -&gt;in('Feature', 'Browser');</code></pre>
+                    <p>One thing to remember: the browser loads your real frontend assets. Run
+                        <code>npm run build</code> (or have the Vite dev server running) before the suite, or
+                        you'll be testing a page with no CSS or JavaScript.</p>
+
+                    <h2>Your first browser test</h2>
+                    <p>Everything starts with <code>visit()</code>, which opens a URL in the browser and returns a
+                        page you can interact with and assert against:</p>
+                    <pre class="code-block"><code>// tests/Browser/HomePageTest.php
+it('shows the home page', function () {
+    $page = visit('/');
+
+    $page-&gt;assertSee('Build faster with Laravel')
+        -&gt;assertNoJavascriptErrors();
+});</code></pre>
+                    <p>Because it's a normal Pest test, factories, <code>actingAs()</code> and fakes all work.
+                        A login flow reads almost like a user story:</p>
+                    <pre class="code-block"><code>it('lets a user sign in', function () {
+    $user = User::factory()-&gt;create(['email' =&gt; 'sagar@example.com']);
+
+    visit('/login')
+        -&gt;type('email', 'sagar@example.com')
+        -&gt;type('password', 'password')
+        -&gt;press('Log in')
+        -&gt;assertPathIs('/dashboard')
+        -&gt;assertSee('Welcome back');
+});</code></pre>
+                    <p>The core vocabulary is small, and you'll use these for most tests:</p>
+                    <table>
+                        <thead>
+                            <tr><th>Method</th><th>What it does</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>visit($url)</code></td><td>Open a page (or several, with an array)</td></tr>
+                            <tr><td><code>click($text)</code></td><td>Click a link, button or element</td></tr>
+                            <tr><td><code>type($field, $value)</code></td><td>Type into an input, by name or selector</td></tr>
+                            <tr><td><code>press($button)</code></td><td>Press a button by its text</td></tr>
+                            <tr><td><code>assertSee($text)</code></td><td>Text is on the page</td></tr>
+                            <tr><td><code>assertPathIs($path)</code></td><td>The browser ended up on this path</td></tr>
+                            <tr><td><code>assertNoJavascriptErrors()</code></td><td>No uncaught JS errors on the page</td></tr>
+                            <tr><td><code>assertNoSmoke()</code></td><td>No JS errors and no console logs</td></tr>
+                        </tbody>
+                    </table>
+                    <p>Pest's documentation at <a href="https://pestphp.com/docs/browser-testing">pestphp.com/docs/browser-testing</a>
+                        lists the full set of interactions and assertions. Start with these and reach for the rest
+                        when you need them.</p>
+
+                    <img src="pest-browser-flow.svg" alt="Diagram of a Pest browser test: the PHP test drives Playwright, which controls a real browser loading your Laravel app, and assertions run against the rendered page">
+
+                    <h2>Testing Livewire interactions</h2>
+                    <p>Livewire already has excellent component tests with <code>Livewire::test()</code>. They're
+                        fast and you should keep writing them. What they can't tell you is whether the wiring in the
+                        browser works: that <code>wire:model</code> is on the right input, that the request
+                        actually fires, and that the DOM updates. A browser test covers exactly that gap.</p>
+                    <pre class="code-block"><code>it('filters products as you type', function () {
+    Product::factory()-&gt;create(['name' =&gt; 'Walnut Desk']);
+    Product::factory()-&gt;create(['name' =&gt; 'Oak Chair']);
+
+    visit('/products')
+        -&gt;assertSee('Walnut Desk')
+        -&gt;assertSee('Oak Chair')
+        -&gt;type('search', 'walnut')
+        -&gt;assertSee('Walnut Desk')
+        -&gt;assertSee('1 result')
+        -&gt;assertNoJavascriptErrors();
+});</code></pre>
+                    <p>Playwright waits for elements to be ready before it interacts with them, which removes most
+                        of the <code>sleep()</code> calls old browser suites were full of. If a debounced
+                        <code>wire:model.live</code> ever makes a test flaky, assert on text that only appears after
+                        the update (like the result count above) rather than on something that was already there.</p>
+
+                    <h2>Testing Alpine behaviour</h2>
+                    <p>Alpine components are pure client-side state, so feature tests can't touch them at all. In a
+                        browser test they're just UI:</p>
+                    <pre class="code-block"><code>it('opens the account menu', function () {
+    $this-&gt;actingAs(User::factory()-&gt;create());
+
+    visit('/dashboard')
+        -&gt;click('Account')
+        -&gt;assertSee('Profile settings')
+        -&gt;click('Profile settings')
+        -&gt;assertPathIs('/settings/profile');
+});</code></pre>
+                    <p>The most valuable line in most Alpine tests is <code>assertNoJavascriptErrors()</code>. A
+                        typo in an <code>x-data</code> expression or a missing <code>Alpine.data()</code>
+                        registration throws in the console, and this assertion turns that into a failing test.</p>
+
+                    <h2>Smoke testing every page in one test</h2>
+                    <p>This is my favourite feature. Pass an array of URLs to <code>visit()</code> and assert that
+                        none of them have JavaScript errors or console logs:</p>
+                    <pre class="code-block"><code>it('has no smoke on public pages', function () {
+    $pages = visit([
+        '/',
+        '/about',
+        '/pricing',
+        '/blog',
+        '/contact',
+    ]);
+
+    $pages-&gt;assertNoSmoke();
+});</code></pre>
+                    <p>If you only write one browser test, write this one. It catches a broken Vite build, a
+                        third-party script throwing on a page nobody checked, and the stray
+                        <code>console.log</code> someone left in. You can generate the list from your routes or
+                        sitemap, but a hand-picked list of your most important templates is a great start.</p>
+                    <p>If you want to separate the two concerns, <code>assertNoJavascriptErrors()</code> and
+                        <code>assertNoConsoleLogs()</code> also work on their own.</p>
+
+                    <h2>Devices and dark mode</h2>
+                    <p>Responsive bugs are the classic frontend regression: the navigation works on desktop, but
+                        the mobile menu button is hidden behind a banner. Pest can emulate a mobile viewport and a
+                        dark colour scheme per test:</p>
+                    <pre class="code-block"><code>it('opens the mobile navigation', function () {
+    visit('/')
+        -&gt;on()-&gt;mobile()
+        -&gt;click('Menu')
+        -&gt;assertSee('Pricing')
+        -&gt;assertNoJavascriptErrors();
+});
+
+it('renders the pricing page in dark mode', function () {
+    visit('/pricing')
+        -&gt;inDarkMode()
+        -&gt;assertSee('Pricing')
+        -&gt;assertNoJavascriptErrors();
+});</code></pre>
+                    <p>Dark mode emulation sets the browser's <code>prefers-color-scheme</code>, so it exercises
+                        Tailwind's default <code>dark:</code> variant. If your site toggles dark mode with a class
+                        instead, click your toggle in the test.</p>
+
+                    <h2>Screenshots and visual regression</h2>
+                    <p>Text assertions can't tell you that a card's padding collapsed or a button turned white on
+                        white. For key pages, Pest can compare a screenshot against a stored baseline:</p>
+                    <pre class="code-block"><code>it('matches the pricing page baseline', function () {
+    visit('/pricing')-&gt;assertScreenshotMatches();
+});</code></pre>
+                    <p>The first run saves the baseline, and later runs fail if the page changes. A few things
+                        make this workable in practice:</p>
+                    <ul>
+                        <li>Keep it to a handful of stable, high-value pages. Visual tests on every page become
+                            noise quickly.</li>
+                        <li>Freeze dynamic content with factories and fixed data. Dates, random avatars and
+                            rotating testimonials cause false failures.</li>
+                        <li>Generate baselines in the same environment that runs CI, because fonts and rendering
+                            differ between operating systems.</li>
+                    </ul>
+                    <p>For debugging, <code>screenshot()</code> saves an image of the current state, and running
+                        Pest with <code>--headed</code> opens a visible browser so you can watch the test run.</p>
+
+                    <h2>Running browser tests in CI</h2>
+                    <p>In CI you need PHP, Node, the Playwright browsers, and built assets. A GitHub Actions job
+                        looks something like this:</p>
+                    <pre class="code-block"><code># .github/workflows/tests.yml
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: composer install --no-interaction --prefer-dist
+      - run: npm ci
+      - run: npx playwright install --with-deps
+      - run: npm run build
+      - run: cp .env.example .env &amp;&amp; php artisan key:generate
+      - run: ./vendor/bin/pest --parallel</code></pre>
+                    <p>The <code>--with-deps</code> flag installs the system libraries the browsers need on a fresh
+                        Linux runner. Browser tests are slower than feature tests, so <code>--parallel</code> helps,
+                        and many teams run the browser suite as a separate job so a quick feature-test failure
+                        reports first.</p>
+
+                    <h2>What to test in the browser (and what not to)</h2>
+                    <p>Browser tests are slower and a bit more brittle than feature tests, so be deliberate:</p>
+                    <ul>
+                        <li><strong>Do:</strong> a smoke test across key pages, critical user journeys (sign up,
+                            checkout, main form), JavaScript-driven UI (Alpine, Livewire wiring), and mobile
+                            navigation.</li>
+                        <li><strong>Don't:</strong> validation rules, authorisation logic, or every edge case of a
+                            calculation. Feature and Livewire component tests do that faster.</li>
+                    </ul>
+
+                    <h2>A checklist to start with</h2>
+                    <ol>
+                        <li>Install <code>pestphp/pest-plugin-browser</code> and the Playwright browsers.</li>
+                        <li>Add a <code>tests/Browser</code> directory to <code>tests/Pest.php</code>.</li>
+                        <li>Write one <code>assertNoSmoke()</code> test covering your main templates.</li>
+                        <li>Add browser tests for your two or three most important user journeys.</li>
+                        <li>Cover the mobile navigation with <code>on()-&gt;mobile()</code>.</li>
+                        <li>Add screenshot baselines for a few stable, high-value pages.</li>
+                        <li>Build assets and install browsers in CI, and run with <code>--parallel</code>.</li>
+                    </ol>
+                    <p>The dropdown bug from the start of this post would have failed that very first smoke test.
+                        That's the real value here: not a huge new test suite, but a few browser tests that catch
+                        the bugs your HTTP tests were never able to see.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/pest-browser-testing-laravel-frontend/&text=Pest%20v4%20Browser%20Testing%3A%20Real%20Browser%20Tests%20for%20Your%20Laravel%20Frontend"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/pest-browser-testing-laravel-frontend/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

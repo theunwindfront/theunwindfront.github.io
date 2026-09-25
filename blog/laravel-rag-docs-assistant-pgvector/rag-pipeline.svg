@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="440" rx="16" fill="#16161b"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#a19e97"/></marker></defs>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">INGESTION · runs when docs change</text>
+  <g>
+    <rect x="40" y="70" width="170" height="70" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+    <text x="125" y="100" text-anchor="middle" font-size="14" fill="#ece9e2" font-weight="700">Docs</text>
+    <text x="125" y="121" text-anchor="middle" font-size="12" fill="#a19e97">markdown pages</text>
+    <rect x="250" y="70" width="170" height="70" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+    <text x="335" y="100" text-anchor="middle" font-size="14" fill="#ece9e2" font-weight="700">Chunk</text>
+    <text x="335" y="121" text-anchor="middle" font-size="12" fill="#a19e97">by heading + size</text>
+    <rect x="460" y="70" width="170" height="70" rx="10" fill="#1b1b20" stroke="#8f8fef"/>
+    <text x="545" y="100" text-anchor="middle" font-size="14" fill="#b3b3f7" font-weight="700">Embed</text>
+    <text x="545" y="121" text-anchor="middle" font-size="12" fill="#a19e97">HTTP API, batched</text>
+    <rect x="670" y="70" width="170" height="70" rx="10" fill="#23232a" stroke="#6fd3b0"/>
+    <text x="755" y="100" text-anchor="middle" font-size="14" fill="#6fd3b0" font-weight="700">pgvector</text>
+    <text x="755" y="121" text-anchor="middle" font-size="12" fill="#a19e97">HNSW index</text>
+    <line x1="212" y1="105" x2="246" y2="105" stroke="#a19e97" stroke-width="2" marker-end="url(#a)"/>
+    <line x1="422" y1="105" x2="456" y2="105" stroke="#a19e97" stroke-width="2" marker-end="url(#a)"/>
+    <line x1="632" y1="105" x2="666" y2="105" stroke="#a19e97" stroke-width="2" marker-end="url(#a)"/>
+  </g>
+  <line x1="40" y1="180" x2="840" y2="180" stroke="#2e2e36" stroke-dasharray="6 6"/>
+  <text x="40" y="218" font-size="15" fill="#8f8d88" letter-spacing="2">QUERY · runs on every question</text>
+  <g>
+    <rect x="40" y="238" width="140" height="70" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+    <text x="110" y="268" text-anchor="middle" font-size="14" fill="#ece9e2" font-weight="700">Question</text>
+    <text x="110" y="289" text-anchor="middle" font-size="12" fill="#a19e97">from Livewire</text>
+    <rect x="205" y="238" width="140" height="70" rx="10" fill="#1b1b20" stroke="#8f8fef"/>
+    <text x="275" y="268" text-anchor="middle" font-size="14" fill="#b3b3f7" font-weight="700">Embed</text>
+    <text x="275" y="289" text-anchor="middle" font-size="12" fill="#a19e97">same model</text>
+    <rect x="370" y="238" width="140" height="70" rx="10" fill="#23232a" stroke="#6fd3b0"/>
+    <text x="440" y="268" text-anchor="middle" font-size="14" fill="#6fd3b0" font-weight="700">Retrieve</text>
+    <text x="440" y="289" text-anchor="middle" font-size="12" fill="#a19e97">top k by &lt;=&gt;</text>
+    <rect x="535" y="238" width="140" height="70" rx="10" fill="#1b1b20" stroke="#f2b880"/>
+    <text x="605" y="268" text-anchor="middle" font-size="14" fill="#f2b880" font-weight="700">Prompt</text>
+    <text x="605" y="289" text-anchor="middle" font-size="12" fill="#a19e97">numbered sources</text>
+    <rect x="700" y="238" width="140" height="70" rx="10" fill="#1b1b20" stroke="#f28b9b"/>
+    <text x="770" y="268" text-anchor="middle" font-size="14" fill="#f28b9b" font-weight="700">LLM</text>
+    <text x="770" y="289" text-anchor="middle" font-size="12" fill="#a19e97">streamed tokens</text>
+    <line x1="182" y1="273" x2="201" y2="273" stroke="#a19e97" stroke-width="2" marker-end="url(#a)"/>
+    <line x1="347" y1="273" x2="366" y2="273" stroke="#a19e97" stroke-width="2" marker-end="url(#a)"/>
+    <line x1="512" y1="273" x2="531" y2="273" stroke="#a19e97" stroke-width="2" marker-end="url(#a)"/>
+    <line x1="677" y1="273" x2="696" y2="273" stroke="#a19e97" stroke-width="2" marker-end="url(#a)"/>
+  </g>
+  <!-- pgvector feeds retrieve -->
+  <path d="M755 142 C 755 170, 440 200, 440 234" fill="none" stroke="#6fd3b0" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#a)"/>
+  <!-- answer -->
+  <path d="M770 310 v36 h-100" fill="none" stroke="#a19e97" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="240" y="330" width="426" height="70" rx="10" fill="#23232a" stroke="#8f8fef"/>
+  <text x="453" y="360" text-anchor="middle" font-size="14" fill="#ece9e2" font-weight="700">Answer with citations [1][2]</text>
+  <text x="453" y="381" text-anchor="middle" font-size="12" fill="#a19e97">wire:stream into the UI, sources as links</text>
+</svg>

@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="430" rx="16" fill="#16161b"/>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#8f8fef"/>
+    </marker>
+  </defs>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">LIFECYCLE OF A MODAL &lt;dialog&gt;</text>
+
+  <!-- Row 1 -->
+  <rect x="40" y="90" width="170" height="90" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="125" y="124" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">Trigger</text>
+  <text x="125" y="146" text-anchor="middle" font-size="12" fill="#a19e97">&lt;button&gt;</text>
+  <text x="125" y="164" text-anchor="middle" font-size="12" fill="#a19e97">has focus</text>
+
+  <line x1="214" y1="135" x2="244" y2="135" stroke="#8f8fef" stroke-width="2" marker-end="url(#ah)"/>
+
+  <rect x="250" y="90" width="180" height="90" rx="12" fill="#5b5bd6"/>
+  <text x="340" y="126" text-anchor="middle" font-size="15" fill="#fff" font-weight="700">showModal()</text>
+  <text x="340" y="150" text-anchor="middle" font-size="12" fill="#e4e4fb">enters top layer</text>
+
+  <line x1="434" y1="135" x2="464" y2="135" stroke="#8f8fef" stroke-width="2" marker-end="url(#ah)"/>
+
+  <rect x="470" y="76" width="370" height="118" rx="12" fill="#1b1b20" stroke="#8f8fef" stroke-width="1.5"/>
+  <text x="494" y="106" font-size="15" fill="#b3b3f7" font-weight="700">OPEN (modal)</text>
+  <text x="494" y="132" font-size="12" fill="#ece9e2">· page behind is inert</text>
+  <text x="494" y="152" font-size="12" fill="#ece9e2">· focus moves inside (autofocus)</text>
+  <text x="494" y="172" font-size="12" fill="#ece9e2">· ::backdrop covers the viewport</text>
+
+  <!-- down arrows to close paths -->
+  <line x1="527" y1="198" x2="527" y2="240" stroke="#8f8fef" stroke-width="2" marker-end="url(#ah)"/>
+  <line x1="655" y1="198" x2="655" y2="240" stroke="#8f8fef" stroke-width="2" marker-end="url(#ah)"/>
+  <line x1="783" y1="198" x2="783" y2="240" stroke="#8f8fef" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="840" y="224" text-anchor="end" font-size="12" fill="#8f8d88">any of</text>
+
+  <!-- Row 2: close paths -->
+  <rect x="470" y="246" width="114" height="80" rx="10" fill="#6fd3b0"/>
+  <text x="527" y="278" text-anchor="middle" font-size="13" fill="#1a1a1a" font-weight="700">form</text>
+  <text x="527" y="298" text-anchor="middle" font-size="12" fill="#0f3a2a">method=</text>
+  <text x="527" y="314" text-anchor="middle" font-size="12" fill="#0f3a2a">"dialog"</text>
+
+  <rect x="598" y="246" width="114" height="80" rx="10" fill="#f2b880"/>
+  <text x="655" y="278" text-anchor="middle" font-size="13" fill="#1a1a1a" font-weight="700">Esc key</text>
+  <text x="655" y="298" text-anchor="middle" font-size="12" fill="#3a2a10">fires</text>
+  <text x="655" y="314" text-anchor="middle" font-size="12" fill="#3a2a10">cancel</text>
+
+  <rect x="726" y="246" width="114" height="80" rx="10" fill="#f28b9b"/>
+  <text x="783" y="278" text-anchor="middle" font-size="13" fill="#1a1a1a" font-weight="700">backdrop</text>
+  <text x="783" y="298" text-anchor="middle" font-size="12" fill="#3a1a20">closedby=</text>
+  <text x="783" y="314" text-anchor="middle" font-size="12" fill="#3a1a20">"any"</text>
+
+  <line x1="466" y1="286" x2="436" y2="286" stroke="#8f8fef" stroke-width="2" marker-end="url(#ah)"/>
+
+  <rect x="250" y="246" width="180" height="80" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="340" y="278" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">close event</text>
+  <text x="340" y="302" text-anchor="middle" font-size="12" fill="#a19e97">read returnValue</text>
+
+  <line x1="246" y1="286" x2="216" y2="286" stroke="#8f8fef" stroke-width="2" marker-end="url(#ah)"/>
+
+  <rect x="40" y="246" width="170" height="80" rx="12" fill="#1b1b20" stroke="#6fd3b0" stroke-width="1.5"/>
+  <text x="125" y="278" text-anchor="middle" font-size="15" fill="#6fd3b0" font-weight="700">Focus returns</text>
+  <text x="125" y="302" text-anchor="middle" font-size="12" fill="#a19e97">to the trigger</text>
+
+  <line x1="125" y1="242" x2="125" y2="186" stroke="#6fd3b0" stroke-width="2" stroke-dasharray="5 5"/>
+
+  <text x="440" y="384" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">No focus-trap JS · no z-index · no overlay div</text>
+  <text x="440" y="406" text-anchor="middle" font-size="12" fill="#8f8d88">Alpine only dispatches "open this dialog by name"</text>
+</svg>

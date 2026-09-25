@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>A Reusable Blade Component Library for WordPress with Sage and Acorn</title>
+    <meta name="description"
+        content="How to build a reusable Blade component library in a Roots Sage theme: anonymous vs class components, props and slots, Tailwind-friendly attribute merging, and ACF flexible content.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/blade-components-wordpress-sage-acorn/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="A Reusable Blade Component Library for WordPress with Sage and Acorn">
+    <meta property="og:description"
+        content="How to build a reusable Blade component library in a Roots Sage theme: anonymous vs class components, props and slots, Tailwind-friendly attribute merging, and ACF flexible content.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/blade-components-wordpress-sage-acorn/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/blade-components-wordpress-sage-acorn/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="A Reusable Blade Component Library for WordPress with Sage and Acorn">
+    <meta name="twitter:description"
+        content="How to build a reusable Blade component library in a Roots Sage theme: anonymous vs class components, props and slots, Tailwind-friendly attribute merging, and ACF flexible content.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/blade-components-wordpress-sage-acorn/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "A Reusable Blade Component Library for WordPress with Sage and Acorn",
+        "description": "How to build a reusable Blade component library in a Roots Sage theme: anonymous vs class components, props and slots, Tailwind-friendly attribute merging, and ACF flexible content.",
+        "image": "https://sagarpansuriya.in/blog/blade-components-wordpress-sage-acorn/cover.png",
+        "datePublished": "2026-10-09",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/blade-components-wordpress-sage-acorn/",
+        "articleSection": "WordPress",
+        "keywords": "Blade components, Roots Sage, Acorn, WordPress theme development, ACF flexible content, Tailwind CSS"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=WordPress">§ WordPress</a>
+                <h1 class="post-title">A Reusable Blade Component Library for WordPress with Sage and Acorn</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-10-09">Oct 09, 2026</time>
+                    <span class="sep">·</span>
+                    <span>8 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of ACF flexible content layouts mapping to a stack of Blade component blocks that assemble into a WordPress page"></div>
+
+                <div class="prose">
+<p>Open the theme folder of a typical WordPress site that's a few years old and you'll find the
+                        same button markup copied into forty template parts, each with slightly different classes.
+                        Someone changes the brand colour, and a week later a client emails a screenshot of the one
+                        page that still has the old one.</p>
+                    <p>If you build themes with Roots Sage, you already have the fix: Blade components, powered by
+                        Acorn. They're the same components Laravel developers use every day, running inside
+                        WordPress. Treated as a proper library rather than a folder of partials, they change how a
+                        theme ages.</p>
+                    <p>This post walks through how I structure a component library in Sage: anonymous vs
+                        class-based components, props and slots, attribute merging with Tailwind, wiring components to
+                        ACF flexible content, and keeping the whole thing documented.</p>
+
+                    <h2>Why components instead of partials</h2>
+                    <p><code>@include('partials.button')</code> works, but it's a loose contract. Any variable in
+                        scope leaks in, nothing says which data the partial expects, and you can't pass extra HTML
+                        attributes without adding a new variable each time. Components give you:</p>
+                    <ul>
+                        <li><strong>Declared props</strong> with defaults, so the API of each piece is visible at
+                            the top of the file.</li>
+                        <li><strong>Slots</strong> for passing markup in, instead of stuffing HTML into strings.</li>
+                        <li><strong>An attribute bag</strong> that forwards <code>class</code>, <code>id</code>,
+                            <code>aria-*</code> and anything else to the right element.</li>
+                        <li><strong>Isolation</strong>: a component only sees what you pass it.</li>
+                    </ul>
+
+                    <h2>Anonymous components: the default choice</h2>
+                    <p>An anonymous component is just a Blade file in <code>resources/views/components</code>. No PHP
+                        class, no registration. <code>resources/views/components/ui/button.blade.php</code> becomes
+                        <code>&lt;x-ui.button&gt;</code>:</p>
+                    <pre class="code-block"><code>{{-- resources/views/components/ui/button.blade.php --}}
+@props([
+    'href' =&gt; null,
+    'variant' =&gt; 'primary',
+    'size' =&gt; 'md',
+])
+
+@php
+    $variants = [
+        'primary' =&gt; 'bg-brand-600 text-white hover:bg-brand-700',
+        'secondary' =&gt; 'bg-white text-brand-700 ring-1 ring-brand-200 hover:bg-brand-50',
+        'ghost' =&gt; 'text-brand-700 hover:bg-brand-50',
+    ];
+    $sizes = [
+        'sm' =&gt; 'px-3 py-1.5 text-sm',
+        'md' =&gt; 'px-5 py-2.5 text-base',
+        'lg' =&gt; 'px-6 py-3 text-lg',
+    ];
+    $classes = 'inline-flex items-center gap-2 rounded-lg font-semibold transition '
+        . $variants[$variant] . ' ' . $sizes[$size];
+@endphp
+
+@if ($href)
+    &lt;a href="{{ $href }}" {{ $attributes-&gt;class($classes) }}&gt;{{ $slot }}&lt;/a&gt;
+@else
+    &lt;button {{ $attributes-&gt;merge(['type' =&gt; 'button'])-&gt;class($classes) }}&gt;{{ $slot }}&lt;/button&gt;
+@endif</code></pre>
+                    <p>Usage reads like HTML, which is exactly why front-end developers pick it up quickly:</p>
+                    <pre class="code-block"><code>&lt;x-ui.button :href="get_permalink($post)" variant="secondary" size="sm"&gt;
+    Read more
+&lt;/x-ui.button&gt;
+
+&lt;x-ui.button type="submit" class="w-full" aria-describedby="form-help"&gt;
+    Send message
+&lt;/x-ui.button&gt;</code></pre>
+                    <p>Anything declared in <code>@props</code> becomes a variable. Everything else (<code>type</code>,
+                        <code>class</code>, <code>aria-describedby</code>) lands in <code>$attributes</code> and is
+                        rendered on the element. I use anonymous components for the large majority of a library:
+                        buttons, badges, cards, containers, headings, icons.</p>
+
+                    <h2>Class-based components: when there's real logic</h2>
+                    <p>Reach for a class when a component needs to fetch or prepare data, or when the logic would
+                        make the Blade file hard to read. Acorn gives you the generator:</p>
+                    <pre class="code-block"><code>wp acorn make:component PostCard</code></pre>
+                    <p>That creates a class in <code>app/View/Components</code> and a view in
+                        <code>resources/views/components</code>. Public properties and methods are available in the
+                        view:</p>
+                    <pre class="code-block"><code>&lt;?php
+
+namespace App\View\Components;
+
+use Illuminate\View\Component;
+use WP_Post;
+
+class PostCard extends Component
+{
+    public function __construct(
+        public WP_Post $post,
+        public bool $showExcerpt = true,
+    ) {}
+
+    public function title(): string
+    {
+        return get_the_title($this-&gt;post);
+    }
+
+    public function image(): ?string
+    {
+        return get_the_post_thumbnail($this-&gt;post, 'medium_large', ['class' =&gt; 'aspect-video w-full object-cover']) ?: null;
+    }
+
+    public function readingTime(): int
+    {
+        $words = str_word_count(wp_strip_all_tags($this-&gt;post-&gt;post_content));
+
+        return max(1, (int) ceil($words / 230));
+    }
+
+    public function render()
+    {
+        return view('components.post-card');
+    }
+}</code></pre>
+                    <pre class="code-block"><code>{{-- resources/views/components/post-card.blade.php --}}
+&lt;article {{ $attributes-&gt;class('overflow-hidden rounded-2xl bg-white shadow-sm') }}&gt;
+    @if ($image())
+        {!! $image() !!}
+    @endif
+
+    &lt;div class="p-6"&gt;
+        &lt;h3 class="text-xl font-semibold"&gt;
+            &lt;a href="{{ get_permalink($post) }}"&gt;{{ $title() }}&lt;/a&gt;
+        &lt;/h3&gt;
+        &lt;p class="mt-1 text-sm text-gray-500"&gt;{{ $readingTime() }} min read&lt;/p&gt;
+
+        @if ($showExcerpt)
+            &lt;p class="mt-3"&gt;{{ get_the_excerpt($post) }}&lt;/p&gt;
+        @endif
+    &lt;/div&gt;
+&lt;/article&gt;</code></pre>
+                    <p>Now every loop in the theme is one line: <code>&lt;x-post-card :post="$post" /&gt;</code>.
+                        A useful rule of thumb: if the Blade file of an anonymous component starts to need a big
+                        <code>@php</code> block that queries WordPress, promote it to a class. If you only need data
+                        for a whole template rather than a component, a Sage View Composer is often the better
+                        fit.</p>
+
+                    <h2>Slots: passing markup in</h2>
+                    <p>The default <code>$slot</code> covers the simple case. Named slots handle components with
+                        several regions, like a card with a header, body and footer:</p>
+                    <pre class="code-block"><code>{{-- resources/views/components/ui/card.blade.php --}}
+@props(['padded' =&gt; true])
+
+&lt;div {{ $attributes-&gt;class(['rounded-2xl bg-white shadow-sm', 'p-6' =&gt; $padded]) }}&gt;
+    @isset($header)
+        &lt;header {{ $header-&gt;attributes-&gt;class('mb-4 border-b pb-4') }}&gt;{{ $header }}&lt;/header&gt;
+    @endisset
+
+    {{ $slot }}
+
+    @if (isset($footer) &amp;&amp; $footer-&gt;isNotEmpty())
+        &lt;footer class="mt-6 flex gap-3"&gt;{{ $footer }}&lt;/footer&gt;
+    @endif
+&lt;/div&gt;</code></pre>
+                    <pre class="code-block"><code>&lt;x-ui.card&gt;
+    &lt;x-slot:header class="flex items-center justify-between"&gt;
+        &lt;h2&gt;Upcoming events&lt;/h2&gt;
+        &lt;x-ui.badge&gt;3 new&lt;/x-ui.badge&gt;
+    &lt;/x-slot:header&gt;
+
+    …
+
+    &lt;x-slot:footer&gt;
+        &lt;x-ui.button href="/events"&gt;All events&lt;/x-ui.button&gt;
+    &lt;/x-slot:footer&gt;
+&lt;/x-ui.card&gt;</code></pre>
+                    <p>Note the attributes on the slot itself. <code>$header-&gt;attributes</code> lets the caller
+                        adjust the wrapper of a region without the component growing a prop for every case.</p>
+
+                    <h2>Attribute merging and Tailwind</h2>
+                    <p>There are two main methods on the attribute bag, and they're worth knowing precisely:</p>
+                    <ul>
+                        <li><code>$attributes-&gt;merge(['class' =&gt; '…'])</code> appends the caller's classes to
+                            yours, and lets the caller override other attributes.</li>
+                        <li><code>$attributes-&gt;class([...])</code> does the same for classes, but accepts a
+                            conditional array: <code>['p-6' =&gt; $padded]</code>.</li>
+                    </ul>
+                    <p>The catch with Tailwind: "append" means both classes end up in the markup. If the component
+                        has <code>p-6</code> and the caller passes <code>p-10</code>, you get
+                        <code>class="… p-6 p-10"</code>, and which one wins depends on the order of the rules in the
+                        generated CSS, not the order in the attribute. Sometimes it works, and that's the dangerous
+                        part.</p>
+                    <p>Three habits avoid the problem:</p>
+                    <ol>
+                        <li><strong>Expose design decisions as props</strong>, like <code>variant</code>,
+                            <code>size</code> and <code>padded</code> above, instead of expecting callers to
+                            override utilities.</li>
+                        <li><strong>Let <code>class</code> add, not fight</strong>. Callers pass layout and
+                            positioning (<code>w-full</code>, <code>mt-8</code>, <code>col-span-2</code>), not
+                            properties the component already sets.</li>
+                        <li><strong>Write full class names</strong>. Tailwind finds classes by scanning your
+                            source files as text, so <code>"bg-{$color}-600"</code> will never be generated. Map
+                            values to complete strings, as the <code>$variants</code> array does.</li>
+                    </ol>
+
+                    <h2>Components inside ACF flexible content</h2>
+                    <p>This is where a component library really pays off in WordPress. Each flexible content layout
+                        maps to one section component, and the page template just loops.</p>
+
+                    <img src="acf-to-components.svg" alt="Diagram showing ACF flexible content layouts such as hero_banner, card_grid and cta being mapped by layout name through x-dynamic-component to section components, which are built from shared UI components">
+
+                    <p>The loop is short. The layout name from ACF becomes the component name:</p>
+                    <pre class="code-block"><code>{{-- resources/views/partials/flexible-content.blade.php --}}
+@foreach (get_field('sections') ?: [] as $section)
+    @php
+        $component = 'sections.' . str_replace('_', '-', $section['acf_fc_layout']);
+    @endphp
+
+    @if (view()-&gt;exists("components.{$component}"))
+        &lt;x-dynamic-component :component="$component" :section="$section" /&gt;
+    @elseif (WP_DEBUG)
+        &lt;!-- Missing section component: {{ $component }} --&gt;
+    @endif
+@endforeach</code></pre>
+                    <p>A layout called <code>card_grid</code> renders
+                        <code>components/sections/card-grid.blade.php</code>, which is built from the same UI pieces
+                        as the rest of the site:</p>
+                    <pre class="code-block"><code>{{-- resources/views/components/sections/card-grid.blade.php --}}
+@props(['section'])
+
+&lt;x-layout.section :id="$section['anchor'] ?? null" :background="$section['background'] ?? 'white'"&gt;
+    @if (! empty($section['heading']))
+        &lt;h2 class="text-3xl font-bold"&gt;{{ $section['heading'] }}&lt;/h2&gt;
+    @endif
+
+    &lt;div class="mt-10 grid gap-6 md:grid-cols-3"&gt;
+        @foreach ($section['cards'] ?? [] as $card)
+            &lt;x-ui.card&gt;
+                &lt;h3 class="text-lg font-semibold"&gt;{{ $card['title'] }}&lt;/h3&gt;
+                &lt;p class="mt-2"&gt;{{ $card['text'] }}&lt;/p&gt;
+
+                @if (! empty($card['link']))
+                    &lt;x-slot:footer&gt;
+                        &lt;x-ui.button :href="$card['link']['url']" variant="ghost"&gt;
+                            {{ $card['link']['title'] }}
+                        &lt;/x-ui.button&gt;
+                    &lt;/x-slot:footer&gt;
+                @endif
+            &lt;/x-ui.card&gt;
+        @endforeach
+    &lt;/div&gt;
+&lt;/x-layout.section&gt;</code></pre>
+                    <p>Adding a new section type is now a predictable routine: create the ACF layout, create one
+                        Blade file with a matching name. Nobody touches the page template. The
+                        <code>view()-&gt;exists()</code> check means a layout that's been added in ACF but not built
+                        yet won't break the page.</p>
+                    <p>Keep ACF-specific knowledge in the <code>sections</code> layer. UI components like
+                        <code>x-ui.card</code> should take plain props and never call <code>get_field()</code>.
+                        That's what keeps them reusable in templates, widgets and anywhere else.</p>
+
+                    <h2>Folder conventions</h2>
+                    <p>A structure that stays readable as the library grows:</p>
+                    <pre class="code-block"><code>resources/views/components/
+├── ui/          button, badge, card, icon, input   → &lt;x-ui.button&gt;
+├── layout/      container, section, grid           → &lt;x-layout.section&gt;
+├── sections/    one file per ACF layout            → rendered dynamically
+└── post-card.blade.php  (class-based, app/View/Components/PostCard.php)</code></pre>
+                    <ul>
+                        <li><strong>ui</strong>: small, generic, no WordPress calls.</li>
+                        <li><strong>layout</strong>: spacing and width rules, so sections don't each invent their
+                            own padding.</li>
+                        <li><strong>sections</strong>: page-level blocks that know about ACF data shapes.</li>
+                    </ul>
+                    <p>File names in kebab-case, matching ACF layout names with underscores swapped for hyphens.
+                        Boring and consistent beats clever every time.</p>
+
+                    <h2>Documenting the library</h2>
+                    <p>Components only get reused if people know they exist. Two cheap habits cover most of it.</p>
+                    <p>First, a comment header in every component. It's the first thing anyone sees when they open
+                        the file:</p>
+                    <pre class="code-block"><code>{{--
+    Button
+    Props:  href (string|null)  variant: primary|secondary|ghost  size: sm|md|lg
+    Slots:  default (label)
+    Usage:  &lt;x-ui.button :href="$url" variant="secondary"&gt;Read more&lt;/x-ui.button&gt;
+--}}</code></pre>
+                    <p>Second, a styleguide page. Sage picks up page templates from a <code>Template Name</code>
+                        comment, so create <code>resources/views/template-styleguide.blade.php</code>, render every
+                        component in each variant, and restrict it to logged-in editors with a
+                        <code>current_user_can()</code> check. It becomes a living reference for developers and a
+                        quick visual regression check whenever you touch the Tailwind config.</p>
+
+                    <h2>A checklist for your component library</h2>
+                    <ol>
+                        <li>Default to anonymous components; promote to a class when there's real data logic.</li>
+                        <li>Declare every prop with <code>@props</code> and a sensible default.</li>
+                        <li>Use named slots for regions, and slot attributes for small wrapper tweaks.</li>
+                        <li>Expose variants and sizes as props; let <code>class</code> only add layout.</li>
+                        <li>Never build Tailwind class names from string interpolation.</li>
+                        <li>One section component per ACF layout, rendered with
+                            <code>x-dynamic-component</code>.</li>
+                        <li>Keep <code>get_field()</code> out of UI components.</li>
+                        <li>Header comment in every file, plus a private styleguide page.</li>
+                    </ol>
+                    <p>None of this needs a big rewrite. Start with the button that's been copied forty times, turn
+                        it into <code>&lt;x-ui.button&gt;</code>, and replace usages as you touch templates. A few
+                        sprints later, the next brand colour change will be one line.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/blade-components-wordpress-sage-acorn/&text=A%20Reusable%20Blade%20Component%20Library%20for%20WordPress%20with%20Sage%20and%20Acorn"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/blade-components-wordpress-sage-acorn/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

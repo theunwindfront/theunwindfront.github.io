@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Onboarding Junior Frontend Developers: A 90-Day Playbook from a Tech Lead</title>
+    <meta name="description"
+        content="A practical 90-day onboarding plan for junior frontend developers: a first PR in week one, clear goals for each month, pairing, a fundamentals-first skills ladder, and responsible AI use.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/onboarding-junior-frontend-developers-90-days/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Onboarding Junior Frontend Developers: A 90-Day Playbook from a Tech Lead">
+    <meta property="og:description"
+        content="A practical 90-day onboarding plan for junior frontend developers: a first PR in week one, clear goals for each month, pairing, a fundamentals-first skills ladder, and responsible AI use.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/onboarding-junior-frontend-developers-90-days/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/onboarding-junior-frontend-developers-90-days/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Onboarding Junior Frontend Developers: A 90-Day Playbook from a Tech Lead">
+    <meta name="twitter:description"
+        content="A practical 90-day onboarding plan for junior frontend developers: a first PR in week one, clear goals for each month, pairing, a fundamentals-first skills ladder, and responsible AI use.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/onboarding-junior-frontend-developers-90-days/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Onboarding Junior Frontend Developers: A 90-Day Playbook from a Tech Lead",
+        "description": "A practical 90-day onboarding plan for junior frontend developers: a first PR in week one, clear goals for each month, pairing, a fundamentals-first skills ladder, and responsible AI use.",
+        "image": "https://sagarpansuriya.in/blog/onboarding-junior-frontend-developers-90-days/cover.png",
+        "datePublished": "2026-10-24",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/onboarding-junior-frontend-developers-90-days/",
+        "articleSection": "Design Strategy",
+        "keywords": "onboarding junior developers, frontend team lead, developer onboarding plan, mentoring, pair programming, AI assistants for learning"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=Design Strategy">§ Design Strategy</a>
+                <h1 class="post-title">Onboarding Junior Frontend Developers: A 90-Day Playbook from a Tech Lead</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-10-24">Oct 24, 2026</time>
+                    <span class="sep">·</span>
+                    <span>6 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of a rising staircase of milestones from day 1 to day 90, with a first pull request badge at the bottom and a shipped feature flag at the top"></div>
+
+                <div class="prose">
+<p>Picture a junior developer's first Monday. They get a laptop, a Slack invite, a link to a
+                        wiki page last updated two years ago, and the words "have a look around the codebase". By
+                        Friday they've installed things, broken things, and quietly concluded that everyone else
+                        knows something they don't.</p>
+                    <p>Most onboarding fails not because juniors are slow, but because nobody decided what
+                        "onboarded" means. As a tech lead, I think of it as a 90-day project with a clear goal: by
+                        day 90, this person can pick up a normal-sized ticket, ask good questions, and ship it with
+                        a regular review. Everything in the plan serves that goal.</p>
+                    <p>This is the playbook I'd hand to any lead bringing a junior frontend developer onto a team
+                        working with Laravel, Blade, Livewire, Tailwind, WordPress or React. Adjust the stack, keep
+                        the structure.</p>
+
+                    <h2>Before day one</h2>
+                    <p>Half of a good first week happens before the person arrives.</p>
+                    <ul>
+                        <li><strong>Accounts ready.</strong> Git hosting, the project board, chat, staging access,
+                            design files. Nothing kills momentum like waiting three days for a permission.</li>
+                        <li><strong>A setup doc that has been tested recently.</strong> The best way to test it is
+                            to ask the last person who joined to follow it on a clean machine. Better still, make
+                            the local environment one command: a Docker setup, Laravel Sail, or a documented
+                            <code>composer install &amp;&amp; npm install &amp;&amp; npm run dev</code> sequence.</li>
+                        <li><strong>A named buddy</strong> who isn't the lead. Juniors will ask a peer things they
+                            won't ask their manager.</li>
+                        <li><strong>Three "good first issues" picked in advance.</strong> Small, real, visible:
+                            a copy fix, a spacing bug, a missing <code>alt</code> attribute.</li>
+                    </ul>
+
+                    <h2>Week one: environment and a first tiny PR</h2>
+                    <p>The goal for week one is not learning the codebase. It's completing the full loop once:
+                        clone, run, change, commit, open a pull request, get a review, merge, see it on staging.
+                        Every later week reuses that loop.</p>
+                    <ol>
+                        <li><strong>Day 1:</strong> environment running locally, a walkthrough of the product as a
+                            user, and a short chat about how the team works.</li>
+                        <li><strong>Day 2:</strong> a guided tour of one feature, from route to controller to Blade
+                            view (or component tree) to CSS. One vertical slice beats a tour of every folder.</li>
+                        <li><strong>Day 3 to 4:</strong> first ticket, with the buddy nearby. Something like
+                            fixing a button's focus style.</li>
+                        <li><strong>Day 5:</strong> the PR is merged and deployed. Celebrate it, publicly and
+                            briefly.</li>
+                    </ol>
+                    <p>A first PR can be tiny and still teach everything about how you work: branch names, commit
+                        messages, the PR template, how review comments are phrased, and what CI checks.</p>
+                    <pre class="code-block"><code>git switch -c fix/newsletter-button-focus
+# edit resources/views/components/button.blade.php
+git commit -m "Add visible focus ring to newsletter button"
+git push -u origin fix/newsletter-button-focus</code></pre>
+
+                    <img src="onboarding-90-days.svg" alt="Timeline of a 90-day onboarding plan split into three phases: learn the loop, own small features, and work independently, with goals and review points for each phase">
+
+                    <h2>Days 1 to 30: learn the loop</h2>
+                    <p><strong>Goal:</strong> ship small, well-defined tickets with support, and understand how
+                        the project is put together.</p>
+                    <ul>
+                        <li>Two to three pairing sessions a week, with the junior driving most of the time.</li>
+                        <li>Tickets that touch markup and styling first: layout bugs, responsive fixes, accessibility
+                            improvements. They're low risk and teach the design system.</li>
+                        <li>Read the codebase's conventions doc (or write it together if it doesn't exist, which is a
+                            surprisingly good onboarding exercise).</li>
+                        <li>Sit in on one code review of someone else's PR each week, just reading.</li>
+                    </ul>
+
+                    <h2>Days 31 to 60: own small features</h2>
+                    <p><strong>Goal:</strong> take a small feature from ticket to production with lighter
+                        guidance.</p>
+                    <ul>
+                        <li>A feature with a bit of state: a filter with Alpine, a Livewire form with validation, a
+                            React component with props and a loading state.</li>
+                        <li>Write the test for it, even a simple one. Testing is part of "done", not a senior skill.</li>
+                        <li>Start reviewing PRs, with a focus on asking questions rather than approving.</li>
+                        <li>Pairing drops to one or two sessions a week, and shifts from "how" to "why".</li>
+                    </ul>
+
+                    <h2>Days 61 to 90: work independently</h2>
+                    <p><strong>Goal:</strong> pick up a normal ticket from the board, estimate it roughly, and
+                        deliver it with a regular review.</p>
+                    <ul>
+                        <li>Choose tickets from the board instead of being assigned curated ones.</li>
+                        <li>Break a medium ticket into smaller PRs without being asked.</li>
+                        <li>Demo their work in a team meeting.</li>
+                        <li>Own one small area: the button component, the 404 page, the form styles.</li>
+                    </ul>
+
+                    <h2>A skills ladder: fundamentals before frameworks</h2>
+                    <p>The most common gap I see in junior frontend developers is not framework knowledge. It's
+                        the layer underneath. Someone can build a React component but can't explain why a
+                        <code>&lt;div&gt;</code> with a click handler isn't a button. So I teach in this order,
+                        and each rung builds on the last:</p>
+                    <table>
+                        <thead>
+                            <tr><th>Rung</th><th>What "good" looks like</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Semantic HTML</td><td>Picks the right element; forms have labels; headings form an outline</td></tr>
+                            <tr><td>Accessibility basics</td><td>Keyboard-only use works; visible focus; sensible alt text; contrast checked</td></tr>
+                            <tr><td>CSS layout</td><td>Comfortable with flexbox and grid; understands the cascade and specificity</td></tr>
+                            <tr><td>Responsive design</td><td>Mobile-first; knows when to use media vs container queries</td></tr>
+                            <tr><td>JavaScript and the DOM</td><td>Events, async/await, fetch, reading errors in DevTools</td></tr>
+                            <tr><td>The team's framework</td><td>Blade components, Livewire, Alpine or React, following house conventions</td></tr>
+                            <tr><td>Tooling and quality</td><td>Vite, linting, tests, reading a CI failure</td></tr>
+                        </tbody>
+                    </table>
+                    <p>This isn't strictly sequential. A junior will write Alpine in week two. But when you review
+                        their work, check the lower rungs first. A beautifully structured component that isn't
+                        keyboard accessible isn't done.</p>
+
+                    <h2>Pairing that actually teaches</h2>
+                    <p>Pairing is the highest-leverage thing you can do, and also the easiest to do badly. A few
+                        rules that help:</p>
+                    <ul>
+                        <li><strong>The junior drives.</strong> If the senior types, the junior watches and forgets.</li>
+                        <li><strong>Think out loud, both ways.</strong> Ask "what do you think happens if…" before
+                            running the code.</li>
+                        <li><strong>Keep it short.</strong> 45 to 60 minutes with a clear goal beats an afternoon.</li>
+                        <li><strong>Show the debugging, not just the answer.</strong> How you read a stack trace,
+                            search the codebase, or narrow a CSS bug in DevTools is the real lesson.</li>
+                    </ul>
+
+                    <h2>Using AI assistants responsibly while learning</h2>
+                    <p>Juniors today will use AI coding assistants whether you have a policy or not, so it's better
+                        to talk about it openly. These tools can be excellent tutors, and they can also let someone
+                        ship code they don't understand, which shows up later as bugs nobody can explain.</p>
+                    <p>The guidelines I'd give:</p>
+                    <ol>
+                        <li><strong>Explain before you commit.</strong> If you can't explain every line in your PR
+                            to a reviewer, it's not ready. That applies to generated code too.</li>
+                        <li><strong>Ask for explanations, not just answers.</strong> "Why does this flex item
+                            overflow?" teaches more than "fix this layout".</li>
+                        <li><strong>Try first, then ask.</strong> Spend fifteen minutes on a problem yourself before
+                            prompting. The struggle is where learning happens.</li>
+                        <li><strong>Verify against the docs.</strong> Assistants can suggest outdated APIs or
+                            options that don't exist. Check MDN, the Laravel docs, or the library's own docs.</li>
+                        <li><strong>Follow the team's rules</strong> on what code and data can be shared with
+                            external tools.</li>
+                    </ol>
+                    <blockquote>The goal isn't to avoid AI. It's to make sure the junior is building judgement,
+                        because judgement is the thing the tools can't supply for them.</blockquote>
+
+                    <h2>Feedback cadence</h2>
+                    <p>Juniors rarely ask "how am I doing?", so build the answer into the calendar.</p>
+                    <ul>
+                        <li><strong>Daily:</strong> a quick check-in with the buddy during the first two weeks.</li>
+                        <li><strong>Weekly:</strong> a 30-minute one-to-one with the lead. What went well, what was
+                            confusing, what's next.</li>
+                        <li><strong>Day 30, 60 and 90:</strong> a written review against the goals for that phase.
+                            Be specific: "your PR descriptions now explain the why" beats "good progress".</li>
+                        <li><strong>In code review:</strong> label comments as blocking or non-blocking, and explain
+                            the reason, not just the change. Praise good decisions in review too.</li>
+                    </ul>
+
+                    <h2>Signs it's working</h2>
+                    <ul>
+                        <li>Their questions shift from "how do I" to "should I" and "why do we".</li>
+                        <li>PRs get smaller and descriptions get better.</li>
+                        <li>They find the answer in the codebase before asking.</li>
+                        <li>They catch something in someone else's PR.</li>
+                        <li>They point out a gap in the setup doc and fix it.</li>
+                    </ul>
+                    <p>And the warning signs: long silences followed by huge PRs, the same review comments
+                        repeating, or never asking questions at all. None of those mean the person is a bad hire.
+                        They usually mean the plan needs adjusting: smaller tickets, more pairing, or a clearer
+                        definition of done.</p>
+
+                    <h2>The checklist</h2>
+                    <ol>
+                        <li>Accounts, setup doc and three good first issues ready before day one.</li>
+                        <li>A named buddy who isn't the lead.</li>
+                        <li>First PR merged and deployed in week one.</li>
+                        <li>Written goals for days 30, 60 and 90, shared with the junior.</li>
+                        <li>Fundamentals-first review: HTML, accessibility and CSS before framework polish.</li>
+                        <li>Regular pairing with the junior driving.</li>
+                        <li>Clear, open guidelines for AI assistants.</li>
+                        <li>A weekly one-to-one and written reviews at each milestone.</li>
+                    </ol>
+                    <p>Onboarding is one of the few things a tech lead does that compounds. A junior who's
+                        onboarded well becomes the buddy for the next one, and your setup doc gets better every
+                        time.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/onboarding-junior-frontend-developers-90-days/&text=Onboarding%20Junior%20Frontend%20Developers%3A%20A%2090-Day%20Playbook%20from%20a%20Tech%20Lead"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/onboarding-junior-frontend-developers-90-days/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 520" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="520" rx="16" fill="#16161b"/>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#8f8fef"/></marker>
+  </defs>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">ONE CROSS-DOCUMENT NAVIGATION</text>
+
+  <!-- lane labels -->
+  <text x="40" y="127" font-size="13" fill="#a19e97" font-weight="700">OLD</text>
+  <text x="40" y="145" font-size="12" fill="#8f8d88">page</text>
+  <text x="40" y="257" font-size="13" fill="#a19e97" font-weight="700">NEW</text>
+  <text x="40" y="275" font-size="12" fill="#8f8d88">page</text>
+  <line x1="120" y1="190" x2="840" y2="190" stroke="#2e2e36" stroke-dasharray="4 6"/>
+
+  <!-- old lane -->
+  <rect x="120" y="102" width="100" height="64" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="170" y="130" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">click</text>
+  <text x="170" y="150" text-anchor="middle" font-size="12" fill="#a19e97">link / form</text>
+
+  <rect x="232" y="102" width="140" height="64" rx="10" fill="#23232a" stroke="#2e2e36"/>
+  <text x="302" y="130" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">fetch</text>
+  <text x="302" y="150" text-anchor="middle" font-size="12" fill="#a19e97">next document</text>
+
+  <rect x="384" y="102" width="140" height="64" rx="10" fill="#5b5bd6"/>
+  <text x="454" y="130" text-anchor="middle" font-size="15" fill="#ffffff" font-weight="700">pageswap</text>
+  <text x="454" y="150" text-anchor="middle" font-size="12" fill="#dcdcfb">event fires</text>
+
+  <rect x="536" y="102" width="140" height="64" rx="10" fill="#f2b880"/>
+  <text x="606" y="130" text-anchor="middle" font-size="15" fill="#1a1a1a" font-weight="700">snapshot</text>
+  <text x="606" y="150" text-anchor="middle" font-size="12" fill="#3a2a10">root + named</text>
+
+  <rect x="688" y="102" width="152" height="64" rx="10" fill="none" stroke="#2e2e36" stroke-dasharray="5 5"/>
+  <text x="764" y="130" text-anchor="middle" font-size="13" fill="#8f8d88">unloaded</text>
+  <text x="764" y="150" text-anchor="middle" font-size="12" fill="#8f8d88">DOM is gone</text>
+
+  <!-- new lane -->
+  <rect x="384" y="232" width="140" height="64" rx="10" fill="none" stroke="#8f8fef" stroke-dasharray="5 5"/>
+  <text x="454" y="260" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">parse</text>
+  <text x="454" y="280" text-anchor="middle" font-size="12" fill="#a19e97">render held</text>
+
+  <rect x="536" y="232" width="140" height="64" rx="10" fill="#5b5bd6"/>
+  <text x="606" y="260" text-anchor="middle" font-size="15" fill="#ffffff" font-weight="700">pagereveal</text>
+  <text x="606" y="280" text-anchor="middle" font-size="12" fill="#dcdcfb">add types</text>
+
+  <rect x="688" y="232" width="152" height="64" rx="10" fill="#6fd3b0"/>
+  <text x="764" y="260" text-anchor="middle" font-size="15" fill="#1a1a1a" font-weight="700">animate</text>
+  <text x="764" y="280" text-anchor="middle" font-size="12" fill="#0f3a2a">old → new</text>
+
+  <!-- arrows -->
+  <path d="M302 166 C302 210 380 264 382 264" fill="none" stroke="#8f8fef" stroke-width="2" marker-end="url(#ah)"/>
+  <path d="M606 166 L606 228" fill="none" stroke="#8f8fef" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="614" y="206" font-size="12" fill="#8f8fef">images</text>
+
+  <!-- pseudo tree -->
+  <rect x="40" y="326" width="800" height="160" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="64" y="354" font-size="13" fill="#8f8d88" letter-spacing="1.5">PSEUDO-ELEMENTS ON TOP OF THE NEW PAGE</text>
+  <text x="64" y="384" font-size="13" fill="#ece9e2">::view-transition</text>
+  <text x="64" y="404" font-size="13" fill="#ece9e2">└ ::view-transition-group(root)</text>
+  <text x="64" y="424" font-size="13" fill="#ece9e2">   └ ::view-transition-image-pair(root)</text>
+  <text x="64" y="444" font-size="13" fill="#f2b880">      ├ ::view-transition-old(root)</text>
+  <text x="64" y="464" font-size="13" fill="#6fd3b0">      └ ::view-transition-new(root)</text>
+  <text x="460" y="444" font-size="12" fill="#a19e97">← static picture of old page</text>
+  <text x="460" y="464" font-size="12" fill="#a19e97">← live view of new page</text>
+  <text x="816" y="384" text-anchor="end" font-size="12" fill="#a19e97">one group per</text>
+  <text x="816" y="404" text-anchor="end" font-size="12" fill="#a19e97">view-transition-name</text>
+</svg>

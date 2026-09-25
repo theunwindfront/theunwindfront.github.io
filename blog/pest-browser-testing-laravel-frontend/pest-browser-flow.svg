@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="400" rx="16" fill="#16161b"/>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8f8fef"/></marker>
+    <marker id="am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6fd3b0"/></marker>
+  </defs>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">WHAT HAPPENS IN ONE BROWSER TEST</text>
+
+  <!-- test -->
+  <rect x="40" y="90" width="230" height="170" rx="12" fill="#1b1b20" stroke="#5b5bd6"/>
+  <text x="60" y="118" font-size="14" font-weight="700" fill="#b3b3f7">Pest test (PHP)</text>
+  <g font-size="12" fill="#ece9e2">
+    <text x="60" y="150">visit('/products')</text>
+    <text x="72" y="172" fill="#a19e97">-&gt;type('search', …)</text>
+    <text x="72" y="194" fill="#a19e97">-&gt;click('Filter')</text>
+    <text x="72" y="216" fill="#6fd3b0">-&gt;assertSee(…)</text>
+    <text x="72" y="238" fill="#6fd3b0">-&gt;assertNoSmoke()</text>
+  </g>
+
+  <!-- playwright -->
+  <rect x="325" y="90" width="230" height="170" rx="12" fill="#1b1b20" stroke="#f2b880"/>
+  <text x="345" y="118" font-size="14" font-weight="700" fill="#f2b880">Playwright</text>
+  <g font-size="12" fill="#ece9e2">
+    <text x="345" y="150">real browser</text>
+    <text x="345" y="172" fill="#a19e97">Chromium · Firefox</text>
+    <text x="345" y="194" fill="#a19e97">WebKit</text>
+    <text x="345" y="216">waits for elements</text>
+    <text x="345" y="238">collects console + errors</text>
+  </g>
+
+  <!-- app -->
+  <rect x="610" y="90" width="230" height="170" rx="12" fill="#1b1b20" stroke="#6fd3b0"/>
+  <text x="630" y="118" font-size="14" font-weight="700" fill="#6fd3b0">Your Laravel app</text>
+  <g font-size="12" fill="#ece9e2">
+    <text x="630" y="150">Blade + built assets</text>
+    <text x="630" y="172" fill="#a19e97">Livewire requests</text>
+    <text x="630" y="194" fill="#a19e97">Alpine runs for real</text>
+    <text x="630" y="216">factories, actingAs,</text>
+    <text x="630" y="238">fresh test database</text>
+  </g>
+
+  <!-- arrows -->
+  <line x1="274" y1="150" x2="319" y2="150" stroke="#8f8fef" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="559" y1="150" x2="604" y2="150" stroke="#8f8fef" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="604" y1="222" x2="559" y2="222" stroke="#6fd3b0" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#am)"/>
+  <line x1="319" y1="222" x2="274" y2="222" stroke="#6fd3b0" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#am)"/>
+
+  <!-- legend -->
+  <line x1="40" y1="300" x2="80" y2="300" stroke="#8f8fef" stroke-width="2"/>
+  <text x="92" y="304" font-size="12" fill="#a19e97">actions: visit, click, type, press</text>
+  <line x1="40" y1="330" x2="80" y2="330" stroke="#6fd3b0" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="92" y="334" font-size="12" fill="#a19e97">rendered DOM, console logs and JS errors come back for assertions</text>
+
+  <!-- options row -->
+  <g font-size="12" text-anchor="middle">
+    <rect x="40" y="352" width="150" height="28" rx="14" fill="#23232a" stroke="#2e2e36"/>
+    <text x="115" y="371" fill="#ece9e2">on()-&gt;mobile()</text>
+    <rect x="202" y="352" width="140" height="28" rx="14" fill="#23232a" stroke="#2e2e36"/>
+    <text x="272" y="371" fill="#ece9e2">inDarkMode()</text>
+    <rect x="354" y="352" width="220" height="28" rx="14" fill="#23232a" stroke="#2e2e36"/>
+    <text x="464" y="371" fill="#ece9e2">assertScreenshotMatches()</text>
+    <rect x="586" y="352" width="120" height="28" rx="14" fill="#23232a" stroke="#2e2e36"/>
+    <text x="646" y="371" fill="#ece9e2">--parallel</text>
+    <rect x="718" y="352" width="122" height="28" rx="14" fill="#23232a" stroke="#2e2e36"/>
+    <text x="779" y="371" fill="#ece9e2">--headed</text>
+  </g>
+</svg>

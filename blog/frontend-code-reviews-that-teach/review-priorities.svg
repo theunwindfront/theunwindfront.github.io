@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="420" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">WHAT TO REVIEW, IN ORDER</text>
+  <!-- bars -->
+  <rect x="40" y="80" width="600" height="62" rx="10" fill="#f28b9b"/>
+  <text x="62" y="107" font-size="15" fill="#1a1a1a" font-weight="700">1. Correctness</text>
+  <text x="62" y="128" font-size="12" fill="#3a1a20">edge cases · empty/loading/error states · regressions</text>
+  <rect x="40" y="152" width="540" height="62" rx="10" fill="#f2b880"/>
+  <text x="62" y="179" font-size="15" fill="#1a1a1a" font-weight="700">2. Accessibility</text>
+  <text x="62" y="200" font-size="12" fill="#3a2a10">keyboard · focus · names · contrast</text>
+  <rect x="40" y="224" width="480" height="62" rx="10" fill="#8f8fef"/>
+  <text x="62" y="251" font-size="15" fill="#1a1a1a" font-weight="700">3. Architecture</text>
+  <text x="62" y="272" font-size="12" fill="#1f1f4a">where logic lives · reuse · state ownership</text>
+  <rect x="40" y="296" width="420" height="62" rx="10" fill="#23232a" stroke="#6fd3b0" stroke-dasharray="6 5"/>
+  <text x="62" y="323" font-size="15" fill="#ece9e2" font-weight="700">4. Style</text>
+  <text x="62" y="344" font-size="12" fill="#a19e97">formatting · naming · import order</text>
+  <!-- brackets -->
+  <path d="M662 84 h14 v198 h-14" fill="none" stroke="#ece9e2" stroke-width="2"/>
+  <text x="692" y="170" font-size="14" fill="#ece9e2" font-weight="700">Human</text>
+  <text x="692" y="190" font-size="14" fill="#ece9e2" font-weight="700">reviewers</text>
+  <text x="692" y="212" font-size="12" fill="#a19e97">most attention</text>
+  <text x="692" y="230" font-size="12" fill="#a19e97">goes here</text>
+  <path d="M482 300 h14 v54 h-14" fill="none" stroke="#6fd3b0" stroke-width="2"/>
+  <text x="512" y="323" font-size="14" fill="#6fd3b0" font-weight="700">Machines</text>
+  <text x="512" y="344" font-size="12" fill="#a19e97">Prettier · ESLint · Stylelint · Pint</text>
+  <text x="40" y="392" font-size="12" fill="#8f8d88">If something high on the list is wrong, stop and talk before polishing the rest.</text>
+</svg>

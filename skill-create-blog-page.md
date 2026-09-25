@@ -213,8 +213,8 @@ the post goes live — adding them early would expose the post before its date.
 
 ### What happens next
 `.github/workflows/publish-scheduled.yml` runs hourly. Once `publishDate` passes it clears the
-`scheduled` flag, adds the crawler link and sitemap entry, strips the noindex meta, and
-commits. GitHub Pages redeploys on that commit. The listing also filters scheduled posts
+`scheduled` flag, adds the crawler link and sitemap entry, lists the post under "Key Guides"
+in `llms.txt`, strips the noindex meta, and commits. GitHub Pages redeploys on that commit. The listing also filters scheduled posts
 client-side, so a pending post never renders even between cron runs.
 
 ### Notes

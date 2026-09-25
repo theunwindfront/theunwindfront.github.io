@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Container Queries in Real Component Libraries: Components That Fit Anywhere</title>
+    <meta name="description"
+        content="Media queries ask how wide the screen is. Reusable components need to know how wide their slot is. A practical guide to container queries, cqi units and Tailwind v4&#x27;s @container variants.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/container-queries-component-libraries/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Container Queries in Real Component Libraries: Components That Fit Anywhere">
+    <meta property="og:description"
+        content="Media queries ask how wide the screen is. Reusable components need to know how wide their slot is. A practical guide to container queries, cqi units and Tailwind v4&#x27;s @container variants.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/container-queries-component-libraries/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/container-queries-component-libraries/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Container Queries in Real Component Libraries: Components That Fit Anywhere">
+    <meta name="twitter:description"
+        content="Media queries ask how wide the screen is. Reusable components need to know how wide their slot is. A practical guide to container queries, cqi units and Tailwind v4&#x27;s @container variants.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/container-queries-component-libraries/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Container Queries in Real Component Libraries: Components That Fit Anywhere",
+        "description": "Media queries ask how wide the screen is. Reusable components need to know how wide their slot is. A practical guide to container queries, cqi units and Tailwind v4's @container variants.",
+        "image": "https://sagarpansuriya.in/blog/container-queries-component-libraries/cover.png",
+        "datePublished": "2026-10-16",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/container-queries-component-libraries/",
+        "articleSection": "TailwindCSS",
+        "keywords": "container queries, CSS container queries, Tailwind CSS v4, @container, cqi units, responsive components, component library"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=TailwindCSS">§ TailwindCSS</a>
+                <h1 class="post-title">Container Queries in Real Component Libraries: Components That Fit Anywhere</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-10-16">Oct 16, 2026</time>
+                    <span class="sep">·</span>
+                    <span>7 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of the same card component rendered in a narrow sidebar, a medium panel and a wide main column, each adapting its layout to its container"></div>
+
+                <div class="prose">
+<p>You've probably built this card. Image on the left, title and meta on the right, a button at
+                        the bottom. It looks great in the main column. Then someone drops it into the sidebar, and
+                        on a 1440px screen the sidebar is 320px wide. Your <code>md:flex-row</code> kicks in because
+                        the <em>viewport</em> is wide, and the card squeezes a thumbnail and three lines of text into
+                        a space that can barely hold one.</p>
+                    <p>The usual fix is a prop: <code>variant="compact"</code>. Then another for the dashboard grid,
+                        another for the modal. After a year your card has five layout variants, and every new
+                        placement means a new one. The card doesn't actually care about the screen. It cares about
+                        the space it was given.</p>
+                    <p>That's the problem container queries solve, and they've been supported in every major
+                        browser since early 2023. This post covers how they work, how Tailwind v4 exposes them,
+                        and the patterns I reach for in real component libraries.</p>
+
+                    <h2>Why media queries fail reusable components</h2>
+                    <p>A media query answers one question: how big is the viewport? That's the right question for
+                        page-level layout, like whether the sidebar is visible or how many columns the grid has. It's
+                        the wrong question for a component, because a component doesn't know where it will be
+                        rendered.</p>
+                    <p>The same card might sit in:</p>
+                    <ul>
+                        <li>a 1200px main column on desktop,</li>
+                        <li>a 320px sidebar on the same desktop,</li>
+                        <li>a three-column dashboard grid where each cell is 380px,</li>
+                        <li>a full-width mobile layout at 390px.</li>
+                    </ul>
+                    <p>Two of those are "desktop", two are roughly the same width, and a viewport breakpoint
+                        treats them completely differently. With container queries, the component asks its
+                        <em>container</em> how wide it is instead, so the 320px sidebar and the 390px phone get the
+                        same compact layout without anyone passing a prop.</p>
+
+                    <img src="container-vs-media.svg" alt="Diagram comparing a media query, which reads the viewport width and breaks the sidebar card, with a container query, where each card reads its own slot width and picks the right layout">
+
+                    <h2>The CSS: container-type and @container</h2>
+                    <p>Two pieces. First, mark an element as a query container. Second, write rules that respond
+                        to that container's size.</p>
+                    <pre class="code-block"><code>.card-slot {
+    container-type: inline-size;
+}
+
+.card {
+    display: grid;
+    gap: 1rem;
+}
+
+@container (min-width: 28rem) {
+    .card {
+        grid-template-columns: 10rem 1fr;
+    }
+}</code></pre>
+                    <p><code>container-type: inline-size</code> tells the browser this element's width can be
+                        queried. The <code>@container</code> rule then matches against the <em>nearest ancestor</em>
+                        that is a container. Note the word ancestor: an element can't query itself, which is why the
+                        container is usually a wrapper around the component, not the component root.</p>
+
+                    <h3>The one gotcha: inline-size containment</h3>
+                    <p>Making something a size container applies size containment on the inline axis. In plain
+                        terms, the container's width can no longer depend on its children. For block elements that
+                        stretch to fill their parent, you'll never notice. But if the container is a flex item that
+                        was sizing itself to its content, or an inline-block, it can collapse to zero width.</p>
+                    <p>The fix is to give it a width from the outside: <code>flex: 1</code>,
+                        <code>width: 100%</code>, or a grid track. If a component suddenly vanishes after you add
+                        <code>container-type</code>, this is almost always why.</p>
+
+                    <h3>Named containers</h3>
+                    <p>Nested containers are common: a widget inside a dashboard cell inside a main column. By
+                        default <code>@container</code> matches the nearest container, which may not be the one you
+                        meant. Name them to be explicit:</p>
+                    <pre class="code-block"><code>.layout-main {
+    container: main / inline-size;   /* shorthand: name / type */
+}
+
+.widget-cell {
+    container: widget / inline-size;
+}
+
+/* Only responds to the main column, however deeply nested */
+@container main (min-width: 60rem) {
+    .page-toolbar { flex-direction: row; }
+}
+
+@container widget (min-width: 24rem) {
+    .stat { font-size: 2rem; }
+}</code></pre>
+                    <p>My rule of thumb in a component library: layout regions get named containers
+                        (<code>main</code>, <code>sidebar</code>, <code>panel</code>), and components use unnamed
+                        queries so they respond to whatever slot they're dropped into.</p>
+
+                    <h2>Container query units: cqi and friends</h2>
+                    <p>Container queries come with length units relative to the container, the same way
+                        <code>vw</code> is relative to the viewport. The one I use most is <code>cqi</code>: 1% of the
+                        container's inline size. There's also <code>cqb</code> for the block axis and
+                        <code>cqw</code>, <code>cqh</code>, <code>cqmin</code>, <code>cqmax</code>.</p>
+                    <p>Combined with <code>clamp()</code>, they give you fluid typography and spacing that scale
+                        with the component, not the screen:</p>
+                    <pre class="code-block"><code>.stat-value {
+    font-size: clamp(1.5rem, 8cqi, 3rem);
+}
+
+.card {
+    padding: clamp(0.75rem, 4cqi, 2rem);
+}</code></pre>
+                    <p>A KPI tile in a narrow column gets a smaller number, the same tile in a wide hero gets a big
+                        one, and there's no breakpoint in sight. One detail worth knowing: if there's no eligible
+                        container, these units fall back to the small viewport units, so they won't break, but
+                        they won't do what you expect either.</p>
+
+                    <h2>Container queries in Tailwind v4</h2>
+                    <p>In Tailwind v3 you needed the <code>@tailwindcss/container-queries</code> plugin. In v4 it's
+                        built in. Add <code>@container</code> to the parent, then use the <code>@</code>-prefixed
+                        variants on children:</p>
+                    <pre class="code-block"><code>&lt;div class="@container"&gt;
+    &lt;article class="grid gap-4 @md:grid-cols-[10rem_1fr]"&gt;
+        &lt;img src="{{ $post-&gt;thumb }}" class="aspect-video w-full rounded-lg object-cover @md:aspect-square" alt=""&gt;
+        &lt;div&gt;
+            &lt;h3 class="text-lg font-semibold @lg:text-xl"&gt;{{ $post-&gt;title }}&lt;/h3&gt;
+            &lt;p class="hidden text-sm text-zinc-500 @sm:block"&gt;{{ $post-&gt;excerpt }}&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/article&gt;
+&lt;/div&gt;</code></pre>
+                    <p>A few things that trip people up:</p>
+                    <ul>
+                        <li><strong>The sizes are not the viewport breakpoints.</strong> <code>@md</code> is a
+                            container width of 28rem (448px), not 768px. The container scale is smaller because
+                            components are smaller than screens. Check the scale in the Tailwind docs before
+                            assuming.</li>
+                        <li><strong>Max-width variants exist too.</strong> <code>@max-md:</code> applies below the
+                            size, and you can stack them for ranges like <code>@sm:@max-lg:</code>.</li>
+                        <li><strong>Arbitrary values work.</strong> <code>@min-[30rem]:</code> when the scale
+                            doesn't fit.</li>
+                        <li><strong>Named containers use a slash.</strong> <code>@container/main</code> on the
+                            parent, <code>@lg/main:flex-row</code> on the child.</li>
+                    </ul>
+                    <p>Tailwind's <code>@container</code> class sets <code>container-type: inline-size</code>, so the
+                        containment gotcha above applies. In a flex row, pair it with <code>flex-1</code> or
+                        <code>w-full</code>.</p>
+
+                    <h2>Pattern 1: the card that adapts in sidebar vs main</h2>
+                    <p>This is the canonical case, and in Blade the cleanest approach is to make the component own
+                        its own container wrapper. Then nobody using it has to remember:</p>
+                    <pre class="code-block"><code>{{-- resources/views/components/post-card.blade.php --}}
+@props(['post'])
+
+&lt;div {{ $attributes-&gt;class('@container') }}&gt;
+    &lt;article class="flex flex-col gap-3 rounded-xl border border-zinc-200 p-4 @md:flex-row @md:items-center"&gt;
+        &lt;img src="{{ $post-&gt;thumb }}" alt="" class="w-full rounded-lg @md:w-40"&gt;
+        &lt;div class="min-w-0"&gt;
+            &lt;h3 class="truncate font-semibold"&gt;{{ $post-&gt;title }}&lt;/h3&gt;
+            &lt;p class="line-clamp-2 text-sm text-zinc-600 @lg:line-clamp-3"&gt;{{ $post-&gt;excerpt }}&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/article&gt;
+&lt;/div&gt;</code></pre>
+                    <p>Now <code>&lt;x-post-card&gt;</code> works in the sidebar, the main feed, a two-up grid and a
+                        modal, with zero variant props. The <code>variant</code> prop goes back to meaning what it
+                        should: a visual style, not a guess about available width.</p>
+
+                    <h2>Pattern 2: responsive tables</h2>
+                    <p>Tables are where viewport breakpoints hurt most. A data table inside a slide-over panel is
+                        effectively on a phone, even on a 27-inch monitor. With a container query, the table can
+                        switch to a stacked layout based on the space it actually has:</p>
+                    <pre class="code-block"><code>.table-wrap { container-type: inline-size; }
+
+@container (max-width: 36rem) {
+    .data-table thead { display: none; }
+    .data-table tr    { display: grid; gap: 0.25rem; padding: 0.75rem 0; }
+    .data-table td    { display: grid; grid-template-columns: 8rem 1fr; }
+    .data-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+    }
+}</code></pre>
+                    <p>Put <code>data-label="Status"</code> on each cell and the same markup renders as a table in
+                        the main area and as labelled cards in the panel. One caveat: changing
+                        <code>display</code> on table elements can affect how screen readers announce them, so test
+                        the stacked version with a screen reader, and consider adding explicit ARIA table roles if
+                        it matters for your users.</p>
+
+                    <h2>Pattern 3: dashboard widgets</h2>
+                    <p>Dashboards are the best argument for container queries I know. Users resize panels, grids
+                        reflow, and a chart widget might be 280px or 900px wide depending on the layout. Each widget
+                        decides for itself what to show:</p>
+                    <pre class="code-block"><code>&lt;div class="@container rounded-xl bg-white p-4"&gt;
+    &lt;div class="flex items-baseline justify-between"&gt;
+        &lt;p class="text-sm text-zinc-500"&gt;Revenue&lt;/p&gt;
+        &lt;span class="hidden text-xs text-emerald-600 @xs:inline"&gt;+12% vs last month&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;p class="text-[clamp(1.5rem,10cqi,3rem)] font-bold"&gt;₹4.2L&lt;/p&gt;
+    &lt;div class="hidden h-32 @sm:block"&gt;{{-- sparkline chart --}}&lt;/div&gt;
+    &lt;table class="hidden @2xl:table"&gt;{{-- breakdown by channel --}}&lt;/table&gt;
+&lt;/div&gt;</code></pre>
+                    <p>Small: just the number. Medium: number plus sparkline. Wide: the full breakdown. This is
+                        progressive disclosure by available space, and the widget stays a single component.</p>
+
+                    <h2>A teaser: style queries</h2>
+                    <p>Size isn't the only thing you can query. Style queries let a component respond to a custom
+                        property set on its container:</p>
+                    <pre class="code-block"><code>.theme-dark-panel { --surface: dark; }
+
+@container style(--surface: dark) {
+    .card { background: #1b1b20; color: #ece9e2; }
+}</code></pre>
+                    <p>This is a neat way to pass "context" down without prop drilling or extra classes. Support
+                        for custom-property style queries is newer and less uniform than size queries, so check
+                        current browser support on MDN before relying on it, and treat it as an enhancement
+                        rather than a requirement.</p>
+
+                    <h2>When to still use media queries</h2>
+                    <p>Container queries don't replace media queries. They split the job:</p>
+                    <table>
+                        <thead>
+                            <tr><th>Question</th><th>Tool</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Is the sidebar visible? How many page columns?</td><td>Media query (<code>md:</code>, <code>lg:</code>)</td></tr>
+                            <tr><td>How should this card lay itself out?</td><td>Container query (<code>@md:</code>)</td></tr>
+                            <tr><td>Does the user prefer reduced motion or dark mode?</td><td>Media query</td></tr>
+                            <tr><td>Is this pointer coarse or fine?</td><td>Media query</td></tr>
+                            <tr><td>How big should this stat number be?</td><td><code>cqi</code> with <code>clamp()</code></td></tr>
+                        </tbody>
+                    </table>
+                    <p>Page shell responds to the viewport. Everything inside it responds to its container.</p>
+
+                    <h2>A checklist for your component library</h2>
+                    <ol>
+                        <li>Every reusable component that changes layout ships its own <code>@container</code>
+                            wrapper, so consumers don't have to add one.</li>
+                        <li>Layout regions get named containers; components use unnamed queries.</li>
+                        <li>Watch for collapsing containers in flex rows. Give them <code>flex-1</code> or a width.</li>
+                        <li>Use the container scale, not viewport breakpoints, inside components.</li>
+                        <li>Replace width-based variant props (<code>compact</code>, <code>sidebar</code>) with
+                            container queries.</li>
+                        <li>Use <code>cqi</code> with <code>clamp()</code> for type and spacing that scale with the
+                            slot.</li>
+                        <li>Keep media queries for the page shell and user preferences.</li>
+                    </ol>
+                    <p>Go back to the card from the start. With a container wrapper and two <code>@md:</code>
+                        classes, it just fits the sidebar. No new prop, and no ticket next month when someone puts
+                        it in a modal.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/container-queries-component-libraries/&text=Container%20Queries%20in%20Real%20Component%20Libraries%3A%20Components%20That%20Fit%20Anywhere"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/container-queries-component-libraries/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

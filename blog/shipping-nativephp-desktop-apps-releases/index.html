@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Shipping NativePHP Desktop Apps: Signing, Updates and a Real Release Pipeline</title>
+    <meta name="description"
+        content="Getting a NativePHP app onto real users&#x27; machines: versioning, per-platform builds, code signing and notarization, auto-updates, a GitHub Actions matrix and a release checklist.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/shipping-nativephp-desktop-apps-releases/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Shipping NativePHP Desktop Apps: Signing, Updates and a Real Release Pipeline">
+    <meta property="og:description"
+        content="Getting a NativePHP app onto real users&#x27; machines: versioning, per-platform builds, code signing and notarization, auto-updates, a GitHub Actions matrix and a release checklist.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/shipping-nativephp-desktop-apps-releases/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/shipping-nativephp-desktop-apps-releases/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Shipping NativePHP Desktop Apps: Signing, Updates and a Real Release Pipeline">
+    <meta name="twitter:description"
+        content="Getting a NativePHP app onto real users&#x27; machines: versioning, per-platform builds, code signing and notarization, auto-updates, a GitHub Actions matrix and a release checklist.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/shipping-nativephp-desktop-apps-releases/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Shipping NativePHP Desktop Apps: Signing, Updates and a Real Release Pipeline",
+        "description": "Getting a NativePHP app onto real users' machines: versioning, per-platform builds, code signing and notarization, auto-updates, a GitHub Actions matrix and a release checklist.",
+        "image": "https://sagarpansuriya.in/blog/shipping-nativephp-desktop-apps-releases/cover.png",
+        "datePublished": "2026-10-28",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/shipping-nativephp-desktop-apps-releases/",
+        "articleSection": "NativePHP",
+        "keywords": "NativePHP, Laravel desktop app, code signing, macOS notarization, auto-updates, GitHub Actions, release pipeline"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=NativePHP">§ NativePHP</a>
+                <h1 class="post-title">Shipping NativePHP Desktop Apps: Signing, Updates and a Real Release Pipeline</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-10-28">Oct 28, 2026</time>
+                    <span class="sep">·</span>
+                    <span>8 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of a version tag feeding three signed desktop app packages for macOS, Windows and Linux, with an update arrow returning to an installed app"></div>
+
+                <div class="prose">
+<p>Picture the moment a NativePHP app stops being a side project. It runs perfectly on your machine,
+                        <code>php artisan native:serve</code> opens a window, the team loves the demo. Then someone says
+                        "great, let's send it to the first twenty customers", and you realise that sending a desktop app is a
+                        completely different job from deploying a Laravel site.</p>
+                    <p>There's no server you control. Every user runs their own copy, on their own OS, and the operating system
+                        itself decides whether your app is allowed to open at all. If you get the release pipeline wrong, the
+                        first thing your users see isn't your login screen. It's a warning that your app "can't be opened" or
+                        "may harm your computer".</p>
+                    <p>This post walks through the pipeline I'd set up before shipping a NativePHP desktop app to real people:
+                        versioning, per-platform builds, code signing and notarization, auto-updates, a GitHub Actions matrix,
+                        and a checklist to run before every release.</p>
+
+                    <h2>Think in releases, not deploys</h2>
+                    <p>With a web app, a bad deploy is fixed by the next deploy. With a desktop app, a bad release lives on
+                        every machine that installed it until the user updates. That changes a few habits:</p>
+                    <ul>
+                        <li><strong>Every build has a version number</strong>, and that number only goes up. The auto-updater
+                            compares versions to decide whether there's something new.</li>
+                        <li><strong>Every release is reproducible</strong>. It's built by CI from a tag, not from your laptop
+                            with whatever happens to be in your working copy.</li>
+                        <li><strong>The update path is part of the product</strong>. If version 1.0 can't update itself, you'll
+                            be emailing download links for the life of the app.</li>
+                    </ul>
+
+                    <img src="nativephp-release-pipeline.svg" alt="Release pipeline diagram: a git tag triggers a CI build matrix for macOS, Windows and Linux, each build is signed, artifacts are published to an update provider, and installed apps check for, download and install the update">
+
+                    <h2>Versioning: one source of truth</h2>
+                    <p>NativePHP reads your app's version from its config file, <code>config/nativephp.php</code>, which by
+                        default pulls it from an environment variable. That's the number baked into the build and the one the
+                        updater compares against. Treat it like a public API version: semver, bumped on every release, never
+                        reused.</p>
+                    <pre class="code-block"><code># .env (or set in CI)
+NATIVEPHP_APP_VERSION=1.4.0
+NATIVEPHP_APP_ID=com.acme.timesheets</code></pre>
+                    <p>Two things worth doing from day one:</p>
+                    <ul>
+                        <li><strong>Pick the app ID once and never change it.</strong> It's a reverse-domain identifier the OS
+                            uses to recognise your app. Change it later and, as far as macOS or Windows is concerned, you've
+                            shipped a different app: separate settings, separate data, and updates that don't connect.</li>
+                        <li><strong>Derive the version from the git tag in CI.</strong> Humans forget to bump a config value. A
+                            pipeline that runs on <code>v*</code> tags and sets the version from the tag name can't forget.</li>
+                    </ul>
+                    <p>Also remember that your Laravel app now runs on the user's machine, with its own local database. When an
+                        update lands, your migrations run there, not on a server you can SSH into. Keep migrations additive and
+                        forgiving, because you can't hotfix a half-migrated SQLite file on a customer's laptop.</p>
+
+                    <h2>Building for each platform</h2>
+                    <p>NativePHP wraps your Laravel app, a bundled PHP binary and a native shell into an installable package. The
+                        build command takes the target OS:</p>
+                    <pre class="code-block"><code>php artisan native:build mac
+php artisan native:build win
+php artisan native:build linux</code></pre>
+                    <p>In theory you can build some targets from another OS. In practice, <strong>build each platform on its own
+                        OS</strong>. macOS signing and notarization need Apple's tools, which only run on a Mac. Windows builds are
+                        least surprising on Windows. CI runners make this cheap, so there's no reason to fight it.</p>
+                    <p>Before the first real build, check two things:</p>
+                    <ol>
+                        <li><strong>What ends up in the bundle.</strong> Your whole project is packaged, so anything sitting in
+                            the project directory can ship to users. NativePHP's config has options for removing sensitive
+                            <code>.env</code> keys and excluding files from the build. Use them, then open the built package and
+                            look. Your production database password should never be in a desktop app.</li>
+                        <li><strong>Architecture.</strong> Apple Silicon and Intel Macs, x64 and ARM Windows machines. Decide
+                            which you support, check the NativePHP docs for how your version handles architectures, and test on
+                            at least one real machine per target.</li>
+                    </ol>
+
+                    <h2>Code signing and notarization</h2>
+                    <p>This is the part people skip, and it's the part users notice first. Signing proves who built the app and
+                        that it hasn't been tampered with since. Without it, modern operating systems actively discourage people
+                        from running your software.</p>
+
+                    <h3>macOS</h3>
+                    <p>An unsigned, un-notarized app downloaded from the internet gets blocked by Gatekeeper, with a dialog that
+                        makes most non-technical users give up. To ship properly you need:</p>
+                    <ul>
+                        <li>A membership in the <strong>Apple Developer Program</strong>.</li>
+                        <li>A <strong>Developer ID Application</strong> certificate. This is the one for apps distributed
+                            outside the Mac App Store. Export it with its private key as a <code>.p12</code> file for CI.</li>
+                        <li>Credentials for <strong>notarization</strong>: your Apple ID, an app-specific password generated for
+                            it, and your Team ID. Notarization means uploading the signed build to Apple, which scans it and
+                            issues a ticket that Gatekeeper trusts.</li>
+                    </ul>
+                    <p>NativePHP handles the signing and notarization steps during the build when the right environment variables
+                        are present. The docs list the exact names for your version. Recent versions use variables along these
+                        lines:</p>
+                    <pre class="code-block"><code>NATIVEPHP_APPLE_ID=releases@acme.test
+NATIVEPHP_APPLE_ID_PASS=abcd-efgh-ijkl-mnop   # app-specific password, not your real one
+NATIVEPHP_APPLE_TEAM_ID=AB12CD34EF</code></pre>
+                    <p>The certificate itself has to be in the keychain of the machine doing the build. Locally, that's your
+                        login keychain. In CI, you import the <code>.p12</code> from a secret into a temporary keychain before
+                        building.</p>
+                    <p>Notarization adds a few minutes to each macOS build while Apple processes the upload. Budget for it and
+                        don't mistake the wait for a hung job.</p>
+
+                    <h3>Windows</h3>
+                    <p>Unsigned Windows installers trigger <strong>SmartScreen</strong>: a full-screen "Windows protected your
+                        PC" warning with the Run button hidden behind "More info". Signing with a code signing certificate from a
+                        trusted certificate authority fixes the "unknown publisher" part. SmartScreen reputation still builds up
+                        over time with downloads, so the first releases of a brand-new app may still see some friction.</p>
+                    <p>The practical wrinkle: code signing keys now have to live on hardware (a token or HSM) rather than in a
+                        file you can drop into CI. That pushes most teams toward a <strong>cloud signing service</strong> that
+                        signs over an API. Check which signing methods your NativePHP version supports before you buy a
+                        certificate, so you don't end up with a USB token that can't reach your build runner.</p>
+
+                    <h3>Linux</h3>
+                    <p>No OS-level signing gate here. AppImage and <code>.deb</code> packages install without a notarization
+                        step. Publish checksums alongside your downloads so careful users can verify what they got.</p>
+
+                    <h2>Auto-updates: the feature you ship in 1.0</h2>
+                    <p>NativePHP includes an auto-updater built on Electron's updater. You pick an <strong>update provider</strong>,
+                        which is simply where release artifacts and update metadata live. The built-in providers cover GitHub
+                        Releases, Amazon S3 and DigitalOcean Spaces. The shape of the config looks like this (simplified):</p>
+                    <pre class="code-block"><code>// config/nativephp.php (excerpt, simplified)
+'updater' =&gt; [
+    'enabled' =&gt; env('NATIVEPHP_UPDATER_ENABLED', true),
+    'default' =&gt; env('NATIVEPHP_UPDATER_PROVIDER', 'spaces'),
+    'providers' =&gt; [
+        'github' =&gt; [ /* owner, repo, token, ... */ ],
+        's3'     =&gt; [ /* key, secret, region, bucket, ... */ ],
+        'spaces' =&gt; [ /* key, secret, name, region, ... */ ],
+    ],
+],</code></pre>
+                    <p>Instead of <code>native:build</code>, you release with <code>php artisan native:publish</code>, which
+                        builds the app and uploads the artifacts to the configured provider. Installed copies check that location,
+                        download a newer version in the background, and install it on restart.</p>
+                    <p>How to choose a provider:</p>
+                    <table>
+                        <thead>
+                            <tr><th>Provider</th><th>Good for</th><th>Watch out for</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>GitHub Releases</td><td>Open-source or small apps, zero extra infra</td><td>Private repos
+                                need a token, and a token baked into an app isn't truly secret</td></tr>
+                            <tr><td>S3 / Spaces</td><td>Commercial apps, private code, CDN in front</td><td>Bucket permissions and
+                                keeping upload keys out of the shipped app</td></tr>
+                        </tbody>
+                    </table>
+                    <p>Two rules that save a lot of pain:</p>
+                    <ul>
+                        <li><strong>Auto-updates on macOS require a signed app.</strong> One more reason signing isn't optional.</li>
+                        <li><strong>Test the update, not just the install.</strong> Install the previous release, publish the new
+                            one, and watch the old copy find it, download it and restart into it. A broken updater is the one bug
+                            you can't fix with an update.</li>
+                    </ul>
+
+                    <h2>A GitHub Actions build matrix</h2>
+                    <p>Here's a workflow that runs on version tags and builds each platform on a matching runner. Treat it as a
+                        starting point. The signing steps depend on your certificate setup, and secrets are named to taste.</p>
+                    <pre class="code-block"><code># .github/workflows/release.yml
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            target: mac
+          - os: windows-latest
+            target: win
+          - os: ubuntu-latest
+            target: linux
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: composer install --no-interaction --prefer-dist
+      - run: npm ci &amp;&amp; npm run build
+
+      # macOS only: import the Developer ID certificate into a temporary keychain here.
+
+      - name: Build and publish
+        shell: bash
+        run: php artisan native:publish ${{ matrix.target }}
+        env:
+          NATIVEPHP_APP_VERSION: ${{ github.ref_name }}
+          NATIVEPHP_APPLE_ID: ${{ secrets.APPLE_ID }}
+          NATIVEPHP_APPLE_ID_PASS: ${{ secrets.APPLE_APP_PASSWORD }}
+          NATIVEPHP_APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          # plus your update provider credentials</code></pre>
+                    <p>A few notes on it:</p>
+                    <ul>
+                        <li><code>fail-fast: false</code> means a Windows signing hiccup doesn't cancel a macOS build that's ten
+                            minutes into notarization.</li>
+                        <li><code>github.ref_name</code> will be <code>v1.4.0</code>. Strip the leading <code>v</code> in a
+                            small step if your setup expects a bare semver string.</li>
+                        <li>Keep upload credentials in CI secrets only. Anything the running app needs at runtime ends up inside
+                            the bundle, so a key with write access to your update bucket should never be one of them.</li>
+                    </ul>
+
+                    <h2>The pre-release checklist</h2>
+                    <p>I keep a list like this in the repo and walk through it for every release, even the boring ones:</p>
+                    <ol>
+                        <li>Version bumped, tag matches, changelog written.</li>
+                        <li>App ID unchanged since the first public release.</li>
+                        <li>Built package inspected: no real <code>.env</code> secrets, no test fixtures, no stray dumps.</li>
+                        <li>Migrations are additive and tested against a copy of the previous version's database.</li>
+                        <li>macOS build signed and notarized. It opens with a double-click on a Mac that has never seen it.</li>
+                        <li>Windows installer signed. The publisher name shows correctly in the install prompt.</li>
+                        <li>Previous version installed, update published, and the old copy updated itself successfully.</li>
+                        <li>First launch tested on a clean machine or VM per OS, not on the developer's laptop.</li>
+                        <li>A way back: you know how you'd ship a fixed version quickly if this one is broken.</li>
+                    </ol>
+                    <p>None of this is glamorous, and most of it is a one-time setup. But it's the difference between an app
+                        people install once and trust, and one that greets them with a security warning and never updates again.
+                        Set up the pipeline before the first customer build, not after the first support email.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/shipping-nativephp-desktop-apps-releases/&text=Shipping%20NativePHP%20Desktop%20Apps%3A%20Signing%2C%20Updates%20and%20a%20Real%20Release%20Pipeline"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/shipping-nativephp-desktop-apps-releases/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

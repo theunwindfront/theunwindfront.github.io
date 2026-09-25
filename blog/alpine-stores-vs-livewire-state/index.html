@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Alpine Stores vs Livewire State: Where Should UI State Live in a TALL App?</title>
+    <meta name="description"
+        content="Not every piece of state belongs on the server. A practical way to classify state in TALL apps and choose between Livewire properties, #[Url], Alpine.store, $persist and entangle.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/alpine-stores-vs-livewire-state/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Alpine Stores vs Livewire State: Where Should UI State Live in a TALL App?">
+    <meta property="og:description"
+        content="Not every piece of state belongs on the server. A practical way to classify state in TALL apps and choose between Livewire properties, #[Url], Alpine.store, $persist and entangle.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/alpine-stores-vs-livewire-state/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/alpine-stores-vs-livewire-state/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Alpine Stores vs Livewire State: Where Should UI State Live in a TALL App?">
+    <meta name="twitter:description"
+        content="Not every piece of state belongs on the server. A practical way to classify state in TALL apps and choose between Livewire properties, #[Url], Alpine.store, $persist and entangle.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/alpine-stores-vs-livewire-state/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Alpine Stores vs Livewire State: Where Should UI State Live in a TALL App?",
+        "description": "Not every piece of state belongs on the server. A practical way to classify state in TALL apps and choose between Livewire properties, #[Url], Alpine.store, $persist and entangle.",
+        "image": "https://sagarpansuriya.in/blog/alpine-stores-vs-livewire-state/cover.png",
+        "datePublished": "2026-10-21",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/alpine-stores-vs-livewire-state/",
+        "articleSection": "AlpineJS",
+        "keywords": "Alpine.js, Alpine.store, Livewire, TALL stack, state management, $wire.entangle, Livewire Url attribute"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=AlpineJS">§ AlpineJS</a>
+                <h1 class="post-title">Alpine Stores vs Livewire State: Where Should UI State Live in a TALL App?</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-10-21">Oct 21, 2026</time>
+                    <span class="sep">·</span>
+                    <span>7 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of state tokens being sorted into a server box for Livewire, a URL bar, and a browser box for Alpine stores"></div>
+
+                <div class="prose">
+<p>You've probably seen a Livewire component like this. It has <code>$orders</code>,
+                        <code>$filters</code> and <code>$page</code>, which make sense. It also has
+                        <code>$showFilterPanel</code>, <code>$activeTab</code>, <code>$isDropdownOpen</code> and
+                        <code>$hoveredRow</code>. Every time someone opens a dropdown, the browser sends a request,
+                        PHP hydrates the component, re-renders the Blade view, and sends back HTML so a menu can
+                        appear. On a good connection it takes 150 ms. On a train it takes a second.</p>
+                    <p>Nothing is broken. It's just that state ended up on the server because Livewire makes it so
+                        easy to put it there. In a TALL app you have several places state can live, and picking the
+                        right one is most of the difference between an app that feels instant and one that feels
+                        like it's thinking.</p>
+                    <p>This post gives you a way to classify state, the tool that fits each kind, and the trade-offs
+                        of the tools that sit between Alpine and Livewire.</p>
+
+                    <h2>Four kinds of state</h2>
+                    <p>Before choosing a tool, ask what the state <em>is</em>. In almost every TALL app I've worked
+                        on, state falls into one of four buckets:</p>
+                    <table>
+                        <thead>
+                            <tr><th>Kind</th><th>Examples</th><th>Home</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Server / domain</strong></td><td>Orders, the cart, form values that get validated and saved</td><td>Livewire properties</td></tr>
+                            <tr><td><strong>URL</strong></td><td>Search query, active filters, sort, page, selected tab you'd share</td><td>Livewire <code>#[Url]</code></td></tr>
+                            <tr><td><strong>UI-ephemeral</strong></td><td>Dropdown open, hover, accordion, "show password"</td><td>Local Alpine <code>x-data</code></td></tr>
+                            <tr><td><strong>Cross-component UI</strong></td><td>Sidebar collapsed, toast queue, theme, command palette open</td><td><code>Alpine.store</code> (plus <code>$persist</code>)</td></tr>
+                        </tbody>
+                    </table>
+                    <p>The question that sorts most state instantly: <strong>does the server need to know?</strong>
+                        If PHP never reads the value to query, validate or authorise something, it probably
+                        shouldn't cost a round trip to change.</p>
+
+                    <h2>Server state: Livewire properties</h2>
+                    <p>This is what Livewire is great at. Data that comes from the database, gets validated, or
+                        decides what the user is allowed to see belongs in public properties or computed
+                        properties:</p>
+                    <pre class="code-block"><code>class OrderIndex extends Component
+{
+    public string $status = 'open';
+
+    #[Computed]
+    public function orders()
+    {
+        return auth()-&gt;user()-&gt;orders()
+            -&gt;where('status', $this-&gt;status)
+            -&gt;latest()
+            -&gt;paginate(20);
+    }
+}</code></pre>
+                    <p>Remember that public properties are sent to the browser and back on every request, so keep
+                        them small. Store IDs, not whole models, and never trust a public property the user could
+                        tamper with for authorisation. Livewire's <code>#[Locked]</code> attribute stops the client
+                        from changing a property, which is worth using for things like a record ID.</p>
+
+                    <h2>URL state: <code>#[Url]</code></h2>
+                    <p>If a user would reasonably expect to bookmark it, share it or hit back to undo it, it belongs
+                        in the URL. Filters and search are the classic case. Livewire makes this a one-line
+                        change:</p>
+                    <pre class="code-block"><code>use Livewire\Attributes\Url;
+
+class OrderIndex extends Component
+{
+    #[Url(as: 'q', except: '')]
+    public string $search = '';
+
+    #[Url(history: true)]
+    public string $status = 'open';
+}</code></pre>
+                    <p><code>as</code> gives the query string a shorter name, <code>except</code> keeps default
+                        values out of the URL, and <code>history: true</code> pushes a browser history entry so
+                        the back button steps through filter changes instead of leaving the page. Use
+                        <code>history</code> for deliberate choices like a status tab, not for a search box, or back
+                        becomes unusable.</p>
+                    <p>URL state is still server state: changing it runs a request. That's fine, because changing a
+                        filter <em>should</em> fetch new data.</p>
+
+                    <h2>UI-ephemeral state: plain <code>x-data</code></h2>
+                    <p>Dropdowns, tooltips, accordions, tab panels whose content is already on the page, password
+                        visibility toggles. None of these need PHP. Keep them in Alpine, local to the element:</p>
+                    <pre class="code-block"><code>&lt;div x-data="{ open: false }" @click.outside="open = false" class="relative"&gt;
+    &lt;button @click="open = !open" :aria-expanded="open"&gt;Actions&lt;/button&gt;
+
+    &lt;div x-show="open" x-transition class="absolute right-0 mt-2"&gt;
+        &lt;button wire:click="archive({{ $order-&gt;id }})"&gt;Archive&lt;/button&gt;
+        &lt;button wire:click="duplicate({{ $order-&gt;id }})"&gt;Duplicate&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                    <p>Opening the menu is instant. Only the actions that change data go to the server. This one
+                        habit removes a surprising number of round trips from a typical Livewire app.</p>
+                    <p>A detail worth knowing: when Livewire re-renders, its morphing keeps Alpine state on
+                        elements that survive the morph, so the dropdown won't snap shut every time the component
+                        updates. Add <code>wire:key</code> to repeated items so elements are matched correctly and
+                        the right menu keeps its state.</p>
+
+                    <h2>Cross-component UI state: <code>Alpine.store</code></h2>
+                    <p>Some UI state is needed in more than one place. The sidebar toggle is in the header, but the
+                        sidebar is in the layout. A toast can be triggered from any component. Passing this through
+                        Livewire means a round trip and usually an event bus. An Alpine store is a global reactive
+                        object any component can read and write:</p>
+                    <pre class="code-block"><code>// resources/js/app.js
+document.addEventListener('alpine:init', () =&gt; {
+    Alpine.store('ui', {
+        sidebarCollapsed: Alpine.$persist(false).as('ui.sidebarCollapsed'),
+        paletteOpen: false,
+
+        toggleSidebar() {
+            this.sidebarCollapsed = !this.sidebarCollapsed;
+        },
+    });
+
+    Alpine.store('toasts', {
+        items: [],
+        push(message, type = 'success') {
+            const id = Date.now() + Math.random();
+            this.items.push({ id, message, type });
+            setTimeout(() =&gt; this.dismiss(id), 4000);
+        },
+        dismiss(id) {
+            this.items = this.items.filter(t =&gt; t.id !== id);
+        },
+    });
+});</code></pre>
+                    <pre class="code-block"><code>{{-- header --}}
+&lt;button @click="$store.ui.toggleSidebar()"&gt;☰&lt;/button&gt;
+
+{{-- layout --}}
+&lt;aside :class="$store.ui.sidebarCollapsed ? 'w-16' : 'w-64'"&gt;…&lt;/aside&gt;
+
+{{-- toasts, anywhere in the layout --}}
+&lt;div x-data @notify.window="$store.toasts.push($event.detail.message)"&gt;
+    &lt;template x-for="t in $store.toasts.items" :key="t.id"&gt;
+        &lt;div x-text="t.message" @click="$store.toasts.dismiss(t.id)"&gt;&lt;/div&gt;
+    &lt;/template&gt;
+&lt;/div&gt;</code></pre>
+                    <p>The toast example also shows the clean way for the server to talk to UI state. A Livewire
+                        action calls <code>$this-&gt;dispatch('notify', message: 'Order archived')</code>, the event
+                        reaches the browser, and Alpine owns everything after that. The server doesn't track which
+                        toasts are visible, because it has no reason to.</p>
+                    <p>Stores also work well with <code>wire:navigate</code>. Because navigation swaps the page
+                        without reloading JavaScript, the store stays in memory between pages, so the command
+                        palette or a half-finished UI preference survives the navigation.</p>
+
+                    <h3><code>$persist</code>: remember it across reloads</h3>
+                    <p>The <code>sidebarCollapsed</code> line above uses Alpine's Persist plugin, which saves a
+                        value to <code>localStorage</code> and restores it on the next visit. If you use Livewire 3's
+                        bundled Alpine, Persist is already included; with standalone Alpine, install
+                        <code>@alpinejs/persist</code> and register it. It works in local components too:</p>
+                    <pre class="code-block"><code>&lt;div x-data="{ view: $persist('grid').as('orders.view') }"&gt;
+    &lt;button @click="view = 'grid'"&gt;Grid&lt;/button&gt;
+    &lt;button @click="view = 'list'"&gt;List&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+                    <p>Always give persisted values an explicit <code>.as()</code> key. Without one, keys are
+                        generated from the property name, and two components with a <code>view</code> property
+                        will overwrite each other. Also remember <code>localStorage</code> is per device: if a
+                        preference should follow the user to their phone, it's server state and belongs in the
+                        database.</p>
+
+                    <h2>The bridge: <code>$wire</code> and entangle</h2>
+                    <p>Sometimes state genuinely needs to exist on both sides. A modal that opens from Alpine but
+                        whose visibility the server also sets after saving. A rich text editor whose content must end
+                        up in a Livewire property. This is where <code>$wire</code> and <code>entangle</code> come
+                        in.</p>
+                    <pre class="code-block"><code>&lt;div x-data="{ open: $wire.entangle('showEditModal') }"&gt;
+    &lt;button @click="open = true"&gt;Edit&lt;/button&gt;
+    &lt;div x-show="open"&gt;…&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                    <p><code>entangle</code> keeps an Alpine property and a Livewire property in sync. In Livewire 3
+                        it's deferred by default: Alpine updates instantly, and the value travels to the server with
+                        the next request. A live modifier exists that syncs on every change, which brings the round
+                        trips right back.</p>
+                    <p>The trade-offs are real:</p>
+                    <ul>
+                        <li><strong>Two sources of truth.</strong> If the server and the client both change the value
+                            around the same request, it's not always obvious which one wins.</li>
+                        <li><strong>Hidden cost.</strong> A live entangle on something that changes often, like a
+                            slider, quietly becomes a request per movement.</li>
+                        <li><strong>Often unnecessary.</strong> The Livewire docs themselves suggest using
+                            <code>$wire</code> directly in most cases. <code>$wire.showEditModal</code> is reactive in
+                            Alpine, and setting it updates the Livewire property locally until the next request.</li>
+                    </ul>
+                    <pre class="code-block"><code>&lt;div x-data&gt;
+    &lt;button @click="$wire.showEditModal = true"&gt;Edit&lt;/button&gt;
+    &lt;div x-show="$wire.showEditModal"&gt;…&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                    <p>My default: if the server never needs to set the value, keep it in Alpine alone. If the server
+                        needs to <em>close</em> the modal after a save, the simplest option is often a dispatched
+                        browser event (<code>$this-&gt;dispatch('close-modal')</code>) rather than shared state at
+                        all. Reach for <code>$wire</code> or <code>entangle</code> only when both sides truly read
+                        and write the same value.</p>
+
+                    <h2>A decision flowchart</h2>
+                    <p>When you're adding a new piece of state, walk it through these questions in order:</p>
+
+                    <img src="state-decision-flow.svg" alt="Decision flowchart: if the server must read the value it is a Livewire property; if it should be shareable it goes in the URL with the Url attribute; if several components need it use an Alpine store, persisted if it should survive reloads; otherwise keep it in local x-data">
+
+                    <ol>
+                        <li><strong>Does PHP need to read it</strong> to query, validate, save or authorise? Livewire
+                            property.</li>
+                        <li><strong>Should it survive a shared link or the back button?</strong> Add
+                            <code>#[Url]</code>.</li>
+                        <li><strong>Is it needed by more than one component?</strong> <code>Alpine.store</code>.</li>
+                        <li><strong>Should it survive a reload on this device?</strong> Wrap it in
+                            <code>$persist</code> with an explicit key.</li>
+                        <li><strong>Otherwise</strong>: local <code>x-data</code>. This should be the most common
+                            answer.</li>
+                    </ol>
+
+                    <h2>Takeaways</h2>
+                    <ul>
+                        <li>Classify state before choosing a tool: server, URL, UI-ephemeral or cross-component UI.</li>
+                        <li>"Does the server need to know?" sorts most of it. If not, don't pay a round trip.</li>
+                        <li>Use <code>#[Url]</code> for filters and search, with <code>history</code> only for
+                            deliberate navigation.</li>
+                        <li>Keep dropdowns, tabs and toggles in local <code>x-data</code>.</li>
+                        <li>Use <code>Alpine.store</code> for shared UI state and let Livewire talk to it through
+                            dispatched events.</li>
+                        <li>Always key <code>$persist</code> with <code>.as()</code>, and keep cross-device preferences
+                            in the database.</li>
+                        <li>Treat <code>entangle</code> as a last resort, and avoid live syncing on values that change
+                            often.</li>
+                    </ul>
+                    <p>Go back to the component from the start. <code>$status</code> and <code>$search</code> stay,
+                        with <code>#[Url]</code>. <code>$showFilterPanel</code> moves to a store,
+                        <code>$isDropdownOpen</code> and <code>$activeTab</code> move to local <code>x-data</code>, and
+                        <code>$hoveredRow</code> goes away entirely in favour of a CSS <code>:hover</code>. The
+                        component gets smaller, every menu opens instantly, and the server only hears about things it
+                        actually cares about.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/alpine-stores-vs-livewire-state/&text=Alpine%20Stores%20vs%20Livewire%20State%3A%20Where%20Should%20UI%20State%20Live%20in%20a%20TALL%20App%3F"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/alpine-stores-vs-livewire-state/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

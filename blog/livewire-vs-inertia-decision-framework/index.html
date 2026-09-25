@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Livewire vs Inertia: A Tech Lead&#x27;s Decision Framework</title>
+    <meta name="description"
+        content="Livewire or Inertia with React or Vue? A practical framework for Laravel tech leads: team skills, interactivity, SEO, offline, hiring, testing and maintenance, with a scoring matrix and three scenarios.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/livewire-vs-inertia-decision-framework/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Livewire vs Inertia: A Tech Lead&#x27;s Decision Framework">
+    <meta property="og:description"
+        content="Livewire or Inertia with React or Vue? A practical framework for Laravel tech leads: team skills, interactivity, SEO, offline, hiring, testing and maintenance, with a scoring matrix and three scenarios.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/livewire-vs-inertia-decision-framework/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/livewire-vs-inertia-decision-framework/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Livewire vs Inertia: A Tech Lead&#x27;s Decision Framework">
+    <meta name="twitter:description"
+        content="Livewire or Inertia with React or Vue? A practical framework for Laravel tech leads: team skills, interactivity, SEO, offline, hiring, testing and maintenance, with a scoring matrix and three scenarios.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/livewire-vs-inertia-decision-framework/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Livewire vs Inertia: A Tech Lead's Decision Framework",
+        "description": "Livewire or Inertia with React or Vue? A practical framework for Laravel tech leads: team skills, interactivity, SEO, offline, hiring, testing and maintenance, with a scoring matrix and three scenarios.",
+        "image": "https://sagarpansuriya.in/blog/livewire-vs-inertia-decision-framework/cover.png",
+        "datePublished": "2026-09-30",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/livewire-vs-inertia-decision-framework/",
+        "articleSection": "Laravel",
+        "keywords": "Livewire, Inertia.js, Laravel, React, Vue, TALL stack, frontend architecture"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=Laravel">§ Laravel</a>
+                <h1 class="post-title">Livewire vs Inertia: A Tech Lead&#x27;s Decision Framework</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-09-30">Sep 30, 2026</time>
+                    <span class="sep">·</span>
+                    <span>8 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of a decision tree splitting a new Laravel project into a Livewire path and an Inertia path, with a weighted scorecard"></div>
+
+                <div class="prose">
+<p>You've probably sat in this meeting. A new Laravel project is kicking off, the backend plan is clear, and
+                        then someone asks the question that eats the next forty minutes: "Livewire or Inertia?" Half the room has
+                        a strong opinion, the other half has a favourite YouTube video, and nobody has written down what the
+                        decision actually depends on.</p>
+                    <p>Both are good. Both are first-class citizens in the Laravel ecosystem: the official starter kits ship
+                        with Livewire, React and Vue options, and plenty of serious products run on each. So the useful question
+                        isn't "which is better", it's "which is better <em>for this team and this product</em>". This post is the
+                        framework I use to answer that, including a scoring matrix you can fill in during that meeting and three
+                        scenarios with the pick I'd make.</p>
+
+                    <h2>The one-paragraph difference</h2>
+                    <p>With <strong>Livewire</strong>, your components are PHP classes with Blade views. The server renders
+                        HTML, and when the user interacts, Livewire sends a request, runs your PHP method, re-renders the
+                        component and morphs the DOM. You write very little JavaScript, and Alpine fills the gaps for purely
+                        client-side behaviour.</p>
+                    <p>With <strong>Inertia</strong>, your controllers stay classic Laravel controllers, but instead of
+                        returning a Blade view they return a page component name and props. The client is a real React or Vue
+                        app that renders those pages, and Inertia handles routing and data loading between them without you
+                        building a separate API.</p>
+
+                    <img src="livewire-inertia-lifecycle.svg" alt="Side-by-side diagram of a Livewire interaction returning rendered HTML to morph the DOM, and an Inertia visit returning a JSON page object rendered by a React or Vue component">
+
+                    <p>That difference, where the rendering happens and where UI state lives, drives almost every trade-off
+                        below.</p>
+
+                    <h2>The seven questions</h2>
+
+                    <h3>1. What does the team already know?</h3>
+                    <p>This is the heaviest factor, and teams consistently underweight it. A team of strong Laravel developers
+                        with light JavaScript will ship faster and with fewer bugs in Livewire. A team that already writes React
+                        or Vue every day will feel constrained by Livewire and productive in Inertia. Rewriting your team's
+                        skills is far more expensive than picking the tool that fits them.</p>
+
+                    <h3>2. How interactive is the UI, really?</h3>
+                    <p>Be honest here. Most business apps are forms, tables, filters, modals and dashboards. Livewire handles
+                        all of that comfortably. The picture changes when the UI has lots of state that changes many times per
+                        second without needing the server: drag-and-drop canvases, rich editors, complex drawing or timeline
+                        tools, real-time collaborative views. Every Livewire interaction that needs the server is a network round
+                        trip; in React or Vue that same state change is local and instant. Alpine can carry a lot of client-side
+                        behaviour inside Livewire, but past a certain complexity you're building a JavaScript app with extra
+                        steps.</p>
+
+                    <h3>3. Do you need SEO and fast first paint?</h3>
+                    <p>Livewire is server-rendered by default. Search engines and link previews get real HTML without any extra
+                        setup. Inertia renders on the client unless you set up its server-side rendering mode, which means running
+                        a Node process alongside PHP in production. It works well, but it's another moving part to deploy and
+                        monitor. For public, content-heavy pages, Livewire (or plain Blade) has the simpler story.</p>
+
+                    <h3>4. Does anything need to work offline?</h3>
+                    <p>Neither is an offline framework. Livewire is essentially server-bound: no connection, no interactions.
+                        Inertia gives you a client-side app where you <em>can</em> keep state and add a service worker, but its
+                        navigation and data still come from the server. If genuine offline use is a hard requirement (field
+                        workers, spotty connections), you're usually looking at a proper SPA or PWA with an API and a local data
+                        store, or a native wrapper. Treat this question as a filter: if the answer is "yes, seriously", neither
+                        choice is the full answer.</p>
+
+                    <h3>5. Who will you hire next?</h3>
+                    <p>Think two years out. React developers are easy to find almost everywhere; Livewire experience is
+                        rarer, but any competent Laravel developer can learn it in days because it's mostly PHP and Blade. The
+                        real question is what shape your team will be. Full-stack PHP developers who own features end to end fit
+                        Livewire. A split between backend and dedicated frontend engineers fits Inertia, because it gives the
+                        frontend people a stack they already know and want on their CV.</p>
+
+                    <h3>6. How will you test it?</h3>
+                    <p>Livewire has a strong testing story in plain PHP. You can mount a component, set properties, call
+                        actions and assert on the result, all in Pest or PHPUnit:</p>
+                    <pre class="code-block"><code>it('adds a product to the cart', function () {
+    Livewire::test(AddToCart::class, ['product' =&gt; $this-&gt;product])
+        -&gt;call('add')
+        -&gt;assertSet('count', 1)
+        -&gt;assertDispatched('cart-updated');
+});</code></pre>
+                    <p>Inertia splits testing in two. On the Laravel side you assert on the page component and props that a
+                        controller returns:</p>
+                    <pre class="code-block"><code>use Inertia\Testing\AssertableInertia as Assert;
+
+it('lists orders', function () {
+    $this-&gt;get('/orders')-&gt;assertInertia(fn (Assert $page) =&gt; $page
+        -&gt;component('Orders/Index')
+        -&gt;has('orders', 10)
+    );
+});</code></pre>
+                    <p>Component behaviour then gets tested in JavaScript with something like Vitest and Testing Library. That's
+                        more total tooling, but it's also the tooling your frontend developers already know. For end-to-end
+                        confidence, both work fine with browser tests.</p>
+
+                    <h3>7. What does year three look like?</h3>
+                    <p>Maintenance is where the differences compound. A Livewire app has one language, one set of dependencies
+                        that matter (Composer), and very little build complexity. An Inertia app has two ecosystems to keep up to
+                        date, and the npm side moves faster: React or Vue major versions, the component libraries you picked,
+                        the build tooling. In exchange, Inertia apps tend to have cleaner separation between data (controllers)
+                        and presentation (components), which helps when a large frontend grows.</p>
+
+                    <h2>The scoring matrix</h2>
+                    <p>Here's how I run it. Give each criterion a weight from 1 to 3 for <em>this</em> project, then score each
+                        option from 1 to 5. Multiply, add up, and discuss the result rather than obey it. The scores below are
+                        my general starting points; change them to fit your team.</p>
+                    <table>
+                        <thead>
+                            <tr><th>Criterion</th><th>Weight (1–3)</th><th>Livewire</th><th>Inertia</th><th>Notes</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Fit with current team skills</td><td>?</td><td>5 for PHP teams</td><td>5 for JS teams</td><td>Score for your actual team</td></tr>
+                            <tr><td>Highly interactive, client-heavy UI</td><td>?</td><td>2</td><td>5</td><td>Canvases, editors, real-time</td></tr>
+                            <tr><td>Forms, tables, CRUD speed</td><td>?</td><td>5</td><td>4</td><td>Livewire has less glue code</td></tr>
+                            <tr><td>SEO and first paint, low ops</td><td>?</td><td>5</td><td>3</td><td>Inertia SSR needs a Node process</td></tr>
+                            <tr><td>Offline capability</td><td>?</td><td>1</td><td>2</td><td>Neither is great; treat as a filter</td></tr>
+                            <tr><td>Hiring pool</td><td>?</td><td>3</td><td>5</td><td>Depends on your market</td></tr>
+                            <tr><td>Testing in one language</td><td>?</td><td>5</td><td>3</td><td>Inertia adds JS test tooling</td></tr>
+                            <tr><td>Long-term maintenance cost</td><td>?</td><td>4</td><td>3</td><td>One ecosystem vs two</td></tr>
+                        </tbody>
+                    </table>
+                    <p>The matrix is less about the final number and more about forcing the room to agree on weights. Once
+                        everyone agrees that "fit with current team" is a 3 and "offline" is a 1, the decision usually makes
+                        itself.</p>
+
+                    <h2>Three scenarios</h2>
+
+                    <h3>Scenario A: an internal operations dashboard</h3>
+                    <p>Picture a team of four Laravel developers building an operations tool for a logistics company: order
+                        management, reports, approval flows, a lot of filtered tables and forms. No public pages, a few hundred
+                        users, and the client wants features shipped every sprint.</p>
+                    <p><strong>Pick: Livewire.</strong> Team fit is a 3 and scores 5, interactivity needs are modest, testing
+                        stays in Pest, and there's no second ecosystem to maintain. Add Alpine for dropdowns and modals, and
+                        keep a small Alpine or plain JavaScript island for the one chart that needs it.</p>
+
+                    <h3>Scenario B: a SaaS product with a visual editor</h3>
+                    <p>Picture a startup building a product where the core feature is a drag-and-drop page builder, with undo
+                        and redo, live previews and keyboard shortcuts. The team has two Laravel developers and three
+                        frontend developers who've written React for years.</p>
+                    <p><strong>Pick: Inertia with React.</strong> The core UI is exactly the kind of fast-changing client state
+                        that punishes server round trips, the team already thinks in components and hooks, and the React
+                        ecosystem has mature libraries for drag and drop and editors. Inertia keeps the Laravel side simple:
+                        controllers, policies and validation work as usual, with no separate API to version.</p>
+
+                    <h3>Scenario C: a public marketplace with an account area</h3>
+                    <p>Picture a listings marketplace: thousands of public, SEO-critical listing and category pages, a search
+                        with filters, and a logged-in area for sellers to manage listings and messages. A mixed team, mostly
+                        PHP.</p>
+                    <p><strong>Pick: Livewire (and plain Blade for the public pages).</strong> SEO and first paint are
+                        weighted at 3, and server-rendered HTML wins that with no extra infrastructure. Filters become Livewire
+                        components with URL-bound properties, public pages stay cacheable Blade, and the seller area is
+                        classic forms and tables. If one feature later needs heavy client-side UI, a small React or Vue island
+                        mounted in that page is a reasonable exception, not a reason to switch the whole app.</p>
+
+                    <h2>A few things that aren't reasons</h2>
+                    <ul>
+                        <li><strong>"Livewire doesn't scale."</strong> The server work per interaction is a normal Laravel
+                            request. It scales like the rest of your app. Payload size and round-trip count are the things to
+                            watch, and they're design problems, not framework limits.</li>
+                        <li><strong>"Inertia is basically an SPA, so it's heavier."</strong> The bundle cost is real but
+                            manageable with code splitting per page. It's rarely the deciding factor for business apps.</li>
+                        <li><strong>"We might want a mobile app later."</strong> Neither choice gives you one for free. If a
+                            mobile app is on the roadmap, you'll want a clean API layer either way.</li>
+                    </ul>
+
+                    <h2>The checklist for that kickoff meeting</h2>
+                    <ol>
+                        <li>Write down the team's real skills, not the skills you wish it had.</li>
+                        <li>List the three most interactive screens and ask whether each one needs the server on every change.</li>
+                        <li>Decide how much of the app is public and SEO-critical.</li>
+                        <li>Treat offline as a filter: if it's a hard requirement, plan for more than either tool.</li>
+                        <li>Picture your next two hires and what they'll be expected to own.</li>
+                        <li>Agree on weights in the matrix before anyone scores anything.</li>
+                        <li>Pick one as the default and allow small, deliberate islands of the other approach.</li>
+                    </ol>
+                    <p>The worst outcome isn't picking the "wrong" one. Both will get you to production. The worst outcome is
+                        a decision nobody can explain six months later. Write down the weights and the reasoning in your README
+                        or an architecture decision record, and the next person to ask "why Livewire?" gets an answer instead of
+                        a debate.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/livewire-vs-inertia-decision-framework/&text=Livewire%20vs%20Inertia%3A%20A%20Tech%20Lead%27s%20Decision%20Framework"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/livewire-vs-inertia-decision-framework/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

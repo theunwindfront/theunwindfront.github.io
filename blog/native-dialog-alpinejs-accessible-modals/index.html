@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+    <link rel="llms" href="/llms.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Accessible Modals with Native &lt;dialog&gt; and a Tiny Alpine.js Wrapper</title>
+    <meta name="description"
+        content="Stop hand-rolling focus traps. The native &lt;dialog&gt; element gives you focus handling, Esc and a backdrop for free. Here&#x27;s a reusable Blade + Alpine modal built on top of it.">
+    <link rel="canonical" href="https://sagarpansuriya.in/blog/native-dialog-alpinejs-accessible-modals/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Accessible Modals with Native &lt;dialog&gt; and a Tiny Alpine.js Wrapper">
+    <meta property="og:description"
+        content="Stop hand-rolling focus traps. The native &lt;dialog&gt; element gives you focus handling, Esc and a backdrop for free. Here&#x27;s a reusable Blade + Alpine modal built on top of it.">
+    <meta property="og:image" content="https://sagarpansuriya.in/blog/native-dialog-alpinejs-accessible-modals/cover.png">
+    <meta property="og:url" content="https://sagarpansuriya.in/blog/native-dialog-alpinejs-accessible-modals/">
+    <meta property="og:site_name" content="The Unwind Method">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Accessible Modals with Native &lt;dialog&gt; and a Tiny Alpine.js Wrapper">
+    <meta name="twitter:description"
+        content="Stop hand-rolling focus traps. The native &lt;dialog&gt; element gives you focus handling, Esc and a backdrop for free. Here&#x27;s a reusable Blade + Alpine modal built on top of it.">
+    <meta name="twitter:image" content="https://sagarpansuriya.in/blog/native-dialog-alpinejs-accessible-modals/cover.png">
+    <meta name="twitter:creator" content="@frontendbysagar">
+
+    <!-- Article structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Accessible Modals with Native <dialog> and a Tiny Alpine.js Wrapper",
+        "description": "Stop hand-rolling focus traps. The native <dialog> element gives you focus handling, Esc and a backdrop for free. Here's a reusable Blade + Alpine modal built on top of it.",
+        "image": "https://sagarpansuriya.in/blog/native-dialog-alpinejs-accessible-modals/cover.png",
+        "datePublished": "2026-10-05",
+        "author": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya",
+            "url": "https://sagarpansuriya.in/"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sagar Pansuriya"
+        },
+        "mainEntityOfPage": "https://sagarpansuriya.in/blog/native-dialog-alpinejs-accessible-modals/",
+        "articleSection": "AlpineJS",
+        "keywords": "dialog element, accessible modal, Alpine.js, Laravel Blade, showModal, closedby, @starting-style"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.jpg">
+    <link rel="apple-touch-icon" href="/favicon.jpg">
+    <meta name="msapplication-TileColor" content="#5b5bd6">
+    <meta name="theme-color" content="#5b5bd6">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        {
+            const pref = localStorage.getItem("color-scheme");
+            if (pref === "light" || pref === "dark") {
+                document.querySelector('meta[name="color-scheme"]').content = pref;
+                document.documentElement.dataset.theme = pref;
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --paper-l: #faf9f6;
+            --paper-d: #0e0e0f;
+            --panel-l: #f1efe9;
+            --panel-d: #17171a;
+            --code-l: #f4f2ec;
+            --code-d: #131316;
+            --ink-l: #1a1a1a;
+            --ink-d: #e8e6e1;
+            --muted-l: #6b6b6b;
+            --muted-d: #8f8d88;
+            --line-l: #e2ded4;
+            --line-d: #262629;
+            --accent-l: #5b5bd6;
+            --accent-d: #8f8fef;
+            --paper: light-dark(var(--paper-l), var(--paper-d));
+            --panel: light-dark(var(--panel-l), var(--panel-d));
+            --code-bg: light-dark(var(--code-l), var(--code-d));
+            --ink: light-dark(var(--ink-l), var(--ink-d));
+            --muted: light-dark(var(--muted-l), var(--muted-d));
+            --line: light-dark(var(--line-l), var(--line-d));
+            --accent: light-dark(var(--accent-l), var(--accent-d));
+            --serif: "Newsreader", Georgia, serif;
+            --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            accent-color: var(--accent);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 46rem;
+            margin-inline: auto;
+            padding: clamp(1.25rem, 4vw, 2rem);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-block: 1.5rem 0;
+        }
+
+        .brand {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .brand b {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: clamp(0.9rem, 3vw, 1.6rem);
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: var(--muted);
+            padding-block: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+
+        .top-nav a:hover,
+        .top-nav a[aria-current] {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent);
+        }
+
+        .post-cat {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            text-decoration: none;
+            margin-top: 2.5rem;
+        }
+
+        .post-title {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(2rem, 1.3rem + 3.2vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0.75rem 0 1.25rem;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem 1rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--muted);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .post-meta img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .post-meta a:hover {
+            color: var(--accent);
+        }
+
+        .post-meta .sep {
+            color: var(--line);
+        }
+
+        .post-cover {
+            margin: 2rem 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .post-cover img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .prose {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            line-height: 1.75;
+            color: var(--ink);
+        }
+
+        .prose>*:first-child {
+            margin-top: 0;
+        }
+
+        .prose p {
+            margin: 0 0 1.4rem;
+        }
+
+        .prose h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin: 2.6rem 0 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .prose h3 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .prose h4 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        .prose a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+        }
+
+        .prose a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .prose ul,
+        .prose ol {
+            margin: 0 0 1.4rem;
+            padding-left: 1.4rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+
+        .prose li::marker {
+            color: var(--accent);
+        }
+
+        .prose strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .prose em {
+            font-style: italic;
+        }
+
+        .prose blockquote {
+            margin: 1.6rem 0;
+            padding: 0.4rem 0 0.4rem 1.25rem;
+            border-left: 2px solid var(--accent);
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            margin: 1.6rem 0;
+        }
+
+        .prose hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 2.5rem 0;
+        }
+
+        .prose :not(pre)>code {
+            font-family: var(--mono);
+            font-size: 0.86em;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            padding: 0.1em 0.4em;
+            color: var(--ink);
+        }
+
+        .prose pre,
+        pre.code-block {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            background: var(--code-bg);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1.6rem 0;
+            color: var(--ink);
+        }
+
+        .prose pre code,
+        pre.code-block code {
+            font-family: var(--mono);
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        .prose table,
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.6rem 0;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .prose th,
+        .prose td {
+            text-align: left;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .prose th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
+        /* the inline "flow" diagram from the original, restyled neutrally */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.6rem 0;
+            padding: 1.25rem;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            font-family: var(--sans);
+        }
+
+        .flow .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .flow .step .n {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .flow .step .t {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .flow .step .s {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        @media (min-width: 40rem) {
+            .flow {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .comments {
+            margin-top: 3rem;
+        }
+
+        .comments h2 {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: 1.6rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1.4rem;
+            margin: 0 0 1rem;
+        }
+
+        .post-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer a.back {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        .share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share a {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .share a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width .1s linear;
+        }
+
+        footer.site {
+            border-top: 1px solid var(--line);
+            margin-top: 3rem;
+            padding-block: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        footer.site a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        footer.site a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            #progress {
+                transition: none;
+            }
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .counter img {
+            height: 0.7rem;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        :root[data-theme="light"] .counter img {
+            filter: invert(1);
+        }
+
+        .sponsor {
+            border: 1px dashed light-dark(#d99, #c77);
+            color: light-dark(#c25, #f79);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .sponsor:hover {
+            color: light-dark(#a13, #fab) !important;
+        }
+
+
+        /* mobile-header-fix */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        .topbar {
+            flex-wrap: wrap;
+            row-gap: 0.75rem;
+        }
+
+        .brand {
+            white-space: nowrap;
+        }
+
+        .top-nav {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 30rem) {
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-nav {
+                width: 100%;
+                gap: 0.75rem 1.1rem;
+            }
+        }
+
+
+        .techlink {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .techlink:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="progress"></div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5ZMSCJFM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+
+    <div class="wrap">
+        <header class="topbar">
+            <a href="/" class="brand">/ <b>sagar</b>_pansuriya</a>
+            <nav class="top-nav" aria-label="Primary">
+                <a href="/blog/" aria-current="page">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Toggle color theme">Theme</button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <a class="post-cat" href="/blog/?category=AlpineJS">§ AlpineJS</a>
+                <h1 class="post-title">Accessible Modals with Native &lt;dialog&gt; and a Tiny Alpine.js Wrapper</h1>
+                <div class="post-meta">
+                    <img src="/favicon.jpg" alt="Sagar Pansuriya">
+                    <a href="https://www.linkedin.com/in/sagarpansuriya/" target="_blank" rel="noopener">Sagar
+                        Pansuriya</a>
+                    <span class="sep">·</span>
+                    <time datetime="2026-10-05">Oct 05, 2026</time>
+                    <span class="sep">·</span>
+                    <span>8 min read</span>
+                </div>
+
+                <div class="post-cover"><img src="cover.png" alt="Illustration of a modal dialog floating in the top layer above a dimmed page, with a keyboard Esc key and focus ring"></div>
+
+                <div class="prose">
+<p>You've probably written this modal before. A fixed-position <code>div</code>, a dark overlay
+                        behind it, an Alpine <code>x-show</code>, a <code>keydown.escape</code> listener, some
+                        <code>overflow: hidden</code> on the body, and then, if the project had an accessibility
+                        audit, a focus trap bolted on at the end. It works until someone tabs out of it, or a screen
+                        reader user lands on the page behind it, or a <code>z-index: 50</code> header slides over
+                        the top.</p>
+                    <p>Browsers have shipped a better primitive for years now: the <code>&lt;dialog&gt;</code>
+                        element. Opened the right way, it handles focus, Esc, the backdrop and stacking for you. In
+                        most projects I've worked on, switching to it deletes more code than it adds.</p>
+                    <p>This post covers how <code>&lt;dialog&gt;</code> actually behaves, the handful of modern
+                        attributes and CSS features worth knowing, and a complete reusable Blade + Alpine component
+                        you can drop into a Laravel app.</p>
+
+                    <h2>show() vs showModal(): pick the right one</h2>
+                    <p>A <code>&lt;dialog&gt;</code> has two ways to open, and they are not interchangeable.</p>
+                    <table>
+                        <thead>
+                            <tr><th></th><th><code>show()</code></th><th><code>showModal()</code></th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Rendered in the top layer</td><td>No</td><td>Yes, above every <code>z-index</code></td></tr>
+                            <tr><td>Rest of the page</td><td>Still interactive</td><td>Made inert (no clicks, no focus, hidden from AT)</td></tr>
+                            <tr><td><code>::backdrop</code></td><td>No</td><td>Yes</td></tr>
+                            <tr><td>Esc closes it</td><td>No</td><td>Yes</td></tr>
+                            <tr><td>Use it for</td><td>Non-blocking panels, toasts</td><td>Confirmations, forms, anything that blocks</td></tr>
+                        </tbody>
+                    </table>
+                    <p>For a modal, it's always <code>showModal()</code>. That one call is what replaces your focus
+                        trap. The page behind the dialog becomes inert, so Tab can only move between elements inside
+                        the dialog and the browser UI. Screen readers stop announcing the content behind it. You
+                        don't need <code>aria-modal</code>, a hidden sentinel element, or the Alpine focus plugin's
+                        <code>x-trap</code>.</p>
+                    <p>Setting the <code>open</code> attribute directly (or toggling it with Alpine) behaves like
+                        <code>show()</code>, not <code>showModal()</code>. That's the most common mistake I see when
+                        people first try the element: they bind <code>:open="isOpen"</code> and wonder why focus
+                        escapes.</p>
+
+                    <img src="dialog-lifecycle.svg" alt="Diagram of the dialog lifecycle: trigger button, showModal puts the dialog in the top layer and makes the page inert, the dialog closes via a button, Esc or backdrop click, and focus returns to the trigger">
+
+                    <h2>What the browser does for you</h2>
+                    <p>Once a dialog is opened with <code>showModal()</code>, you get all of this without writing
+                        a line of JavaScript:</p>
+                    <ul>
+                        <li><strong>Initial focus</strong>: focus moves into the dialog. Add <code>autofocus</code>
+                            to the element that should receive it, for example the first field of a form or the
+                            safe button in a destructive confirmation.</li>
+                        <li><strong>Esc to close</strong>: pressing Esc fires a <code>cancel</code> event and then
+                            closes the dialog.</li>
+                        <li><strong>Returning focus</strong>: when the dialog closes, browsers move focus back to
+                            the element that was focused before it opened, which is usually the button that opened
+                            it. Keyboard users land exactly where they were.</li>
+                        <li><strong>Stacking</strong>: the top layer sits above everything else on the page. No more
+                            <code>z-index</code> arms race with a sticky header or a third-party chat widget.</li>
+                    </ul>
+                    <p>One thing it does <em>not</em> do is lock page scrolling. That's one line of CSS, using
+                        <code>:has()</code> and the <code>:modal</code> pseudo-class:</p>
+                    <pre class="code-block"><code>html:has(dialog:modal) {
+    overflow: hidden;
+}</code></pre>
+
+                    <h2>Closing: form method="dialog" and closedby</h2>
+                    <p>The nicest close button is one with no JavaScript at all. A form inside a dialog with
+                        <code>method="dialog"</code> closes the dialog when submitted, and sets
+                        <code>dialog.returnValue</code> to the <code>value</code> of the button that submitted it:</p>
+                    <pre class="code-block"><code>&lt;dialog id="confirm-delete" aria-labelledby="confirm-delete-title"&gt;
+    &lt;h2 id="confirm-delete-title"&gt;Delete this project?&lt;/h2&gt;
+    &lt;p&gt;This can't be undone.&lt;/p&gt;
+
+    &lt;form method="dialog"&gt;
+        &lt;button value="cancel" autofocus&gt;Cancel&lt;/button&gt;
+        &lt;button value="confirm"&gt;Delete&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/dialog&gt;</code></pre>
+                    <p>Listen for the <code>close</code> event and read <code>returnValue</code> to decide what to
+                        do. Because Esc and the Cancel button both go through <code>close</code>, you handle every
+                        exit path in one place.</p>
+                    <p>For clicking the backdrop to close (light dismiss), there's the newer <code>closedby</code>
+                        attribute:</p>
+                    <ul>
+                        <li><code>closedby="any"</code>: backdrop click, Esc, and your own code can close it.</li>
+                        <li><code>closedby="closerequest"</code>: Esc and your code, but not the backdrop. This is
+                            the default for modal dialogs.</li>
+                        <li><code>closedby="none"</code>: only your code can close it. Useful for a flow the user
+                            must finish, but use it sparingly.</li>
+                    </ul>
+                    <p>Browser support for <code>closedby</code> is still uneven at the time of writing, so check
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog">MDN</a> for the
+                        current state and treat it as progressive enhancement. The fallback is short: a click whose
+                        target is the dialog itself, landing outside its bounding box, is a click on the backdrop.
+                        The component below includes it.</p>
+
+                    <h2>Styling ::backdrop and animating with @starting-style</h2>
+                    <p>The <code>::backdrop</code> pseudo-element replaces your overlay <code>div</code>. Entry
+                        animations used to be the reason people avoided <code>&lt;dialog&gt;</code>, because it goes
+                        from <code>display: none</code> to visible in one step. Modern CSS fixes that with three
+                        pieces: <code>@starting-style</code> defines where the entry transition starts,
+                        <code>transition-behavior: allow-discrete</code> lets <code>display</code> take part in the
+                        transition so the exit can play, and <code>overlay</code> keeps the element in the top layer
+                        until the exit finishes.</p>
+                    <pre class="code-block"><code>/* resources/css/modal.css */
+.modal {
+    opacity: 0;
+    translate: 0 1rem;
+    transition-property: opacity, translate, display, overlay;
+    transition-duration: .2s;
+    transition-timing-function: ease-out;
+    transition-behavior: allow-discrete; /* after the longhands/shorthand */
+}
+
+.modal[open] {
+    opacity: 1;
+    translate: 0 0;
+
+    @starting-style {
+        opacity: 0;
+        translate: 0 1rem;
+    }
+}
+
+.modal::backdrop {
+    background-color: rgb(0 0 0 / 0);
+    transition: background-color .2s, display .2s allow-discrete, overlay .2s allow-discrete;
+}
+
+.modal[open]::backdrop {
+    background-color: rgb(0 0 0 / .5);
+
+    @starting-style {
+        background-color: rgb(0 0 0 / 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .modal { translate: none; transition-duration: .01s; }
+}</code></pre>
+                    <p><code>@starting-style</code> and <code>transition-behavior</code> are supported across
+                        current major browsers. <code>overlay</code> is Chromium-only so far. In browsers that
+                        don't support a piece, the dialog simply appears or disappears without the animation. It
+                        still works, which is exactly how an enhancement should fail.</p>
+
+                    <h2>The reusable Blade + Alpine component</h2>
+                    <p>Alpine's job here is small: open the dialog by name from anywhere on the page, and give you
+                        a hook when it closes. Everything else stays native. This follows the same event-based
+                        pattern Laravel Breeze uses for its modal, so it feels familiar in most Laravel codebases.</p>
+                    <pre class="code-block"><code>{{-- resources/views/components/modal.blade.php --}}
+@props([
+    'name',
+    'title',
+    'closedby' =&gt; 'any',
+])
+
+&lt;dialog
+    x-data="modal(@js($name))"
+    x-on:open-modal.window="$event.detail === name &amp;&amp; open()"
+    x-on:close-modal.window="$event.detail === name &amp;&amp; $el.close()"
+    x-on:click="backdropFallback($event)"
+    x-on:close="$dispatch('modal-closed', { name, value: $el.returnValue })"
+    closedby="{{ $closedby }}"
+    aria-labelledby="{{ $name }}-title"
+    {{ $attributes-&gt;merge(['class' =&gt; 'modal w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl']) }}
+&gt;
+    &lt;h2 id="{{ $name }}-title" class="text-lg font-semibold"&gt;{{ $title }}&lt;/h2&gt;
+
+    &lt;div class="mt-4"&gt;
+        {{ $slot }}
+    &lt;/div&gt;
+
+    @isset($footer)
+        &lt;form method="dialog" class="mt-6 flex justify-end gap-3"&gt;
+            {{ $footer }}
+        &lt;/form&gt;
+    @endisset
+&lt;/dialog&gt;</code></pre>
+                    <p>And the small Alpine data object, registered once in your Vite entry:</p>
+                    <pre class="code-block"><code>// resources/js/modal.js
+import Alpine from 'alpinejs';
+
+const supportsClosedBy = 'closedBy' in HTMLDialogElement.prototype;
+
+Alpine.data('modal', (name) =&gt; ({
+    name,
+
+    open() {
+        this.$el.returnValue = '';
+        this.$el.showModal();
+    },
+
+    backdropFallback(event) {
+        if (supportsClosedBy) return;
+        if (this.$el.getAttribute('closedby') !== 'any') return;
+        if (event.target !== this.$el) return; // a click on content inside the dialog
+
+        const r = this.$el.getBoundingClientRect();
+        const inside = event.clientX &gt;= r.left &amp;&amp; event.clientX &lt;= r.right
+            &amp;&amp; event.clientY &gt;= r.top &amp;&amp; event.clientY &lt;= r.bottom;
+
+        if (!inside) this.$el.close();
+    },
+}));</code></pre>
+                    <p>Using it looks like this. The trigger is a normal button, so focus returns to it when the
+                        dialog closes:</p>
+                    <pre class="code-block"><code>&lt;button type="button" x-data x-on:click="$dispatch('open-modal', 'delete-project')"&gt;
+    Delete project
+&lt;/button&gt;
+
+&lt;x-modal name="delete-project" title="Delete this project?" closedby="closerequest"&gt;
+    &lt;p&gt;All deployments and logs for {{ $project-&gt;name }} will be removed.&lt;/p&gt;
+
+    &lt;x-slot:footer&gt;
+        &lt;button value="cancel" autofocus class="btn-secondary"&gt;Cancel&lt;/button&gt;
+        &lt;button value="confirm" class="btn-danger"&gt;Delete&lt;/button&gt;
+    &lt;/x-slot:footer&gt;
+&lt;/x-modal&gt;</code></pre>
+                    <p>Then react to the result wherever it makes sense, for example in a parent Alpine component
+                        or by calling Livewire:</p>
+                    <pre class="code-block"><code>&lt;div x-data x-on:modal-closed.window="
+    $event.detail.name === 'delete-project'
+        &amp;&amp; $event.detail.value === 'confirm'
+        &amp;&amp; $wire.deleteProject()
+"&gt;…&lt;/div&gt;</code></pre>
+                    <p>A few details worth pointing out. The destructive modal uses
+                        <code>closedby="closerequest"</code> so a stray click on the backdrop doesn't dismiss a
+                        decision the user was reading. <code>autofocus</code> sits on Cancel, not Delete, so hitting
+                        Enter by reflex is safe. And the dialog has an accessible name via
+                        <code>aria-labelledby</code>, which screen readers announce when it opens.</p>
+
+                    <h3>A note on Livewire</h3>
+                    <p>If a dialog lives inside a Livewire component, a re-render can morph the
+                        <code>&lt;dialog&gt;</code> element and drop its open state. Keep the modal markup stable:
+                        put <code>wire:ignore.self</code> on the <code>&lt;dialog&gt;</code> so Livewire leaves its
+                        own attributes alone while still updating the children, or place the modal outside the part
+                        of the component that re-renders.</p>
+
+                    <h2>Why I stopped hand-rolling focus traps</h2>
+                    <p>A custom focus trap has to find every focusable element (including ones added later), wrap
+                        Tab and Shift+Tab, handle iframes and shadow DOM, stop the page behind from being read by
+                        assistive tech, and restore focus afterwards. Each of those is a place for a bug, and the
+                        bugs only show up for keyboard and screen reader users, who are the least likely to file a
+                        ticket.</p>
+                    <p>The native element does all of it in the browser, consistently, and gets better without you
+                        shipping anything. Your JavaScript shrinks to "open this dialog by name". That's a trade I'll
+                        take every time.</p>
+
+                    <h2>Checklist for every modal</h2>
+                    <ol>
+                        <li>Open it with <code>showModal()</code>, never by toggling the <code>open</code>
+                            attribute.</li>
+                        <li>Give it an accessible name with <code>aria-labelledby</code> pointing at its heading.</li>
+                        <li>Put <code>autofocus</code> on the element that should get focus first (the safe choice
+                            for destructive actions).</li>
+                        <li>Close buttons live in a <code>&lt;form method="dialog"&gt;</code> and carry a
+                            <code>value</code>.</li>
+                        <li>Handle the outcome in the <code>close</code> event, reading <code>returnValue</code>.</li>
+                        <li>Choose <code>closedby</code> deliberately, with a light-dismiss fallback if you rely on
+                            it.</li>
+                        <li>Lock page scroll with <code>html:has(dialog:modal)</code>.</li>
+                        <li>Animate with <code>@starting-style</code> and respect
+                            <code>prefers-reduced-motion</code>.</li>
+                        <li>Test it with only a keyboard, then with a screen reader. It takes five minutes.</li>
+                    </ol>
+                    <p>Next time you reach for <code>x-show</code> and a fixed overlay, try the
+                        <code>&lt;dialog&gt;</code> version first. You'll write less code, and the people who rely
+                        on a keyboard or a screen reader will get a modal that actually behaves like one.</p>
+                </div>
+
+                <section class="comments" aria-label="Discussion">
+                    <h2>Discussion</h2>
+                    <div id="comments-container"></div>
+                </section>
+
+                <div class="post-footer">
+                    <a class="back" href="/blog/">← All articles</a>
+                    <div class="share">
+                        <a href="https://twitter.com/intent/tweet?url=https://sagarpansuriya.in/blog/native-dialog-alpinejs-accessible-modals/&text=Accessible%20Modals%20with%20Native%20%3Cdialog%3E%20and%20a%20Tiny%20Alpine.js%20Wrapper"
+                            target="_blank" rel="noopener">Share on X</a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://sagarpansuriya.in/blog/native-dialog-alpinejs-accessible-modals/"
+                            target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer class="site">
+            <div class="footer-links">
+                <span>© 2026 Sagar Pansuriya</span>
+                <a href="/">Home</a>
+                <a href="/blog/">Writing</a>
+                <a href="/showcase/">Work</a>
+                <a href="/talks/">Talks</a>
+                <a href="/cv/">CV</a>
+                <a href="/privacy-policy/snake-reborn/">Privacy</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://smallcounter.com" target="_blank" rel="noopener" class="counter"
+                    title="Visitor Counter">
+                    <img src="https://smallcounter.com/count.php?c_style=87&id=1772562975" alt="Visitor count">
+                    <span>visitors</span>
+                </a>
+                <a href="https://github.com/sponsors/theunwindfront" target="_blank" rel="noopener" class="sponsor">❤
+                    Sponsor</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // theme toggle
+        (function () {
+            const meta = document.querySelector('meta[name="color-scheme"]');
+            const btn = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            function sysDark() { return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function curDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return sysDark(); }
+            btn.addEventListener('click', function () { const n = curDark() ? 'light' : 'dark'; localStorage.setItem('color-scheme', n); meta.content = n; root.dataset.theme = n; });
+        })();
+        // reading progress
+        (function () {
+            const bar = document.getElementById('progress');
+            addEventListener('scroll', function () { const h = document.documentElement; const max = h.scrollHeight - h.clientHeight; bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%'; }, { passive: true });
+        })();
+        // comments (utterances)
+        (function () {
+            function isDark() { const p = localStorage.getItem('color-scheme'); if (p === 'dark') return true; if (p === 'light') return false; return matchMedia('(prefers-color-scheme: dark)').matches; }
+            function initComments() {
+                if (document.querySelector('.utterances-frame')) return;
+                const s = document.createElement('script');
+                s.src = 'https://utteranc.es/client.js';
+                s.setAttribute('repo', 'theunwindfront/theunwindfront.github.io');
+                s.setAttribute('issue-term', 'pathname');
+                s.setAttribute('label', 'comment');
+                s.setAttribute('theme', isDark() ? 'github-dark' : 'github-light');
+                s.setAttribute('crossorigin', 'anonymous');
+                s.async = true;
+                document.getElementById('comments-container').appendChild(s);
+            }
+            setTimeout(initComments, 300);
+            document.getElementById('themeToggle').addEventListener('click', function () {
+                const f = document.querySelector('.utterances-frame');
+                if (f) f.contentWindow.postMessage({ type: 'set-theme', theme: isDark() ? 'github-dark' : 'github-light' }, 'https://utteranc.es');
+            });
+        })();
+    </script>
+</body>
+
+</html>

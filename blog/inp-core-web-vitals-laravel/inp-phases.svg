@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 360" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="360" rx="16" fill="#16161b"/>
+  <text x="40" y="52" font-size="15" fill="#8f8d88" letter-spacing="2">ANATOMY OF ONE INTERACTION</text>
+  <!-- click marker -->
+  <line x1="60" y1="90" x2="60" y2="230" stroke="#ece9e2" stroke-width="2"/>
+  <text x="60" y="80" text-anchor="middle" font-size="13" fill="#ece9e2">click</text>
+  <!-- phases -->
+  <rect x="60" y="120" width="170" height="64" rx="10" fill="#f28b9b"/>
+  <text x="145" y="148" text-anchor="middle" font-size="15" fill="#1a1a1a" font-weight="700">Input delay</text>
+  <text x="145" y="169" text-anchor="middle" font-size="12" fill="#3a1a20">main thread busy</text>
+  <rect x="236" y="120" width="380" height="64" rx="10" fill="#f2b880"/>
+  <text x="426" y="148" text-anchor="middle" font-size="15" fill="#1a1a1a" font-weight="700">Processing time</text>
+  <text x="426" y="169" text-anchor="middle" font-size="12" fill="#3a2a10">your event handlers run</text>
+  <rect x="622" y="120" width="170" height="64" rx="10" fill="#6fd3b0"/>
+  <text x="707" y="148" text-anchor="middle" font-size="15" fill="#1a1a1a" font-weight="700">Presentation</text>
+  <text x="707" y="169" text-anchor="middle" font-size="12" fill="#0f3a2a">style · layout · paint</text>
+  <!-- paint marker -->
+  <line x1="798" y1="90" x2="798" y2="230" stroke="#8f8fef" stroke-width="2" stroke-dasharray="5 5"/>
+  <text x="798" y="80" text-anchor="middle" font-size="13" fill="#8f8fef">next paint</text>
+  <!-- bracket -->
+  <path d="M60 212 v10 h738 v-10" fill="none" stroke="#8f8fef" stroke-width="2"/>
+  <text x="429" y="252" text-anchor="middle" font-size="15" fill="#ece9e2" font-weight="700">INP = the whole span (worst-ish interaction on the page)</text>
+  <!-- causes -->
+  <text x="145" y="300" text-anchor="middle" font-size="12" fill="#a19e97">3rd-party scripts,</text>
+  <text x="145" y="318" text-anchor="middle" font-size="12" fill="#a19e97">hydration, long tasks</text>
+  <text x="426" y="300" text-anchor="middle" font-size="12" fill="#a19e97">heavy x-data init, sync loops,</text>
+  <text x="426" y="318" text-anchor="middle" font-size="12" fill="#a19e97">waiting on a Livewire round trip</text>
+  <text x="707" y="300" text-anchor="middle" font-size="12" fill="#a19e97">huge DOM swaps,</text>
+  <text x="707" y="318" text-anchor="middle" font-size="12" fill="#a19e97">layout thrashing</text>
+</svg>

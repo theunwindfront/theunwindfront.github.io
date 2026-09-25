@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="440" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">THREE LAYERS, ONE RULE</text>
+  <!-- column headers -->
+  <text x="140" y="92" text-anchor="middle" font-size="14" fill="#ece9e2" font-weight="700">Primitives</text>
+  <text x="140" y="110" text-anchor="middle" font-size="12" fill="#a19e97">what a value is</text>
+  <text x="440" y="92" text-anchor="middle" font-size="14" fill="#ece9e2" font-weight="700">Semantic tokens</text>
+  <text x="440" y="110" text-anchor="middle" font-size="12" fill="#a19e97">what a value is for</text>
+  <text x="740" y="92" text-anchor="middle" font-size="14" fill="#ece9e2" font-weight="700">Components</text>
+  <text x="740" y="110" text-anchor="middle" font-size="12" fill="#a19e97">utilities only</text>
+  <!-- primitives -->
+  <g font-size="13">
+    <rect x="50" y="130" width="180" height="40" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+    <circle cx="74" cy="150" r="9" fill="#5b5bd6"/><text x="92" y="155" fill="#ece9e2">--indigo-600</text>
+    <rect x="50" y="180" width="180" height="40" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+    <circle cx="74" cy="200" r="9" fill="#6fd3b0"/><text x="92" y="205" fill="#ece9e2">--teal-600</text>
+    <rect x="50" y="230" width="180" height="40" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+    <circle cx="74" cy="250" r="9" fill="#f2b880"/><text x="92" y="255" fill="#ece9e2">--coral-400</text>
+    <rect x="50" y="280" width="180" height="40" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+    <circle cx="74" cy="300" r="9" fill="#ece9e2"/><text x="92" y="305" fill="#ece9e2">--gray-50</text>
+  </g>
+  <!-- semantic -->
+  <g font-size="13">
+    <rect x="350" y="150" width="180" height="40" rx="20" fill="#23232a" stroke="#8f8fef"/>
+    <text x="440" y="175" text-anchor="middle" fill="#b3b3f7">--primary</text>
+    <rect x="350" y="205" width="180" height="40" rx="20" fill="#23232a" stroke="#8f8fef"/>
+    <text x="440" y="230" text-anchor="middle" fill="#b3b3f7">--accent</text>
+    <rect x="350" y="260" width="180" height="40" rx="20" fill="#23232a" stroke="#8f8fef"/>
+    <text x="440" y="285" text-anchor="middle" fill="#b3b3f7">--surface</text>
+  </g>
+  <!-- old mapping (dashed) -->
+  <path d="M230 150 C290 150 290 170 350 170" fill="none" stroke="#5b5bd6" stroke-width="2" stroke-dasharray="5 5" opacity=".5"/>
+  <!-- new mapping -->
+  <path d="M230 200 C290 200 290 170 350 170" fill="none" stroke="#6fd3b0" stroke-width="2.5"/>
+  <path d="M230 250 C290 250 290 225 350 225" fill="none" stroke="#f2b880" stroke-width="2.5"/>
+  <path d="M230 300 C290 300 290 280 350 280" fill="none" stroke="#a19e97" stroke-width="2.5"/>
+  <!-- components -->
+  <g font-size="13">
+    <rect x="650" y="150" width="180" height="40" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+    <text x="740" y="175" text-anchor="middle" fill="#ece9e2">bg-primary</text>
+    <rect x="650" y="205" width="180" height="40" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+    <text x="740" y="230" text-anchor="middle" fill="#ece9e2">text-accent</text>
+    <rect x="650" y="260" width="180" height="40" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+    <text x="740" y="285" text-anchor="middle" fill="#ece9e2">bg-surface</text>
+  </g>
+  <g stroke="#8f8fef" stroke-width="2">
+    <line x1="530" y1="170" x2="650" y2="170"/>
+    <line x1="530" y1="225" x2="650" y2="225"/>
+    <line x1="530" y1="280" x2="650" y2="280"/>
+  </g>
+  <!-- bottom annotations -->
+  <rect x="50" y="350" width="480" height="56" rx="12" fill="#1f2a27" stroke="#6fd3b0"/>
+  <text x="290" y="374" text-anchor="middle" font-size="13" fill="#6fd3b0" font-weight="700">A rebrand, dark mode or a new brand</text>
+  <text x="290" y="394" text-anchor="middle" font-size="12" fill="#a19e97">only changes these mappings (tokens.css)</text>
+  <rect x="560" y="350" width="270" height="56" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="695" y="374" text-anchor="middle" font-size="13" fill="#ece9e2" font-weight="700">Component files</text>
+  <text x="695" y="394" text-anchor="middle" font-size="12" fill="#a19e97">never change</text>
+  <text x="290" y="334" text-anchor="middle" font-size="12" fill="#8f8d88">dashed = old brand, solid = new brand</text>
+</svg>

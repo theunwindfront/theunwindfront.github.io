@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 470" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="470" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">SAME CARD, SAME 1440px SCREEN</text>
+  <!-- left: media query -->
+  <text x="40" y="92" font-size="15" fill="#f28b9b" font-weight="700">Media query: reads the viewport</text>
+  <rect x="40" y="108" width="390" height="250" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="235" y="132" text-anchor="middle" font-size="12" fill="#a19e97">viewport = 1440px → md:flex-row</text>
+  <!-- sidebar -->
+  <rect x="56" y="146" width="110" height="196" rx="8" fill="#23232a"/>
+  <text x="111" y="164" text-anchor="middle" font-size="12" fill="#8f8d88">sidebar</text>
+  <rect x="64" y="176" width="94" height="70" rx="6" fill="#2a1c20" stroke="#f28b9b"/>
+  <rect x="70" y="184" width="30" height="54" rx="4" fill="#f2b880"/>
+  <rect x="106" y="186" width="46" height="7" rx="3" fill="#ece9e2" opacity=".8"/>
+  <rect x="106" y="199" width="40" height="6" rx="3" fill="#3a3a44"/>
+  <rect x="106" y="210" width="44" height="6" rx="3" fill="#3a3a44"/>
+  <text x="111" y="268" text-anchor="middle" font-size="12" fill="#f28b9b">squeezed</text>
+  <!-- main -->
+  <rect x="178" y="146" width="236" height="196" rx="8" fill="#23232a"/>
+  <text x="296" y="164" text-anchor="middle" font-size="12" fill="#8f8d88">main</text>
+  <rect x="190" y="176" width="212" height="70" rx="6" fill="#1b1b20" stroke="#2e2e36"/>
+  <rect x="196" y="184" width="70" height="54" rx="4" fill="#8f8fef"/>
+  <rect x="276" y="188" width="100" height="8" rx="4" fill="#ece9e2" opacity=".8"/>
+  <rect x="276" y="203" width="116" height="6" rx="3" fill="#3a3a44"/>
+  <rect x="276" y="215" width="90" height="6" rx="3" fill="#3a3a44"/>
+  <text x="296" y="268" text-anchor="middle" font-size="12" fill="#6fd3b0">fine</text>
+  <!-- right: container query -->
+  <text x="450" y="92" font-size="15" fill="#6fd3b0" font-weight="700">Container query: reads the slot</text>
+  <rect x="450" y="108" width="390" height="250" rx="12" fill="#1b1b20" stroke="#2e2e36"/>
+  <text x="645" y="132" text-anchor="middle" font-size="12" fill="#a19e97">each card asks its own container</text>
+  <!-- sidebar -->
+  <rect x="466" y="146" width="110" height="196" rx="8" fill="#23232a" stroke="#8f8fef" stroke-dasharray="4 4"/>
+  <text x="521" y="164" text-anchor="middle" font-size="12" fill="#8f8d88">sidebar</text>
+  <rect x="474" y="176" width="94" height="124" rx="6" fill="#1b1b20" stroke="#2e2e36"/>
+  <rect x="480" y="182" width="82" height="50" rx="4" fill="#f2b880"/>
+  <rect x="480" y="240" width="66" height="7" rx="3" fill="#ece9e2" opacity=".8"/>
+  <rect x="480" y="253" width="82" height="6" rx="3" fill="#3a3a44"/>
+  <rect x="480" y="264" width="60" height="6" rx="3" fill="#3a3a44"/>
+  <text x="521" y="324" text-anchor="middle" font-size="12" fill="#6fd3b0">stacked</text>
+  <!-- main -->
+  <rect x="588" y="146" width="236" height="196" rx="8" fill="#23232a" stroke="#6fd3b0" stroke-dasharray="4 4"/>
+  <text x="706" y="164" text-anchor="middle" font-size="12" fill="#8f8d88">main</text>
+  <rect x="600" y="176" width="212" height="70" rx="6" fill="#1b1b20" stroke="#2e2e36"/>
+  <rect x="606" y="184" width="70" height="54" rx="4" fill="#8f8fef"/>
+  <rect x="686" y="188" width="100" height="8" rx="4" fill="#ece9e2" opacity=".8"/>
+  <rect x="686" y="203" width="116" height="6" rx="3" fill="#3a3a44"/>
+  <rect x="686" y="215" width="90" height="6" rx="3" fill="#3a3a44"/>
+  <text x="706" y="268" text-anchor="middle" font-size="12" fill="#6fd3b0">row (@md)</text>
+  <!-- bottom explanation -->
+  <rect x="40" y="378" width="390" height="62" rx="10" fill="#23232a"/>
+  <text x="235" y="404" text-anchor="middle" font-size="13" fill="#ece9e2">One breakpoint for the whole page</text>
+  <text x="235" y="424" text-anchor="middle" font-size="12" fill="#a19e97">needs a "compact" prop per slot</text>
+  <rect x="450" y="378" width="390" height="62" rx="10" fill="#23232a"/>
+  <text x="645" y="404" text-anchor="middle" font-size="13" fill="#ece9e2">One breakpoint per container</text>
+  <text x="645" y="424" text-anchor="middle" font-size="12" fill="#a19e97">no props, fits any slot</text>
+</svg>

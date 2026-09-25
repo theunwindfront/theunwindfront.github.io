@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430" font-family="ui-monospace, Menlo, monospace">
+  <rect width="880" height="430" rx="16" fill="#16161b"/>
+  <text x="40" y="50" font-size="15" fill="#8f8d88" letter-spacing="2">TWO WAYS TO HANDLE A CLICK</text>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#a19e97"/></marker>
+  </defs>
+  <!-- Livewire lane -->
+  <circle cx="52" cy="95" r="7" fill="#6fd3b0"/>
+  <text x="68" y="100" font-size="14" fill="#ece9e2" font-weight="700">Livewire</text>
+  <g font-size="13">
+    <rect x="40" y="118" width="170" height="64" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+    <text x="125" y="145" text-anchor="middle" fill="#ece9e2">wire:click</text>
+    <text x="125" y="166" text-anchor="middle" font-size="12" fill="#a19e97">browser</text>
+    <rect x="250" y="118" width="170" height="64" rx="10" fill="#1b1b20" stroke="#6fd3b0"/>
+    <text x="335" y="145" text-anchor="middle" fill="#ece9e2">PHP method</text>
+    <text x="335" y="166" text-anchor="middle" font-size="12" fill="#a19e97">component state</text>
+    <rect x="460" y="118" width="170" height="64" rx="10" fill="#1b1b20" stroke="#6fd3b0"/>
+    <text x="545" y="145" text-anchor="middle" fill="#ece9e2">Blade render</text>
+    <text x="545" y="166" text-anchor="middle" font-size="12" fill="#a19e97">returns HTML</text>
+    <rect x="670" y="118" width="170" height="64" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+    <text x="755" y="145" text-anchor="middle" fill="#ece9e2">morph DOM</text>
+    <text x="755" y="166" text-anchor="middle" font-size="12" fill="#a19e97">browser</text>
+  </g>
+  <g stroke="#a19e97" stroke-width="2" marker-end="url(#a)">
+    <line x1="212" y1="150" x2="246" y2="150"/><line x1="422" y1="150" x2="456" y2="150"/><line x1="632" y1="150" x2="666" y2="150"/>
+  </g>
+  <text x="440" y="208" text-anchor="middle" font-size="12" fill="#6fd3b0">UI state lives on the server · client JS is mostly Alpine</text>
+  <line x1="40" y1="232" x2="840" y2="232" stroke="#2e2e36" stroke-dasharray="4 6"/>
+  <!-- Inertia lane -->
+  <circle cx="52" cy="270" r="7" fill="#f2b880"/>
+  <text x="68" y="275" font-size="14" fill="#ece9e2" font-weight="700">Inertia</text>
+  <g font-size="13">
+    <rect x="40" y="293" width="170" height="64" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+    <text x="125" y="320" text-anchor="middle" fill="#ece9e2">&lt;Link&gt; / visit</text>
+    <text x="125" y="341" text-anchor="middle" font-size="12" fill="#a19e97">browser</text>
+    <rect x="250" y="293" width="170" height="64" rx="10" fill="#1b1b20" stroke="#f2b880"/>
+    <text x="335" y="320" text-anchor="middle" fill="#ece9e2">Controller</text>
+    <text x="335" y="341" text-anchor="middle" font-size="12" fill="#a19e97">Inertia::render()</text>
+    <rect x="460" y="293" width="170" height="64" rx="10" fill="#1b1b20" stroke="#f2b880"/>
+    <text x="545" y="320" text-anchor="middle" fill="#ece9e2">page object</text>
+    <text x="545" y="341" text-anchor="middle" font-size="12" fill="#a19e97">component + props</text>
+    <rect x="670" y="293" width="170" height="64" rx="10" fill="#1b1b20" stroke="#2e2e36"/>
+    <text x="755" y="320" text-anchor="middle" fill="#ece9e2">React / Vue</text>
+    <text x="755" y="341" text-anchor="middle" font-size="12" fill="#a19e97">renders page</text>
+  </g>
+  <g stroke="#a19e97" stroke-width="2" marker-end="url(#a)">
+    <line x1="212" y1="325" x2="246" y2="325"/><line x1="422" y1="325" x2="456" y2="325"/><line x1="632" y1="325" x2="666" y2="325"/>
+  </g>
+  <text x="440" y="383" text-anchor="middle" font-size="12" fill="#f2b880">UI state lives in the client · local changes need no request</text>
+  <text x="440" y="408" text-anchor="middle" font-size="12" fill="#8f8d88">server steps highlighted · browser steps grey</text>
+</svg>
