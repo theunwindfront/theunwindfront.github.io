@@ -56,6 +56,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [Laravel Blade Variants](https://github.com/theunwindfront/laravel-blade-variants)
 
 ### Key Guides
+- [INP for Laravel Apps: Fixing Slow Interactions Before Users Notice](https://sagarpansuriya.in/blog/inp-core-web-vitals-laravel/)
 - [Navcrate Menu Manager](https://sagarpansuriya.in/blog/navcrate-menu-manager/)
 - [Why Frontend Architecture is Crucial (Even Without Design Skills)](https://sagarpansuriya.in/blog/frontend-tech-without-design-skills/)
 - [Web Architecture: Scalability with Simplicity](https://sagarpansuriya.in/blog/web-architecture-scalability-simplicity/)
