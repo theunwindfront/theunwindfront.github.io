@@ -56,6 +56,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [Laravel Blade Variants](https://github.com/theunwindfront/laravel-blade-variants)
 
 ### Key Guides
+- [Livewire vs Inertia: A Tech Lead's Decision Framework](https://sagarpansuriya.in/blog/livewire-vs-inertia-decision-framework/)
 - [Design Tokens That Survive a Rebrand with Tailwind CSS v4](https://sagarpansuriya.in/blog/tailwind-v4-design-tokens-rebrand/)
 - [INP for Laravel Apps: Fixing Slow Interactions Before Users Notice](https://sagarpansuriya.in/blog/inp-core-web-vitals-laravel/)
 - [Navcrate Menu Manager](https://sagarpansuriya.in/blog/navcrate-menu-manager/)
