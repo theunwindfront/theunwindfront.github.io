@@ -56,6 +56,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [Laravel Blade Variants](https://github.com/theunwindfront/laravel-blade-variants)
 
 ### Key Guides
+- [Accessible Modals with Native <dialog> and a Tiny Alpine.js Wrapper](https://sagarpansuriya.in/blog/native-dialog-alpinejs-accessible-modals/)
 - [Frontend Code Reviews That Actually Make Your Team Better](https://sagarpansuriya.in/blog/frontend-code-reviews-that-teach/)
 - [Livewire vs Inertia: A Tech Lead's Decision Framework](https://sagarpansuriya.in/blog/livewire-vs-inertia-decision-framework/)
 - [Design Tokens That Survive a Rebrand with Tailwind CSS v4](https://sagarpansuriya.in/blog/tailwind-v4-design-tokens-rebrand/)
