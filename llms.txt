@@ -56,6 +56,10 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [Laravel Blade Variants](https://github.com/theunwindfront/laravel-blade-variants)
 
 ### Key Guides
+- [Tailwind CSS: Rethinking Separation of Concerns](https://sagarpansuriya.in/blog/tailwind-vs-traditional-css/)
+- [Alpine.js Plugins: Extending the Alpine Core](https://sagarpansuriya.in/blog/alpinejs-plugin-development/)
+- [Meet HTTP QUERY: The Safe, Cacheable Method We've Been Waiting For](https://sagarpansuriya.in/blog/http-query-method/)
+- [AI Doesn't Always Mean Building a New App](https://sagarpansuriya.in/blog/ai-smart-workflow/)
 - [A Reusable Blade Component Library for WordPress with Sage and Acorn](https://sagarpansuriya.in/blog/blade-components-wordpress-sage-acorn/)
 - [Prompt AI Coding Agents Like a Tech Lead Writes Tickets](https://sagarpansuriya.in/blog/prompting-ai-coding-agents-like-a-tech-lead/)
 - [Accessible Modals with Native <dialog> and a Tiny Alpine.js Wrapper](https://sagarpansuriya.in/blog/native-dialog-alpinejs-accessible-modals/)

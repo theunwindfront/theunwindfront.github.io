@@ -7,7 +7,7 @@
  *   1. removes the `scheduled` flag so the listing renders it,
  *   2. adds a crawler link to the hidden SEO block,
  *   3. adds a <url> entry to sitemap.xml,
- *   4. strips the noindex robots meta from the post's own HTML file,
+ *   4. swaps the post's noindex robots meta for `index, follow`,
  *   5. lists the post under "Key Guides" in llms.txt.
  *
  * Idempotent: re-running changes nothing once a post is published.
@@ -147,7 +147,9 @@ function addLlmsEntry(txt, post) {
     return txt.slice(0, insertAt) + `- [${post.title}](${loc})\n` + txt.slice(insertAt);
 }
 
-/** Remove the noindex robots meta from the post's own page. */
+const INDEX_META = '<meta name="robots" content="index, follow">';
+
+/** Swap the post's noindex robots meta for an explicit index, follow. */
 function unblockPostFile(post) {
     const file = join(ROOT, post.url.replace(/^\/|\/$/g, ''), 'index.html');
     if (!existsSync(file)) {
@@ -155,10 +157,18 @@ function unblockPostFile(post) {
         return false;
     }
     const before = readFileSync(file, 'utf8');
-    const after = before.replace(
-        /\s*<meta\s+name=["']robots["']\s+content=["'][^"']*noindex[^"']*["']\s*\/?>/i,
-        ''
+    let after = before.replace(
+        /<meta\s+name=["']robots["']\s+content=["'][^"']*noindex[^"']*["']\s*\/?>/i,
+        INDEX_META
     );
+    // No robots meta at all: add one after color-scheme (or viewport) so every
+    // live post states it explicitly.
+    if (!/<meta\s+name=["']robots["']/i.test(after)) {
+        after = after.replace(
+            /(\n([ \t]*)<meta\s+name=["'](?:color-scheme|viewport)["'][^>]*>)/i,
+            `$1\n$2${INDEX_META}`
+        );
+    }
     if (before === after) return false;
     writeFileSync(file, after);
     return true;
@@ -186,7 +196,7 @@ html = html.slice(0, open) + newLiteral + html.slice(end + 1);
 for (const post of due) {
     html = addSeoLink(html, post);
     const unblocked = unblockPostFile(post);
-    console.log(`  - ${post.title}${unblocked ? ' (noindex removed)' : ''}`);
+    console.log(`  - ${post.title}${unblocked ? ' (now index, follow)' : ''}`);
 }
 
 writeFileSync(INDEX, html);

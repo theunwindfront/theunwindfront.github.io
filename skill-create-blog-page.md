@@ -52,6 +52,8 @@ utterances comments loader (all already in the reference).
 
 ### Update these in `<head>`
 - `<meta name="color-scheme" content="light dark">` — keep it.
+- `<meta name="robots" content="index, follow">` — every live post states it explicitly.
+  (A scheduled post uses noindex instead — see step 8a.)
 - `<title>` — post title.
 - `<meta name="description">` — the excerpt.
 - `<link rel="canonical" href="https://sagarpansuriya.in/blog/<post-slug>/">`.
@@ -190,8 +192,8 @@ these three changes instead of step 5.
 ```html
 <meta name="robots" content="noindex, nofollow">
 ```
-This keeps the page out of search results while it sits in the repo. The workflow strips this
-line automatically at publish time.
+This keeps the page out of search results while it sits in the repo. At publish time the
+workflow replaces it with `<meta name="robots" content="index, follow">`.
 
 ### 8b. Add two fields to the posts array entry
 ```javascript
@@ -214,7 +216,7 @@ the post goes live — adding them early would expose the post before its date.
 ### What happens next
 `.github/workflows/publish-scheduled.yml` runs hourly. Once `publishDate` passes it clears the
 `scheduled` flag, adds the crawler link and sitemap entry, lists the post under "Key Guides"
-in `llms.txt`, strips the noindex meta, and commits. GitHub Pages redeploys on that commit. The listing also filters scheduled posts
+in `llms.txt`, swaps the noindex meta for `index, follow`, and commits. GitHub Pages redeploys on that commit. The listing also filters scheduled posts
 client-side, so a pending post never renders even between cron runs.
 
 ### Notes
