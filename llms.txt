@@ -56,6 +56,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [Laravel Blade Variants](https://github.com/theunwindfront/laravel-blade-variants)
 
 ### Key Guides
+- [A Reusable Blade Component Library for WordPress with Sage and Acorn](https://sagarpansuriya.in/blog/blade-components-wordpress-sage-acorn/)
 - [Prompt AI Coding Agents Like a Tech Lead Writes Tickets](https://sagarpansuriya.in/blog/prompting-ai-coding-agents-like-a-tech-lead/)
 - [Accessible Modals with Native <dialog> and a Tiny Alpine.js Wrapper](https://sagarpansuriya.in/blog/native-dialog-alpinejs-accessible-modals/)
 - [Frontend Code Reviews That Actually Make Your Team Better](https://sagarpansuriya.in/blog/frontend-code-reviews-that-teach/)
