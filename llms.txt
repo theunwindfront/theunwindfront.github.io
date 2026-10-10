@@ -56,6 +56,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [Laravel Blade Variants](https://github.com/theunwindfront/laravel-blade-variants)
 
 ### Key Guides
+- [Cross-Document View Transitions: SPA-Smooth Navigation for Multi-Page Sites](https://sagarpansuriya.in/blog/view-transitions-multi-page-sites/)
 - [Tailwind CSS: Rethinking Separation of Concerns](https://sagarpansuriya.in/blog/tailwind-vs-traditional-css/)
 - [Alpine.js Plugins: Extending the Alpine Core](https://sagarpansuriya.in/blog/alpinejs-plugin-development/)
 - [Meet HTTP QUERY: The Safe, Cacheable Method We've Been Waiting For](https://sagarpansuriya.in/blog/http-query-method/)
