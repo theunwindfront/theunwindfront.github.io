@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tailwind CSS Exercises for Students - Tailwind CSS Expert Talk</title>
+
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+  <!-- End Google Tag Manager -->
+  <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+  <link rel="llms" href="/llms.txt">
+
+  <!-- SEO Meta Tags -->
+  <meta name="description"
+    content="11 hands-on Tailwind CSS v4 exercises with a live editor, automatic checks, hints, solutions and answers to common student doubts.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Sagar Pansuriya">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://sagarpansuriya.in/tailwindcss-expert-talk-for-students/exercises/">
+  <meta property="og:title" content="Tailwind CSS Exercises for Students">
+  <meta property="og:description"
+    content="11 hands-on Tailwind CSS v4 exercises with a live editor, automatic checks, hints, solutions and answers to common student doubts.">
+  <meta property="og:image" content="https://sagarpansuriya.in/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://sagarpansuriya.in/tailwindcss-expert-talk-for-students/exercises/">
+  <meta name="twitter:title" content="Tailwind CSS Exercises for Students">
+  <meta name="twitter:description"
+    content="11 hands-on Tailwind CSS v4 exercises with a live editor, automatic checks, hints, solutions and answers to common student doubts.">
+  <meta name="twitter:image" content="https://sagarpansuriya.in/og-image.jpg">
+  <meta name="twitter:creator" content="@frontendbysagar">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://sagarpansuriya.in/tailwindcss-expert-talk-for-students/exercises/">
+
+  <!-- Favicon and Icons -->
+  <link rel="icon" type="image/png" href="/favicon.jpg">
+  <link rel="apple-touch-icon" href="/favicon.jpg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* 1. TOKENS */
+    :root {
+      --font-display: 'Space Grotesk', Arial, sans-serif;
+      --font-sans: 'IBM Plex Sans', Arial, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      --ink: #0b1220;
+      --ink-2: #0d1526;
+      --line-d: #23304d;
+      --paper: #f5f7fa;
+      --card: #ffffff;
+      --line: #dde3ec;
+      --text: #0b1220;
+      --body: #475569;
+      --muted: #64748b;
+      --sky: #0369a1;
+      --sky-soft: #e0f2fe;
+      --green: #047857;
+      --green-soft: #d1fae5;
+      --rose: #be123c;
+      --rose-soft: #ffe4e6;
+      --amber-soft: #fef3c7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    a {
+      color: var(--sky);
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: var(--sky-soft);
+      color: #075985;
+      padding: 1px 6px;
+      border-radius: 5px;
+    }
+
+    /* 2. HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding: 14px 24px;
+      background: var(--ink);
+      color: #f1f5f9;
+    }
+
+    .brand {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .brand span {
+      color: #38bdf8;
+    }
+
+    .head-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 15px;
+    }
+
+    .head-links a {
+      color: #cbd5e1;
+      text-decoration: none;
+    }
+
+    .head-links a:hover {
+      color: #ffffff;
+    }
+
+    .progress-pill {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: #13304a;
+      color: #7dd3fc;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    /* 3. LAYOUT */
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 28px;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 28px 24px 60px;
+    }
+
+    @media (max-width: 960px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Sidebar */
+    nav.ex-nav {
+      position: sticky;
+      top: 76px;
+      align-self: start;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    @media (max-width: 960px) {
+      nav.ex-nav {
+        position: static;
+      }
+    }
+
+    .group-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .ex-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .ex-link:hover {
+      background: var(--card);
+      border-color: var(--line);
+    }
+
+    .ex-link.active {
+      background: var(--card);
+      border-color: var(--sky);
+    }
+
+    .dot {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--line);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: transparent;
+    }
+
+    .ex-link.done .dot {
+      background: var(--green);
+      border-color: var(--green);
+      color: #ffffff;
+    }
+
+    /* Content */
+    main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px 24px;
+    }
+
+    .kicker {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--sky);
+    }
+
+    h1.ex-title {
+      font-family: var(--font-display);
+      font-size: 34px;
+      line-height: 1.15;
+      margin: 6px 0 8px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .tag {
+      font-size: 13px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--sky-soft);
+      color: #075985;
+    }
+
+    .tag.level-Challenge {
+      background: var(--amber-soft);
+      color: #92400e;
+    }
+
+    .goal {
+      color: var(--body);
+      font-size: 17px;
+    }
+
+    .steps {
+      margin: 12px 0 0 20px;
+      color: var(--body);
+    }
+
+    .steps li {
+      margin: 4px 0;
+    }
+
+    /* Workspace */
+    .work {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 1200px) {
+      .work {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .pane-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .pane-head h2 {
+      font-family: var(--font-display);
+      font-size: 18px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 7px 12px;
+      cursor: pointer;
+    }
+
+    .btn:hover,
+    .btn.on {
+      border-color: var(--sky);
+      background: var(--sky-soft);
+    }
+
+    .btn.primary {
+      background: var(--sky);
+      border-color: var(--sky);
+      color: #ffffff;
+    }
+
+    .btn.primary:hover {
+      background: #075985;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    textarea.editor {
+      width: 100%;
+      height: 420px;
+      resize: vertical;
+      background: var(--ink-2);
+      color: #e2e8f0;
+      border: 1px solid var(--line-d);
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.65;
+      tab-size: 2;
+      font-variant-ligatures: none;
+      outline: none;
+    }
+
+    textarea.editor:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+    }
+
+    .viewport {
+      position: relative;
+      height: 420px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f1f5f9;
+    }
+
+    .viewport iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: 0;
+      transform-origin: top left;
+      background: #f1f5f9;
+    }
+
+    .vp-label {
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: rgba(11, 18, 32, 0.75);
+      color: #f1f5f9;
+      padding: 2px 8px;
+      border-radius: 999px;
+      pointer-events: none;
+    }
+
+    /* Check results */
+    .results {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .results li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    .results li.pass {
+      background: var(--green-soft);
+      color: #065f46;
+    }
+
+    .results li.fail {
+      background: var(--rose-soft);
+      color: #9f1239;
+    }
+
+    .results li b {
+      flex-shrink: 0;
+      width: 18px;
+    }
+
+    .banner {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .banner.ok {
+      background: var(--green-soft);
+      color: #065f46;
+    }
+
+    .banner.info {
+      background: var(--sky-soft);
+      color: #075985;
+    }
+
+    .hint {
+      background: var(--amber-soft);
+      color: #78350f;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-top: 8px;
+    }
+
+    pre.solution {
+      background: var(--ink-2);
+      color: #e2e8f0;
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      line-height: 1.6;
+      font-variant-ligatures: none;
+      overflow-x: auto;
+      margin-top: 10px;
+    }
+
+    .tg {
+      color: #7dd3fc;
+    }
+
+    .at {
+      color: #c4b5fd;
+    }
+
+    .st {
+      color: #fcd34d;
+    }
+
+    /* Doubts */
+    details {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: var(--card);
+    }
+
+    details+details {
+      margin-top: 8px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    details p {
+      margin-top: 8px;
+      color: var(--body);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    #checkFrames {
+      position: fixed;
+      left: -20000px;
+      top: 0;
+      visibility: hidden;
+    }
+  </style>
+
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Tailwind CSS Exercises for Students",
+    "description": "11 hands-on Tailwind CSS v4 exercises with a live editor, automatic checks, hints and solutions.",
+    "url": "https://sagarpansuriya.in/tailwindcss-expert-talk-for-students/exercises/",
+    "learningResourceType": "Exercise",
+    "educationalLevel": "Beginner",
+    "author": {
+        "@type": "Person",
+        "name": "Sagar Pansuriya"
+    }
+}
+  </script>
+</head>
+
+<body>
+
+  <header>
+    <div class="brand">Tailwind CSS <span>Exercises</span></div>
+    <div class="head-links">
+      <span class="progress-pill" id="progressPill">0 / 11 done</span>
+      <a href="#doubts">Common doubts</a>
+      <a href="../">← Slides</a>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="ex-nav" id="exNav" aria-label="Exercises"></nav>
+
+    <main>
+      <!-- Exercise intro -->
+      <section class="panel">
+        <p class="kicker" id="exKicker"></p>
+        <h1 class="ex-title" id="exTitle"></h1>
+        <div class="meta" id="exMeta"></div>
+        <p class="goal" id="exGoal"></p>
+        <ol class="steps" id="exSteps"></ol>
+      </section>
+
+      <!-- Editor + live preview -->
+      <section class="work">
+        <div class="panel">
+          <div class="pane-head">
+            <h2>Your code</h2>
+            <div class="btn-row">
+              <button class="btn" id="hintBtn">Hint</button>
+              <button class="btn" id="solutionBtn">Show solution</button>
+              <button class="btn" id="resetBtn">Reset</button>
+            </div>
+          </div>
+          <textarea class="editor" id="editor" spellcheck="false" aria-label="Your HTML code"></textarea>
+          <div id="hints"></div>
+        </div>
+
+        <div class="panel">
+          <div class="pane-head">
+            <h2>Live preview</h2>
+            <div class="btn-row" id="sizeBtns">
+              <button class="btn on" data-w="0">Fit</button>
+              <button class="btn" data-w="375">Phone</button>
+              <button class="btn" data-w="768">Tablet</button>
+              <button class="btn" data-w="1280">Laptop</button>
+              <button class="btn" id="darkBtn" aria-pressed="false">Dark</button>
+            </div>
+          </div>
+          <div class="viewport" id="viewport">
+            <iframe id="preview" title="Live preview of your code"></iframe>
+            <span class="vp-label" id="vpLabel">fit</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Check + target -->
+      <section class="work">
+        <div class="panel">
+          <div class="pane-head">
+            <h2>Check my work</h2>
+            <button class="btn primary" id="checkBtn">Run checks</button>
+          </div>
+          <p class="muted" id="checkIntro">The checker looks at the real rendered result, so any correct solution
+            passes — not just the one in the answer.</p>
+          <ul class="results" id="results"></ul>
+          <div id="checkBanner"></div>
+        </div>
+
+        <div class="panel">
+          <div class="pane-head">
+            <h2>What you are aiming for</h2>
+          </div>
+          <div class="viewport" id="targetBox" style="height: 300px;">
+            <iframe id="target" title="Target design"></iframe>
+            <span class="vp-label" id="targetLabel"></span>
+          </div>
+          <div id="solutionBox"></div>
+        </div>
+      </section>
+
+      <!-- Per-exercise doubts -->
+      <section class="panel">
+        <h2 class="section-title">Stuck? Common doubts for this exercise</h2>
+        <div id="exDoubts"></div>
+      </section>
+
+      <!-- General doubts -->
+      <section class="panel" id="doubts">
+        <h2 class="section-title">Common doubts about Tailwind</h2>
+        <details>
+          <summary>I added a class but nothing changes. Why?</summary>
+          <p>Check three things: (1) spelling — <code>text-sky700</code> is not a class, <code>text-sky-700</code> is;
+            (2) your internet connection — the preview loads Tailwind from a CDN; (3) two classes fighting over the
+            same property, like <code>p-4 p-8</code> — keep only one.</p>
+        </details>
+        <details>
+          <summary>What is the difference between p-4, px-4 and pt-4?</summary>
+          <p><code>p-4</code> adds 16px on all four sides. <code>px-4</code> only left and right, <code>py-4</code>
+            only top and bottom, <code>pt-4</code> only the top. Margin works the same way: <code>m</code>,
+            <code>mx</code>, <code>mt</code>…</p>
+        </details>
+        <details>
+          <summary>How do I centre a div?</summary>
+          <p>On the parent: <code>flex items-center justify-center</code> or <code>grid place-items-center</code>.
+            Give the parent a height (e.g. <code>min-h-screen</code>) if you also want vertical centring. To centre a
+            block horizontally only: <code>mx-auto</code> plus a width like <code>max-w-md</code>.</p>
+        </details>
+        <details>
+          <summary>Why does sm: change my laptop layout but not my phone?</summary>
+          <p>Prefixes mean "from this width and up". <code>sm:</code> starts at 640px, so it applies to tablets and
+            laptops too. Write the phone style with no prefix, then add <code>md:</code> or <code>lg:</code> for bigger
+            screens.</p>
+        </details>
+        <details>
+          <summary>How do I use my own colour, like a brand colour?</summary>
+          <p>Quick: <code>bg-[#1da1f2]</code>. Better for a project: add <code>--color-brand: #1da1f2;</code> inside
+            <code>@theme</code> in your CSS file, then use <code>bg-brand</code>, <code>text-brand</code> and so on.</p>
+        </details>
+        <details>
+          <summary>Do I need Node.js to use Tailwind?</summary>
+          <p>Not for learning: the Play CDN script works in any HTML file. For real projects, yes — install it with
+            npm and use Vite, or the Tailwind CLI: <code>npx @tailwindcss/cli -i input.css -o output.css --watch</code>.
+          </p>
+        </details>
+        <details>
+          <summary>The tutorial I found uses tailwind.config.js. Is it wrong?</summary>
+          <p>It is for Tailwind v3. Most class names are the same in v4, but setup is different: v4 uses
+            <code>@import "tailwindcss";</code> and configuration goes inside <code>@theme</code> in your CSS.</p>
+        </details>
+        <details>
+          <summary>Isn't writing so many classes bad practice?</summary>
+          <p>Long class lists are normal in Tailwind. To avoid repeating them, put the markup in a component
+            (a JavaScript function, a React or Vue component, or a PHP include) and reuse that. <code>@apply</code> exists but
+            should be used sparingly.</p>
+        </details>
+        <details>
+          <summary>Can I use Tailwind and Bootstrap together?</summary>
+          <p>Technically yes, but their class names and resets can clash. For a new project pick one. Tailwind gives
+            you more design freedom; Bootstrap gives you ready-made components.</p>
+        </details>
+        <details>
+          <summary>How do I use Tailwind in a plain HTML / JavaScript project?</summary>
+          <p>Install it with <code>npm install tailwindcss @tailwindcss/cli</code>, put
+            <code>@import "tailwindcss";</code> in <code>src/input.css</code>, run
+            <code>npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch</code> and link
+            <code>output.css</code> in your HTML. No framework needed.</p>
+        </details>
+        <details>
+          <summary>Where can I look up a class?</summary>
+          <p>tailwindcss.com/docs — press Ctrl + K and search, e.g. "padding" or "shadow". In VS Code, install the
+            Tailwind CSS IntelliSense extension to see the real CSS when you hover a class.</p>
+        </details>
+        <p class="muted" style="margin-top: 14px;">Still stuck during the session? Raise your hand — that is what the
+          labs are for.</p>
+      </section>
+    </main>
+  </div>
+
+  <div id="checkFrames" aria-hidden="true"></div>
+
+  <script>
+    // 1. HELPERS SHARED BY CHECKS
+    const CENTER = 'grid min-h-screen place-items-center bg-slate-100 p-6 font-sans dark:bg-slate-900';
+    const BLOCK = 'min-h-screen bg-slate-100 p-6 font-sans dark:bg-slate-900';
+
+    const px = (v) => parseFloat(v) || 0;
+    const attr = (el) => (el && el.getAttribute('class')) || '';
+    const has = (el, name) => attr(el).split(/\s+/).includes(name);
+    const matches = (el, re) => re.test(attr(el));
+    const anyDesc = (el, re) => !!el && [...el.querySelectorAll('*')].some((c) => re.test(attr(c)));
+    const cols = (style) => style.gridTemplateColumns.split(' ').filter((t) => t && t !== 'none').length;
+
+    const TEXT_COLOR = /(^|\s)text-(white|black|[a-z]+-\d{2,3})(\s|$)/;
+    const BG = /(^|\s)bg-(white|black|[a-z]+-\d{2,3})(\/\d+)?(\s|$)/;
+    const HOVER = /(^|\s)hover:/;
+    const FOCUS = /(^|\s)focus(-visible)?:/;
+
+    // 2. EXERCISES
+    // Each check gets ctx = { q, qa, cs, mem } for a page rendered at `at` px wide (default 1024).
+    const exercises = [
+      {
+        id: 'hello', group: 'Lab 1 · First styles', title: 'Hello Tailwind', level: 'Easy', minutes: 5,
+        goal: 'Turn plain text into a styled welcome message.',
+        steps: ['Make the heading big, bold and coloured.', 'Make the paragraph grey with some space above it.',
+          'Centre everything.'],
+        body: CENTER,
+        starter: `<div>
+  <h1>Welcome to Marwadi University</h1>
+  <p>Learning Tailwind CSS, one class at a time.</p>
+</div>`,
+        solution: `<div class="text-center">
+  <h1 class="text-4xl font-bold text-sky-700">Welcome to Marwadi University</h1>
+  <p class="mt-3 text-lg text-slate-600">Learning Tailwind CSS, one class at a time.</p>
+</div>`,
+        hints: ['Font size: text-4xl. Weight: font-bold.', 'Colour: text-sky-700 on the heading, text-slate-600 on the paragraph.',
+          'Space above: mt-3. Centre: text-center on the outer div.'],
+        checks: [
+          { label: 'Heading is at least text-4xl (36px)', test: ({ q, cs }) => px(cs(q('h1')).fontSize) >= 36 },
+          { label: 'Heading is bold (font-bold)', test: ({ q, cs }) => +cs(q('h1')).fontWeight >= 700 },
+          { label: 'Heading has a colour, e.g. text-sky-700', test: ({ q }) => matches(q('h1'), TEXT_COLOR) },
+          { label: 'Paragraph has space above it (mt-…)', test: ({ q, cs }) => px(cs(q('p')).marginTop) > 0 },
+          { label: 'Paragraph has a text colour, e.g. text-slate-600', test: ({ q }) => matches(q('p'), TEXT_COLOR) },
+          { label: 'Text is centred (text-center)', test: ({ q, cs }) => cs(q('div')).textAlign === 'center' },
+        ],
+        doubts: [
+          ['Why does my h1 look like normal text before I add any class?', 'Tailwind resets browser default styles (this is called Preflight), so every element starts plain. You decide every size yourself.'],
+          ['I wrote text-4xl but nothing changed.', 'Check for typos and make sure the preview has loaded (it needs internet for the Tailwind CDN). Try clicking Reset and adding one class at a time.'],
+        ],
+      },
+      {
+        id: 'button', group: 'Lab 1 · First styles', title: 'A real button', level: 'Easy', minutes: 5,
+        goal: 'Make a button that looks clickable and reacts to the mouse.',
+        steps: ['Add padding left/right and top/bottom.', 'Give it a background colour and white, semi-bold text.',
+          'Round the corners.', 'Make it darker on hover.'],
+        body: CENTER,
+        starter: `<button>Register now</button>`,
+        solution: `<button class="cursor-pointer rounded-lg bg-sky-700 px-6 py-3 font-semibold text-white shadow hover:bg-sky-800">
+  Register now
+</button>`,
+        hints: ['Padding: px-6 py-3.', 'Colours: bg-sky-700 text-white. Weight: font-semibold. Corners: rounded-lg.',
+          'Hover: hover:bg-sky-800 — one shade darker. Add cursor-pointer for the hand cursor.'],
+        checks: [
+          { label: 'Left/right padding of 16px or more (px-4+)', test: ({ q, cs }) => px(cs(q('button')).paddingLeft) >= 16 },
+          { label: 'Top/bottom padding of 8px or more (py-2+)', test: ({ q, cs }) => px(cs(q('button')).paddingTop) >= 8 },
+          { label: 'Rounded corners (rounded-lg or more)', test: ({ q, cs }) => px(cs(q('button')).borderTopLeftRadius) >= 8 },
+          { label: 'Background colour (bg-…)', test: ({ q }) => matches(q('button'), BG) },
+          { label: 'White text (text-white)', test: ({ q }) => has(q('button'), 'text-white') },
+          { label: 'Semi-bold or bold text', test: ({ q, cs }) => +cs(q('button')).fontWeight >= 600 },
+          { label: 'A hover style (hover:…)', test: ({ q }) => matches(q('button'), HOVER) },
+        ],
+        doubts: [
+          ['My hover colour does not change.', 'Use a different shade from the normal background, e.g. bg-sky-700 hover:bg-sky-800. hover:bg-sky-700 on a bg-sky-700 button changes nothing.'],
+          ['Why is there no hand cursor on my button?', 'Tailwind v4 keeps the browser default cursor for buttons. Add cursor-pointer.'],
+        ],
+      },
+      {
+        id: 'card', group: 'Lab 1 · First styles', title: 'Notice card', level: 'Easy', minutes: 5,
+        goal: 'Put a notice inside a clean white card.',
+        steps: ['White background, padding, rounded corners and a shadow on the card.', 'Limit its width.',
+          'Make the title bigger and bold; give the text a colour and space.'],
+        body: CENTER,
+        starter: `<div>
+  <h2>Exam notice</h2>
+  <p>Internal exams for BCA Semester 5 start on Monday. Check the timetable on the notice board.</p>
+</div>`,
+        solution: `<div class="max-w-md rounded-xl border-l-4 border-amber-500 bg-white p-6 shadow-lg">
+  <h2 class="text-xl font-bold text-slate-900">Exam notice</h2>
+  <p class="mt-2 text-slate-600">Internal exams for BCA Semester 5 start on Monday. Check the timetable on the notice board.</p>
+</div>`,
+        hints: ['Card: bg-white p-6 rounded-xl shadow-lg.', 'Width: max-w-md.',
+          'Title: text-xl font-bold. Bonus: border-l-4 border-amber-500 for a coloured edge.'],
+        checks: [
+          { label: 'White background (bg-white)', test: ({ q }) => has(q('div'), 'bg-white') },
+          { label: 'Padding of 24px or more (p-6+)', test: ({ q, cs }) => px(cs(q('div')).paddingTop) >= 24 && px(cs(q('div')).paddingLeft) >= 24 },
+          { label: 'Rounded corners (rounded-xl or more)', test: ({ q, cs }) => px(cs(q('div')).borderTopRightRadius) >= 12 },
+          { label: 'A shadow (shadow-…)', test: ({ q, cs }) => cs(q('div')).boxShadow !== 'none' },
+          { label: 'Width is limited (max-w-…)', test: ({ q, cs }) => cs(q('div')).maxWidth !== 'none' },
+          { label: 'Title is at least text-xl and semi-bold', test: ({ q, cs }) => px(cs(q('h2')).fontSize) >= 20 && +cs(q('h2')).fontWeight >= 600 },
+        ],
+        doubts: [
+          ['My shadow is barely visible.', 'Shadows are subtle on white backgrounds. Try shadow-lg or shadow-xl, and keep the page background slightly grey.'],
+          ['The card stretches across the whole screen.', 'Add a max width such as max-w-md — block elements fill the width of their parent by default.'],
+        ],
+      },
+      {
+        id: 'navbar', group: 'Lab 2 · Layouts', title: 'College navbar', level: 'Medium', minutes: 7,
+        goal: 'Build a navigation bar: logo on the left, links on the right.',
+        steps: ['Make the nav a flex row with items pushed apart and vertically centred.', 'Give it padding and a background.',
+          'Put the links in a row with gaps.', 'Make the logo bold.'],
+        body: BLOCK,
+        starter: `<nav>
+  <a href="#">MU</a>
+  <div>
+    <a href="#">Home</a>
+    <a href="#">Courses</a>
+    <a href="#">Events</a>
+    <a href="#">Login</a>
+  </div>
+</nav>`,
+        solution: `<nav class="flex items-center justify-between rounded-xl bg-white px-6 py-4 shadow">
+  <a href="#" class="text-xl font-bold text-sky-700">MU</a>
+  <div class="flex gap-6 text-slate-600">
+    <a href="#" class="hover:text-sky-700">Home</a>
+    <a href="#" class="hover:text-sky-700">Courses</a>
+    <a href="#" class="hover:text-sky-700">Events</a>
+    <a href="#" class="hover:text-sky-700">Login</a>
+  </div>
+</nav>`,
+        hints: ['On the nav: flex justify-between items-center.', 'Padding and background: px-6 py-4 bg-white rounded-xl shadow.',
+          'On the inner div: flex gap-6. On the logo: text-xl font-bold.'],
+        checks: [
+          { label: 'Nav is a flex container (flex)', test: ({ q, cs }) => cs(q('nav')).display === 'flex' },
+          { label: 'Logo and links pushed apart (justify-between)', test: ({ q, cs }) => cs(q('nav')).justifyContent === 'space-between' },
+          { label: 'Items vertically centred (items-center)', test: ({ q, cs }) => cs(q('nav')).alignItems === 'center' },
+          { label: 'Nav has padding (py-3+ and px-3+)', test: ({ q, cs }) => px(cs(q('nav')).paddingTop) >= 12 && px(cs(q('nav')).paddingLeft) >= 12 },
+          { label: 'Nav has a background (bg-…)', test: ({ q }) => matches(q('nav'), BG) },
+          { label: 'Links in a row with a gap (flex gap-…)', test: ({ q, cs }) => cs(q('nav > div')).display === 'flex' && px(cs(q('nav > div')).columnGap) >= 12 },
+          { label: 'Logo is bold', test: ({ q, cs }) => +cs(q('nav > a')).fontWeight >= 700 },
+        ],
+        doubts: [
+          ['justify-between does nothing.', 'It only works on a flex (or grid) container. Add flex to the same element.'],
+          ['My links are stuck together.', 'Put flex and a gap (gap-6) on the div that wraps the links, not on each link.'],
+        ],
+      },
+      {
+        id: 'gallery', group: 'Lab 2 · Layouts', title: 'Photo gallery grid', level: 'Medium', minutes: 6,
+        goal: 'Arrange six tiles in a neat 3-column grid.',
+        steps: ['Turn the outer div into a 3-column grid with gaps.', 'Give each tile a height, background and rounded corners.',
+          'Centre the number in each tile.'],
+        body: BLOCK,
+        starter: `<div>
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+  <div>6</div>
+</div>`,
+        solution: `<div class="grid grid-cols-3 gap-4">
+  <div class="grid h-28 place-items-center rounded-xl bg-sky-100 text-2xl font-bold text-sky-700">1</div>
+  <div class="grid h-28 place-items-center rounded-xl bg-sky-100 text-2xl font-bold text-sky-700">2</div>
+  <div class="grid h-28 place-items-center rounded-xl bg-sky-100 text-2xl font-bold text-sky-700">3</div>
+  <div class="grid h-28 place-items-center rounded-xl bg-sky-100 text-2xl font-bold text-sky-700">4</div>
+  <div class="grid h-28 place-items-center rounded-xl bg-sky-100 text-2xl font-bold text-sky-700">5</div>
+  <div class="grid h-28 place-items-center rounded-xl bg-sky-100 text-2xl font-bold text-sky-700">6</div>
+</div>`,
+        hints: ['Outer div: grid grid-cols-3 gap-4.', 'Each tile: h-28 bg-sky-100 rounded-xl.',
+          'Centre the number: grid place-items-center on each tile.'],
+        checks: [
+          { label: 'Outer div is a grid (grid)', test: ({ q, cs }) => cs(q('body > div')).display === 'grid' },
+          { label: 'Exactly 3 columns (grid-cols-3)', test: ({ q, cs }) => cols(cs(q('body > div'))) === 3 },
+          { label: 'Gap of 12px or more (gap-3+)', test: ({ q, cs }) => px(cs(q('body > div')).columnGap) >= 12 && px(cs(q('body > div')).rowGap) >= 12 },
+          { label: 'Tiles are at least 80px tall (h-20+)', test: ({ q }) => q('body > div > div').offsetHeight >= 80 },
+          { label: 'Tiles have a background and rounded corners', test: ({ q, cs }) => matches(q('body > div > div'), BG) && px(cs(q('body > div > div')).borderTopLeftRadius) >= 8 },
+        ],
+        doubts: [
+          ['I wrote grid-cols-3 but everything is in one column.', 'grid-cols-3 only works together with grid on the same element: class="grid grid-cols-3".'],
+          ['The tiles are on the outer div instead of the children.', 'Classes for the layout go on the parent; classes for how a tile looks go on each child.'],
+        ],
+      },
+      {
+        id: 'badge', group: 'Lab 2 · Layouts', title: 'Course card with a badge', level: 'Medium', minutes: 7,
+        goal: 'Pin a "NEW" badge to the top-right corner of a course card.',
+        steps: ['Style the card: white, padded, rounded, with a shadow.', 'Make the card the positioning parent.',
+          'Pin the badge to the top-right corner and style it as a pill.'],
+        body: CENTER,
+        starter: `<div>
+  <span>NEW</span>
+  <h3>Web Development with JavaScript</h3>
+  <p>12 weeks · Beginner friendly</p>
+</div>`,
+        solution: `<div class="relative w-80 rounded-xl bg-white p-6 shadow">
+  <span class="absolute top-3 right-3 rounded-full bg-rose-500 px-3 py-1 text-xs font-bold text-white">NEW</span>
+  <h3 class="pr-12 text-xl font-bold text-slate-900">Web Development with JavaScript</h3>
+  <p class="mt-1 text-slate-500">12 weeks · Beginner friendly</p>
+</div>`,
+        hints: ['Card: relative w-80 bg-white p-6 rounded-xl shadow.', 'Badge: absolute top-3 right-3.',
+          'Pill look: rounded-full bg-rose-500 px-3 py-1 text-xs font-bold text-white.'],
+        checks: [
+          { label: 'Card is the positioning parent (relative)', test: ({ q, cs }) => cs(q('body > div')).position === 'relative' },
+          { label: 'Badge is pinned (absolute)', test: ({ q, cs }) => cs(q('span')).position === 'absolute' },
+          {
+            label: 'Badge sits in the top-right corner of the card', test: ({ q }) => {
+              const c = q('body > div').getBoundingClientRect();
+              const b = q('span').getBoundingClientRect();
+              return b.top >= c.top && b.top - c.top <= 24 && b.right <= c.right && c.right - b.right <= 24;
+            }
+          },
+          { label: 'Badge looks like a pill (background + rounded)', test: ({ q, cs }) => matches(q('span'), BG) && px(cs(q('span')).borderTopLeftRadius) >= 8 },
+          { label: 'Card is white and padded (bg-white p-6)', test: ({ q, cs }) => has(q('body > div'), 'bg-white') && px(cs(q('body > div')).paddingTop) >= 24 },
+        ],
+        doubts: [
+          ['My badge flies to the corner of the whole page.', 'The card is missing relative. absolute pins to the nearest parent that has relative.'],
+          ['The badge covers the title text.', 'Add right padding to the title (pr-12) so the text never runs under the badge.'],
+        ],
+      },
+      {
+        id: 'pricing', group: 'Lab 3 · Responsive & interactive', title: 'Responsive pricing', level: 'Medium', minutes: 8,
+        goal: 'Three plans: stacked on phones, side by side on laptops.',
+        steps: ['Make the outer div a grid with 1 column on phones.', 'Switch to 3 columns on bigger screens (md: or lg:).',
+          'Style each card. Try the Phone and Laptop preview buttons.', 'Bonus: highlight the Pro plan with a ring.'],
+        body: BLOCK,
+        starter: `<div>
+  <div>
+    <h3>Basic</h3>
+    <p>₹0</p>
+  </div>
+  <div>
+    <h3>Pro</h3>
+    <p>₹499</p>
+  </div>
+  <div>
+    <h3>Team</h3>
+    <p>₹1,999</p>
+  </div>
+</div>`,
+        solution: `<div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+  <div class="rounded-2xl bg-white p-8 text-center shadow">
+    <h3 class="text-lg font-semibold text-slate-700">Basic</h3>
+    <p class="mt-2 text-4xl font-bold text-slate-900">₹0</p>
+  </div>
+  <div class="rounded-2xl bg-white p-8 text-center shadow ring-2 ring-sky-600">
+    <h3 class="text-lg font-semibold text-sky-700">Pro</h3>
+    <p class="mt-2 text-4xl font-bold text-slate-900">₹499</p>
+  </div>
+  <div class="rounded-2xl bg-white p-8 text-center shadow">
+    <h3 class="text-lg font-semibold text-slate-700">Team</h3>
+    <p class="mt-2 text-4xl font-bold text-slate-900">₹1,999</p>
+  </div>
+</div>`,
+        hints: ['Phone first: grid grid-cols-1 gap-6.', 'Bigger screens: add lg:grid-cols-3 (or md:grid-cols-3).',
+          'Cards: rounded-2xl bg-white p-8 shadow. Highlight: ring-2 ring-sky-600.'],
+        checks: [
+          { at: 375, label: 'Phone (375px): one column', test: ({ q, cs }) => cs(q('body > div')).display === 'grid' && cols(cs(q('body > div'))) === 1 },
+          { at: 1280, label: 'Laptop (1280px): three columns', test: ({ q, cs }) => cols(cs(q('body > div'))) === 3 },
+          { at: 1280, label: 'Gap of 16px or more between cards', test: ({ q, cs }) => px(cs(q('body > div')).columnGap) >= 16 },
+          { label: 'Cards are padded (p-6+) and rounded', test: ({ q, cs }) => px(cs(q('body > div > div')).paddingTop) >= 24 && px(cs(q('body > div > div')).borderTopLeftRadius) >= 12 },
+          { label: 'Cards stand out (shadow or border)', test: ({ q, cs }) => cs(q('body > div > div')).boxShadow !== 'none' || px(cs(q('body > div > div')).borderTopWidth) >= 1 },
+        ],
+        doubts: [
+          ['I used sm:grid-cols-1 for phones and it does not work.', 'Phones get the style with NO prefix. sm: means 640px and wider. Write grid-cols-1, then lg:grid-cols-3.'],
+          ['How do I test the phone layout?', 'Use the Phone / Tablet / Laptop buttons above the preview — they render your code at that real width.'],
+        ],
+      },
+      {
+        id: 'login', group: 'Lab 3 · Responsive & interactive', title: 'Login form', level: 'Medium', minutes: 9,
+        goal: 'An accessible login form with focus rings and a live email error.',
+        steps: ['Style the form as a white card with a limited width.', 'Labels on their own line; inputs full width with a border.',
+          'Add focus styles to the inputs.', 'Hide the error until the email is invalid (peer + peer-invalid:).',
+          'Make the button full width.'],
+        body: CENTER,
+        starter: `<form>
+  <h2>Student login</h2>
+  <label>Email</label>
+  <input type="email" placeholder="you@college.edu">
+  <p>Please enter a valid email</p>
+  <label>Password</label>
+  <input type="password">
+  <button>Log in</button>
+</form>`,
+        solution: `<form class="w-full max-w-sm space-y-3 rounded-2xl bg-white p-8 shadow-lg">
+  <h2 class="text-2xl font-bold text-slate-900">Student login</h2>
+  <label class="block text-sm font-medium text-slate-700">Email</label>
+  <input type="email" placeholder="you@college.edu"
+    class="peer w-full rounded-lg border border-slate-300 px-4 py-2 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-200">
+  <p class="hidden text-sm text-rose-600 peer-invalid:block">Please enter a valid email</p>
+  <label class="block text-sm font-medium text-slate-700">Password</label>
+  <input type="password"
+    class="w-full rounded-lg border border-slate-300 px-4 py-2 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-200">
+  <button class="w-full cursor-pointer rounded-lg bg-sky-700 py-2.5 font-semibold text-white hover:bg-sky-800">Log in</button>
+</form>`,
+        hints: ['Form: w-full max-w-sm space-y-3 bg-white p-8 rounded-2xl shadow-lg. Labels: block.',
+          'Inputs: w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-4 focus:ring-sky-200.',
+          'Email input gets peer. Error: hidden peer-invalid:block text-rose-600. Button: w-full bg-sky-700 text-white.'],
+        checks: [
+          { label: 'Form is a white, padded card with a max width', test: ({ q, cs }) => has(q('form'), 'bg-white') && px(cs(q('form')).paddingTop) >= 24 && cs(q('form')).maxWidth !== 'none' },
+          { label: 'Labels are on their own line (block)', test: ({ qa, cs }) => qa('label').every((l) => cs(l).display === 'block') },
+          { label: 'Inputs are full width (w-full)', test: ({ qa }) => qa('input').every((i) => has(i, 'w-full')) },
+          { label: 'Inputs have a border and rounded corners', test: ({ qa, cs }) => qa('input').every((i) => px(cs(i).borderTopWidth) >= 1 && px(cs(i).borderTopLeftRadius) >= 6) },
+          { label: 'Inputs have a focus style (focus:…)', test: ({ qa }) => qa('input').every((i) => matches(i, FOCUS)) },
+          { label: 'Error is hidden until the email is invalid (peer + peer-invalid:)', test: ({ q, cs }) => has(q('input[type=email]'), 'peer') && matches(q('form > p'), /peer-invalid:/) && cs(q('form > p')).display === 'none' },
+          { label: 'Button is full width with a background', test: ({ q }) => has(q('button'), 'w-full') && matches(q('button'), BG) },
+        ],
+        doubts: [
+          ['peer-invalid:block does nothing.', 'The input must have the class peer AND come before the error message in the HTML. Also type something invalid like "abc" — an empty field counts as valid.'],
+          ['I removed the outline and now I cannot see which input is selected.', 'Always replace it: outline-none together with focus:ring-4 focus:ring-sky-200 (or focus:border-sky-500).'],
+        ],
+      },
+      {
+        id: 'dark', group: 'Lab 3 · Responsive & interactive', title: 'Dark mode event card', level: 'Medium', minutes: 8,
+        goal: 'An event card that looks good in light and dark mode and reacts to hover.',
+        steps: ['Make the link a padded, rounded block card.', 'Add dark: background and text colours. Use the Dark button to test.',
+          'Add group to the card and group-hover: to the "Register →" text.'],
+        body: CENTER,
+        starter: `<a href="#">
+  <p>24 OCT · 10:00 AM</p>
+  <h3>Tailwind CSS Expert Talk</h3>
+  <p>Seminar hall · Marwadi University</p>
+  <span>Register →</span>
+</a>`,
+        solution: `<a href="#" class="group block max-w-sm rounded-2xl bg-white p-6 shadow transition hover:shadow-xl dark:bg-slate-800">
+  <p class="text-sm font-semibold text-sky-700 dark:text-sky-400">24 OCT · 10:00 AM</p>
+  <h3 class="mt-2 text-xl font-bold text-slate-900 dark:text-white">Tailwind CSS Expert Talk</h3>
+  <p class="mt-1 text-slate-500 dark:text-slate-400">Seminar hall · Marwadi University</p>
+  <span class="mt-4 inline-block font-semibold text-sky-700 transition group-hover:translate-x-1 dark:text-sky-400">Register →</span>
+</a>`,
+        hints: ['A link is inline by default — add block. Then max-w-sm bg-white p-6 rounded-2xl shadow.',
+          'Dark: dark:bg-slate-800 on the card, dark:text-white on the title, dark:text-slate-400 on grey text.',
+          'Card: group. Arrow text: inline-block transition group-hover:translate-x-1.'],
+        checks: [
+          { label: 'Card has a limited width (max-w-…)', test: ({ q, cs }) => cs(q('a')).maxWidth !== 'none' },
+          { label: 'Card is padded (p-6+) and rounded (rounded-xl+)', test: ({ q, cs }) => px(cs(q('a')).paddingTop) >= 24 && px(cs(q('a')).borderTopLeftRadius) >= 12 },
+          { label: 'Card has a light background', test: ({ q }) => matches(q('a'), BG) },
+          { label: 'Card has a dark background (dark:bg-…)', test: ({ q }) => matches(q('a'), /(^|\s)dark:bg-/) },
+          { label: 'Text changes in dark mode (dark:text-…)', test: ({ q }) => anyDesc(q('a'), /(^|\s)dark:text-/) },
+          { label: 'Card is a group (group)', test: ({ q }) => has(q('a'), 'group') },
+          { label: 'Something reacts to group hover (group-hover:…)', test: ({ q }) => anyDesc(q('a'), /(^|\s)group-hover:/) },
+        ],
+        doubts: [
+          ['dark: classes do nothing on my own website.', 'By default dark: follows the operating-system setting. Switch your system or browser to dark mode to see it. (This page uses a class toggle for the Dark button.)'],
+          ['group-hover:translate-x-1 does not move the arrow.', 'Transforms do not work on inline elements. Add inline-block to the span.'],
+        ],
+      },
+      {
+        id: 'profile', group: 'Final challenge', title: 'Student profile card', level: 'Challenge', minutes: 12,
+        goal: 'Rebuild the profile card from the live demo — then make it your own.',
+        steps: ['Card: fixed width, padded, rounded, shadow, centred text.', 'Avatar: a centred circle with initials.',
+          'Skill tags in a row with gaps.', 'A full-width button with a hover style.'],
+        body: CENTER,
+        starter: `<div>
+  <div>RP</div>
+  <h2>Riya Patel</h2>
+  <p>BCA · Semester 5</p>
+  <div>
+    <span>HTML</span>
+    <span>CSS</span>
+    <span>PHP</span>
+  </div>
+  <button>View profile</button>
+</div>`,
+        solution: `<div class="w-80 rounded-2xl bg-white p-6 text-center shadow-xl">
+  <div class="mx-auto grid size-24 place-items-center rounded-full bg-sky-100 text-3xl font-bold text-sky-700">RP</div>
+  <h2 class="mt-4 text-xl font-bold text-slate-900">Riya Patel</h2>
+  <p class="text-slate-500">BCA · Semester 5</p>
+  <div class="mt-4 flex justify-center gap-2">
+    <span class="rounded-full bg-sky-50 px-3 py-1 text-sm text-sky-700">HTML</span>
+    <span class="rounded-full bg-sky-50 px-3 py-1 text-sm text-sky-700">CSS</span>
+    <span class="rounded-full bg-sky-50 px-3 py-1 text-sm text-sky-700">PHP</span>
+  </div>
+  <button class="mt-6 w-full cursor-pointer rounded-lg bg-sky-700 py-2.5 font-semibold text-white hover:bg-sky-800">View profile</button>
+</div>`,
+        hints: ['Card: w-80 bg-white p-6 rounded-2xl shadow-xl text-center.',
+          'Avatar: size-24 rounded-full mx-auto grid place-items-center bg-sky-100.',
+          'Tags: flex justify-center gap-2 on the wrapper. Button: w-full mt-6 bg-sky-700 text-white hover:bg-sky-800.'],
+        checks: [
+          { label: 'Card has a set width (w-72 to w-96)', test: ({ q }) => { const c = q('body > div'); const w = c.offsetWidth; return matches(c, /(^|\s)(max-)?w-/) && w >= 240 && w <= 420; } },
+          { label: 'Card is padded, rounded and has a shadow', test: ({ q, cs }) => { const s = cs(q('body > div')); return px(s.paddingTop) >= 24 && px(s.borderTopLeftRadius) >= 16 && s.boxShadow !== 'none'; } },
+          { label: 'Text is centred', test: ({ q, cs }) => cs(q('body > div')).textAlign === 'center' },
+          {
+            label: 'Avatar is a circle of 64px or more', test: ({ q, cs }) => {
+              const a = q('body > div > div'); const w = a.offsetWidth;
+              return w >= 64 && Math.abs(w - a.offsetHeight) <= 1 && px(cs(a).borderTopLeftRadius) >= w / 2;
+            }
+          },
+          {
+            label: 'Avatar is centred in the card (mx-auto)', test: ({ q }) => {
+              const c = q('body > div').getBoundingClientRect(); const a = q('body > div > div').getBoundingClientRect();
+              return a.width < c.width / 2 && Math.abs((a.left + a.width / 2) - (c.left + c.width / 2)) < 4;
+            }
+          },
+          { label: 'Tags sit in a row with a gap', test: ({ q, cs }) => { const t = q('body > div > div:nth-of-type(2)'); return cs(t).display === 'flex' && px(cs(t).columnGap) >= 4; } },
+          {
+            label: 'Button is full width with a hover style', test: ({ q, cs }) => {
+              const card = q('body > div'); const b = q('button');
+              return b.offsetWidth >= card.clientWidth - 2 * px(cs(card).paddingLeft) - 2 && matches(b, HOVER);
+            }
+          },
+        ],
+        doubts: [
+          ['My avatar is an oval, not a circle.', 'Width and height must be equal: use size-24 (sets both) instead of w-24 alone, then rounded-full.'],
+          ['The avatar is stuck on the left.', 'text-center centres text, not blocks. Add mx-auto to the avatar.'],
+        ],
+      },
+      {
+        id: 'hero', group: 'Final challenge', title: 'Landing page hero', level: 'Challenge', minutes: 15,
+        goal: 'A full admissions hero section: gradient, big headline, two buttons — and fully responsive.',
+        steps: ['Gradient background, generous padding, centred white text.', 'Headline bigger on laptops than on phones.',
+          'Buttons stacked on phones, side by side from sm: up.', 'Style the two buttons differently (solid and outline).'],
+        body: BLOCK,
+        starter: `<section>
+  <p>Admissions open 2027</p>
+  <h1>Build your future in technology</h1>
+  <p>BCA, MCA and B.Tech programmes with industry projects from day one.</p>
+  <div>
+    <a href="#">Apply now</a>
+    <a href="#">View courses</a>
+  </div>
+</section>`,
+        solution: `<section class="rounded-3xl bg-linear-to-br from-sky-600 to-indigo-700 px-6 py-16 text-center text-white md:py-24">
+  <p class="text-sm font-semibold tracking-widest text-sky-100 uppercase">Admissions open 2027</p>
+  <h1 class="mx-auto mt-4 max-w-3xl text-4xl font-bold text-balance md:text-6xl">Build your future in technology</h1>
+  <p class="mx-auto mt-4 max-w-xl text-lg text-sky-100">BCA, MCA and B.Tech programmes with industry projects from day one.</p>
+  <div class="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
+    <a href="#" class="rounded-xl bg-white px-6 py-3 font-semibold text-sky-700 shadow hover:bg-sky-50">Apply now</a>
+    <a href="#" class="rounded-xl border border-white/60 px-6 py-3 font-semibold text-white hover:bg-white/10">View courses</a>
+  </div>
+</section>`,
+        hints: ['Section: bg-linear-to-br from-sky-600 to-indigo-700 px-6 py-16 text-center text-white rounded-3xl.',
+          'Headline: text-4xl md:text-6xl font-bold. Centre long text with mx-auto max-w-3xl.',
+          'Buttons wrapper: flex flex-col sm:flex-row justify-center gap-4. Outline button: border border-white/60.'],
+        checks: [
+          { label: 'Gradient background (bg-linear-to-… + from-…)', test: ({ q }) => matches(q('section'), /(^|\s)bg-(linear|gradient|radial|conic)-/) && matches(q('section'), /(^|\s)from-/) },
+          { at: 1280, label: 'Generous vertical padding (py-12+)', test: ({ q, cs }) => px(cs(q('section')).paddingTop) >= 48 },
+          { label: 'Text is centred', test: ({ q, cs }) => cs(q('section')).textAlign === 'center' },
+          { at: 375, label: 'Phone: headline is at least 30px', test: ({ q, cs, mem }) => { mem.h1 = px(cs(q('h1')).fontSize); return mem.h1 >= 30; } },
+          { at: 1280, label: 'Laptop: headline is bigger than on phone (md:text-…)', test: ({ q, cs, mem }) => px(cs(q('h1')).fontSize) > (mem.h1 || Infinity) },
+          { at: 375, label: 'Phone: buttons stacked (flex-col)', test: ({ q, cs }) => { const s = cs(q('section > div')); return s.display === 'flex' && s.flexDirection === 'column'; } },
+          { at: 1280, label: 'Laptop: buttons side by side (sm:flex-row)', test: ({ q, cs }) => { const s = cs(q('section > div')); return s.display === 'flex' && s.flexDirection === 'row'; } },
+          { label: 'Buttons are padded and rounded', test: ({ qa, cs }) => qa('section > div > a').every((a) => px(cs(a).paddingTop) >= 8 && px(cs(a).borderTopLeftRadius) >= 8) },
+        ],
+        doubts: [
+          ['My gradient does not show.', 'You need the direction and the colours: bg-linear-to-br from-sky-600 to-indigo-700. (Older tutorials write bg-gradient-to-br — that still works.)'],
+          ['The buttons are side by side on my phone too.', 'Start with flex flex-col (phone), then switch with sm:flex-row. A plain flex is a row on every screen.'],
+        ],
+      },
+    ];
+
+    // 3. STORAGE (per-browser progress; the page works without it)
+    const STORE_KEY = 'tw-expert-talk-exercises-v1';
+
+    function loadStore() {
+      try {
+        return JSON.parse(localStorage.getItem(STORE_KEY)) || { code: {}, done: {}, current: 0 };
+      } catch (e) {
+        return { code: {}, done: {}, current: 0 };
+      }
+    }
+
+    function saveStore() {
+      try {
+        localStorage.setItem(STORE_KEY, JSON.stringify(store));
+      } catch (e) {
+        // Private mode or blocked storage: progress just is not kept
+      }
+    }
+
+    const store = loadStore();
+
+    // 4. RENDERING TAILWIND IN IFRAMES
+    function twDoc(code, bodyClass) {
+      return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"><\/script>
+<style type="text/tailwindcss">@custom-variant dark (&:where(.dark, .dark *));</style>
+</head><body class="${bodyClass}">${code}</body></html>`;
+    }
+
+    // Resolves once the Tailwind browser build has injected its generated CSS
+    function whenStyled(frame, timeout = 8000) {
+      return new Promise((resolve, reject) => {
+        const started = Date.now();
+        frame.onload = () => {
+          const poll = () => {
+            const doc = frame.contentDocument;
+            const css = doc && [...doc.querySelectorAll('style:not([type])')].some((s) => s.textContent.length > 0);
+            if (css) return setTimeout(() => resolve(doc), 120);
+            if (Date.now() - started > timeout) return reject(new Error('timeout'));
+            setTimeout(poll, 100);
+          };
+          poll();
+        };
+      });
+    }
+
+    function highlight(src) {
+      return src
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/class="([^"]*)"/g, '<span class="at">class</span>=<span class="st">"$1"</span>')
+        .replace(/(&lt;\/?)([a-z][a-z0-9]*)/g, '$1<span class="tg">$2</span>');
+    }
+
+    // 5. UI STATE
+    const $ = (id) => document.getElementById(id);
+    const editor = $('editor');
+    const preview = $('preview');
+    const viewport = $('viewport');
+    let current = Math.min(store.current || 0, exercises.length - 1);
+    let previewWidth = 0;
+    let darkOn = false;
+    let hintsShown = 0;
+    let renderTimer = null;
+
+    function renderNav() {
+      const groups = [...new Set(exercises.map((e) => e.group))];
+      $('exNav').innerHTML = groups.map((g) => `
+        <div>
+          <p class="group-label">${g}</p>
+          ${exercises.map((e, i) => e.group !== g ? '' : `
+            <button class="ex-link${i === current ? ' active' : ''}${store.done[e.id] ? ' done' : ''}" data-i="${i}">
+              <span class="dot">✓</span><span>${i + 1}. ${e.title}</span>
+            </button>`).join('')}
+        </div>`).join('');
+
+      $('exNav').querySelectorAll('.ex-link').forEach((b) => {
+        b.addEventListener('click', () => openExercise(parseInt(b.dataset.i, 10)));
+      });
+
+      const done = exercises.filter((e) => store.done[e.id]).length;
+      $('progressPill').textContent = `${done} / ${exercises.length} done`;
+    }
+
+    function openExercise(i) {
+      current = i;
+      store.current = i;
+      saveStore();
+      const ex = exercises[i];
+
+      $('exKicker').textContent = `Exercise ${i + 1} · ${ex.group}`;
+      $('exTitle').textContent = ex.title;
+      $('exMeta').innerHTML = `<span class="tag level-${ex.level}">${ex.level}</span><span class="tag">~${ex.minutes} min</span>`;
+      $('exGoal').textContent = ex.goal;
+      $('exSteps').innerHTML = ex.steps.map((s) => `<li>${s}</li>`).join('');
+
+      editor.value = store.code[ex.id] ?? ex.starter;
+      hintsShown = 0;
+      $('hints').innerHTML = '';
+      $('hintBtn').textContent = `Hint (0/${ex.hints.length})`;
+      $('hintBtn').disabled = false;
+      $('solutionBox').innerHTML = '';
+      $('solutionBtn').textContent = 'Show solution';
+      $('results').innerHTML = '';
+      $('checkBanner').innerHTML = '';
+      $('exDoubts').innerHTML = ex.doubts.map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join('');
+
+      $('target').srcdoc = twDoc(ex.solution, ex.body);
+      fitTarget();
+      renderPreview();
+      renderNav();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderPreview() {
+      const ex = exercises[current];
+      preview.onload = () => {
+        if (preview.contentDocument) preview.contentDocument.documentElement.classList.toggle('dark', darkOn);
+      };
+      preview.srcdoc = twDoc(editor.value, ex.body);
+      fitPreview();
+    }
+
+    // Simulate a device width by rendering the frame at full size and scaling it down to its box
+    function fitFrame(frame, box, width) {
+      const scale = Math.min(1, box.clientWidth / width);
+      frame.style.width = `${width}px`;
+      frame.style.height = `${box.clientHeight / scale}px`;
+      frame.style.transform = `scale(${scale})`;
+    }
+
+    function fitPreview() {
+      const width = previewWidth || viewport.clientWidth;
+      fitFrame(preview, viewport, width);
+      $('vpLabel').textContent = previewWidth ? `${previewWidth}px` : `fit · ${width}px`;
+    }
+
+    // Page-level layouts are shown at laptop width; small components at the box's own width
+    function fitTarget() {
+      const box = $('targetBox');
+      const width = exercises[current].body === BLOCK ? Math.max(box.clientWidth, 1024) : box.clientWidth;
+      fitFrame($('target'), box, width);
+      $('targetLabel').textContent = `${width}px`;
+    }
+
+    window.addEventListener('resize', () => {
+      fitPreview();
+      fitTarget();
+    });
+
+    // 6. EDITOR EVENTS
+    editor.addEventListener('input', () => {
+      store.code[exercises[current].id] = editor.value;
+      saveStore();
+      clearTimeout(renderTimer);
+      renderTimer = setTimeout(renderPreview, 350);
+    });
+
+    // Tab inserts two spaces instead of leaving the editor
+    editor.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      e.preventDefault();
+      const { selectionStart: s, selectionEnd: end } = editor;
+      editor.setRangeText('  ', s, end, 'end');
+      editor.dispatchEvent(new Event('input'));
+    });
+
+    $('resetBtn').addEventListener('click', () => {
+      if (!confirm('Reset this exercise to the starting code? Your changes will be lost.')) return;
+      const ex = exercises[current];
+      delete store.code[ex.id];
+      saveStore();
+      editor.value = ex.starter;
+      renderPreview();
+    });
+
+    $('hintBtn').addEventListener('click', () => {
+      const ex = exercises[current];
+      if (hintsShown >= ex.hints.length) return;
+      $('hints').insertAdjacentHTML('beforeend', `<p class="hint"><b>Hint ${hintsShown + 1}:</b> ${ex.hints[hintsShown]}</p>`);
+      hintsShown++;
+      $('hintBtn').textContent = `Hint (${hintsShown}/${ex.hints.length})`;
+      $('hintBtn').disabled = hintsShown >= ex.hints.length;
+    });
+
+    $('solutionBtn').addEventListener('click', () => {
+      const box = $('solutionBox');
+      if (box.innerHTML) {
+        box.innerHTML = '';
+        $('solutionBtn').textContent = 'Show solution';
+        return;
+      }
+      const ex = exercises[current];
+      box.innerHTML = `<pre class="solution">${highlight(ex.solution)}</pre>
+        <div class="btn-row" style="margin-top: 10px;"><button class="btn" id="useSolution">Copy into my editor</button></div>
+        <p class="muted" style="margin-top: 8px;">Try to understand each class before copying — then change something and see what happens.</p>`;
+      $('solutionBtn').textContent = 'Hide solution';
+      $('useSolution').addEventListener('click', () => {
+        editor.value = ex.solution;
+        editor.dispatchEvent(new Event('input'));
+      });
+    });
+
+    $('sizeBtns').querySelectorAll('[data-w]').forEach((b) => {
+      b.addEventListener('click', () => {
+        previewWidth = parseInt(b.dataset.w, 10);
+        $('sizeBtns').querySelectorAll('[data-w]').forEach((x) => x.classList.toggle('on', x === b));
+        fitPreview();
+      });
+    });
+
+    $('darkBtn').addEventListener('click', () => {
+      darkOn = !darkOn;
+      $('darkBtn').classList.toggle('on', darkOn);
+      $('darkBtn').setAttribute('aria-pressed', String(darkOn));
+      if (preview.contentDocument) preview.contentDocument.documentElement.classList.toggle('dark', darkOn);
+    });
+
+    // 7. CHECKER: renders the code off-screen at each needed width and inspects real computed styles
+    async function runChecks() {
+      const ex = exercises[current];
+      const btn = $('checkBtn');
+      btn.disabled = true;
+      btn.textContent = 'Checking…';
+      $('results').innerHTML = '';
+      $('checkBanner').innerHTML = '';
+
+      const widths = [...new Set(ex.checks.map((c) => c.at || 1024))].sort((a, b) => a - b);
+      const outcome = new Map();
+      const mem = {};
+
+      try {
+        for (const width of widths) {
+          const frame = document.createElement('iframe');
+          frame.style.width = `${width}px`;
+          frame.style.height = '900px';
+          $('checkFrames').appendChild(frame);
+          const ready = whenStyled(frame);
+          frame.srcdoc = twDoc(editor.value, ex.body);
+          const doc = await ready;
+          const win = frame.contentWindow;
+          const ctx = {
+            q: (sel) => doc.querySelector(sel),
+            qa: (sel) => [...doc.querySelectorAll(sel)],
+            cs: (el) => win.getComputedStyle(el),
+            mem,
+          };
+          ex.checks.filter((c) => (c.at || 1024) === width).forEach((c) => {
+            let pass = false;
+            try {
+              pass = !!c.test(ctx);
+            } catch (e) {
+              // A missing element (e.g. the student deleted it) simply fails the check
+            }
+            outcome.set(c, pass);
+          });
+          frame.remove();
+        }
+      } catch (e) {
+        $('checkFrames').innerHTML = '';
+        $('checkBanner').innerHTML = `<div class="banner info">Could not load Tailwind to check your work. Check your internet connection and try again.</div>`;
+        btn.disabled = false;
+        btn.textContent = 'Run checks';
+        return;
+      }
+
+      $('results').innerHTML = ex.checks.map((c) => {
+        const pass = outcome.get(c);
+        return `<li class="${pass ? 'pass' : 'fail'}"><b>${pass ? '✓' : '✗'}</b><span>${c.label}</span></li>`;
+      }).join('');
+
+      const passed = ex.checks.filter((c) => outcome.get(c)).length;
+      if (passed === ex.checks.length) {
+        store.done[ex.id] = true;
+        saveStore();
+        renderNav();
+        const next = current < exercises.length - 1
+          ? `<button class="btn primary" id="nextEx">Next exercise →</button>`
+          : '<span>You finished every exercise. Brilliant work!</span>';
+        $('checkBanner').innerHTML = `<div class="banner ok"><span>🎉 All ${passed} checks pass — exercise complete!</span>${next}</div>`;
+        const nextBtn = $('nextEx');
+        if (nextBtn) nextBtn.addEventListener('click', () => openExercise(current + 1));
+      } else {
+        $('checkBanner').innerHTML = `<div class="banner info">${passed} of ${ex.checks.length} checks pass. Fix the red ones — use a Hint if you are stuck.</div>`;
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Run checks';
+    }
+
+    $('checkBtn').addEventListener('click', runChecks);
+
+    // 8. DISCOURAGE DEVTOOLS DURING THE LAB
+    // A page cannot truly block the browser's own menu, but this stops the common shortcuts and right-click.
+    function blockDevtoolKeys(e) {
+      const key = e.key.toLowerCase();
+      const ctrl = e.ctrlKey || e.metaKey;
+      const blocked = e.key === 'F12'
+        || (ctrl && e.shiftKey && ['i', 'j', 'c', 'k'].includes(key))
+        || (e.metaKey && e.altKey && ['i', 'j', 'c', 'u'].includes(key))
+        || (ctrl && ['u', 's'].includes(key));
+      if (blocked) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }
+
+    function guardDoc(doc) {
+      doc.addEventListener('keydown', blockDevtoolKeys, true);
+      doc.addEventListener('contextmenu', (e) => {
+        if (e.target !== editor) e.preventDefault();
+      });
+    }
+
+    guardDoc(document);
+    // The preview frames get keyboard focus when clicked, so guard them too
+    [preview, $('target')].forEach((frame) => {
+      frame.addEventListener('load', () => {
+        if (frame.contentDocument) guardDoc(frame.contentDocument);
+      });
+    });
+
+    // 9. INIT
+    openExercise(current);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,3023 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tailwind CSS Expert Talk for Students - Marwadi University, October 2026</title>
+
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-5ZMSCJFM');</script>
+  <!-- End Google Tag Manager -->
+  <script src="https://analytics.ahrefs.com/analytics.js" data-key="3KB/hoj3Hdg6SCdxoEH+jg" async></script>
+  <link rel="llms" href="/llms.txt">
+
+  <!-- SEO Meta Tags -->
+  <meta name="description"
+    content="An interactive Tailwind CSS v4 workshop deck for BCA students at Marwadi University: utility-first CSS, setup, layout, responsive design, variants and a live playground.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Sagar Pansuriya">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://sagarpansuriya.in/tailwindcss-expert-talk-for-students/">
+  <meta property="og:title" content="Tailwind CSS Expert Talk for Students - Marwadi University">
+  <meta property="og:description"
+    content="An interactive Tailwind CSS v4 workshop deck for BCA students at Marwadi University: utility-first CSS, setup, layout, responsive design, variants and a live playground.">
+  <meta property="og:image" content="https://sagarpansuriya.in/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://sagarpansuriya.in/tailwindcss-expert-talk-for-students/">
+  <meta name="twitter:title" content="Tailwind CSS Expert Talk for Students - Marwadi University">
+  <meta name="twitter:description"
+    content="An interactive Tailwind CSS v4 workshop deck for BCA students at Marwadi University: utility-first CSS, setup, layout, responsive design, variants and a live playground.">
+  <meta name="twitter:image" content="https://sagarpansuriya.in/og-image.jpg">
+  <meta name="twitter:creator" content="@frontendbysagar">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://sagarpansuriya.in/tailwindcss-expert-talk-for-students/">
+
+  <!-- Favicon and Icons -->
+  <link rel="icon" type="image/png" href="/favicon.jpg">
+  <link rel="apple-touch-icon" href="/favicon.jpg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* 1. TOKENS */
+    :root {
+      --font-display: 'Space Grotesk', Arial, sans-serif;
+      --font-sans: 'IBM Plex Sans', Arial, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      --ink: #0b1220;
+      --ink-2: #111a2e;
+      --ink-3: #18233c;
+      --line-d: #23304d;
+      --paper: #f5f7fa;
+      --paper-2: #ffffff;
+      --line-l: #dde3ec;
+
+      --sky: #38bdf8;
+      --sky-deep: #0369a1;
+      --indigo: #818cf8;
+      --amber: #fbbf24;
+      --green: #34d399;
+      --rose: #fb7185;
+
+      --text-d: #f1f5f9;
+      --body-d: #cbd5e1;
+      --muted-d: #94a3b8;
+      --text-l: #0b1220;
+      --body-l: #475569;
+      --muted-l: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      background: #060a13;
+      color: var(--text-d);
+      font-family: var(--font-sans);
+      overflow: hidden;
+    }
+
+    /* 2. FIXED 16:9 STAGE, SCALED TO FIT THE SCREEN */
+    .stage {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 1600px;
+      height: 900px;
+      transform: translate(-50%, -50%) scale(var(--s, 1));
+      overflow: hidden;
+      border-radius: 6px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 72px 96px 104px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      background-color: var(--ink);
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      color: var(--text-d);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(12px);
+      transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+
+    .slide.light {
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+      color: var(--text-l);
+    }
+
+    .slide.accent {
+      background: linear-gradient(135deg, #0c4a6e 0%, #1e1b4b 100%);
+    }
+
+    .notes {
+      display: none;
+    }
+
+    /* 3. TYPE */
+    .kicker {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sky);
+    }
+
+    .light .kicker {
+      color: var(--sky-deep);
+    }
+
+    .title {
+      font-family: var(--font-display);
+      font-size: 60px;
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+
+    .lead {
+      font-size: 26px;
+      line-height: 1.5;
+      color: var(--body-d);
+      max-width: 1180px;
+    }
+
+    .light .lead {
+      color: var(--body-l);
+    }
+
+    .head {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .grad {
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    code.i {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      color: var(--sky);
+      background: rgba(56, 189, 248, 0.1);
+      padding: 2px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .light code.i {
+      color: var(--sky-deep);
+      background: rgba(3, 105, 161, 0.08);
+    }
+
+    /* 4. BUILDING BLOCKS */
+    .card {
+      background: var(--ink-2);
+      border: 1px solid var(--line-d);
+      border-radius: 18px;
+      padding: 28px 30px;
+    }
+
+    .light .card {
+      background: var(--paper-2);
+      border-color: var(--line-l);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    .card h3 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 22px;
+      line-height: 1.5;
+      color: var(--body-d);
+    }
+
+    .light .card p {
+      color: var(--body-l);
+    }
+
+    .row {
+      display: flex;
+      gap: 28px;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .grow {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .num {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--sky);
+    }
+
+    .light .num {
+      color: var(--sky-deep);
+    }
+
+    .pill {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 16px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid currentColor;
+    }
+
+    .pill.good {
+      color: var(--green);
+    }
+
+    .pill.bad {
+      color: var(--rose);
+    }
+
+    .light .pill.good {
+      color: #047857;
+    }
+
+    .light .pill.bad {
+      color: #be123c;
+    }
+
+    /* Code blocks */
+    .code {
+      background: #0d1526;
+      border: 1px solid var(--line-d);
+      border-radius: 16px;
+      padding: 22px 26px;
+      font-family: var(--font-mono);
+      font-size: 20px;
+      line-height: 1.6;
+      color: #e2e8f0;
+      white-space: pre;
+      font-variant-ligatures: none;
+      overflow: hidden;
+    }
+
+    .code.sm {
+      font-size: 17px;
+    }
+
+    .code-label {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      color: var(--muted-d);
+      margin-bottom: -8px;
+    }
+
+    .light .code-label {
+      color: var(--muted-l);
+    }
+
+    .tg { color: #7dd3fc; }
+    .at { color: #c4b5fd; }
+    .st { color: #fcd34d; }
+    .cm { color: #64748b; font-style: italic; }
+    .kw { color: #f9a8d4; }
+
+    /* Live Tailwind frames */
+    .frame {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 16px;
+      background: #f1f5f9;
+      display: block;
+    }
+
+    .frame-wrap {
+      position: relative;
+      border-radius: 18px;
+      border: 1px solid var(--line-d);
+      overflow: hidden;
+      background: #f1f5f9;
+    }
+
+    .light .frame-wrap {
+      border-color: var(--line-l);
+    }
+
+    .frame-tag {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: #475569;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 3px 10px;
+      border-radius: 999px;
+      pointer-events: none;
+    }
+
+    .btn {
+      font-family: var(--font-sans);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-d);
+      background: var(--ink-3);
+      border: 1px solid var(--line-d);
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .btn:hover,
+    .btn.on {
+      border-color: var(--sky);
+      background: #13304a;
+    }
+
+    .light .btn {
+      color: var(--text-l);
+      background: var(--paper-2);
+      border-color: var(--line-l);
+    }
+
+    .light .btn:hover,
+    .light .btn.on {
+      border-color: var(--sky-deep);
+      background: #e0f2fe;
+    }
+
+    /* 5. SLIDE-SPECIFIC */
+
+    /* Cover */
+    .cover-title {
+      font-family: var(--font-display);
+      font-size: 148px;
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .meta-row {
+      display: flex;
+      gap: 64px;
+    }
+
+    .meta-row span {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 16px;
+      color: var(--muted-d);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+
+    .meta-row b {
+      font-size: 26px;
+      font-weight: 500;
+    }
+
+    .demo-btn {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 22px;
+      color: #fff;
+      background: #0369a1;
+      padding: 14px 30px;
+      border-radius: 14px;
+      border: 0;
+      box-shadow: 0 10px 30px rgba(14, 165, 233, 0.35);
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .demo-btn:hover {
+      background: #075985;
+      transform: translateY(-2px);
+    }
+
+    /* Speaker */
+    .speaker {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .speaker img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--line-d);
+    }
+
+    .agenda li {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 6px 0;
+      padding: 18px 0;
+      border-top: 1px solid var(--line-d);
+    }
+
+    .agenda li:last-child {
+      border-bottom: 1px solid var(--line-d);
+    }
+
+    .agenda b {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .agenda small {
+      grid-column: 2;
+      font-size: 20px;
+      color: var(--muted-d);
+    }
+
+    /* Utility mapping tiles */
+    .tiles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .tile {
+      background: var(--ink-2);
+      border: 1px solid var(--line-d);
+      border-radius: 16px;
+      padding: 22px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tile .cls {
+      font-family: var(--font-mono);
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--sky);
+    }
+
+    .tile .css {
+      font-family: var(--font-mono);
+      font-size: 19px;
+      color: var(--body-d);
+    }
+
+    /* Pipeline */
+    .pipe {
+      display: grid;
+      grid-template-columns: 1fr 56px 1fr 56px 1fr;
+      align-items: center;
+    }
+
+    .arrow {
+      text-align: center;
+      font-size: 40px;
+      color: var(--sky);
+    }
+
+    /* Tables */
+    table.sheet {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 22px;
+    }
+
+    .sheet th {
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted-d);
+      padding: 0 18px 14px;
+      border-bottom: 1px solid var(--line-d);
+    }
+
+    .sheet td {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line-d);
+      color: var(--body-d);
+      vertical-align: top;
+    }
+
+    .sheet td:first-child {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--text-d);
+    }
+
+    .sheet td.mono {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      color: var(--sky);
+    }
+
+    /* Layout mocks (plain CSS, so they never depend on the CDN) */
+    .mock {
+      background: #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .mock .bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 20px;
+      color: #0f172a;
+    }
+
+    .mock .bar .links {
+      display: flex;
+      gap: 16px;
+      color: #475569;
+    }
+
+    .mock .logo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: #0369a1;
+    }
+
+    .mock .g3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .mock .g3 div {
+      background: #fff;
+      border-radius: 10px;
+      height: 64px;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-mono);
+      font-size: 20px;
+      color: #0369a1;
+    }
+
+    /* Responsive sandbox */
+    .bp-table {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bp {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 20px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--line-d);
+      color: var(--muted-d);
+      transition: all 0.2s;
+    }
+
+    .bp.on {
+      color: var(--text-d);
+      border-color: var(--sky);
+      background: rgba(56, 189, 248, 0.1);
+    }
+
+    .bp b {
+      color: var(--sky);
+      font-weight: 600;
+    }
+
+    .device-area {
+      flex: 1;
+      background: var(--ink-2);
+      border: 1px dashed var(--line-d);
+      border-radius: 18px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 24px;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .device {
+      background: #f1f5f9;
+      border-radius: 14px;
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+      transition: width 0.15s;
+    }
+
+    .device div {
+      background: #fff;
+      border-radius: 8px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-mono);
+      font-size: 18px;
+      color: #0369a1;
+      border: 1px solid #cbd5e1;
+    }
+
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--sky);
+      height: 28px;
+      cursor: pointer;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line-d);
+      color: var(--muted-d);
+      text-decoration: line-through;
+      transition: all 0.2s;
+    }
+
+    .chip.on {
+      color: #0b1220;
+      background: var(--sky);
+      border-color: var(--sky);
+      text-decoration: none;
+    }
+
+    /* Playground */
+    textarea.editor {
+      width: 100%;
+      flex: 1;
+      font-variant-ligatures: none;
+      resize: none;
+      background: #0d1526;
+      color: #e2e8f0;
+      border: 1px solid var(--line-d);
+      border-radius: 16px;
+      padding: 20px 22px;
+      font-family: var(--font-mono);
+      font-size: 18px;
+      line-height: 1.6;
+      outline: none;
+    }
+
+    textarea.editor:focus {
+      border-color: var(--sky);
+    }
+
+    /* Quiz */
+    .quiz {
+      max-width: 1100px;
+      width: 100%;
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      background: rgba(11, 18, 32, 0.6);
+    }
+
+    .quiz-top {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 18px;
+      color: var(--muted-d);
+    }
+
+    .quiz h3 {
+      font-size: 34px;
+      line-height: 1.3;
+    }
+
+    .opt {
+      width: 100%;
+      text-align: left;
+      font-family: var(--font-sans);
+      font-size: 24px;
+      color: var(--text-d);
+      background: var(--ink-3);
+      border: 1px solid var(--line-d);
+      border-radius: 12px;
+      padding: 16px 22px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .opt:hover:not(:disabled) {
+      border-color: var(--sky);
+    }
+
+    .opt:disabled {
+      cursor: default;
+    }
+
+    .opt.right {
+      border-color: var(--green);
+      background: rgba(52, 211, 153, 0.12);
+    }
+
+    .opt.wrong {
+      border-color: var(--rose);
+      background: rgba(251, 113, 133, 0.12);
+    }
+
+    .quiz-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      min-height: 52px;
+      font-size: 22px;
+    }
+
+    /* Light-slide tables */
+    .light .sheet th {
+      color: var(--muted-l);
+      border-color: var(--line-l);
+    }
+
+    .light .sheet td {
+      color: var(--body-l);
+      border-color: var(--line-l);
+    }
+
+    .light .sheet td:first-child {
+      color: var(--text-l);
+    }
+
+    .light .sheet td.mono {
+      color: var(--sky-deep);
+    }
+
+    /* Lab & break slides */
+    .slide.lab {
+      background: radial-gradient(circle at 85% 10%, #134e4a 0%, #0b1220 55%);
+    }
+
+    .lab .kicker,
+    .lab .num {
+      color: #5eead4;
+    }
+
+    .url-box {
+      font-family: var(--font-mono);
+      font-size: 24px;
+      line-height: 1.4;
+      background: #0d1526;
+      border: 2px dashed #5eead4;
+      border-radius: 16px;
+      padding: 22px 26px;
+      color: #e2e8f0;
+      word-break: break-all;
+    }
+
+    .timer {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .timer .t {
+      font-family: var(--font-display);
+      font-size: 88px;
+      font-weight: 700;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      min-width: 270px;
+    }
+
+    .timer.done .t {
+      color: var(--rose);
+    }
+
+    .timer.big {
+      flex-direction: column;
+    }
+
+    .timer.big .t {
+      font-size: 220px;
+      min-width: 0;
+    }
+
+    /* Scale bars */
+    .scale-row {
+      display: grid;
+      grid-template-columns: 90px 1fr 80px;
+      align-items: center;
+      gap: 18px;
+      font-family: var(--font-mono);
+      font-size: 20px;
+    }
+
+    .scale-row .bar {
+      height: 22px;
+      background: linear-gradient(90deg, #0369a1, #38bdf8);
+      border-radius: 6px;
+    }
+
+    .scale-row span:last-child {
+      color: var(--muted-l);
+      text-align: right;
+    }
+
+    /* Colour swatches */
+    .swatches {
+      display: grid;
+      grid-template-columns: repeat(11, 1fr);
+      gap: 8px;
+    }
+
+    .sw {
+      height: 130px;
+      border-radius: 12px;
+      display: flex;
+      align-items: flex-end;
+      padding: 10px;
+      font-family: var(--font-mono);
+      font-size: 16px;
+    }
+
+    /* Timeline */
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .tl-year {
+      font-family: var(--font-display);
+      font-size: 56px;
+      font-weight: 700;
+      color: var(--sky);
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+
+    /* Visual samples for borders and shadows */
+    .bx {
+      width: 100%;
+      height: 110px;
+      background: #1e293b;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-mono);
+      font-size: 17px;
+      color: #e2e8f0;
+    }
+
+    .sample-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+
+    /* 6. CHROME: FOOTER, PROGRESS, CONTROLS, NOTES */
+    .stage-foot {
+      position: absolute;
+      left: 96px;
+      right: 96px;
+      bottom: 36px;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 16px;
+      color: var(--muted-d);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .stage.on-light .stage-foot {
+      color: var(--muted-l);
+    }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      transition: width 0.35s ease;
+      z-index: 20;
+    }
+
+    .controls {
+      position: fixed;
+      right: 18px;
+      top: 14px;
+      display: flex;
+      gap: 8px;
+      z-index: 20;
+      opacity: 0.35;
+      transition: opacity 0.2s;
+    }
+
+    .controls:hover {
+      opacity: 1;
+    }
+
+    .controls button {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid #23304d;
+      background: #111a2e;
+      color: #e2e8f0;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .controls button:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .notes-panel {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      max-width: 900px;
+      background: rgba(17, 26, 46, 0.96);
+      border: 1px solid #23304d;
+      border-radius: 14px;
+      padding: 16px 20px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #cbd5e1;
+      z-index: 30;
+      display: none;
+    }
+
+    .notes-panel.show {
+      display: block;
+    }
+
+    .notes-panel strong {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #38bdf8;
+      margin-bottom: 6px;
+    }
+  </style>
+
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "PresentationDigitalDocument",
+    "name": "Tailwind CSS Expert Talk for Students - Marwadi University, October 2026",
+    "description": "An interactive Tailwind CSS v4 workshop deck for BCA students at Marwadi University.",
+    "url": "https://sagarpansuriya.in/tailwindcss-expert-talk-for-students/",
+    "datePublished": "2026-10-24",
+    "author": {
+        "@type": "Person",
+        "name": "Sagar Pansuriya"
+    }
+}
+  </script>
+</head>
+
+<body>
+
+  <div class="progress" id="progress"></div>
+
+  <div class="stage" id="stage">
+
+    <!-- ============ 01 COVER ============ -->
+    <section class="slide active" data-title="Tailwind CSS Expert Talk for Students" style="justify-content: space-between;">
+      <p class="kicker">Expert session · BCA · Marwadi University</p>
+
+      <div class="row" style="align-items: center; gap: 64px;">
+        <div class="col grow" style="gap: 28px;">
+          <h1 class="cover-title">Tailwind<br><span class="grad">CSS</span></h1>
+          <p style="font-family: var(--font-display); font-size: 44px; font-weight: 600; line-height: 1.1;">Expert Talk for Students</p>
+          <p class="lead" style="font-size: 30px; max-width: 760px;">Build good-looking, responsive web pages without
+            leaving your HTML.</p>
+        </div>
+
+        <div class="col" style="width: 620px; gap: 22px;">
+          <div class="code" style="font-size: 19px;"><span class="tg">&lt;button</span> <span class="at">class</span>=<span class="st">"px-8 py-3 rounded-xl
+        bg-sky-700 text-white
+        font-semibold shadow-lg
+        hover:-translate-y-0.5"</span><span class="tg">&gt;</span>
+  Let's begin
+<span class="tg">&lt;/button&gt;</span></div>
+          <div style="display: flex; align-items: center; gap: 18px;">
+            <span style="font-family: var(--font-mono); font-size: 18px; color: var(--muted-d);">renders →</span>
+            <button class="demo-btn" onclick="nextSlide()">Let's begin</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="meta-row">
+        <div><span>Date</span><b>24 October 2026</b></div>
+        <div><span>Venue</span><b>Marwadi University, Rajkot</b></div>
+        <div><span>Speaker</span><b>Sagar Pansuriya</b></div>
+      </div>
+
+      <aside class="notes">Welcome. Quick show of hands: who has written CSS? Who has heard of Tailwind? Today is
+        hands-on — open play.tailwindcss.com on a laptop or phone if you want to follow along. Click the button to start:
+        it is styled with exactly the classes on screen.</aside>
+    </section>
+
+    <!-- ============ 02 SPEAKER + AGENDA ============ -->
+    <section class="slide" data-title="About me & today's plan">
+      <div class="row" style="flex: 1; gap: 80px; align-items: center;">
+        <div class="speaker" style="width: 520px;">
+          <img src="profile.jpg" alt="Sagar Pansuriya">
+          <div>
+            <h2 class="title" style="font-size: 48px;">Sagar Pansuriya</h2>
+            <p class="kicker" style="margin-top: 10px; font-size: 16px;">Technical Lead &amp; Frontend Architect</p>
+          </div>
+          <p class="lead" style="font-size: 22px;">10+ years building SaaS and content platforms with Laravel, WordPress
+            and NativePHP. Author of the open-source <code class="i">tailwindcss-fluid-scale</code> plugin.</p>
+          <p style="font-family: var(--font-mono); font-size: 18px; color: var(--muted-d);">sagarpansuriya.in ·
+            @frontendbysagar</p>
+        </div>
+
+        <div class="col grow" style="gap: 18px;">
+          <p class="kicker">Today's plan</p>
+          <ol class="agenda">
+            <li style="padding: 12px 0;"><span class="num">01</span><b>Foundations</b><small>Why utility-first, how it works, setup</small></li>
+            <li style="padding: 12px 0;"><span class="num">02</span><b>Lab 1 · First styles</b><small>Heading, button, card</small></li>
+            <li style="padding: 12px 0;"><span class="num">03</span><b>Core utilities &amp; layout</b><small>Spacing, type, colour, flex, grid, position</small></li>
+            <li style="padding: 12px 0;"><span class="num">04</span><b>Lab 2 · Layouts</b><small>Navbar, gallery, product card</small></li>
+            <li style="padding: 12px 0;"><span class="num">05</span><b>Short break</b><small>Recharge before part two</small></li>
+            <li style="padding: 12px 0;"><span class="num">06</span><b>Responsive &amp; interactive + Lab 3</b><small>md:, hover:, group, dark mode, motion</small></li>
+            <li style="padding: 12px 0;"><span class="num">07</span><b>Real projects, quiz, Q&amp;A</b><small>@theme, reuse, plugins, mistakes</small></li>
+          </ol>
+        </div>
+      </div>
+      <aside class="notes">Keep the intro short — one line about work, then straight to the plan. Mention there is
+        a quiz at the end and three hands-on labs, so laptops should stay open.</aside>
+    </section>
+
+    <!-- ============ HOW TODAY WORKS ============ -->
+    <section class="slide light" data-title="How today works">
+      <div class="head">
+        <p class="kicker">Before we start</p>
+        <h2 class="title">How today works: watch, practise, ask</h2>
+      </div>
+
+      <div class="row">
+        <div class="card grow">
+          <p class="num">WATCH</p>
+          <h3 style="margin-top: 6px;">Slides &amp; live demos</h3>
+          <p>Every idea is shown on screen first, usually with a live example you can see change.</p>
+        </div>
+        <div class="card grow">
+          <p class="num">PRACTISE</p>
+          <h3 style="margin-top: 6px;">3 labs, 11 exercises</h3>
+          <p>On your own laptop. The exercise page checks your work and tells you what is missing.</p>
+        </div>
+        <div class="card grow">
+          <p class="num">ASK</p>
+          <h3 style="margin-top: 6px;">Doubts any time</h3>
+          <p>Raise a hand. Each exercise also has hints, a solution and answers to common problems.</p>
+        </div>
+      </div>
+
+      <div class="card" style="display: flex; align-items: center; gap: 36px; border: 2px dashed var(--sky-deep);">
+        <div class="col" style="gap: 6px; width: 420px;">
+          <p class="kicker">Open this on your laptop now</p>
+          <p style="font-size: 20px;">Chrome, Edge or Firefox + internet. Nothing to install.</p>
+        </div>
+        <p style="font-family: var(--font-mono); font-size: 28px; color: var(--text-l); word-break: break-all;">
+          sagarpansuriya.in/tailwindcss-expert-talk-for-students/exercises/</p>
+      </div>
+      <aside class="notes">Wait until most of the room has the exercise page open. Ask people who have it to help their
+        neighbours. Pair up anyone without a laptop.</aside>
+    </section>
+
+    <!-- ============ 03 PROBLEM ============ -->
+    <section class="slide light" data-title="The problem with plain CSS">
+      <div class="head">
+        <p class="kicker">01 · Why utility-first</p>
+        <h2 class="title">Plain CSS gets messy as a project grows</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col grow">
+          <p class="code-label">style.css — after one semester project</p>
+          <div class="code"><span class="cm">/* style.css */</span>
+<span class="tg">.card</span> { padding: <span class="st">24px</span>; border-radius: <span class="st">12px</span>; }
+<span class="tg">.card-title</span> { font-size: <span class="st">20px</span>; }
+<span class="tg">.card-title--big</span> { font-size: <span class="st">28px</span>; }
+<span class="tg">.btn-primary</span> { background: <span class="st">#0ea5e9</span>; }
+<span class="tg">.btn-primary-new</span> { background: <span class="st">#0284c7</span>; }
+<span class="tg">.btn-primary-new-2</span> { ... }
+<span class="tg">.home .sidebar .card .title</span> { ... }
+<span class="cm">/* nobody dares delete anything */</span></div>
+        </div>
+
+        <div class="col" style="width: 560px;">
+          <div class="card">
+            <h3>Naming everything</h3>
+            <p>Every element needs a class name before you can style it. <code class="i">.card-title--big</code>?
+              <code class="i">.big-card-title</code>?</p>
+          </div>
+          <div class="card">
+            <h3>Jumping between files</h3>
+            <p>HTML in one tab, CSS in another, hunting for which selector wins.</p>
+          </div>
+          <div class="card">
+            <h3>CSS that only grows</h3>
+            <p>Old rules might still be used somewhere, so they stay forever.</p>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">Ask: who has had a style.css that kept growing? Who has written btn-new-2? These are the
+        problems Tailwind is designed around.</aside>
+    </section>
+
+    <!-- ============ 04 WHAT IS TAILWIND ============ -->
+    <section class="slide" data-title="What is Tailwind?">
+      <div class="head">
+        <p class="kicker">01 · Why utility-first</p>
+        <h2 class="title">Tailwind is a <span class="grad">utility-first</span> CSS framework</h2>
+        <p class="lead">Instead of writing new CSS, you combine small ready-made classes. Each class does exactly one job.
+        </p>
+      </div>
+
+      <div class="tiles" style="margin-top: 12px;">
+        <div class="tile"><span class="cls">p-4</span><span class="css">padding: 1rem;</span></div>
+        <div class="tile"><span class="cls">mt-8</span><span class="css">margin-top: 2rem;</span></div>
+        <div class="tile"><span class="cls">flex</span><span class="css">display: flex;</span></div>
+        <div class="tile"><span class="cls">text-center</span><span class="css">text-align: center;</span></div>
+        <div class="tile"><span class="cls">font-bold</span><span class="css">font-weight: 700;</span></div>
+        <div class="tile"><span class="cls">rounded-lg</span><span class="css">border-radius: 0.5rem;</span></div>
+      </div>
+
+      <p style="font-size: 20px; color: var(--muted-d);">Spacing follows one scale: 1 unit = 0.25rem (4px), so
+        <code class="i">p-4</code> = 16px and <code class="i">mt-8</code> = 32px.</p>
+      <aside class="notes">Stress: Tailwind is still CSS. You need to know what padding and flex do — Tailwind just
+        gives them short names and a consistent scale.</aside>
+    </section>
+
+    <!-- ============ 05 SAME BUTTON TWO WAYS ============ -->
+    <section class="slide light" data-title="Same button, two ways">
+      <div class="head">
+        <p class="kicker">01 · Why utility-first</p>
+        <h2 class="title">Same button, two ways</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col grow">
+          <p class="code-label">Traditional: HTML + a CSS file</p>
+          <div class="code" style="flex: 1;"><span class="tg">&lt;button</span> <span class="at">class</span>=<span class="st">"btn"</span><span class="tg">&gt;</span>Enroll<span class="tg">&lt;/button&gt;</span>
+
+<span class="tg">.btn</span> {
+  background: <span class="st">#0369a1</span>;
+  color: <span class="st">white</span>;
+  padding: <span class="st">8px 16px</span>;
+  border-radius: <span class="st">8px</span>;
+  font-weight: <span class="st">600</span>;
+}
+<span class="tg">.btn:hover</span> { background: <span class="st">#075985</span>; }</div>
+        </div>
+
+        <div class="col grow">
+          <p class="code-label">Tailwind: everything in the HTML</p>
+          <div class="code" style="flex: 1;"><span class="tg">&lt;button</span> <span class="at">class</span>=<span class="st">"bg-sky-700 text-white
+  px-4 py-2 rounded-lg
+  font-semibold
+  hover:bg-sky-800"</span><span class="tg">&gt;</span>
+  Enroll
+<span class="tg">&lt;/button&gt;</span>
+
+<span class="cm">/* no CSS file to write */</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="display: flex; align-items: center; gap: 28px; padding: 20px 30px;">
+        <button class="demo-btn" style="font-size: 20px; padding: 10px 22px; border-radius: 10px; box-shadow: none;">Enroll</button>
+        <p>Same result. No class name to invent, no second file, and the styling is visible where it is used.</p>
+      </div>
+      <aside class="notes">Point out px-4 = 16px and py-2 = 8px, matching the left side exactly. Hover over the button.
+      </aside>
+    </section>
+
+    <!-- ============ HISTORY ============ -->
+    <section class="slide" data-title="A short history">
+      <div class="head">
+        <p class="kicker">01 · Why utility-first</p>
+        <h2 class="title">A short history of Tailwind</h2>
+        <p class="lead">Created by Adam Wathan and team. It started as a side project and grew into one of the most
+          widely used CSS frameworks.</p>
+      </div>
+
+      <div class="timeline">
+        <div class="card">
+          <p class="tl-year">2017</p>
+          <h3>First release</h3>
+          <p>The utility-first idea goes public.</p>
+        </div>
+        <div class="card">
+          <p class="tl-year">2019</p>
+          <h3>v1.0</h3>
+          <p>First stable version for real projects.</p>
+        </div>
+        <div class="card">
+          <p class="tl-year">2021</p>
+          <h3>v3</h3>
+          <p>On-demand engine: CSS is generated only for classes you use.</p>
+        </div>
+        <div class="card" style="border-color: var(--sky);">
+          <p class="tl-year">2025</p>
+          <h3>v4 · today</h3>
+          <p>Rebuilt, faster engine. Configuration moves into CSS.</p>
+        </div>
+      </div>
+
+      <p style="font-size: 22px; color: var(--muted-d);">Everything today is <b style="color: var(--text-d);">v4</b>.
+        Online tutorials are often v3 — mostly the same classes, but set up differently.</p>
+      <aside class="notes">Keep this to one minute. The key takeaway is the version note: when students search, they
+        should check which version a tutorial uses.</aside>
+    </section>
+
+    <!-- ============ 06 HOW IT WORKS ============ -->
+    <section class="slide" data-title="How Tailwind builds your CSS">
+      <div class="head">
+        <p class="kicker">01 · Why utility-first</p>
+        <h2 class="title">How Tailwind builds your CSS</h2>
+      </div>
+
+      <div class="pipe">
+        <div class="card">
+          <p class="num">STEP 1</p>
+          <h3 style="margin-top: 6px;">You write classes</h3>
+          <p>In HTML, JavaScript, JSX, Vue… any file in your project.</p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="card">
+          <p class="num">STEP 2</p>
+          <h3 style="margin-top: 6px;">Tailwind scans</h3>
+          <p>It reads your files and collects every class name it finds.</p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="card">
+          <p class="num">STEP 3</p>
+          <h3 style="margin-top: 6px;">Only those ship</h3>
+          <p>The final CSS has just the classes you used. Nothing unused.</p>
+        </div>
+      </div>
+
+      <div class="card" style="border-color: rgba(251, 191, 36, 0.45); display: flex; gap: 32px; align-items: center;">
+        <div style="width: 440px;">
+          <h3 style="color: var(--amber);">⚠ The one gotcha</h3>
+          <p>Tailwind reads files as plain text. It cannot run your code, so build class names in full.</p>
+        </div>
+        <div class="col grow" style="gap: 12px;">
+          <div class="code sm"><span class="pill bad">won't work</span>  <span class="at">class</span>=<span class="st">"bg-${color}-500"</span></div>
+          <div class="code sm"><span class="pill good">works</span>  <span class="kw">const</span> colors = { red: <span class="st">'bg-red-500'</span>, blue: <span class="st">'bg-blue-500'</span> }</div>
+        </div>
+      </div>
+      <aside class="notes">This is the most common beginner bug. If a class "does nothing", check whether it appears as
+        a complete string somewhere in the source.</aside>
+    </section>
+
+    <!-- ============ 07 SETUP ============ -->
+    <section class="slide light" data-title="Setup: CDN and Vite">
+      <div class="head">
+        <p class="kicker">02 · Set up in 2 minutes</p>
+        <h2 class="title">Two ways to start</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col grow">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <h3 style="font-family: var(--font-display); font-size: 30px;">A · Play CDN</h3>
+            <span class="pill" style="color: var(--sky-deep);">for practice</span>
+          </div>
+          <p style="font-size: 22px; color: var(--body-l);">One script tag. No install. Perfect for labs and trying
+            things out.</p>
+          <div class="code sm"><span class="tg">&lt;head&gt;</span>
+  <span class="tg">&lt;script</span> <span class="at">src</span>=<span class="st">"https://cdn.jsdelivr.net/npm/
+    @tailwindcss/browser@4"</span><span class="tg">&gt;&lt;/script&gt;</span>
+<span class="tg">&lt;/head&gt;</span>
+<span class="tg">&lt;body&gt;</span>
+  <span class="tg">&lt;h1</span> <span class="at">class</span>=<span class="st">"text-3xl font-bold text-sky-700"</span><span class="tg">&gt;</span>
+    Hello, Marwadi!
+  <span class="tg">&lt;/h1&gt;</span>
+<span class="tg">&lt;/body&gt;</span></div>
+          <p style="font-size: 18px; color: var(--muted-l);">Write the src URL on one line — it is split here only to
+            fit.</p>
+        </div>
+
+        <div class="col grow">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <h3 style="font-family: var(--font-display); font-size: 30px;">B · Vite project</h3>
+            <span class="pill" style="color: var(--sky-deep);">for real apps</span>
+          </div>
+          <div class="code sm"><span class="cm"># 1. install</span>
+npm install tailwindcss @tailwindcss/vite</div>
+          <div class="code sm"><span class="cm">// 2. vite.config.js</span>
+<span class="kw">import</span> { defineConfig } <span class="kw">from</span> <span class="st">'vite'</span>
+<span class="kw">import</span> tailwindcss <span class="kw">from</span> <span class="st">'@tailwindcss/vite'</span>
+
+<span class="kw">export default</span> defineConfig({
+  plugins: [tailwindcss()],
+})</div>
+          <div class="code sm"><span class="cm">/* 3. src/style.css */</span>
+<span class="kw">@import</span> <span class="st">"tailwindcss"</span>;</div>
+        </div>
+      </div>
+      <aside class="notes">Use the CDN for today's exercises. Vite if you are building a JavaScript app (then npm run
+        dev). For plain HTML projects, the CLI on the next slide is even simpler.</aside>
+    </section>
+
+    <!-- ============ CLI SETUP & TOOLS ============ -->
+    <section class="slide" data-title="Tailwind CLI and editor tools">
+      <div class="head">
+        <p class="kicker">02 · Set up in 2 minutes</p>
+        <h2 class="title">No framework? The Tailwind CLI</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col grow" style="gap: 14px;">
+          <div class="code sm"><span class="cm"># 1. in an empty project folder</span>
+npm install tailwindcss @tailwindcss/cli</div>
+          <div class="code sm"><span class="cm">/* 2. src/input.css */</span>
+<span class="kw">@import</span> <span class="st">"tailwindcss"</span>;</div>
+          <div class="code sm"><span class="cm"># 3. build, and rebuild on every save</span>
+npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch</div>
+          <div class="code sm"><span class="cm">&lt;!-- 4. src/index.html --&gt;</span>
+<span class="tg">&lt;link</span> <span class="at">href</span>=<span class="st">"./output.css"</span> <span class="at">rel</span>=<span class="st">"stylesheet"</span><span class="tg">&gt;</span></div>
+          <p style="font-size: 20px; color: var(--muted-d);">Needs Node.js — check with <code class="i">node -v</code>.
+            Works with plain HTML, JavaScript, PHP… any files.</p>
+        </div>
+
+        <div class="col" style="width: 540px;">
+          <p class="kicker">Two editor tools worth installing</p>
+          <div class="card">
+            <h3>Tailwind CSS IntelliSense</h3>
+            <p>VS Code extension: autocomplete, colour previews, and hover to see the real CSS of any class.</p>
+          </div>
+          <div class="card">
+            <h3>prettier-plugin-tailwindcss</h3>
+            <p>Sorts classes into a consistent order every time you save. Fewer arguments in code review.</p>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">The CLI is the simplest real setup: four steps, no framework. Keep the --watch command running
+        while you work; it regenerates output.css whenever you save an HTML file.</aside>
+    </section>
+
+    <!-- ============ LAB 1 ============ -->
+    <section class="slide lab" data-title="Lab 1 · First styles">
+      <div class="head">
+        <p class="kicker">Lab 1 · 15 minutes</p>
+        <h2 class="title">Your first styles</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col grow">
+          <div class="card">
+            <p class="num">EXERCISE 1</p>
+            <h3 style="margin-top: 6px;">Hello Tailwind</h3>
+            <p>Style a heading and paragraph: size, weight, colour, spacing.</p>
+          </div>
+          <div class="card">
+            <p class="num">EXERCISE 2</p>
+            <h3 style="margin-top: 6px;">A real button</h3>
+            <p>Padding, rounded corners, colours and a hover state.</p>
+          </div>
+          <div class="card">
+            <p class="num">EXERCISE 3</p>
+            <h3 style="margin-top: 6px;">Notice card</h3>
+            <p>A white card with padding, border radius and a shadow.</p>
+          </div>
+        </div>
+
+        <div class="col" style="width: 600px; justify-content: space-between;">
+          <div class="col" style="gap: 12px;">
+            <p class="kicker">Open</p>
+            <div class="url-box">sagarpansuriya.in/tailwindcss-expert-talk-for-students/exercises/</div>
+            <p style="font-size: 20px; color: var(--body-d);">Press <b>Check my work</b> to see what is missing.
+              Stuck? Use <b>Hint</b>, or raise your hand.</p>
+          </div>
+          <div class="timer" data-minutes="15">
+            <span class="t">15:00</span>
+            <button class="btn" data-act="toggle">Start</button>
+            <button class="btn" data-act="reset">Reset</button>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">0:30 → 0:45. Start the timer. Walk around the room. Early finishers: help a neighbour or try
+        exercise 3's bonus. Common issue: typos like "text-sky700" — tell them to watch the checker.</aside>
+    </section>
+
+    <!-- ============ 08 CHEAT SHEET ============ -->
+    <section class="slide" data-title="Everyday utilities">
+      <div class="head">
+        <p class="kicker">03 · Core utilities</p>
+        <h2 class="title">The classes you will use every day</h2>
+      </div>
+
+      <table class="sheet">
+        <thead>
+          <tr>
+            <th style="width: 18%;">Category</th>
+            <th style="width: 44%;">Examples</th>
+            <th style="width: 38%;">What they control</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Spacing</td>
+            <td class="mono">p-4 · px-6 · mt-8 · gap-4</td>
+            <td>Padding, margin, gaps between items</td>
+          </tr>
+          <tr>
+            <td>Sizing</td>
+            <td class="mono">w-full · h-12 · max-w-md · size-10</td>
+            <td>Width, height, maximum width</td>
+          </tr>
+          <tr>
+            <td>Typography</td>
+            <td class="mono">text-xl · font-bold · text-center</td>
+            <td>Font size, weight, alignment</td>
+          </tr>
+          <tr>
+            <td>Colours</td>
+            <td class="mono">text-slate-700 · bg-sky-500</td>
+            <td>Text and background; shades 50 to 950</td>
+          </tr>
+          <tr>
+            <td>Borders</td>
+            <td class="mono">border · rounded-lg · shadow-md</td>
+            <td>Borders, rounded corners, shadows</td>
+          </tr>
+          <tr>
+            <td>Layout</td>
+            <td class="mono">flex · grid · items-center</td>
+            <td>Flexbox and grid (next slide)</td>
+          </tr>
+        </tbody>
+      </table>
+      <aside class="notes">Pattern to remember: property-value. Shade numbers: 50 is lightest, 950 darkest. The editor
+        extension (Tailwind CSS IntelliSense) autocompletes all of these.</aside>
+    </section>
+
+    <!-- ============ SPACING & SIZING ============ -->
+    <section class="slide light" data-title="Spacing and sizing">
+      <div class="head">
+        <p class="kicker">03 · Core utilities</p>
+        <h2 class="title">Spacing &amp; sizing: one scale for everything</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="card col grow" style="gap: 16px; justify-content: center;">
+          <div class="scale-row"><b>p-1</b><div class="bar" style="width: 32px;"></div><span>4px</span></div>
+          <div class="scale-row"><b>p-2</b><div class="bar" style="width: 64px;"></div><span>8px</span></div>
+          <div class="scale-row"><b>p-4</b><div class="bar" style="width: 128px;"></div><span>16px</span></div>
+          <div class="scale-row"><b>p-6</b><div class="bar" style="width: 192px;"></div><span>24px</span></div>
+          <div class="scale-row"><b>p-8</b><div class="bar" style="width: 256px;"></div><span>32px</span></div>
+          <div class="scale-row"><b>p-12</b><div class="bar" style="width: 384px;"></div><span>48px</span></div>
+          <div class="scale-row"><b>p-16</b><div class="bar" style="width: 512px;"></div><span>64px</span></div>
+        </div>
+
+        <div class="col" style="width: 560px;">
+          <div class="card">
+            <h3>Pick a side</h3>
+            <p><code class="i">p</code> all · <code class="i">px</code> left+right · <code class="i">py</code> top+bottom
+              · <code class="i">pt pr pb pl</code> one side. Margin works the same: <code class="i">m mx my mt…</code></p>
+          </div>
+          <div class="card">
+            <h3>Handy extras</h3>
+            <p><code class="i">mx-auto</code> centres a block · <code class="i">-mt-4</code> negative margin ·
+              <code class="i">space-y-4</code> gap between stacked children</p>
+          </div>
+          <div class="card">
+            <h3>Sizes</h3>
+            <p><code class="i">w-64</code> · <code class="i">w-1/2</code> · <code class="i">w-full</code> ·
+              <code class="i">max-w-xl</code> · <code class="i">min-h-screen</code> · <code class="i">size-12</code></p>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">Number × 4 = pixels. That one rule covers padding, margin, gap, width and height. Ask: what
+        is mt-10? (40px).</aside>
+    </section>
+
+    <!-- ============ TYPOGRAPHY ============ -->
+    <section class="slide" data-title="Typography">
+      <div class="head">
+        <p class="kicker">03 · Core utilities</p>
+        <h2 class="title">Typography</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="card col grow" style="gap: 14px; justify-content: center;">
+          <div class="scale-row" style="grid-template-columns: 150px 1fr;"><b style="color: var(--sky);">text-sm</b><span style="font-size: 14px; text-align: left; color: var(--text-d);">The quick brown fox · 14px</span></div>
+          <div class="scale-row" style="grid-template-columns: 150px 1fr;"><b style="color: var(--sky);">text-base</b><span style="font-size: 16px; text-align: left; color: var(--text-d);">The quick brown fox · 16px</span></div>
+          <div class="scale-row" style="grid-template-columns: 150px 1fr;"><b style="color: var(--sky);">text-xl</b><span style="font-size: 20px; text-align: left; color: var(--text-d);">The quick brown fox · 20px</span></div>
+          <div class="scale-row" style="grid-template-columns: 150px 1fr;"><b style="color: var(--sky);">text-3xl</b><span style="font-size: 30px; text-align: left; color: var(--text-d); font-family: var(--font-sans);">The quick brown fox</span></div>
+          <div class="scale-row" style="grid-template-columns: 150px 1fr;"><b style="color: var(--sky);">text-5xl</b><span style="font-size: 48px; text-align: left; color: var(--text-d); font-family: var(--font-sans); font-weight: 700;">Quick fox</span></div>
+        </div>
+
+        <div class="col" style="width: 580px;">
+          <table class="sheet" style="font-size: 20px;">
+            <tbody>
+              <tr><td class="mono">font-light … font-black</td><td>Weight 300 → 900</td></tr>
+              <tr><td class="mono">leading-relaxed</td><td>Line height</td></tr>
+              <tr><td class="mono">tracking-wide</td><td>Letter spacing</td></tr>
+              <tr><td class="mono">uppercase · italic</td><td>Case and style</td></tr>
+              <tr><td class="mono">truncate</td><td>One line with …</td></tr>
+              <tr><td class="mono">line-clamp-2</td><td>Cut after 2 lines</td></tr>
+              <tr><td class="mono">text-balance</td><td>Even heading lines</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <aside class="notes">Sizes go xs, sm, base, lg, xl, 2xl … 9xl. Show truncate and line-clamp — students love them
+        for card titles and descriptions.</aside>
+    </section>
+
+    <!-- ============ COLOURS ============ -->
+    <section class="slide light" data-title="Colours">
+      <div class="head">
+        <p class="kicker">03 · Core utilities</p>
+        <h2 class="title">Colours: a family and a shade</h2>
+        <p class="lead"><code class="i">bg-sky-500</code> = background · family <b>sky</b> · shade <b>500</b>. Every
+          family has 11 shades, from 50 (lightest) to 950 (darkest).</p>
+      </div>
+
+      <div class="swatches">
+        <div class="sw" style="background: #f0f9ff; color: #0c4a6e; border: 1px solid var(--line-l);">50</div>
+        <div class="sw" style="background: #e0f2fe; color: #0c4a6e;">100</div>
+        <div class="sw" style="background: #bae6fd; color: #0c4a6e;">200</div>
+        <div class="sw" style="background: #7dd3fc; color: #0c4a6e;">300</div>
+        <div class="sw" style="background: #38bdf8; color: #0c4a6e;">400</div>
+        <div class="sw" style="background: #0ea5e9; color: #082f49;">500</div>
+        <div class="sw" style="background: #0284c7; color: #ffffff;">600</div>
+        <div class="sw" style="background: #0369a1; color: #ffffff;">700</div>
+        <div class="sw" style="background: #075985; color: #ffffff;">800</div>
+        <div class="sw" style="background: #0c4a6e; color: #ffffff;">900</div>
+        <div class="sw" style="background: #082f49; color: #ffffff;">950</div>
+      </div>
+
+      <div class="row">
+        <div class="card grow">
+          <h3>Same colour, any property</h3>
+          <p><code class="i">text-</code> <code class="i">bg-</code> <code class="i">border-</code> <code class="i">ring-</code>
+            <code class="i">shadow-</code> + <code class="i">sky-700</code></p>
+        </div>
+        <div class="card grow">
+          <h3>Opacity with a slash</h3>
+          <p><code class="i">bg-sky-500/50</code> = 50% transparent background</p>
+        </div>
+        <div class="card grow" style="background: linear-gradient(90deg, #0ea5e9, #6366f1); border: 0;">
+          <h3 style="color: #ffffff;">Gradients</h3>
+          <p style="color: #ffffff; font-family: var(--font-mono); font-size: 18px;">bg-linear-to-r from-sky-500 to-indigo-500</p>
+        </div>
+      </div>
+      <aside class="notes">Families include slate, gray, red, orange, amber, green, emerald, teal, sky, blue, indigo,
+        violet, pink, rose and more. Contrast tip: dark text on 50–400, white text on 700+.</aside>
+    </section>
+
+    <!-- ============ BORDERS & SHADOWS ============ -->
+    <section class="slide" data-title="Borders, radius, shadows">
+      <div class="head">
+        <p class="kicker">03 · Core utilities</p>
+        <h2 class="title">Borders, rounded corners &amp; shadows</h2>
+      </div>
+
+      <div class="sample-grid">
+        <div class="col" style="gap: 10px;"><div class="bx" style="border-radius: 0;"></div><code class="i">rounded-none</code></div>
+        <div class="col" style="gap: 10px;"><div class="bx" style="border-radius: 6px;"></div><code class="i">rounded-md</code></div>
+        <div class="col" style="gap: 10px;"><div class="bx" style="border-radius: 12px;"></div><code class="i">rounded-xl</code></div>
+        <div class="col" style="gap: 10px;"><div class="bx" style="border-radius: 999px;"></div><code class="i">rounded-full</code></div>
+        <div class="col" style="gap: 10px;"><div class="bx" style="border-radius: 12px; border: 2px solid #38bdf8;"></div><code class="i">border-2 border-sky-400</code></div>
+        <div class="col" style="gap: 10px;"><div class="bx" style="border-radius: 12px; border: 2px dashed #94a3b8;"></div><code class="i">border-dashed</code></div>
+        <div class="col" style="gap: 10px;"><div class="bx" style="border-radius: 12px; background: #f1f5f9; box-shadow: 0 10px 15px -3px rgba(0,0,0,.5), 0 4px 6px -4px rgba(0,0,0,.5);"></div><code class="i">shadow-lg</code></div>
+        <div class="col" style="gap: 10px;"><div class="bx" style="border-radius: 12px; box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.6);"></div><code class="i">ring-4 ring-sky-400/60</code></div>
+      </div>
+
+      <p style="font-size: 22px; color: var(--muted-d);">Pick a side here too: <code class="i">border-b</code>,
+        <code class="i">rounded-t-xl</code>. A <b style="color: var(--text-d);">ring</b> is an outline that does not
+        change the layout — perfect for focus states.</p>
+      <aside class="notes">Rounded-full on a square makes a circle — that is how avatars are made. Ring will come back in
+        the focus-state section.</aside>
+    </section>
+
+    <!-- ============ 09 LAYOUT ============ -->
+    <section class="slide light" data-title="Layout with flex and grid">
+      <div class="head">
+        <p class="kicker">03 · Core utilities</p>
+        <h2 class="title">Layout with flex and grid</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="card col grow" style="gap: 18px;">
+          <h3 style="margin: 0;">Flex · one direction</h3>
+          <p>Line items up in a row or a column. Great for navbars and toolbars.</p>
+          <div class="code sm"><span class="tg">&lt;nav</span> <span class="at">class</span>=<span class="st">"flex items-center
+            justify-between gap-4"</span><span class="tg">&gt;</span></div>
+          <div class="mock">
+            <div class="bar"><span class="logo">MU</span>
+              <div class="links"><span>Home</span><span>Courses</span><span>Login</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card col grow" style="gap: 18px;">
+          <h3 style="margin: 0;">Grid · rows and columns</h3>
+          <p>Place items in a two-dimensional grid. Great for cards and galleries.</p>
+          <div class="code sm"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="st">"grid grid-cols-3 gap-4"</span><span class="tg">&gt;</span></div>
+          <div class="mock">
+            <div class="g3">
+              <div>1</div>
+              <div>2</div>
+              <div>3</div>
+              <div>4</div>
+              <div>5</div>
+              <div>6</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">Rule of thumb: one direction → flex; rows and columns at once → grid. items-center aligns
+        vertically, justify-between pushes items apart.</aside>
+    </section>
+
+    <!-- ============ FLEX DEEP DIVE ============ -->
+    <section class="slide" data-title="Flexbox in detail">
+      <div class="head">
+        <p class="kicker">03 · Core utilities</p>
+        <h2 class="title">Flexbox in detail</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <table class="sheet grow" style="font-size: 20px;">
+          <thead>
+            <tr><th style="width: 46%;">Class</th><th>What it does</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="mono">flex · flex-col</td><td>Row (default) or column</td></tr>
+            <tr><td class="mono">justify-start | center | between</td><td>Spread along the main direction</td></tr>
+            <tr><td class="mono">items-start | center | stretch</td><td>Align across it</td></tr>
+            <tr><td class="mono">gap-4</td><td>Space between items</td></tr>
+            <tr><td class="mono">flex-wrap</td><td>Allow a new line</td></tr>
+            <tr><td class="mono">flex-1 · shrink-0</td><td>Fill space · never squash</td></tr>
+          </tbody>
+        </table>
+
+        <div class="col" style="width: 560px;">
+          <p class="kicker">The classic question: how do I centre a div?</p>
+          <div class="code sm"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="st">"flex items-center justify-center
+            min-h-screen"</span><span class="tg">&gt;</span></div>
+          <p style="font-size: 20px; color: var(--muted-d);">or, even shorter:</p>
+          <div class="code sm"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="st">"grid place-items-center
+            min-h-screen"</span><span class="tg">&gt;</span></div>
+          <div class="mock" style="height: 150px; display: flex; align-items: center; justify-content: center;">
+            <div style="background: #fff; border-radius: 10px; padding: 14px 22px; font-size: 20px; color: #0369a1; font-family: var(--font-mono);">centred ✓</div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">Show the centring trick — it is the most-asked CSS question on the internet. flex-1 on a
+        search box makes it take all remaining space in a navbar.</aside>
+    </section>
+
+    <!-- ============ GRID DEEP DIVE ============ -->
+    <section class="slide light" data-title="Grid in detail">
+      <div class="head">
+        <p class="kicker">03 · Core utilities</p>
+        <h2 class="title">Grid in detail: page layouts</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col grow">
+          <div class="code"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="st">"grid grid-cols-12 gap-6"</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;aside</span> <span class="at">class</span>=<span class="st">"col-span-3"</span><span class="tg">&gt;</span>Menu<span class="tg">&lt;/aside&gt;</span>
+  <span class="tg">&lt;main</span> <span class="at">class</span>=<span class="st">"col-span-9"</span><span class="tg">&gt;</span>Content<span class="tg">&lt;/main&gt;</span>
+  <span class="tg">&lt;footer</span> <span class="at">class</span>=<span class="st">"col-span-12"</span><span class="tg">&gt;</span>Footer<span class="tg">&lt;/footer&gt;</span>
+<span class="tg">&lt;/div&gt;</span></div>
+          <div class="mock" style="display: grid; grid-template-columns: 3fr 9fr; gap: 12px;">
+            <div style="background: #fff; border-radius: 10px; height: 170px; display: grid; place-items: center; font-family: var(--font-mono); font-size: 18px; color: #0369a1;">col-span-3</div>
+            <div style="background: #fff; border-radius: 10px; height: 170px; display: grid; place-items: center; font-family: var(--font-mono); font-size: 18px; color: #0369a1;">col-span-9</div>
+            <div style="grid-column: span 2; background: #fff; border-radius: 10px; height: 54px; display: grid; place-items: center; font-family: var(--font-mono); font-size: 18px; color: #0369a1;">col-span-12</div>
+          </div>
+        </div>
+
+        <div class="col" style="width: 520px;">
+          <div class="card">
+            <h3>12 columns</h3>
+            <p>Split the page into 12 equal parts. 3 + 9, 4 + 8, 6 + 6… it divides in many ways.</p>
+          </div>
+          <div class="card">
+            <h3>Rows too</h3>
+            <p><code class="i">grid-rows-3</code> and <code class="i">row-span-2</code> for tall tiles in a gallery.</p>
+          </div>
+          <div class="card">
+            <h3>Gaps</h3>
+            <p><code class="i">gap-6</code> both ways, or <code class="i">gap-x-8 gap-y-4</code> separately.</p>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">The 12-column grid is the same idea Bootstrap uses, so students who know Bootstrap will feel at
+        home.</aside>
+    </section>
+
+    <!-- ============ POSITIONING ============ -->
+    <section class="slide" data-title="Positioning and layers">
+      <div class="head">
+        <p class="kicker">03 · Core utilities</p>
+        <h2 class="title">Positioning: badges, overlays, sticky headers</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col grow">
+          <div class="code sm"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="st">"relative rounded-xl bg-white p-6"</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;span</span> <span class="at">class</span>=<span class="st">"absolute top-3 right-3 rounded-full
+               bg-rose-500 px-3 text-white"</span><span class="tg">&gt;</span>NEW<span class="tg">&lt;/span&gt;</span>
+  <span class="tg">&lt;h3&gt;</span>Web Development Course<span class="tg">&lt;/h3&gt;</span>
+<span class="tg">&lt;/div&gt;</span></div>
+          <div class="mock" style="padding: 28px;">
+            <div style="position: relative; background: #fff; border-radius: 12px; padding: 28px; font-size: 24px; font-weight: 600; color: #0f172a;">
+              Web Development Course
+              <span style="position: absolute; top: 12px; right: 12px; background: #e11d48; color: #fff; font-size: 16px; padding: 2px 12px; border-radius: 999px;">NEW</span>
+            </div>
+          </div>
+        </div>
+
+        <table class="sheet" style="width: 560px; font-size: 20px;">
+          <tbody>
+            <tr><td class="mono">relative</td><td>"Pin children to me"</td></tr>
+            <tr><td class="mono">absolute</td><td>Pin to nearest relative parent</td></tr>
+            <tr><td class="mono">top-3 right-3</td><td>Offset from the edges</td></tr>
+            <tr><td class="mono">inset-0</td><td>Cover the whole parent</td></tr>
+            <tr><td class="mono">z-10 · z-50</td><td>Which layer is on top</td></tr>
+            <tr><td class="mono">sticky top-0</td><td>Header that stays on scroll</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <aside class="notes">Parent relative, child absolute — that pair is 90% of positioning. inset-0 plus a
+        semi-transparent background makes an image overlay.</aside>
+    </section>
+
+    <!-- ============ LAB 2 ============ -->
+    <section class="slide lab" data-title="Lab 2 · Layouts">
+      <div class="head">
+        <p class="kicker">Lab 2 · 20 minutes</p>
+        <h2 class="title">Build real layouts</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col grow">
+          <div class="card">
+            <p class="num">EXERCISE 4</p>
+            <h3 style="margin-top: 6px;">College navbar</h3>
+            <p>Logo left, links right, everything vertically centred.</p>
+          </div>
+          <div class="card">
+            <p class="num">EXERCISE 5</p>
+            <h3 style="margin-top: 6px;">Photo gallery</h3>
+            <p>A 3-column grid of tiles with even gaps.</p>
+          </div>
+          <div class="card">
+            <p class="num">EXERCISE 6</p>
+            <h3 style="margin-top: 6px;">Course card with badge</h3>
+            <p>Pin a "NEW" badge to the corner with relative + absolute.</p>
+          </div>
+        </div>
+
+        <div class="col" style="width: 600px; justify-content: space-between;">
+          <div class="col" style="gap: 12px;">
+            <p class="kicker">Same page as before</p>
+            <div class="url-box">sagarpansuriya.in/tailwindcss-expert-talk-for-students/exercises/</div>
+            <p style="font-size: 20px; color: var(--body-d);">Your Lab 1 work is saved in your browser — just
+              continue.</p>
+          </div>
+          <div class="timer" data-minutes="20">
+            <span class="t">20:00</span>
+            <button class="btn" data-act="toggle">Start</button>
+            <button class="btn" data-act="reset">Reset</button>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">1:15 → 1:35. Most common doubt: "my absolute badge flies to the page corner" — the parent is
+        missing "relative". Second: justify-between does nothing — the parent is missing "flex".</aside>
+    </section>
+
+    <!-- ============ BREAK ============ -->
+    <section class="slide accent" data-title="Break · 10 minutes" style="align-items: center; justify-content: center; text-align: center;">
+      <p class="kicker">Break</p>
+      <h2 class="title" style="font-size: 72px;">Short break ☕</h2>
+      <div class="timer big" data-minutes="10">
+        <span class="t">10:00</span>
+        <div style="display: flex; gap: 16px;">
+          <button class="btn" data-act="toggle">Start</button>
+          <button class="btn" data-act="reset">Reset</button>
+        </div>
+      </div>
+      <p class="lead" style="font-size: 24px;">After the break: responsive design, hover &amp; focus, dark mode and
+        animation.</p>
+      <aside class="notes">1:35 → 1:45. Start the countdown. Stay near the front for questions — many good doubts come up
+        during breaks.</aside>
+    </section>
+
+    <!-- ============ 10 RESPONSIVE ============ -->
+    <section class="slide" data-title="Responsive design" id="slide-responsive">
+      <div class="head">
+        <p class="kicker">04 · Responsive, states, theming</p>
+        <h2 class="title">Responsive: mobile first, then add prefixes</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col" style="width: 440px;">
+          <div class="bp-table" id="bpTable">
+            <div class="bp" data-min="0"><b>(none)</b><span>all screens</span></div>
+            <div class="bp" data-min="640"><b>sm:</b><span>≥ 640px</span></div>
+            <div class="bp" data-min="768"><b>md:</b><span>≥ 768px</span></div>
+            <div class="bp" data-min="1024"><b>lg:</b><span>≥ 1024px</span></div>
+            <div class="bp" data-min="1280"><b>xl:</b><span>≥ 1280px</span></div>
+            <div class="bp" data-min="1536"><b>2xl:</b><span>≥ 1536px</span></div>
+          </div>
+          <p style="font-size: 20px; color: var(--muted-d); line-height: 1.5;">Unprefixed classes apply everywhere. A
+            prefix means "from this width <b style="color: var(--text-d);">and up</b>".</p>
+        </div>
+
+        <div class="col grow">
+          <div class="chips" id="bpChips">
+            <span class="chip" data-min="0">grid-cols-1</span>
+            <span class="chip" data-min="640">sm:grid-cols-2</span>
+            <span class="chip" data-min="1024">lg:grid-cols-4</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <input type="range" id="bpSlider" min="320" max="1536" value="375" aria-label="Screen width">
+            <span class="num" id="bpVal" style="min-width: 110px; text-align: right;">375px</span>
+          </div>
+          <div class="device-area">
+            <div class="device" id="device"></div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">Drag the slider slowly from phone to laptop. Highlight that grid-cols-1 stays "on" but gets
+        overridden by bigger prefixes. Common mistake: using sm: to mean "small screens only".</aside>
+    </section>
+
+    <!-- ============ MOBILE-FIRST PATTERNS ============ -->
+    <section class="slide light" data-title="Responsive patterns">
+      <div class="head">
+        <p class="kicker">04 · Responsive, states, theming</p>
+        <h2 class="title">Four responsive patterns you will use all the time</h2>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; flex: 1;">
+        <div class="card col" style="gap: 12px;">
+          <h3 style="margin: 0;">Stack on phone, side by side on laptop</h3>
+          <div class="code sm"><span class="at">class</span>=<span class="st">"flex flex-col md:flex-row gap-6"</span></div>
+        </div>
+        <div class="card col" style="gap: 12px;">
+          <h3 style="margin: 0;">Show or hide by screen size</h3>
+          <div class="code sm"><span class="at">class</span>=<span class="st">"hidden md:block"</span>  <span class="cm">desktop only</span>
+<span class="at">class</span>=<span class="st">"md:hidden"</span>        <span class="cm">mobile only</span></div>
+        </div>
+        <div class="card col" style="gap: 12px;">
+          <h3 style="margin: 0;">Bigger text on bigger screens</h3>
+          <div class="code sm"><span class="at">class</span>=<span class="st">"text-2xl md:text-4xl lg:text-6xl"</span></div>
+        </div>
+        <div class="card col" style="gap: 12px;">
+          <h3 style="margin: 0;">Only below a size, or between two</h3>
+          <div class="code sm"><span class="at">class</span>=<span class="st">"max-md:px-4"</span>        <span class="cm">&lt; 768px</span>
+<span class="at">class</span>=<span class="st">"md:max-lg:grid-cols-2"</span> <span class="cm">768–1023</span></div>
+        </div>
+      </div>
+      <aside class="notes">Design the phone layout first with no prefixes, then add md: and lg: for bigger screens.
+        Remind them: the page needs the viewport meta tag, or phones will zoom out and ignore breakpoints.</aside>
+    </section>
+
+    <!-- ============ CONTAINER QUERIES ============ -->
+    <section class="slide" data-title="Container queries">
+      <div class="head">
+        <p class="kicker">04 · Responsive, states, theming</p>
+        <h2 class="title">Container queries: respond to the box, not the screen</h2>
+        <p class="lead">The same card can sit in a narrow sidebar and a wide main area. With container queries it adapts
+          to wherever it is placed.</p>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col grow">
+          <div class="code"><span class="tg">&lt;div</span> <span class="at">class</span>=<span class="st">"@container"</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;div</span> <span class="at">class</span>=<span class="st">"flex flex-col @md:flex-row gap-4"</span><span class="tg">&gt;</span>
+    <span class="tg">&lt;img</span> <span class="at">class</span>=<span class="st">"@md:w-48"</span> …<span class="tg">&gt;</span>
+    <span class="tg">&lt;p&gt;</span>Course details…<span class="tg">&lt;/p&gt;</span>
+  <span class="tg">&lt;/div&gt;</span>
+<span class="tg">&lt;/div&gt;</span></div>
+          <p style="font-size: 20px; color: var(--muted-d);"><code class="i">@container</code> marks the parent.
+            <code class="i">@md:</code> means "when <b style="color: var(--text-d);">that box</b> is at least 28rem
+            wide". Built into v4 — no plugin.</p>
+        </div>
+
+        <div class="col" style="width: 560px;">
+          <p class="code-label">in a narrow sidebar</p>
+          <div class="mock" style="width: 260px;">
+            <div style="background: #fff; border-radius: 10px; padding: 12px;">
+              <div style="height: 70px; background: #bae6fd; border-radius: 8px;"></div>
+              <div style="height: 14px; background: #cbd5e1; border-radius: 4px; margin-top: 10px;"></div>
+              <div style="height: 14px; width: 70%; background: #cbd5e1; border-radius: 4px; margin-top: 8px;"></div>
+            </div>
+          </div>
+          <p class="code-label">in a wide main area</p>
+          <div class="mock">
+            <div style="background: #fff; border-radius: 10px; padding: 12px; display: flex; gap: 14px; align-items: center;">
+              <div style="width: 150px; height: 80px; background: #bae6fd; border-radius: 8px; flex-shrink: 0;"></div>
+              <div style="flex: 1;">
+                <div style="height: 14px; background: #cbd5e1; border-radius: 4px;"></div>
+                <div style="height: 14px; width: 70%; background: #cbd5e1; border-radius: 4px; margin-top: 8px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">This is a newer CSS feature, now in all modern browsers. Good to know — it makes components
+        truly reusable. Do not spend more than two minutes here.</aside>
+    </section>
+
+    <!-- ============ 11 VARIANTS ============ -->
+    <section class="slide light" data-title="States: hover, focus, dark" id="slide-variants">
+      <div class="head">
+        <p class="kicker">04 · Responsive, states, theming</p>
+        <h2 class="title">States with variants: <code class="i">hover:</code> <code class="i">focus:</code> <code class="i">dark:</code></h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col grow">
+          <div class="card">
+            <h3><code class="i">hover:bg-sky-800</code></h3>
+            <p>Applies only while the mouse is over the element.</p>
+          </div>
+          <div class="card">
+            <h3><code class="i">focus:ring-4</code></h3>
+            <p>Applies when an input is selected — vital for keyboard users.</p>
+          </div>
+          <div class="card">
+            <h3><code class="i">dark:bg-slate-800</code></h3>
+            <p>Applies in dark mode. Variants stack: <code class="i">md:hover:underline</code></p>
+          </div>
+        </div>
+
+        <div class="col" style="width: 640px;">
+          <div class="frame-wrap" style="flex: 1;">
+            <iframe class="frame" id="variantsFrame" title="Live hover, focus and dark mode demo"></iframe>
+            <span class="frame-tag">live · try it</span>
+          </div>
+          <button class="btn" id="darkToggle" style="align-self: flex-start;">Toggle dark mode</button>
+        </div>
+      </div>
+      <aside class="notes">Hover the button, click into the input, then press Toggle dark mode. By default dark: follows
+        the operating system setting; this demo switches it with a class instead.</aside>
+    </section>
+
+    <!-- ============ GROUP & PEER ============ -->
+    <section class="slide" data-title="group and peer" id="slide-group">
+      <div class="head">
+        <p class="kicker">04 · Responsive, states, theming</p>
+        <h2 class="title">Style a child from its parent: <code class="i">group</code> &amp; <code class="i">peer</code></h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col grow">
+          <p class="code-label">hover the card → the arrow moves</p>
+          <div class="code sm"><span class="tg">&lt;a</span> <span class="at">class</span>=<span class="st">"group rounded-xl bg-white p-6 hover:bg-sky-50"</span><span class="tg">&gt;</span>
+  Register for the workshop
+  <span class="tg">&lt;span</span> <span class="at">class</span>=<span class="st">"group-hover:translate-x-2 …"</span><span class="tg">&gt;</span>→<span class="tg">&lt;/span&gt;</span>
+<span class="tg">&lt;/a&gt;</span></div>
+          <p class="code-label">bad email → the message appears</p>
+          <div class="code sm"><span class="tg">&lt;input</span> <span class="at">type</span>=<span class="st">"email"</span> <span class="at">class</span>=<span class="st">"peer …"</span><span class="tg">&gt;</span>
+<span class="tg">&lt;p</span> <span class="at">class</span>=<span class="st">"hidden peer-invalid:block text-rose-600"</span><span class="tg">&gt;</span>
+  Please enter a valid email
+<span class="tg">&lt;/p&gt;</span></div>
+          <p style="font-size: 20px; color: var(--muted-d);"><code class="i">group</code> goes on the parent.
+            <code class="i">peer</code> goes on an earlier sibling.</p>
+        </div>
+        <div class="frame-wrap" style="width: 600px;">
+          <iframe class="frame" id="groupFrame" title="Live group and peer demo"></iframe>
+          <span class="frame-tag">live · try it</span>
+        </div>
+      </div>
+      <aside class="notes">Hover the card, then type "abc" in the email box — the message appears without any
+        JavaScript. Note: peer must come BEFORE the element it affects.</aside>
+    </section>
+
+    <!-- ============ MOTION ============ -->
+    <section class="slide light" data-title="Transitions and animation" id="slide-motion">
+      <div class="head">
+        <p class="kicker">04 · Responsive, states, theming</p>
+        <h2 class="title">Transitions &amp; animation</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col grow">
+          <div class="card">
+            <h3>Smooth changes</h3>
+            <p><code class="i">transition</code> <code class="i">duration-300</code> <code class="i">ease-out</code> +
+              <code class="i">hover:scale-105</code> or <code class="i">hover:-translate-y-1</code></p>
+          </div>
+          <div class="card">
+            <h3>Ready-made animations</h3>
+            <p><code class="i">animate-spin</code> loaders · <code class="i">animate-ping</code> notification dots ·
+              <code class="i">animate-pulse</code> skeletons · <code class="i">animate-bounce</code> arrows</p>
+          </div>
+          <div class="card">
+            <h3>Be kind</h3>
+            <p><code class="i">motion-reduce:animate-none</code> respects users who turn animation off.</p>
+          </div>
+        </div>
+        <div class="frame-wrap" style="width: 640px;">
+          <iframe class="frame" id="motionFrame" title="Live animation demo"></iframe>
+          <span class="frame-tag">live</span>
+        </div>
+      </div>
+      <aside class="notes">Hover the card in the demo. Pulse skeletons are what you see on YouTube and Instagram while
+        content loads.</aside>
+    </section>
+
+    <!-- ============ ACCESSIBILITY ============ -->
+    <section class="slide" data-title="Accessibility">
+      <div class="head">
+        <p class="kicker">04 · Responsive, states, theming</p>
+        <h2 class="title">Accessible by default: four habits</h2>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; flex: 1;">
+        <div class="card">
+          <h3><code class="i">sr-only</code></h3>
+          <p>Text for screen readers only — e.g. a label for an icon-only button.</p>
+          <div class="code sm" style="margin-top: 14px;"><span class="tg">&lt;span</span> <span class="at">class</span>=<span class="st">"sr-only"</span><span class="tg">&gt;</span>Close menu<span class="tg">&lt;/span&gt;</span></div>
+        </div>
+        <div class="card">
+          <h3><code class="i">focus-visible:</code></h3>
+          <p>Shows a ring for keyboard users without showing it on mouse clicks.</p>
+          <div class="code sm" style="margin-top: 14px;"><span class="st">"focus-visible:ring-4 ring-sky-300"</span></div>
+        </div>
+        <div class="card">
+          <h3>Contrast</h3>
+          <p>Light text on light colours is hard to read. Use <code class="i">text-white</code> on 700+ shades,
+            dark text on 50–300.</p>
+        </div>
+        <div class="card">
+          <h3>Never remove outlines</h3>
+          <p>If you add <code class="i">outline-none</code>, always add a <code class="i">focus:</code> style to
+            replace it.</p>
+        </div>
+      </div>
+      <aside class="notes">Try pressing Tab through a form with outlines removed — impossible to use. Accessibility is
+        also a hiring signal in frontend interviews.</aside>
+    </section>
+
+    <!-- ============ LAB 3 ============ -->
+    <section class="slide lab" data-title="Lab 3 · Responsive & interactive">
+      <div class="head">
+        <p class="kicker">Lab 3 · 25 minutes</p>
+        <h2 class="title">Make it responsive and interactive</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col grow">
+          <div class="card">
+            <p class="num">EXERCISE 7</p>
+            <h3 style="margin-top: 6px;">Responsive pricing</h3>
+            <p>1 column on phones, 3 on laptops. Use the preview size buttons.</p>
+          </div>
+          <div class="card">
+            <p class="num">EXERCISE 8</p>
+            <h3 style="margin-top: 6px;">Login form</h3>
+            <p>Focus rings, full-width button, an error that shows with peer-invalid.</p>
+          </div>
+          <div class="card">
+            <p class="num">EXERCISE 9</p>
+            <h3 style="margin-top: 6px;">Dark mode event card</h3>
+            <p>Add dark: styles, then a group-hover effect.</p>
+          </div>
+        </div>
+
+        <div class="col" style="width: 600px; justify-content: space-between;">
+          <div class="col" style="gap: 12px;">
+            <p class="kicker">Exercises page</p>
+            <div class="url-box">sagarpansuriya.in/tailwindcss-expert-talk-for-students/exercises/</div>
+            <p style="font-size: 20px; color: var(--body-d);">Finished early? Start the <b>Final challenge</b>
+              (exercises 10 and 11).</p>
+          </div>
+          <div class="timer" data-minutes="25">
+            <span class="t">25:00</span>
+            <button class="btn" data-act="toggle">Start</button>
+            <button class="btn" data-act="reset">Reset</button>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">Common doubt: "sm:grid-cols-3 shows 3 columns on my laptop but I wanted it on phones" —
+        explain mobile-first again. For dark mode, the exercise page has a dark toggle on the preview.</aside>
+    </section>
+
+    <!-- ============ 12 THEME ============ -->
+    <section class="slide" data-title="Customise with @theme">
+      <div class="head">
+        <p class="kicker">04 · Responsive, states, theming</p>
+        <h2 class="title">Make it yours with <span class="grad">@theme</span></h2>
+      </div>
+
+      <div class="row" style="flex: 1; align-items: flex-start;">
+        <div class="col grow">
+          <p class="code-label">src/style.css</p>
+          <div class="code"><span class="kw">@import</span> <span class="st">"tailwindcss"</span>;
+
+<span class="kw">@theme</span> {
+  <span class="at">--color-brand</span>: <span class="st">#0f766e</span>;
+  <span class="at">--font-display</span>: <span class="st">"Poppins"</span>, sans-serif;
+  <span class="at">--breakpoint-3xl</span>: <span class="st">1920px</span>;
+}</div>
+          <p class="code-label">index.html</p>
+          <div class="code"><span class="tg">&lt;h1</span> <span class="at">class</span>=<span class="st">"font-display text-brand
+           3xl:text-6xl"</span><span class="tg">&gt;</span></div>
+        </div>
+
+        <div class="col" style="width: 560px;">
+          <div class="card">
+            <h3>One variable, many classes</h3>
+            <p><code class="i">--color-brand</code> creates <code class="i">bg-brand</code>, <code class="i">text-brand</code>,
+              <code class="i">border-brand</code>…</p>
+          </div>
+          <div class="card">
+            <h3>Config lives in CSS</h3>
+            <p>Tailwind v4 needs no <code class="i">tailwind.config.js</code>. Older v3 tutorials use one — that is
+              the difference.</p>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">Students will find many v3 tutorials online. Tell them: if a tutorial edits
+        tailwind.config.js, it is v3; in v4 the same thing goes in @theme.</aside>
+    </section>
+
+    <!-- ============ ARBITRARY VALUES ============ -->
+    <section class="slide light" data-title="Arbitrary values">
+      <div class="head">
+        <p class="kicker">05 · Real projects</p>
+        <h2 class="title">Need an exact value? Use square brackets</h2>
+      </div>
+
+      <table class="sheet" style="font-size: 22px;">
+        <thead>
+          <tr><th style="width: 42%;">Class</th><th>Generates</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="mono">w-[327px]</td><td>width: 327px</td></tr>
+          <tr><td class="mono">bg-[#1da1f2]</td><td>a colour that is not in the palette</td></tr>
+          <tr><td class="mono">grid-cols-[240px_1fr]</td><td>fixed sidebar + flexible content (_ = space)</td></tr>
+          <tr><td class="mono">top-[calc(100%+8px)]</td><td>any CSS value, even calc()</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card" style="border-color: rgba(3, 105, 161, 0.4);">
+        <h3>Use them sparingly</h3>
+        <p>If you type the same bracket value three times, it belongs in <code class="i">@theme</code> — so the whole
+          team gets a proper class name.</p>
+      </div>
+      <aside class="notes">Arbitrary values are the escape hatch for pixel-perfect designs from Figma. Too many of them
+        means you are fighting the design system.</aside>
+    </section>
+
+    <!-- ============ REUSE ============ -->
+    <section class="slide" data-title="Reusing styles">
+      <div class="head">
+        <p class="kicker">05 · Real projects</p>
+        <h2 class="title">"The same 12 classes on every button?" — reuse them</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col grow">
+          <p class="code-label"><span class="pill good">first choice</span>  a component or function — JS, React, Vue…</p>
+          <div class="code sm"><span class="cm">// button.js — write the classes once</span>
+<span class="kw">const</span> btn = <span class="st">'rounded-lg bg-sky-700 px-4 py-2
+  font-semibold text-white hover:bg-sky-800'</span>;
+
+<span class="kw">function</span> Button(label) {
+  <span class="kw">return</span> <span class="st">`&lt;button class="${btn}"&gt;${label}&lt;/button&gt;`</span>;
+}
+
+<span class="cm">// use it anywhere</span>
+list.innerHTML += Button(<span class="st">'Enroll'</span>);</div>
+        </div>
+        <div class="col grow">
+          <p class="code-label"><span class="pill" style="color: var(--amber);">sometimes</span>  @apply in CSS</p>
+          <div class="code sm"><span class="kw">@layer</span> components {
+  <span class="tg">.btn</span> {
+    <span class="kw">@apply</span> rounded-lg bg-sky-700 px-4 py-2
+           font-semibold text-white;
+  }
+}</div>
+          <div class="card">
+            <h3>Why components first?</h3>
+            <p>@apply brings back naming and a second file — the problems we started with. Use it for small things
+              like third-party HTML you cannot edit.</p>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">Loops also remove repetition: a loop over a courses array renders the same card markup once in
+        the source. Students using plain HTML can copy-paste for now; in projects, use components.</aside>
+    </section>
+
+    <!-- ============ PLUGINS ============ -->
+    <section class="slide light" data-title="Plugins and component libraries">
+      <div class="head">
+        <p class="kicker">05 · Real projects</p>
+        <h2 class="title">Plugins &amp; component libraries</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col grow">
+          <p class="code-label">add a plugin in your CSS</p>
+          <div class="code"><span class="kw">@import</span> <span class="st">"tailwindcss"</span>;
+<span class="kw">@plugin</span> <span class="st">"@tailwindcss/typography"</span>;
+<span class="kw">@plugin</span> <span class="st">"@tailwindcss/forms"</span>;</div>
+          <div class="code sm"><span class="tg">&lt;article</span> <span class="at">class</span>=<span class="st">"prose lg:prose-xl"</span><span class="tg">&gt;</span>
+  <span class="cm">&lt;!-- blog post from a CMS: nicely styled --&gt;</span>
+<span class="tg">&lt;/article&gt;</span></div>
+        </div>
+        <div class="col" style="width: 600px;">
+          <div class="card">
+            <h3>@tailwindcss/typography</h3>
+            <p>One <code class="i">prose</code> class styles a whole article: headings, lists, links, quotes.</p>
+          </div>
+          <div class="card">
+            <h3>@tailwindcss/forms</h3>
+            <p>Sensible default styles for inputs, selects and checkboxes.</p>
+          </div>
+          <div class="card">
+            <h3>Component libraries</h3>
+            <p>daisyUI, Flowbite, shadcn/ui and others give you ready-made buttons, modals and navbars built on
+              Tailwind.</p>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">Install with npm, then add the @plugin line. Advise students to learn the plain utilities
+        first, then use libraries to move faster.</aside>
+    </section>
+
+    <!-- ============ COMMON MISTAKES ============ -->
+    <section class="slide" data-title="Common mistakes">
+      <div class="head">
+        <p class="kicker">05 · Real projects</p>
+        <h2 class="title">Common mistakes (and quick fixes)</h2>
+      </div>
+
+      <table class="sheet" style="font-size: 21px;">
+        <thead>
+          <tr><th style="width: 34%;">Mistake</th><th style="width: 33%;">What happens</th><th>Fix</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Building class names</td><td>bg-${color}-500 has no CSS</td><td>Write full class names</td></tr>
+          <tr><td>Using sm: for phones</td><td>Style shows on laptops only</td><td>No prefix = phone</td></tr>
+          <tr><td>Two classes that clash</td><td>p-4 p-8: which wins is unclear</td><td>Use only one</td></tr>
+          <tr><td>No viewport meta tag</td><td>Phone zooms out, breakpoints fail</td><td>Add it to every page</td></tr>
+          <tr><td>Following v3 tutorials</td><td>tailwind.config.js missing</td><td>Use @theme in v4</td></tr>
+          <tr><td>Typos</td><td>Nothing happens, no error</td><td>Install IntelliSense</td></tr>
+        </tbody>
+      </table>
+      <aside class="notes">Class order in the attribute does NOT decide which wins — the order in the generated CSS
+        does. So never put two classes for the same property on one element (except with variants like md:).</aside>
+    </section>
+
+    <!-- ============ 13 PLAYGROUND ============ -->
+    <section class="slide" data-title="Live playground" id="slide-playground">
+      <div class="head" style="flex-direction: row; justify-content: space-between; align-items: flex-end;">
+        <div class="head">
+          <p class="kicker">06 · Build live</p>
+          <h2 class="title">Your turn: change a class, see it live</h2>
+        </div>
+        <div style="display: flex; gap: 10px;" id="presetBtns">
+          <button class="btn on" data-preset="button">Button</button>
+          <button class="btn" data-preset="badges">Badges</button>
+          <button class="btn" data-preset="alert">Alert</button>
+        </div>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="col grow">
+          <textarea class="editor" id="playEditor" spellcheck="false" aria-label="HTML editor"></textarea>
+        </div>
+        <div class="frame-wrap grow">
+          <iframe class="frame" id="playFrame" title="Live preview"></iframe>
+          <span class="frame-tag">preview</span>
+        </div>
+      </div>
+      <aside class="notes">Ask the audience for changes: "make it green", "make it bigger", "round the corners more".
+        Type their suggestions. Needs internet — the preview loads Tailwind from the CDN.</aside>
+    </section>
+
+    <!-- ============ 14 DEMO CARD ============ -->
+    <section class="slide light" data-title="Build a student profile card" id="slide-demo">
+      <div class="head">
+        <p class="kicker">06 · Build live</p>
+        <h2 class="title">Build it: a student profile card</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="code" id="demoCode" style="flex: 1; font-size: 16px; line-height: 1.55;"></div>
+        <div class="frame-wrap" style="width: 520px;">
+          <iframe class="frame" id="demoFrame" title="Rendered profile card"></iframe>
+          <span class="frame-tag">result</span>
+        </div>
+      </div>
+
+      <template id="demoSnippet"><div class="w-80 rounded-2xl bg-white p-6 text-center shadow-xl">
+  <div class="mx-auto grid size-24 place-items-center rounded-full
+              bg-sky-100 text-3xl font-bold text-sky-700">RP</div>
+  <h2 class="mt-4 text-xl font-bold text-slate-900">Riya Patel</h2>
+  <p class="text-slate-500">BCA · Semester 5</p>
+  <div class="mt-4 flex justify-center gap-2">
+    <span class="rounded-full bg-sky-50 px-3 py-1 text-sm text-sky-700">HTML</span>
+    <span class="rounded-full bg-sky-50 px-3 py-1 text-sm text-sky-700">CSS</span>
+    <span class="rounded-full bg-sky-50 px-3 py-1 text-sm text-sky-700">PHP</span>
+  </div>
+  <button class="mt-6 w-full rounded-lg bg-sky-700 py-2.5 font-semibold
+                 text-white hover:bg-sky-800">View profile</button>
+</div></template>
+      <aside class="notes">Build it top to bottom in the playground: container, avatar, name, tags, button. Every class
+        on this slide has appeared earlier in the session.</aside>
+    </section>
+
+    <!-- ============ 15 PROS & CONS ============ -->
+    <section class="slide" data-title="Is Tailwind right for you?">
+      <div class="head">
+        <p class="kicker">Wrap-up</p>
+        <h2 class="title">Is Tailwind right for your project?</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="card col grow" style="gap: 22px; border-color: rgba(52, 211, 153, 0.4);">
+          <h3 style="color: var(--green); margin: 0;">✓ Strengths</h3>
+          <p><b style="color: var(--text-d);">Fast to build</b> — no switching between files.</p>
+          <p><b style="color: var(--text-d);">Consistent design</b> — spacing and colours come from one scale.</p>
+          <p><b style="color: var(--text-d);">Small CSS</b> — only the classes you use are shipped.</p>
+          <p><b style="color: var(--text-d);">Built in</b> — responsive, hover, focus and dark mode.</p>
+        </div>
+        <div class="card col grow" style="gap: 22px; border-color: rgba(251, 191, 36, 0.4);">
+          <h3 style="color: var(--amber); margin: 0;">− Trade-offs</h3>
+          <p><b style="color: var(--text-d);">Long class lists</b> — HTML can look busy at first.</p>
+          <p><b style="color: var(--text-d);">Class names to learn</b> — the editor extension helps a lot.</p>
+          <p><b style="color: var(--text-d);">You still need CSS</b> — Tailwind is CSS with short names.</p>
+          <p><b style="color: var(--text-d);">Repetition</b> — move repeated markup into components or partials.</p>
+        </div>
+      </div>
+      <aside class="notes">Be honest: Tailwind is a tool, not a replacement for learning CSS. Students who understand
+        the box model and flexbox pick up Tailwind in a day.</aside>
+    </section>
+
+    <!-- ============ WHAT NEXT ============ -->
+    <section class="slide light" data-title="What to build next">
+      <div class="head">
+        <p class="kicker">Wrap-up</p>
+        <h2 class="title">Turn today into a portfolio</h2>
+      </div>
+
+      <div class="row" style="flex: 1;">
+        <div class="card grow">
+          <p class="num">WEEK 1</p>
+          <h3 style="margin-top: 6px;">Clone a page you like</h3>
+          <p>Pick a landing page and rebuild it with Tailwind. Copying real designs is the fastest way to learn.</p>
+        </div>
+        <div class="card grow">
+          <p class="num">WEEK 2</p>
+          <h3 style="margin-top: 6px;">Your portfolio site</h3>
+          <p>About, projects, contact. Responsive and with dark mode. Host it free on GitHub Pages.</p>
+        </div>
+        <div class="card grow">
+          <p class="num">WEEK 3+</p>
+          <h3 style="margin-top: 6px;">A real app</h3>
+          <p>Use Tailwind in your semester project — HTML, JavaScript or React. Mention it on your CV.</p>
+        </div>
+      </div>
+      <aside class="notes">Encourage students to share their portfolio links. A live, responsive portfolio is more
+        convincing in interviews than a list of skills.</aside>
+    </section>
+
+    <!-- ============ 16 QUIZ ============ -->
+    <section class="slide accent" data-title="Quick quiz" id="slide-quiz">
+      <div class="head" style="align-items: center; text-align: center;">
+        <p class="kicker">Attention check</p>
+        <h2 class="title">Quick quiz — who was listening?</h2>
+      </div>
+
+      <div class="card quiz">
+        <div class="quiz-top"><span id="quizBadge">Question 1</span><span id="quizScore">Score: 0/0</span></div>
+        <h3 id="quizQuestion"></h3>
+        <div class="col" id="quizOptions" style="gap: 12px;"></div>
+        <div class="quiz-foot">
+          <span id="quizFeedback"></span>
+          <button class="btn" id="quizNext" style="display: none;">Next question →</button>
+        </div>
+      </div>
+      <aside class="notes">Read each question aloud and let the room shout answers before clicking.</aside>
+    </section>
+
+    <!-- ============ 17 PRACTICE & THANKS ============ -->
+    <section class="slide" data-title="Practice & thank you">
+      <div class="head">
+        <p class="kicker">Homework</p>
+        <h2 class="title">Practise this week, then <span class="grad">thank you!</span></h2>
+      </div>
+
+      <div class="row">
+        <div class="card grow">
+          <p class="num">EXERCISE 10</p>
+          <h3 style="margin-top: 6px;">Student profile card</h3>
+          <p>Rebuild today's live demo from memory, then make it yours.</p>
+        </div>
+        <div class="card grow">
+          <p class="num">EXERCISE 11</p>
+          <h3 style="margin-top: 6px;">Hero section</h3>
+          <p>A full landing-page hero: responsive, gradient, two buttons.</p>
+        </div>
+        <div class="card grow" style="border: 2px dashed var(--sky);">
+          <p class="num">ALWAYS ONLINE</p>
+          <h3 style="margin-top: 6px;">Exercises page</h3>
+          <p style="font-family: var(--font-mono); font-size: 18px;">sagarpansuriya.in/tailwindcss-expert-talk-for-students/exercises/</p>
+        </div>
+      </div>
+
+      <div class="row" style="flex: 1; align-items: flex-end;">
+        <div class="col grow" style="gap: 12px;">
+          <p class="kicker">Resources</p>
+          <p class="lead" style="font-size: 22px;"><b style="color: var(--text-d);">tailwindcss.com/docs</b> — official
+            docs, searchable<br><b style="color: var(--text-d);">play.tailwindcss.com</b> — online playground, nothing to
+            install<br><b style="color: var(--text-d);">Tailwind CSS IntelliSense</b> — VS Code extension for
+            autocomplete</p>
+        </div>
+        <div class="col" style="gap: 12px; text-align: right; align-items: flex-end;">
+          <p class="kicker">Questions? Stay in touch</p>
+          <p class="lead" style="font-size: 22px;">sagarpansuriya.in<br>github.com/theunwindfront<br>@frontendbysagar</p>
+        </div>
+      </div>
+      <aside class="notes">Open the floor for questions. Mention the deck stays online at
+        sagarpansuriya.in/tailwindcss-expert-talk-for-students so they can try the playground again later.</aside>
+    </section>
+
+    <div class="stage-foot">
+      <span>Tailwind CSS Expert Talk for Students · Marwadi University · 24 Oct 2026</span>
+      <span id="pageNum">01 / 17</span>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="prevBtn" onclick="prevSlide()" aria-label="Previous slide">←</button>
+    <button onclick="toggleFullscreen()" aria-label="Fullscreen" title="Fullscreen (F)">⛶</button>
+    <button onclick="toggleNotes()" aria-label="Speaker notes" title="Speaker notes (N)">✎</button>
+    <button id="nextBtn" onclick="nextSlide()" aria-label="Next slide">→</button>
+  </div>
+
+  <div class="notes-panel" id="notesPanel"><strong>Speaker notes</strong><span id="notesText"></span></div>
+
+  <script>
+    // 1. STAGE SCALING
+    const stage = document.getElementById('stage');
+
+    function fitStage() {
+      const scale = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
+      stage.style.setProperty('--s', scale);
+    }
+
+    window.addEventListener('resize', fitStage);
+    fitStage();
+
+    // 2. NAVIGATION
+    const slides = [...document.querySelectorAll('.slide')];
+    const totalSlides = slides.length;
+    const pad = (n) => String(n).padStart(2, '0');
+    let current = 0;
+
+    function goToSlide(index) {
+      if (index < 0 || index >= totalSlides) return;
+      current = index;
+
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+      stage.classList.toggle('on-light', slides[current].classList.contains('light'));
+
+      document.getElementById('pageNum').textContent = `${pad(current + 1)} / ${pad(totalSlides)}`;
+      document.getElementById('progress').style.width = `${((current + 1) / totalSlides) * 100}%`;
+      document.getElementById('prevBtn').disabled = current === 0;
+      document.getElementById('nextBtn').disabled = current === totalSlides - 1;
+      document.title = current === 0
+        ? 'Tailwind CSS Expert Talk for Students'
+        : `${slides[current].dataset.title} · Tailwind CSS Expert Talk for Students`;
+      history.replaceState(null, '', `#${current + 1}`);
+
+      const notes = slides[current].querySelector('.notes');
+      document.getElementById('notesText').textContent = notes ? notes.textContent.replace(/\s+/g, ' ').trim() : '';
+
+      // Live frames load on first visit so the CDN is only fetched when needed
+      const hook = slideHooks[slides[current].id];
+      if (hook) hook();
+    }
+
+    function nextSlide() {
+      goToSlide(current + 1);
+    }
+
+    function prevSlide() {
+      goToSlide(current - 1);
+    }
+
+    function toggleFullscreen() {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        document.documentElement.requestFullscreen();
+      }
+    }
+
+    function toggleNotes() {
+      document.getElementById('notesPanel').classList.toggle('show');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      // Let people type in the playground without changing slides
+      if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
+
+      if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) {
+        e.preventDefault();
+        nextSlide();
+      } else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'Home') {
+        goToSlide(0);
+      } else if (e.key === 'End') {
+        goToSlide(totalSlides - 1);
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullscreen();
+      } else if (e.key === 'n' || e.key === 'N') {
+        toggleNotes();
+      }
+    });
+
+    // 3. LIVE TAILWIND FRAMES (Play CDN inside a sandboxed srcdoc iframe)
+    function twDoc(body, bodyClass = 'grid min-h-screen place-items-center bg-slate-100 p-8 font-sans') {
+      return `<!doctype html><html><head><meta charset="utf-8">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"><\/script>
+<style type="text/tailwindcss">@custom-variant dark (&:where(.dark, .dark *));</style>
+</head><body class="${bodyClass}">${body}</body></html>`;
+    }
+
+    const loaded = new Set();
+
+    function once(key, fn) {
+      if (loaded.has(key)) return;
+      loaded.add(key);
+      fn();
+    }
+
+    // Escape a snippet and colour tags, the class attribute and its value
+    function highlight(src) {
+      return src
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/class="([^"]*)"/g, '<span class="at">class</span>=<span class="st">"$1"</span>')
+        .replace(/(&lt;\/?)([a-z][a-z0-9]*)/g, '$1<span class="tg">$2</span>');
+    }
+
+    // 4. RESPONSIVE SANDBOX
+    const bpSlider = document.getElementById('bpSlider');
+    const device = document.getElementById('device');
+    device.innerHTML = Array.from({ length: 6 }, (_, i) => `<div>${i + 1}</div>`).join('');
+
+    function updateResponsive() {
+      const width = parseInt(bpSlider.value, 10);
+      document.getElementById('bpVal').textContent = `${width}px`;
+
+      // Device preview is drawn at a fixed ratio of the real width
+      device.style.width = `${Math.round(width * 0.62)}px`;
+      const cols = width >= 1024 ? 4 : width >= 640 ? 2 : 1;
+      device.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+
+      document.querySelectorAll('#bpTable .bp').forEach((row) => {
+        row.classList.toggle('on', width >= parseInt(row.dataset.min, 10));
+      });
+
+      // A chip is "winning" when it is the largest prefix that applies
+      const chips = [...document.querySelectorAll('#bpChips .chip')];
+      const winner = chips.filter((c) => width >= parseInt(c.dataset.min, 10)).pop();
+      chips.forEach((c) => c.classList.toggle('on', c === winner));
+    }
+
+    bpSlider.addEventListener('input', updateResponsive);
+    updateResponsive();
+
+    // 5. VARIANTS DEMO
+    const variantsFrame = document.getElementById('variantsFrame');
+
+    function loadVariants() {
+      variantsFrame.srcdoc = twDoc(`
+<div class="w-full max-w-sm space-y-6">
+  <button class="w-full rounded-xl bg-sky-700 px-6 py-3 text-lg font-semibold text-white shadow transition hover:-translate-y-0.5 hover:bg-sky-800">Hover me</button>
+  <input class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-lg outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-200 dark:border-slate-600 dark:bg-slate-800 dark:text-white" placeholder="Click to focus me">
+  <div class="rounded-xl bg-white p-5 text-lg text-slate-800 shadow dark:bg-slate-800 dark:text-slate-100">
+    <p class="font-semibold">I change in dark mode</p>
+    <p class="text-slate-500 dark:text-slate-400">dark:bg-slate-800</p>
+  </div>
+</div>`, 'grid min-h-screen place-items-center bg-slate-100 p-8 font-sans dark:bg-slate-900');
+    }
+
+    document.getElementById('darkToggle').addEventListener('click', () => {
+      const doc = variantsFrame.contentDocument;
+      if (doc) doc.documentElement.classList.toggle('dark');
+    });
+
+    // 6. PLAYGROUND
+    const presets = {
+      button: `<button class="rounded-full bg-indigo-600 px-8 py-3
+  text-lg font-bold text-white shadow-lg
+  hover:bg-indigo-500">
+  Register now
+</button>`,
+      badges: `<div class="flex flex-wrap gap-3">
+  <span class="rounded-full bg-emerald-100 px-4 py-1
+    font-medium text-emerald-700">HTML</span>
+  <span class="rounded-full bg-amber-100 px-4 py-1
+    font-medium text-amber-700">CSS</span>
+  <span class="rounded-full bg-violet-100 px-4 py-1
+    font-medium text-violet-700">PHP</span>
+</div>`,
+      alert: `<div class="max-w-md rounded-xl border-l-4
+  border-amber-500 bg-amber-50 p-5 text-amber-900">
+  <p class="text-lg font-bold">Lab exam tomorrow</p>
+  <p>Room 204 · 10:00 AM · bring your ID card</p>
+</div>`,
+    };
+
+    const playEditor = document.getElementById('playEditor');
+    const playFrame = document.getElementById('playFrame');
+    let playTimer = null;
+
+    function renderPlayground() {
+      playFrame.srcdoc = twDoc(playEditor.value);
+    }
+
+    function loadPreset(name) {
+      playEditor.value = presets[name];
+      document.querySelectorAll('#presetBtns .btn').forEach((b) => b.classList.toggle('on', b.dataset.preset === name));
+      renderPlayground();
+    }
+
+    playEditor.addEventListener('input', () => {
+      clearTimeout(playTimer);
+      playTimer = setTimeout(renderPlayground, 350);
+    });
+
+    document.querySelectorAll('#presetBtns .btn').forEach((b) => {
+      b.addEventListener('click', () => loadPreset(b.dataset.preset));
+    });
+
+    // 7. DEMO CARD
+    function loadDemo() {
+      const snippet = document.getElementById('demoSnippet').innerHTML.trim();
+      document.getElementById('demoCode').innerHTML = highlight(snippet);
+      document.getElementById('demoFrame').srcdoc = twDoc(snippet);
+    }
+
+    // 8. QUIZ
+    const quizData = [
+      {
+        question: 'Which class adds 1rem (16px) of padding on all sides?',
+        options: ['padding-16', 'p-4', 'pad-1rem'],
+        answer: 1,
+        explanation: 'Right! One spacing unit is 0.25rem, so p-4 = 1rem.',
+      },
+      {
+        question: 'What does md:flex mean?',
+        options: ['Flex only on medium screens', 'Flex on screens 768px and wider', 'Flex only on phones'],
+        answer: 1,
+        explanation: 'Right! Prefixes mean "from this width and up".',
+      },
+      {
+        question: 'Why does class="bg-${color}-500" fail?',
+        options: ['Tailwind only finds complete class names in your files', 'Template strings are not allowed in HTML', '500 is not a valid shade'],
+        answer: 0,
+        explanation: 'Right! Tailwind scans files as text, so write class names in full.',
+      },
+      {
+        question: 'In Tailwind v4, where do you add a custom brand colour?',
+        options: ['tailwind.config.js', 'An @theme block in your CSS', 'A <meta> tag'],
+        answer: 1,
+        explanation: 'Right! --color-brand inside @theme creates bg-brand, text-brand and more.',
+      },
+      {
+        question: 'A "NEW" badge with absolute top-2 right-2 flies to the corner of the page. What is missing?',
+        options: ['z-50 on the badge', 'relative on the parent card', 'flex on the parent card'],
+        answer: 1,
+        explanation: 'Right! absolute pins to the nearest relative parent.',
+      },
+      {
+        question: 'Which class makes a square image into a circle?',
+        options: ['rounded-circle', 'rounded-full', 'circle'],
+        answer: 1,
+        explanation: 'Right! rounded-full on a square gives a perfect circle.',
+      },
+      {
+        question: 'How do you show a paragraph only on screens smaller than 768px?',
+        options: ['sm:block', 'md:hidden', 'hidden md:block'],
+        answer: 1,
+        explanation: 'Right! Visible by default, hidden from md (768px) and up.',
+      },
+      {
+        question: 'Which pair styles a child when its parent card is hovered?',
+        options: ['group on the parent + group-hover: on the child', 'hover: on both', 'peer on the child'],
+        answer: 0,
+        explanation: 'Right! group marks the parent, group-hover: reacts to it.',
+      },
+    ];
+
+    let quizIdx = 0;
+    let quizScore = 0;
+    let quizAnswered = false;
+    const quizNext = document.getElementById('quizNext');
+
+    function renderQuiz() {
+      const q = quizData[quizIdx];
+      quizAnswered = false;
+      document.getElementById('quizBadge').textContent = `Question ${quizIdx + 1} of ${quizData.length}`;
+      document.getElementById('quizScore').textContent = `Score: ${quizScore}/${quizIdx}`;
+      document.getElementById('quizQuestion').textContent = q.question;
+      document.getElementById('quizFeedback').textContent = '';
+      quizNext.style.display = 'none';
+      quizNext.textContent = quizIdx === quizData.length - 1 ? 'Final slide →' : 'Next question →';
+
+      const box = document.getElementById('quizOptions');
+      box.innerHTML = '';
+      q.options.forEach((text, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'opt';
+        btn.textContent = text;
+        btn.addEventListener('click', () => answerQuiz(i));
+        box.appendChild(btn);
+      });
+    }
+
+    function answerQuiz(choice) {
+      if (quizAnswered) return;
+      quizAnswered = true;
+
+      const q = quizData[quizIdx];
+      const buttons = document.querySelectorAll('#quizOptions .opt');
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === q.answer) {
+          btn.classList.add('right');
+          btn.insertAdjacentHTML('beforeend', '<span>✓ correct</span>');
+        } else if (i === choice) {
+          btn.classList.add('wrong');
+          btn.insertAdjacentHTML('beforeend', '<span>✗ not this one</span>');
+        }
+      });
+
+      const feedback = document.getElementById('quizFeedback');
+      if (choice === q.answer) {
+        quizScore++;
+        feedback.textContent = q.explanation;
+        feedback.style.color = 'var(--green)';
+      } else {
+        feedback.textContent = 'Not quite — the correct answer is highlighted.';
+        feedback.style.color = 'var(--rose)';
+      }
+
+      document.getElementById('quizScore').textContent = `Score: ${quizScore}/${quizIdx + 1}`;
+      quizNext.style.display = 'inline-block';
+    }
+
+    quizNext.addEventListener('click', () => {
+      if (quizIdx < quizData.length - 1) {
+        quizIdx++;
+        renderQuiz();
+      } else {
+        nextSlide();
+      }
+    });
+
+    renderQuiz();
+
+    // 9. GROUP / PEER AND MOTION DEMOS
+    function loadGroup() {
+      document.getElementById('groupFrame').srcdoc = twDoc(`
+<div class="w-full max-w-sm space-y-8">
+  <a href="#" class="group flex items-center justify-between rounded-xl bg-white p-6 text-lg font-semibold text-slate-800 shadow transition hover:bg-sky-50">
+    Register for the workshop
+    <span class="text-sky-700 transition group-hover:translate-x-2">→</span>
+  </a>
+  <div>
+    <label class="mb-2 block font-medium text-slate-700">College email</label>
+    <input type="email" placeholder="type abc to see the error" class="peer w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-lg outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-200">
+    <p class="mt-2 hidden text-rose-600 peer-invalid:block">Please enter a valid email</p>
+  </div>
+</div>`);
+    }
+
+    function loadMotion() {
+      document.getElementById('motionFrame').srcdoc = twDoc(`
+<div class="grid w-full max-w-md gap-6">
+  <div class="grid grid-cols-4 gap-4 text-center text-sm text-slate-600">
+    <div><div class="mx-auto size-10 animate-spin rounded-full border-4 border-sky-200 border-t-sky-700"></div><p class="mt-2">spin</p></div>
+    <div><span class="relative mx-auto flex size-10"><span class="absolute inline-flex size-full animate-ping rounded-full bg-rose-400 opacity-75"></span><span class="relative inline-flex size-10 rounded-full bg-rose-500"></span></span><p class="mt-2">ping</p></div>
+    <div><div class="mx-auto size-10 animate-pulse rounded-lg bg-slate-300"></div><p class="mt-2">pulse</p></div>
+    <div><div class="mx-auto animate-bounce text-3xl text-sky-700">↓</div><p class="mt-2">bounce</p></div>
+  </div>
+  <div class="rounded-2xl bg-white p-6 shadow transition duration-300 ease-out hover:-translate-y-1 hover:scale-105 hover:shadow-xl">
+    <p class="text-lg font-bold text-slate-900">Hover me</p>
+    <p class="text-slate-500">transition duration-300 hover:scale-105</p>
+  </div>
+  <div class="space-y-3 rounded-2xl bg-white p-6 shadow">
+    <div class="h-4 w-2/3 animate-pulse rounded bg-slate-200"></div>
+    <div class="h-4 animate-pulse rounded bg-slate-200"></div>
+    <div class="h-4 w-1/2 animate-pulse rounded bg-slate-200"></div>
+  </div>
+</div>`);
+    }
+
+    // 10. COUNTDOWN TIMERS (lab and break slides)
+    // Each timer stores its end time, so a page refresh continues the countdown instead of restarting it.
+    function readTimer(key) {
+      try {
+        return JSON.parse(localStorage.getItem(key));
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function writeTimer(key, state) {
+      try {
+        if (state) {
+          localStorage.setItem(key, JSON.stringify(state));
+        } else {
+          localStorage.removeItem(key);
+        }
+      } catch (e) {
+        // Storage blocked: the timer still works, it just will not survive a refresh
+      }
+    }
+
+    document.querySelectorAll('.timer').forEach((timer) => {
+      const key = `tw-talk-timer:${timer.closest('.slide').dataset.title}`;
+      const total = parseInt(timer.dataset.minutes, 10) * 60;
+      const display = timer.querySelector('.t');
+      const toggleBtn = timer.querySelector('[data-act="toggle"]');
+      let left = total;
+      let endAt = null;
+      let tick = null;
+
+      const paint = () => {
+        display.textContent = `${pad(Math.floor(left / 60))}:${pad(left % 60)}`;
+        timer.classList.toggle('done', left === 0);
+        toggleBtn.textContent = tick ? 'Pause' : left === 0 ? 'Done' : left === total ? 'Start' : 'Resume';
+      };
+
+      const update = () => {
+        left = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
+        if (left === 0) {
+          clearInterval(tick);
+          tick = null;
+          endAt = null;
+          writeTimer(key, { left: 0 });
+        }
+        paint();
+      };
+
+      const run = () => {
+        endAt = Date.now() + left * 1000;
+        writeTimer(key, { endAt });
+        tick = setInterval(update, 250);
+        update();
+      };
+
+      const pause = () => {
+        clearInterval(tick);
+        tick = null;
+        endAt = null;
+        writeTimer(key, { left });
+        paint();
+      };
+
+      toggleBtn.addEventListener('click', () => {
+        if (tick) return pause();
+        if (left > 0) run();
+      });
+
+      timer.querySelector('[data-act="reset"]').addEventListener('click', () => {
+        clearInterval(tick);
+        tick = null;
+        endAt = null;
+        left = total;
+        writeTimer(key, null);
+        paint();
+      });
+
+      // Restore a running or paused timer from before the refresh
+      const saved = readTimer(key);
+      if (saved && saved.endAt) {
+        left = Math.max(0, Math.ceil((saved.endAt - Date.now()) / 1000));
+        if (left > 0) {
+          endAt = saved.endAt;
+          tick = setInterval(update, 250);
+        }
+      } else if (saved && typeof saved.left === 'number') {
+        left = Math.min(total, Math.max(0, saved.left));
+      }
+      paint();
+    });
+
+    // 11. SLIDE HOOKS & INIT
+    const slideHooks = {
+      'slide-variants': () => once('variants', loadVariants),
+      'slide-playground': () => once('playground', () => loadPreset('button')),
+      'slide-demo': () => once('demo', loadDemo),
+      'slide-group': () => once('group', loadGroup),
+      'slide-motion': () => once('motion', loadMotion),
+    };
+
+    const start = parseInt(location.hash.slice(1), 10);
+    goToSlide(Number.isInteger(start) && start >= 1 && start <= totalSlides ? start - 1 : 0);
+  </script>
+</body>
+
+</html>
