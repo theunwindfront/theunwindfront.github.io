@@ -56,6 +56,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [Laravel Blade Variants](https://github.com/theunwindfront/laravel-blade-variants)
 
 ### Key Guides
+- [Alpine Stores vs Livewire State: Where Should UI State Live in a TALL App?](https://sagarpansuriya.in/blog/alpine-stores-vs-livewire-state/)
 - [Build a RAG Docs Assistant with Laravel and pgvector](https://sagarpansuriya.in/blog/laravel-rag-docs-assistant-pgvector/)
 - [Container Queries in Real Component Libraries: Components That Fit Anywhere](https://sagarpansuriya.in/blog/container-queries-component-libraries/)
 - [Frontend Performance Budgets That Actually Get Enforced](https://sagarpansuriya.in/blog/frontend-performance-budgets-ci/)
