@@ -56,6 +56,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [Laravel Blade Variants](https://github.com/theunwindfront/laravel-blade-variants)
 
 ### Key Guides
+- [Onboarding Junior Frontend Developers: A 90-Day Playbook from a Tech Lead](https://sagarpansuriya.in/blog/onboarding-junior-frontend-developers-90-days/)
 - [Headless vs Hybrid vs Traditional WordPress: Choosing the Right Architecture](https://sagarpansuriya.in/blog/headless-vs-hybrid-wordpress/)
 - [Alpine Stores vs Livewire State: Where Should UI State Live in a TALL App?](https://sagarpansuriya.in/blog/alpine-stores-vs-livewire-state/)
 - [Build a RAG Docs Assistant with Laravel and pgvector](https://sagarpansuriya.in/blog/laravel-rag-docs-assistant-pgvector/)
