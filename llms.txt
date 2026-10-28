@@ -56,6 +56,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [Laravel Blade Variants](https://github.com/theunwindfront/laravel-blade-variants)
 
 ### Key Guides
+- [Shipping NativePHP Desktop Apps: Signing, Updates and a Real Release Pipeline](https://sagarpansuriya.in/blog/shipping-nativephp-desktop-apps-releases/)
 - [Pest v4 Browser Testing: Real Browser Tests for Your Laravel Frontend](https://sagarpansuriya.in/blog/pest-browser-testing-laravel-frontend/)
 - [Onboarding Junior Frontend Developers: A 90-Day Playbook from a Tech Lead](https://sagarpansuriya.in/blog/onboarding-junior-frontend-developers-90-days/)
 - [Headless vs Hybrid vs Traditional WordPress: Choosing the Right Architecture](https://sagarpansuriya.in/blog/headless-vs-hybrid-wordpress/)
