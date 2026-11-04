@@ -56,6 +56,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [Laravel Blade Variants](https://github.com/theunwindfront/laravel-blade-variants)
 
 ### Key Guides
+- [Fluid Type and Spacing with clamp(): The Math, the Accessibility Rules, and Tailwind v4 Tokens](https://sagarpansuriya.in/blog/fluid-type-scale-clamp-math/)
 - [Laravel Queues in Production: Horizon, Retries and the Pitfalls Nobody Warns You About](https://sagarpansuriya.in/blog/laravel-queues-production-horizon/)
 - [Designing AI Features Users Actually Trust: Frontend UX Patterns for LLM Interfaces](https://sagarpansuriya.in/blog/ux-patterns-trustworthy-ai-features/)
 - [Shipping NativePHP Desktop Apps: Signing, Updates and a Real Release Pipeline](https://sagarpansuriya.in/blog/shipping-nativephp-desktop-apps-releases/)
