@@ -56,6 +56,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [Laravel Blade Variants](https://github.com/theunwindfront/laravel-blade-variants)
 
 ### Key Guides
+- [Building a Keyboard-First Command Palette with Alpine.js and Blade](https://sagarpansuriya.in/blog/alpinejs-command-palette/)
 - [The Frontend Architecture Audit: What I Look at in the First Week](https://sagarpansuriya.in/blog/frontend-architecture-audit-first-week/)
 - [Fluid Type and Spacing with clamp(): The Math, the Accessibility Rules, and Tailwind v4 Tokens](https://sagarpansuriya.in/blog/fluid-type-scale-clamp-math/)
 - [Laravel Queues in Production: Horizon, Retries and the Pitfalls Nobody Warns You About](https://sagarpansuriya.in/blog/laravel-queues-production-horizon/)
