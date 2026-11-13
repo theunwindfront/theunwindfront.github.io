@@ -56,6 +56,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [Laravel Blade Variants](https://github.com/theunwindfront/laravel-blade-variants)
 
 ### Key Guides
+- [Making a NativePHP Desktop App Feel Native, Not Like a Website in a Box](https://sagarpansuriya.in/blog/nativephp-desktop-ux-feel-native/)
 - [MCP Servers for Laravel Developers: Giving AI Agents Real App Context](https://sagarpansuriya.in/blog/mcp-servers-for-laravel-developers/)
 - [theme.json for Classic Theme and Sage Developers](https://sagarpansuriya.in/blog/theme-json-for-classic-theme-developers/)
 - [Building a Keyboard-First Command Palette with Alpine.js and Blade](https://sagarpansuriya.in/blog/alpinejs-command-palette/)
