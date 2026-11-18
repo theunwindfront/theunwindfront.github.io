@@ -56,6 +56,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [Laravel Blade Variants](https://github.com/theunwindfront/laravel-blade-variants)
 
 ### Key Guides
+- [Vite Build Optimisation for Laravel: Smaller Bundles, Faster Pages](https://sagarpansuriya.in/blog/vite-build-optimization-laravel/)
 - [Livewire Form Objects: Validation Patterns That Scale](https://sagarpansuriya.in/blog/livewire-form-objects-validation-patterns/)
 - [Making a NativePHP Desktop App Feel Native, Not Like a Website in a Box](https://sagarpansuriya.in/blog/nativephp-desktop-ux-feel-native/)
 - [MCP Servers for Laravel Developers: Giving AI Agents Real App Context](https://sagarpansuriya.in/blog/mcp-servers-for-laravel-developers/)
