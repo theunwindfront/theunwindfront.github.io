@@ -54,6 +54,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [Navcrate Menu Manager](https://wordpress.org/plugins/navcrate-menu-manager/)
 - [Tailwind CSS Fluid Scale](https://github.com/theunwindfront/tailwindcss-fluid-scale)
 - [Laravel Blade Variants](https://github.com/theunwindfront/laravel-blade-variants)
+- [SafePaste: hide private details before pasting into ChatGPT, Claude or Gemini](https://github.com/theunwindfront/safepaste-ai-extension)
 
 ### Key Guides
 - [Vite Build Optimisation for Laravel: Smaller Bundles, Faster Pages](https://sagarpansuriya.in/blog/vite-build-optimization-laravel/)
