@@ -57,6 +57,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [SafePaste: hide private details before pasting into ChatGPT, Claude or Gemini](https://github.com/theunwindfront/safepaste-ai-extension)
 
 ### Key Guides
+- [Reliable Structured JSON from LLMs in Laravel](https://sagarpansuriya.in/blog/structured-outputs-llm-json-laravel/)
 - [A 30-Minute Accessibility Audit Any Frontend Developer Can Run](https://sagarpansuriya.in/blog/accessibility-audit-30-minutes/)
 - [CSS Cascade Layers for Tailwind Users: Why Your Class Doesn't Apply](https://sagarpansuriya.in/blog/css-cascade-layers-tailwind/)
 - [Vite Build Optimisation for Laravel: Smaller Bundles, Faster Pages](https://sagarpansuriya.in/blog/vite-build-optimization-laravel/)
