@@ -57,6 +57,7 @@ Sagar maintains a technical blog focusing on the intersection of Laravel, WordPr
 - [SafePaste: hide private details before pasting into ChatGPT, Claude or Gemini](https://github.com/theunwindfront/safepaste-ai-extension)
 
 ### Key Guides
+- [Alpine.js and Web Components: When to Reach for Custom Elements](https://sagarpansuriya.in/blog/alpinejs-and-web-components/)
 - [Bedrock in Production: Composer Plugins, Env Config and Zero-Downtime Deploys](https://sagarpansuriya.in/blog/bedrock-production-deploys/)
 - [Reliable Structured JSON from LLMs in Laravel](https://sagarpansuriya.in/blog/structured-outputs-llm-json-laravel/)
 - [A 30-Minute Accessibility Audit Any Frontend Developer Can Run](https://sagarpansuriya.in/blog/accessibility-audit-30-minutes/)
